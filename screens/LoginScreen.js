@@ -1,10 +1,20 @@
 import { StyleSheet, Text,TextInput, View,TouchableOpacity, KeyboardAvoidingView } from 'react-native'
 import React,{ useState } from 'react'
+import { useNavigation } from '@react-navigation/core'
 
 
 const LoginScreen = () => {
 const [email, setEmail] = useState('');
 const [password, setPassword] = useState('');
+const navigation = useNavigation()
+
+
+// *Region for OnPress Login
+const handleLogin = () => {
+    navigation.navigate('Home')
+  }
+// *End Region
+
 
   return (
     <KeyboardAvoidingView 
@@ -32,7 +42,7 @@ const [password, setPassword] = useState('');
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-        onPress={() => { }}
+        onPress={handleLogin}
         style={styles.button}>
             <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
