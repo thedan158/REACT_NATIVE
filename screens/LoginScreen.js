@@ -1,6 +1,8 @@
-import { StyleSheet, Text,TextInput, View,TouchableOpacity, KeyboardAvoidingView } from 'react-native'
+import {Image, StyleSheet, Text,TextInput, View,TouchableOpacity, KeyboardAvoidingView } from 'react-native'
 import React,{ useState } from 'react'
 import { useNavigation } from '@react-navigation/core'
+import { SafeAreaView } from 'react-native-safe-area-context';
+import logo from '../assets/images/logo_app.png'
 
 
 const LoginScreen = () => {
@@ -17,10 +19,22 @@ const handleLogin = () => {
 
 
   return (
-    <KeyboardAvoidingView 
-        style={styles.container}
+      <SafeAreaView style={styles.container}>
+    <View style={styles.view1}>
+    <View>
+        <Image style={styles.logo} source={logo}></Image>
+    </View>
+    <View >
+    <Text style={styles.textPleaseRegister}>Login to your account</Text>
+    </View>
+    </View>
+    <View style={styles.view2}>
+    {/* <KeyboardAvoidingView 
         behavior="padding"
-    >
+    > */}
+    <View 
+>
+<Text style={styles.textLabel}>E-mail</Text>
       <View style={styles.inputContainer}>
           
         <TextInput
@@ -29,6 +43,10 @@ const handleLogin = () => {
         onChangeText={text=>setEmail(text)}
         style={styles.input}>
         </TextInput>
+        </View>
+        <Text style={styles.textLabel}>Password</Text>
+
+        <View style={styles.inputContainer}>
 
        
         <TextInput
@@ -36,9 +54,10 @@ const handleLogin = () => {
         value={password}
         onChangeText={text=>setPassword(text)}
         style={styles.input}
-        secureTextEntry>
+        secureTextEntry={true}>
         </TextInput>
       </View>
+</View>
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity
@@ -46,14 +65,18 @@ const handleLogin = () => {
         style={styles.button}>
             <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
+        </View>
+    <View style={styles.registerText}>
+    <Text style={styles.newOwnerText}>You're a new Owner? </Text>
 
-        <TouchableOpacity
-        onPress={() => { }}
-        style={[styles.button, styles.buttonOutline]}>
+        <TouchableOpacity 
+        onPress={() => navigation.navigate('Signup')}>
             <Text style={styles.buttonOutlineText}>Register</Text>
         </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+    </View>
+    {/* </KeyboardAvoidingView> */}
+    </View>
+    </SafeAreaView>
   )
 }
 
@@ -66,8 +89,14 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     inputContainer:{
-        width:'80%'
+        width: 300,
+        height: 55,
+        backgroundColor: "white",
+        justifyContent:'center',
+        alignItems:'flex-start',
+        borderRadius:13,   
     },
+
     input:{
         backgroundColor:'white',
         paddingHorizontal:15,
@@ -76,21 +105,24 @@ const styles = StyleSheet.create({
         marginTop:5,
     },
     buttonContainer:{
-        width:'60%',
         justifyContent:'center',
         alignItems:'center',
         marginTop:40,
     },
     button:{
-        backgroundColor:'#0782F9',
+        backgroundColor:'#FA4A0C',
         width:'100%',
         padding:15,
-        borderRadius:10,
+        borderRadius:20,
+        justifyContent:'center',
+        alignItems:'center',
+        elevation:1,
+        
     },
     buttonOutline:{
         backgroundColor:'white',
         marginTop:5,
-        borderColor:'#0782F9',
+        borderColor:'#FA4A0C',
         borderWidth:2,
     },
     buttonText:{
@@ -100,8 +132,65 @@ const styles = StyleSheet.create({
 
     },
     buttonOutlineText:{
-        color:'#0782F9',
+        color:'#FA4A0C',
         fontWeight:'700',
         fontSize:16,
     },
+    newOwnerText:{
+        color:'black',
+        fontSize:16,
+        fontWeight:'normal'
+    },
+    
+    // container:{
+    //     flex:1,
+    //     backgroundColor:'#F2F2F2'
+    // },
+    
+      view1:{
+          
+          justifyContent:'center',
+          alignItems:'center'
+      },
+    
+      textPleaseRegister:{
+         
+        position:'relative',
+        top:-30,
+        fontSize:20,
+        fontWeight:'bold'
+      },
+
+    logo:{
+        
+        height:270,
+        width:270,
+        position:'relative',
+        top:5
+     
+    },
+
+    textView:{
+        flex:0.12,
+        flexDirection:'row',
+        backgroundColor:'white',   
+        borderBottomLeftRadius: 50,
+        borderBottomRightRadius: 50,
+    },
+
+    view2:{
+        flex:0.9
+    },
+
+    textLabel:{
+        fontSize:15,
+        marginTop:15,
+        marginBottom:15
+    },
+    registerText:{
+        flexWrap:'wrap',
+        flexDirection:'row',
+        marginTop:20,
+        justifyContent:'center'
+    }
 })
