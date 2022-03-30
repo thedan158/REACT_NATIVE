@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, Platform, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, Platform, SafeAreaView, Easing, StyleSheet, Text, View, Animated } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './screens/LoginScreen';
@@ -14,8 +14,11 @@ import DrinkMenuScreen from './screens/DrinkMenuScreen';
 import DesertMenuScreen from './screens/DesertMenuScreen';
 
 
+import { createStackNavigator, TransitionSpecs, HeaderStyleInterpolators, CardStyleInterpolators } from "@react-navigation/stack";
 
 const Stack = createNativeStackNavigator();
+
+
 
 export default function App() {
   return (

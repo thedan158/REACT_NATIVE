@@ -22,7 +22,7 @@ const SplashScreen = () => {
         {/* REGION LOGO SPLASH */}
         <View style={styles.logoContainer}>
             <View style={styles.eclipse}>
-                <Image style={styles.logo} source={require('../assets/icons/logo.png')}></Image>
+                <Image style={styles.logo} source={require('../assets/images/logo_app.png')}></Image>
             </View>
         </View>
         {/* END REGION */}
