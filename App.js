@@ -12,7 +12,7 @@ import StarterMenuScreen from './screens/StarterMenuScreen';
 import MainCourseMenuScreen from './screens/MainCourseMenuScreen';
 import DrinkMenuScreen from './screens/DrinkMenuScreen';
 import DesertMenuScreen from './screens/DesertMenuScreen';
-
+import SelectedTable from './screens/SelectedTableScreen';
 
 import { createStackNavigator, TransitionSpecs, HeaderStyleInterpolators, CardStyleInterpolators } from "@react-navigation/stack";
 
@@ -32,7 +32,7 @@ export default function App() {
         <Stack.Screen options={{headerShown: false}} name="MainMenu" component={MainCourseMenuScreen} />
         <Stack.Screen options={{headerShown: false}} name="DrinkMenu" component={DrinkMenuScreen} />
         <Stack.Screen options={{headerShown: false}} name="DesertMenu" component={DesertMenuScreen} />
-
+        <Stack.Screen options={{headerShown: false}} name="SelectedTable" component={SelectedTable} />
         
       </Stack.Navigator>
         </NavigationContainer>

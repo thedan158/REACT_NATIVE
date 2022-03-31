@@ -6,8 +6,10 @@ import { useNavigation } from '@react-navigation/core'
 import { SafeAreaView } from 'react-navigation';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Constants from 'expo-constants';
+
 const statusBarHeight = Constants.statusBarHeight;
 
+// TODO fix the Scrollview with flatlist
 
 const DATA = [
     {
@@ -56,7 +58,9 @@ const OrderScreen = () => {
     const handleDesertMenu = () => {
         navigation.navigate('DesertMenu');
     }
-    
+    const handleSelectedTable= () => {
+        navigation.navigate('SelectedTable')
+    }
 
 
     let arrowResource = require('../assets/icons/Vector.png');
@@ -85,7 +89,7 @@ const OrderScreen = () => {
         <View >
             {/* --------------btnSelectTable section view---------- */}
             <View style={styles.btnContainerViewStyle}>
-                <TouchableOpacity style={styles.btnTest}>
+                <TouchableOpacity style={styles.btnTest} onPress={handleSelectedTable}>
                     <View style={styles.viewtest}>
                         <Text style={styles.btnTextstyle}>
                             Select table
@@ -101,6 +105,7 @@ const OrderScreen = () => {
 
 
             {/*------------- View Starter Order----------------- */}
+            
             <View style={styles.container_layout_column}>
                 <View style={styles.container_layout_row1}>
                 <Text style={styles.textHeaderBottom}>Starter: </Text>
@@ -118,15 +123,15 @@ const OrderScreen = () => {
                 <FlatList
                     data={DATA}
                     renderItem={({item, index}) => {
-                        return(
-                            <FlatlistItem item={item} index={index}>
-                            </FlatlistItem>
-                        );
+                    return(
+                        <FlatlistItem item={item} index={index}>
+                        </FlatlistItem>
+                    );
                     }}
                     keyExtractor={item => item.id}
-                    style={styles.flatlistStyle}
                     nestedScrollEnabled
                 />
+
                 <View style={styles.lineStyle2}/>
             </View>
             
@@ -210,7 +215,7 @@ const OrderScreen = () => {
                         );
                     }}
                     keyExtractor={item => item.id}
-                    nestedScrollEnabled
+                    
                 />
                 <View style={styles.lineStyle2}/>
             </View>
