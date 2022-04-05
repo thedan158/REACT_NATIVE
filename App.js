@@ -7,6 +7,12 @@ import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 import SplashScreen from './screens/SplashScreen';
 import SignupScreen from './screens/SignupScreen';
+
+import ForgotPassword from './screens/ForgotPassword';
+import OTP from './screens/OTP';
+import NewPassword from './screens/NewPassword';
+import RestaurantInformation from './screens/RestaurantInformation';
+
 import OrderScreen from './screens/OrderScreen';
 import StarterMenuScreen from './screens/StarterMenuScreen';
 import MainCourseMenuScreen from './screens/MainCourseMenuScreen';
@@ -15,6 +21,7 @@ import DesertMenuScreen from './screens/DesertMenuScreen';
 import SelectedTable from './screens/SelectedTableScreen';
 
 import { createStackNavigator, TransitionSpecs, HeaderStyleInterpolators, CardStyleInterpolators } from "@react-navigation/stack";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +34,13 @@ export default function App() {
         
         <Stack.Screen options={{headerShown: false}} name="Order" component={OrderScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
+
+        <Stack.Screen options={{headerShown: false}} name="Signup" component={SignupScreen} />
+        <Stack.Screen options={{headerShown: false}} name="ForgotPassword" component={ForgotPassword}/>
+        <Stack.Screen options={{headerShown: false}} name="OTP" component={OTP}/>
+        <Stack.Screen options={{headerShown: false}} name="NewPassword" component={NewPassword}/>
+        <Stack.Screen options={{headerShown: false}} name="RestaurantInformation" component={RestaurantInformation}/>
+
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen options={{headerShown: false}} name="StarterMenu" component={StarterMenuScreen} />
         <Stack.Screen options={{headerShown: false}} name="MainMenu" component={MainCourseMenuScreen} />

@@ -1,28 +1,46 @@
-import {TouchableOpacity, KeyboardAvoidingView, StyleSheet, Text, View, Image, Button,  Alert, ScrollView } from 'react-native'
-import React, {useState} from 'react'
+import {TouchableOpacity,TextInput, KeyboardAvoidingView, StyleSheet, Text, View, Image, Button,  Alert, ScrollView } from 'react-native'
+import React, {useState, useEffect} from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/core'
 import logo from '../assets/images/logo_app.png'
-import { TextInput } from 'react-native-gesture-handler'
 import CustomTextInput from '../component/CustomTextInput'
-import eye from '../assets/icons/eye.png'
-import hidden from '../assets/icons/close-eye.png'
+import gallery from '../assets/icons/gallery.png'
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import * as ImagePicker from 'expo-image-picker'
+import { Constants } from 'expo-constants'
 
-
-
-const SignupScreen = () => {
-    const [fullName, setFullName] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [isSecureEntry, setIsSecureEntry] = useState(true);
-    const [isSecureEntryConfirm, setIsSecureEntryConfirm] = useState(true);
+const RestaurantInformation = () => {
+    const [nameOfRes, setNameOfRes] = useState('');
+    const [address, setAddress] = useState('');
+    const [hotline, setHotline] = useState('');
     const navigation = useNavigation()
+    const [image, setImage]=useState(null);
 
+    useEffect(async()=>{
+        const{status}=await ImagePicker.requestMediaLibraryPermissionsAsync();
+    
+    if(status!=='granted'){
+        alert('Permission denied!')
+    }},[]
+
+    )
+
+    const PickImage = async()=>{
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes:ImagePicker.MediaTypeOptions.All,
+            allowsEditing:true,
+            aspect:[4,3],
+            quality:1
+        })
+        console.log(result)
+        if(!result.cancelled){
+            setImage(result.uri)
+        }
+    }
 
 // *Region for OnPress Signup
 const handleSignup = () => {
-    navigation.navigate('OTP')
+    navigation.navigate('Home')
   }
   return (
     
@@ -34,11 +52,21 @@ const handleSignup = () => {
         <View>
             <Image style={styles.logo} source={logo}></Image>
         </View>
-        <View >
-        <Text style={styles.textPleaseRegister}>Register your information</Text>
+        <View>
+        <Text style={styles.textPleaseRegister}>Fill your restaurant information</Text>
         </View>
      </View>
 
+     <View style={styles.pickLogo}>
+        {/* <Image style={styles.gallery} source={gallery}></Image> */}
+        {image && <Image source={{uri:image}} style={styles.pickLogo}/>}
+        </View>
+        <TouchableOpacity 
+        onPress={PickImage}>
+            <Text style={styles.loginText}>Choose Your Logo</Text>
+          
+        </TouchableOpacity>
+        
      
 
     <View style={styles.view2}>
@@ -47,57 +75,28 @@ const handleSignup = () => {
     {/* Full name input */}
     
         <CustomTextInput 
-         value={fullName}
-        onChangeText={text=>setFullName(text)} 
-        placeholder='Full Name'/>
+         value={nameOfRes}
+        onChangeText={text=>setNameOfRes(text)} 
+        placeholder='Name of Restaurant'/>
     </View>
 
     {/* Mobile number input */}
     <View style={{marginTop:-15}}>
     <CustomTextInput 
-         value={phoneNumber}
-        onChangeText={text=>setPhoneNumber(text)} 
-        keyboardType='decimal-pad'
-        placeholder='Mobile Number'/>
+         value={address}
+        onChangeText={text=>setAddress(text)} 
+        placeholder='Address'/>
     </View>
     {/* Password */}
     <View style={{marginTop:-15}}>
     <CustomTextInput 
-         value={password}
-        onChangeText={text=>setPassword(text)} 
-        placeholder='Password'
-        secureTextEntry={isSecureEntry}
-        icon={
-              <TouchableOpacity
-                onPress={() => {
-                  setIsSecureEntry((prev) => !prev);
-                }}>
-                <Image source={isSecureEntry ? hidden : eye} style={{width:25, height:25}}>
-                </Image>
-              </TouchableOpacity>
-            }
-            iconPosition="right"
+         value={hotline}
+        onChangeText={text=>setHotline(text)} 
+        placeholder='Hotline'
+        keyboardType='decimal-pad'
         />
         </View>
-    {/* Confirm password */}
-    <View style={{marginTop:-15}}>
-    <CustomTextInput 
-        
-         value={confirmPassword}
-        onChangeText={text=>setConfirmPassword(text)} 
-        placeholder='Confirm Password'
-        secureTextEntry={isSecureEntryConfirm}
-        icon={
-              <TouchableOpacity
-                onPress={() => {
-                  setIsSecureEntryConfirm((prev) => !prev);
-                }}>
-                <Image source={isSecureEntryConfirm ? hidden : eye} style={{width:25, height:25}}>
-                </Image>
-              </TouchableOpacity>
-            }
-            iconPosition="right"
-        />
+   
         </View>
     </View>
 
@@ -112,29 +111,23 @@ const handleSignup = () => {
         <TouchableOpacity
         onPress={handleSignup}
         style={styles.button}>
-            <Text style={styles.buttonText}>Sign-up</Text>
+            <Text style={styles.buttonText}>Finish</Text>
         </TouchableOpacity>
         </View>
-        <View style={styles.registerText}>
-    <Text style={styles.ownerText}>Already an Owner? </Text>
-
-        <TouchableOpacity 
-        onPress={() => navigation.navigate('Login')}>
-            <Text style={styles.loginText}> Login</Text>
-        </TouchableOpacity>
-    </View>
+        
     
 
     
-    </View>
+    
     </ScrollView>
    
     
     
+  
   )
 }
 
-export default SignupScreen
+export default RestaurantInformation
 
 const styles = StyleSheet.create({
     container:{
@@ -173,7 +166,7 @@ const styles = StyleSheet.create({
         flexDirection:'column',
         alignItems:'center',
         justifyContent:'center',
-
+        marginTop:10
     },
     view3:{
        
@@ -225,6 +218,8 @@ const styles = StyleSheet.create({
         color:'#FA4A0C',
         fontWeight:'700',
         fontSize:16,
+        textAlign:'center',
+        marginTop:15
     },
 
     ownerText:{
@@ -267,7 +262,7 @@ const styles = StyleSheet.create({
     fullNameBox:{
         width: 300,
         height: 55,
-        backgroundColor: "white",
+        backgroundColor: 'white',
         justifyContent:'center',
         alignItems:'flex-start',
         borderRadius:13,
@@ -289,7 +284,11 @@ const styles = StyleSheet.create({
         marginTop:25,
     },
 
-   
+    gallery:{
+        height:65,
+        width:65,
+        alignSelf:'center'
+    },
     
 
   
@@ -302,6 +301,15 @@ const styles = StyleSheet.create({
         color: 'white',
     },
 
+    pickLogo:{
+        width:150,
+        height:150,
+        backgroundColor:'#F2F2F2',
+        flex:1,
+        alignSelf:'center',
+        marginTop:-5,
+        justifyContent:'space-evenly',
+        alignItems:'center'
+    }   
    
-    
 })

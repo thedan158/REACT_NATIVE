@@ -3,21 +3,17 @@ import React,{ useState } from 'react'
 import { useNavigation } from '@react-navigation/core'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import logo from '../assets/images/logo_app.png'
-import CustomTextInput from '../component/CustomTextInput';
-import eye from '../assets/icons/eye.png'
-import hidden from '../assets/icons/close-eye.png'
+import PhoneInput from 'react-native-phone-number-input';
 
-const LoginScreen = () => {
-const [username, setUsername] = useState('');
-const [password, setPassword] = useState('');
-const [isSecureEntry, setIsSecureEntry] = useState(true);
 
+const ForgotPassword = () => {
+const [phoneNumber, setPhoneNumber] = useState('');
 const navigation = useNavigation()
 
 
 // *Region for OnPress Login
-const handleLogin = () => {
-    navigation.navigate('Home')
+const handleForgotPassword = () => {
+    navigation.navigate('OTP')
   }
 // *End Region
 
@@ -30,75 +26,44 @@ const handleLogin = () => {
         <Image style={styles.logo} source={logo}></Image>
     </View>
     <View >
-    <Text style={styles.textPleaseRegister}>Login to your account</Text>
+    <Text style={styles.textPleaseRegister}>Password Recovery</Text>
     </View>
     </View>
     <View style={styles.view2}>
     <View 
 >
-
-     
-          
-        <CustomTextInput
-        label='Username'
-        placeholder="Username"
-        value={username}
-        onChangeText={text=>setUsername(text)}
-        />
-
-    <CustomTextInput
-        label='Password'
-        placeholder="Password"
-        value={password}
-        onChangeText={text=>setPassword(text)}
-        secureTextEntry={isSecureEntry}
-        icon={
-              <TouchableOpacity
-                onPress={() => {
-                  setIsSecureEntry((prev) => !prev);
-                }}>
-                <Image source={isSecureEntry ? hidden : eye} style={{width:25, height:25}}>
-                </Image>
-              </TouchableOpacity>
-            }
-            iconPosition="right"
-
-        />
-
+<Text style={styles.subtitle}>Please enter your mobile number to recover your password</Text>
       
+        <Text style={styles.textLabel}>Mobile number</Text>
 
+        <View style={styles.inputContainer}>
 
        
-
-       
-      
+        <PhoneInput
+        placeholder="Mobile number"
+        value={phoneNumber}
+        onChangeText={text=>setPhoneNumber(text)}
+        style={styles.input}
+        >
+        </PhoneInput>
+      </View>
 </View>
-    <TouchableOpacity 
-        onPress={() => navigation.navigate('ForgotPassword')}>
-            <Text style={styles.forgotPassword}>Forgot password?</Text>
-        </TouchableOpacity>
+
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-        onPress={handleLogin}
+        onPress={handleForgotPassword}
         style={styles.button}>
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>Get code</Text>
         </TouchableOpacity>
         </View>
-    <View style={styles.registerText}>
-    <Text style={styles.newOwnerText}>You're a new Owner? </Text>
-
-        <TouchableOpacity 
-        onPress={() => navigation.navigate('Signup')}>
-            <Text style={styles.buttonOutlineText}> Register</Text>
-        </TouchableOpacity>
-    </View>
+    
     </View>
     </View>
     </ScrollView>
   )
 }
 
-export default LoginScreen
+export default ForgotPassword
 
 const styles = StyleSheet.create({
     container:{
@@ -121,7 +86,7 @@ const styles = StyleSheet.create({
         paddingVertical:10,
         borderRadius:10,
         marginTop:5,
-        
+        flexWrap:'wrap'
     },
     buttonContainer:{
         justifyContent:'center',
@@ -161,11 +126,6 @@ const styles = StyleSheet.create({
         fontWeight:'normal'
     },
     
-    // container:{
-    //     flex:1,
-    //     backgroundColor:'#F2F2F2'
-    // },
-    
       view1:{
           
           justifyContent:'center',
@@ -204,7 +164,7 @@ const styles = StyleSheet.create({
     textLabel:{
         fontSize:15,
         marginTop:15,
-        marginBottom:15
+        marginBottom:15,
     },
     registerText:{
         flexWrap:'wrap',
@@ -212,10 +172,10 @@ const styles = StyleSheet.create({
         marginTop:20,
         justifyContent:'center'
     },
-    forgotPassword:{
-        color:'#FA4A0C',
-        fontWeight:'700',
-        fontSize:16,
-        marginTop:10
+    subtitle:{
+        fontSize:15,
+        marginBottom:15,
+        textAlign:'center',
+        color:'#9B9B9B'
     }
 })
