@@ -7,8 +7,10 @@ import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 import SplashScreen from './screens/SplashScreen';
 import SignupScreen from './screens/SignupScreen';
-
-import { createStackNavigator, TransitionSpecs, HeaderStyleInterpolators, CardStyleInterpolators } from "@react-navigation/stack";
+import ForgotPassword from './screens/ForgotPassword';
+import OTP from './screens/OTP';
+import NewPassword from './screens/NewPassword';
+import RestaurantInformation from './screens/RestaurantInformation';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +23,10 @@ export default function App() {
         <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen options={{headerShown: false}} name="Signup" component={SignupScreen} />
+        <Stack.Screen options={{headerShown: false}} name="ForgotPassword" component={ForgotPassword}/>
+        <Stack.Screen options={{headerShown: false}} name="OTP" component={OTP}/>
+        <Stack.Screen options={{headerShown: false}} name="NewPassword" component={NewPassword}/>
+        <Stack.Screen options={{headerShown: false}} name="RestaurantInformation" component={RestaurantInformation}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
