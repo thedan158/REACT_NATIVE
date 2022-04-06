@@ -18,7 +18,9 @@ import StarterMenuScreen from './screens/StarterMenuScreen';
 import MainCourseMenuScreen from './screens/MainCourseMenuScreen';
 import DrinkMenuScreen from './screens/DrinkMenuScreen';
 import DesertMenuScreen from './screens/DesertMenuScreen';
-import SelectedTable from './screeTransitionSpecs, HeaderStyleInterpolators, CardSty
+import SelectedTable from './screens/SelectedTableScreen';
+
+
 
 const Stack = createNativeStackNavigator();
 
