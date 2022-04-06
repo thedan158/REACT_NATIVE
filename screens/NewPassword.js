@@ -7,16 +7,15 @@ import CustomTextInput from '../component/CustomTextInput';
 import eye from '../assets/icons/eye.png'
 import hidden from '../assets/icons/close-eye.png'
 
-const LoginScreen = () => {
-const [username, setUsername] = useState('');
+const NewPassword = () => {
+const [confirmPassword, setConfirmPassword] = useState('');
 const [password, setPassword] = useState('');
-const [isSecureEntry, setIsSecureEntry] = useState(true);
-
 const navigation = useNavigation()
-
+const [isSecureEntry, setIsSecureEntry] = useState(true);
+const [isSecureEntryConfirm, setIsSecureEntryConfirm] = useState(true);
 
 // *Region for OnPress Login
-const handleLogin = () => {
+const handleConfirmNewPassword = () => {
     navigation.navigate('Home')
   }
 // *End Region
@@ -30,25 +29,16 @@ const handleLogin = () => {
         <Image style={styles.logo} source={logo}></Image>
     </View>
     <View >
-    <Text style={styles.textPleaseRegister}>Login to your account</Text>
+    <Text style={styles.textPleaseRegister}>Reset new password</Text>
     </View>
+    
     </View>
     <View style={styles.view2}>
     <View 
 >
-
-     
-          
-        <CustomTextInput
-        label='Username'
-        placeholder="Username"
-        value={username}
-        onChangeText={text=>setUsername(text)}
-        />
-
-    <CustomTextInput
-        label='Password'
-        placeholder="Password"
+    <CustomTextInput 
+        label='Password'    
+        placeholder='Password'
         value={password}
         onChangeText={text=>setPassword(text)}
         secureTextEntry={isSecureEntry}
@@ -62,43 +52,42 @@ const handleLogin = () => {
               </TouchableOpacity>
             }
             iconPosition="right"
-
-        />
-
-      
-
-
-       
-
-       
-      
+    />
+    <CustomTextInput 
+        label='Confirm password'    
+        placeholder='Confirm password'
+        value={confirmPassword}
+        onChangeText={text=>setConfirmPassword(text)}
+        secureTextEntry={isSecureEntryConfirm}
+        icon={
+              <TouchableOpacity
+                onPress={() => {
+                  setIsSecureEntryConfirm((prev) => !prev);
+                }}>
+                <Image source={isSecureEntryConfirm ? hidden : eye} style={{width:25, height:25}}>
+                </Image>
+              </TouchableOpacity>
+            }
+            iconPosition="right"
+    />
+        
 </View>
-    <TouchableOpacity 
-        onPress={() => navigation.navigate('ForgotPassword')}>
-            <Text style={styles.forgotPassword}>Forgot password?</Text>
-        </TouchableOpacity>
+    
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-        onPress={handleLogin}
+        onPress={handleConfirmNewPassword}
         style={styles.button}>
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>Reset password</Text>
         </TouchableOpacity>
         </View>
-    <View style={styles.registerText}>
-    <Text style={styles.newOwnerText}>You're a new Owner? </Text>
-
-        <TouchableOpacity 
-        onPress={() => navigation.navigate('Signup')}>
-            <Text style={styles.buttonOutlineText}> Register</Text>
-        </TouchableOpacity>
-    </View>
+   
     </View>
     </View>
     </ScrollView>
   )
 }
 
-export default LoginScreen
+export default NewPassword
 
 const styles = StyleSheet.create({
     container:{
@@ -126,7 +115,7 @@ const styles = StyleSheet.create({
     buttonContainer:{
         justifyContent:'center',
         alignItems:'center',
-        marginTop:40,
+        marginTop:20,
     },
     button:{
         backgroundColor:'#FA4A0C',
@@ -217,5 +206,11 @@ const styles = StyleSheet.create({
         fontWeight:'700',
         fontSize:16,
         marginTop:10
+    },
+    subtitle:{
+        fontSize:15,
+        marginBottom:15,
+        textAlign:'center',
+        color:'#9B9B9B'
     }
 })

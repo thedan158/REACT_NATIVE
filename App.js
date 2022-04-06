@@ -7,14 +7,18 @@ import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 import SplashScreen from './screens/SplashScreen';
 import SignupScreen from './screens/SignupScreen';
+
+import ForgotPassword from './screens/ForgotPassword';
+import OTP from './screens/OTP';
+import NewPassword from './screens/NewPassword';
+import RestaurantInformation from './screens/RestaurantInformation';
+
 import OrderScreen from './screens/OrderScreen';
 import StarterMenuScreen from './screens/StarterMenuScreen';
 import MainCourseMenuScreen from './screens/MainCourseMenuScreen';
 import DrinkMenuScreen from './screens/DrinkMenuScreen';
 import DesertMenuScreen from './screens/DesertMenuScreen';
-import SelectedTable from './screens/SelectedTableScreen';
-
-import { createStackNavigator, TransitionSpecs, HeaderStyleInterpolators, CardStyleInterpolators } from "@react-navigation/stack";
+import SelectedTable from './screeTransitionSpecs, HeaderStyleInterpolators, CardSty
 
 const Stack = createNativeStackNavigator();
 
