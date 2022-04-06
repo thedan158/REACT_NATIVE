@@ -1,4 +1,4 @@
-import { StyleSheet, Platform,StatusBar, ScrollView, FlatList, TextInput, Text, View, Image, TouchableOpacity  } from 'react-native'
+import { StyleSheet, Dimensions, Platform,StatusBar, ScrollView, FlatList, TextInput, Text, View, Image, TouchableOpacity  } from 'react-native'
 import React, {Component} from 'react'
 import AppLoading from 'expo-app-loading';
 import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
@@ -8,6 +8,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Constants from 'expo-constants';
 
 const statusBarHeight = Constants.statusBarHeight;
+const deviceWidth = Dimensions.get('window').width;
+const deviceHeight = Dimensions.get('window').height;
 
 // TODO fix the Scrollview with flatlist
 
@@ -73,6 +75,7 @@ const OrderScreen = () => {
   return (
     //   Root view
     <SafeAreaView style={styles.droidSafeArea}>
+    <View style={styles.container}>
         
 {/* ------------------------------------first view section-------------------------- */}
         <View style={styles.container_top}>
@@ -241,17 +244,45 @@ const OrderScreen = () => {
                   <View>
                       <Text style={styles.txtOrder}>Order</Text>
                   </View>
-                  </TouchableOpacity>      
+                  </TouchableOpacity>
+                    
+                
 
              </View>               
         
+        
+        
         </ScrollView>
 
-
-
-
-
-        </SafeAreaView>
+        <View style={styles.container_bottomTabs}> 
+            <TouchableOpacity style={styles.btnBottomTabs}>
+                <Image resizeMode='contain' 
+                        source={{uri: 'https://thumbs.dreamstime.com/b/home-icon-house-symbol-simple-vector-illustration-eps-164215901.jpghttps://static.vecteezy.com/system/resources/thumbnails/002/554/006/small/catering-food-service-fast-delivery-logistic-line-style-icon-free-vector.jpg'}}
+                        style={styles.imgBottomTab}/>
+                <Text style={styles.txtBottomTabHome}>Home</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.btnBottomTabs}>
+                <Image resizeMode='contain' 
+                        source={{uri: 'https://static.vecteezy.com/system/resources/thumbnails/002/554/006/small/catering-food-service-fast-delivery-logistic-line-style-icon-free-vector.jpg'}}
+                        style={styles.imgBottomTab}/>
+                <Text style={styles.txtBottomTab}>Order</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.btnBottomTabs}>
+                <Image resizeMode='contain' 
+                        source={{uri: 'https://static.vecteezy.com/system/resources/thumbnails/000/348/788/small/1__287_29.jpg'}}
+                        style={styles.imgBottomTab}/>
+                <Text style={styles.txtBottomTabBill}>Bill</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.btnBottomTabs}>
+                <Image resizeMode='contain' 
+                        source={{uri: 'https://icon-library.com/images/profile-icon/profile-icon-22.jpg'}}
+                        style={styles.imgBottomTab}/>
+                <Text style={styles.txtBottomTab}>User</Text>
+            </TouchableOpacity>
+        </View>
+        </View>
+        
+    </SafeAreaView>     
   
   )
 }
@@ -267,7 +298,16 @@ const styles = StyleSheet.create({
         
 
     },
-
+    container:{
+        backgroundColor: '#FFF',
+        paddingTop: 20,
+        paddingBottom: 0,
+        paddingLeft: 20,
+        paddingRight: 20,
+        justifyContent: 'center',
+        marginBottom: 0,
+        height: deviceHeight,
+    },
     container_bottom:{
         top: 0,
         flexDirection: 'column',
@@ -276,15 +316,26 @@ const styles = StyleSheet.create({
     },
     rectangleGreydevideView:{
         backgroundColor: '#EFEFEF',
-        width: 500,
+        width: deviceWidth,
         height: 10,
         marginBottom: 15,
         marginTop: 25,
     },
     container_layout_row:{
         flexDirection: 'row',
-
-
+    },
+    container_bottomTabs:{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginHorizontal: 0,
+        backgroundColor: '#8000',
+        height: 60,
+        marginLeft: 0,
+        paddingLeft: 0,
+        paddingRight: 30,
+        marginRight: 0,
+        width: deviceWidth,
+        marginBottom: 0,
     },
     container_layout_row1:{
         flexDirection: 'row',
@@ -310,7 +361,9 @@ const styles = StyleSheet.create({
     container_layout_column3:{
         flexDirection: 'column',
         top: 10,
-        marginBottom: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 10,
     },
     viewMENU:{
         top: 5,
@@ -335,6 +388,12 @@ const styles = StyleSheet.create({
     },
     btnImagestyle:{
         left: 70,
+    },
+    btnBottomTabs:{
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+
     },
     flatlistitemStyle: {
         flex: 1,
@@ -477,6 +536,15 @@ const styles = StyleSheet.create({
         width: 115,
         top: 3,
     },
+    txtBottomTabHome:{
+        fontSize: 15,
+        marginTop: 0,
+        marginBottom: 0,
+    },
+    txtBottomTabBill:{
+        fontSize: 15,
+        marginTop: 0,
+    },
     textHeader:{
         color: '#000',
         fontFamily: 'Inter_900Black',
@@ -508,13 +576,14 @@ const styles = StyleSheet.create({
     },
     droidSafeArea: {
         flex: 1,
-        backgroundColor: '#FFF',
-        padding: 20,
-        justifyContent: 'center',
-        margin: 0,
         paddingTop: Platform.OS === 'Android' ? StatusBar.currentHeight : 0,
     },
+    imgBottomTab:{
+        height: 40,
+        width: 40,
 
+    },
+    
 
 
 })
