@@ -4,20 +4,21 @@ import { useNavigation } from '@react-navigation/core'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import logo from '../assets/images/logo_app.png'
 import CustomTextInput from '../custom component/CustomTextInput';
-import eye from '../assets/icons/eye.png'
-import hidden from '../assets/icons/close-eye.png'
-import Colors from '../assets/Colors';
+import eye from '../assets/icons/eye-green.png'
+import hidden from '../assets/icons/closed-eyes-green.png'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-const NewPassword = () => {
-const [confirmPassword, setConfirmPassword] = useState('');
+const CreateStaffAccount = () => {
+const [username, setUsername] = useState('');
 const [password, setPassword] = useState('');
-const navigation = useNavigation()
 const [isSecureEntry, setIsSecureEntry] = useState(true);
-const [isSecureEntryConfirm, setIsSecureEntryConfirm] = useState(true);
+
+const navigation = useNavigation()
+
 
 // *Region for OnPress Login
-const handleConfirmNewPassword = () => {
-    navigation.navigate('RePasswordSuccess')
+const handleLogin = () => {
+    navigation.navigate('Home')
   }
 // *End Region
 
@@ -26,24 +27,33 @@ const handleConfirmNewPassword = () => {
       <ScrollView>
       <View style={styles.container}>
     <View style={styles.view1}>
-    <View>
-        <Image style={styles.logo} source={logo}></Image>
-    </View>
-    <View >
-    <Text style={styles.textPleaseRegister}>Reset new password</Text>
-    </View>
+    
+    
+    <Text style={styles.textPleaseRegister}>Create your staff account</Text>
     
     </View>
     <View style={styles.view2}>
     <View 
 >
-    <CustomTextInput 
-        blurColor={Colors.primary}
-        label='Password'    
-        placeholder='Password'
+
+     
+        <CustomTextInput
+        label='Username'
+        placeholder="Username"
+        value={username}
+        blurColor={'#4FA987'}
+
+        onChangeText={text=>setUsername(text)}
+        />
+        
+
+    <CustomTextInput
+        label='Password'
+        placeholder="Password"
         value={password}
         onChangeText={text=>setPassword(text)}
         secureTextEntry={isSecureEntry}
+        blurColor={'#4FA987'}
         icon={
               <TouchableOpacity
                 onPress={() => {
@@ -54,49 +64,40 @@ const handleConfirmNewPassword = () => {
               </TouchableOpacity>
             }
             iconPosition="right"
-    />
-    <CustomTextInput 
-    blurColor={Colors.primary}
-        label='Confirm password'    
-        placeholder='Confirm password'
-        value={confirmPassword}
-        onChangeText={text=>setConfirmPassword(text)}
-        secureTextEntry={isSecureEntryConfirm}
-        icon={
-              <TouchableOpacity
-                onPress={() => {
-                  setIsSecureEntryConfirm((prev) => !prev);
-                }}>
-                <Image source={isSecureEntryConfirm ? hidden : eye} style={{width:25, height:25}}>
-                </Image>
-              </TouchableOpacity>
-            }
-            iconPosition="right"
-    />
-        
+
+        />
+
+      
+
+
+       
+
+       
+      
 </View>
     
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-        onPress={handleConfirmNewPassword}
+        onPress={handleLogin}
         style={styles.button}>
-            <Text style={styles.buttonText}>Reset password</Text>
+            <Text style={styles.buttonText}>Create</Text>
         </TouchableOpacity>
         </View>
-   
+    
     </View>
     </View>
     </ScrollView>
   )
 }
 
-export default NewPassword
+export default CreateStaffAccount
 
 const styles = StyleSheet.create({
     container:{
         justifyContent:'center',
         alignItems:'center',
         flex: 1,
+        backgroundColor:'#FFFFFF',
     },
     inputContainer:{
         width: 300,
@@ -105,6 +106,8 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'flex-start',
         borderRadius:13,   
+       
+        
     },
 
     input:{
@@ -118,10 +121,10 @@ const styles = StyleSheet.create({
     buttonContainer:{
         justifyContent:'center',
         alignItems:'center',
-        marginTop:20,
+        marginTop:70,
     },
     button:{
-        backgroundColor:'#FA4A0C',
+        backgroundColor:'#4FA987',
         width:'100%',
         padding:15,
         borderRadius:20,
@@ -133,7 +136,7 @@ const styles = StyleSheet.create({
     buttonOutline:{
         backgroundColor:'white',
         marginTop:5,
-        borderColor:'#FA4A0C',
+        borderColor:'#4FA987',
         borderWidth:2,
     },
     buttonText:{
@@ -165,9 +168,9 @@ const styles = StyleSheet.create({
       },
     
       textPleaseRegister:{
-         
+         color:'#4FA987',
         position:'relative',
-        top:-30,
+        marginTop:100,
         fontSize:20,
         fontWeight:'bold'
       },
@@ -190,7 +193,8 @@ const styles = StyleSheet.create({
     },
 
     view2:{
-        flex:0.9
+        flex:0.9,
+        marginTop:70
     },
 
     textLabel:{
@@ -210,10 +214,11 @@ const styles = StyleSheet.create({
         fontSize:16,
         marginTop:10
     },
-    subtitle:{
-        fontSize:15,
-        marginBottom:15,
-        textAlign:'center',
-        color:'#9B9B9B'
-    }
+    dropShadow: {
+        shadowColor: '#171717',
+        // shadowOffset: {width: 0, height: 3},
+        // shadowOpacity: 0.4,
+        // shadowRadius: 2,
+        elevation:11
+      },
 })

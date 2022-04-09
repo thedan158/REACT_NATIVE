@@ -3,94 +3,51 @@ import React,{ useState } from 'react'
 import { useNavigation } from '@react-navigation/core'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import logo from '../assets/images/logo_app.png'
-import CustomTextInput from '../custom component/CustomTextInput';
-import eye from '../assets/icons/eye.png'
-import hidden from '../assets/icons/close-eye.png'
-import Colors from '../assets/Colors';
 
-const NewPassword = () => {
-const [confirmPassword, setConfirmPassword] = useState('');
-const [password, setPassword] = useState('');
+const RePasswordSuccess = () => {
 const navigation = useNavigation()
-const [isSecureEntry, setIsSecureEntry] = useState(true);
-const [isSecureEntryConfirm, setIsSecureEntryConfirm] = useState(true);
+
 
 // *Region for OnPress Login
-const handleConfirmNewPassword = () => {
-    navigation.navigate('RePasswordSuccess')
+const handleRePassword = () => {
+    navigation.navigate('Login')
   }
-// *End Region
-
-
   return (
-      <ScrollView>
+    <ScrollView>
       <View style={styles.container}>
     <View style={styles.view1}>
     <View>
         <Image style={styles.logo} source={logo}></Image>
     </View>
     <View >
-    <Text style={styles.textPleaseRegister}>Reset new password</Text>
+    <Text style={styles.textPleaseRegister}>Password Reset!</Text>
     </View>
-    
     </View>
     <View style={styles.view2}>
     <View 
 >
-    <CustomTextInput 
-        blurColor={Colors.primary}
-        label='Password'    
-        placeholder='Password'
-        value={password}
-        onChangeText={text=>setPassword(text)}
-        secureTextEntry={isSecureEntry}
-        icon={
-              <TouchableOpacity
-                onPress={() => {
-                  setIsSecureEntry((prev) => !prev);
-                }}>
-                <Image source={isSecureEntry ? hidden : eye} style={{width:25, height:25}}>
-                </Image>
-              </TouchableOpacity>
-            }
-            iconPosition="right"
-    />
-    <CustomTextInput 
-    blurColor={Colors.primary}
-        label='Confirm password'    
-        placeholder='Confirm password'
-        value={confirmPassword}
-        onChangeText={text=>setConfirmPassword(text)}
-        secureTextEntry={isSecureEntryConfirm}
-        icon={
-              <TouchableOpacity
-                onPress={() => {
-                  setIsSecureEntryConfirm((prev) => !prev);
-                }}>
-                <Image source={isSecureEntryConfirm ? hidden : eye} style={{width:25, height:25}}>
-                </Image>
-              </TouchableOpacity>
-            }
-            iconPosition="right"
-    />
+<Text style={styles.subtitle}>Your password has been reset, please login again!</Text>
+      
+        
+
         
 </View>
-    
+
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-        onPress={handleConfirmNewPassword}
+        onPress={handleRePassword}
         style={styles.button}>
-            <Text style={styles.buttonText}>Reset password</Text>
+            <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         </View>
-   
+    
     </View>
     </View>
     </ScrollView>
   )
 }
 
-export default NewPassword
+export default RePasswordSuccess
 
 const styles = StyleSheet.create({
     container:{
@@ -113,12 +70,12 @@ const styles = StyleSheet.create({
         paddingVertical:10,
         borderRadius:10,
         marginTop:5,
-        
+        flexWrap:'wrap'
     },
     buttonContainer:{
         justifyContent:'center',
         alignItems:'center',
-        marginTop:20,
+        marginTop:40,
     },
     button:{
         backgroundColor:'#FA4A0C',
@@ -152,11 +109,6 @@ const styles = StyleSheet.create({
         fontSize:16,
         fontWeight:'normal'
     },
-    
-    // container:{
-    //     flex:1,
-    //     backgroundColor:'#F2F2F2'
-    // },
     
       view1:{
           
@@ -196,19 +148,13 @@ const styles = StyleSheet.create({
     textLabel:{
         fontSize:15,
         marginTop:15,
-        marginBottom:15
+        marginBottom:15,
     },
     registerText:{
         flexWrap:'wrap',
         flexDirection:'row',
         marginTop:20,
         justifyContent:'center'
-    },
-    forgotPassword:{
-        color:'#FA4A0C',
-        fontWeight:'700',
-        fontSize:16,
-        marginTop:10
     },
     subtitle:{
         fontSize:15,

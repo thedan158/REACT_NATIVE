@@ -8,7 +8,7 @@ const deviceHeight = Dimensions.get('window').height;
 
 const HomeScreen = () => {
   return (
-    <View>
+    <View style={{backgroundColor:'gray', flex:1}}>
       <Text>HomeScreen</Text>
     </View>
   )
