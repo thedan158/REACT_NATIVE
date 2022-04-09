@@ -121,7 +121,7 @@ export default SelectedTable
 
 const styles = StyleSheet.create({
     container:{
-        
+        marginBottom: 0,
     },  
     containerTop:{
         backgroundColor: '#FF4B3A',
@@ -134,13 +134,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     containerBottom:{
-        borderRadius: 30,
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
         borderColor: '#808080',
         backgroundColor: '#fff',
-        width: 360,
-        height: 700,
+        justifyContent: 'center',
+        alignItems: 'center',
         marginTop: -50,
-        padding: 10,
+        padding: 20,
     },
     txtSearchBar:{
         color: '#000',

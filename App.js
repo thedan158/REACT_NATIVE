@@ -21,12 +21,16 @@ import DrinkMenuScreen from './screens/DrinkMenuScreen';
 import DesertMenuScreen from './screens/DesertMenuScreen';
 import SelectedTable from './screens/SelectedTableScreen';
 
+
 import { createStackNavigator, TransitionSpecs, HeaderStyleInterpolators, CardStyleInterpolators } from "@react-navigation/stack";
 import CreateStaffAccount from './screens/CreateStaffAccount';
 import RestaurantManagement from './screens/RestaurantManagement';
 import Tab from './custom component/TabForStaff'
 import tabBar from './custom component/TabForOwner'
 import RePasswordSuccess from './screens/RePasswordSuccess';
+
+
+
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +39,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
         <NavigationContainer>
+
       <Stack.Navigator >
       <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
 
@@ -67,6 +72,19 @@ export default function App() {
       <Stack.Screen options={{headerShown: false}} name="DrinkMenu" component={DrinkMenuScreen} />
       <Stack.Screen options={{headerShown: false}} name="DesertMenu" component={DesertMenuScreen} />
       <Stack.Screen options={{headerShown: false}} name="SelectedTable" component={SelectedTable} />
+
+      <Stack.Navigator>
+        
+        
+        <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} />
+        <Stack.Screen options={{headerShown: false}} name="Order" component={OrderScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen options={{headerShown: false}} name="StarterMenu" component={StarterMenuScreen} />
+        <Stack.Screen options={{headerShown: false}} name="MainMenu" component={MainCourseMenuScreen} />
+        <Stack.Screen options={{headerShown: false}} name="DrinkMenu" component={DrinkMenuScreen} />
+        <Stack.Screen options={{headerShown: false}} name="DesertMenu" component={DesertMenuScreen} />
+        <Stack.Screen options={{headerShown: false}} name="SelectedTable" component={SelectedTable} />
+
         
 
       </Stack.Navigator>

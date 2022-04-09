@@ -1,5 +1,10 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Dimensions, TouchableOpacity, ScrollView, Text, View } from 'react-native'
+import React, { Component } from 'react'
+
+
+const deviceWidth = Dimensions.get('window').width;
+const deviceHeight = Dimensions.get('window').height;
+
 
 const HomeScreen = () => {
   return (
