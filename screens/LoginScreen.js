@@ -3,9 +3,10 @@ import React,{ useState } from 'react'
 import { useNavigation } from '@react-navigation/core'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import logo from '../assets/images/logo_app.png'
-import CustomTextInput from '../component/CustomTextInput';
+import CustomTextInput from '../custom component/CustomTextInput';
 import eye from '../assets/icons/eye.png'
 import hidden from '../assets/icons/close-eye.png'
+import Colors from '../assets/Colors';
 
 const LoginScreen = () => {
 const [username, setUsername] = useState('');
@@ -17,7 +18,7 @@ const navigation = useNavigation()
 
 // *Region for OnPress Login
 const handleLogin = () => {
-    navigation.navigate('Home')
+    navigation.navigate('Dashboard')
   }
 // *End Region
 
@@ -38,18 +39,20 @@ const handleLogin = () => {
 >
 
      
-          
         <CustomTextInput
         label='Username'
         placeholder="Username"
+        blurColor={Colors.primary}
         value={username}
         onChangeText={text=>setUsername(text)}
         />
+        
 
     <CustomTextInput
         label='Password'
         placeholder="Password"
         value={password}
+        blurColor={Colors.primary}
         onChangeText={text=>setPassword(text)}
         secureTextEntry={isSecureEntry}
         icon={
@@ -217,5 +220,12 @@ const styles = StyleSheet.create({
         fontWeight:'700',
         fontSize:16,
         marginTop:10
-    }
+    },
+    dropShadow: {
+        shadowColor: '#171717',
+        // shadowOffset: {width: 0, height: 3},
+        // shadowOpacity: 0.4,
+        // shadowRadius: 2,
+        elevation:11
+      },
 })

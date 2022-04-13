@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/core'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import logo from '../assets/images/logo_app.png'
 import PhoneInput from 'react-native-phone-number-input';
-
+import CustomTextInput from '../custom component/CustomTextInput'
 
 const ForgotPassword = () => {
 const [phoneNumber, setPhoneNumber] = useState('');
@@ -13,7 +13,7 @@ const navigation = useNavigation()
 
 // *Region for OnPress Login
 const handleForgotPassword = () => {
-    navigation.navigate('OTP')
+    navigation.navigate('OTPforgotpass')
   }
 // *End Region
 

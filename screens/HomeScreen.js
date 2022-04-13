@@ -141,7 +141,6 @@ LogBox.ignoreLogs(['Remote debugger']);
 
 const HomeScreen = () => {
   return (
-
     // ROOT container
     <ScrollView>
     <View style={styles.container}>
@@ -223,6 +222,7 @@ const HomeScreen = () => {
     
     </View>  
     </ScrollView>
+
   )
 }
 

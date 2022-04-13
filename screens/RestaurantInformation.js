@@ -1,19 +1,20 @@
-import {TouchableOpacity,TextInput, KeyboardAvoidingView, StyleSheet, Text, View, Image, Button,  Alert, ScrollView } from 'react-native'
+import {TouchableOpacity,TextInput, KeyboardAvoidingView, StyleSheet, Text, View, Image, Button,  Alert, ScrollView, ImageBackground } from 'react-native'
 import React, {useState, useEffect} from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/core'
 import logo from '../assets/images/logo_app.png'
-import CustomTextInput from '../component/CustomTextInput'
+import CustomTextInput from '../custom component/CustomTextInput'
 import gallery from '../assets/icons/gallery.png'
 import * as ImagePicker from 'expo-image-picker'
 import { Constants } from 'expo-constants'
+import Colors from '../assets/Colors'
 
 const RestaurantInformation = () => {
     const [nameOfRes, setNameOfRes] = useState('');
     const [address, setAddress] = useState('');
     const [hotline, setHotline] = useState('');
     const navigation = useNavigation()
-    const [image, setImage]=useState(null);
+    const [image, setImage]=useState('null');
 
     useEffect(async()=>{
         const{status}=await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -39,7 +40,7 @@ const RestaurantInformation = () => {
 
 // *Region for OnPress Signup
 const handleSignup = () => {
-    navigation.navigate('Home')
+    navigation.navigate('Tab')
   }
   return (
     
@@ -56,10 +57,19 @@ const handleSignup = () => {
         </View>
      </View>
 
+     <TouchableOpacity 
+        onPress={PickImage}>
      <View style={styles.pickLogo}>
-        {/* <Image style={styles.gallery} source={gallery}></Image> */}
-        {image && <Image source={{uri:image}} style={styles.pickLogo}/>}
+     <ImageBackground style={styles.ImageBackground} source={gallery}/>
+
+        {image && <Image i source={{uri:image}} style={styles.pick}>
+        </Image>}      
+        
         </View>
+        </TouchableOpacity>
+        
+        
+
         <TouchableOpacity 
         onPress={PickImage}>
             <Text style={styles.loginText}>Choose Your Logo</Text>
@@ -74,6 +84,7 @@ const handleSignup = () => {
     {/* Full name input */}
     
         <CustomTextInput 
+        blurColor={Colors.primary}
          value={nameOfRes}
         onChangeText={text=>setNameOfRes(text)} 
         placeholder='Name of Restaurant'/>
@@ -82,6 +93,7 @@ const handleSignup = () => {
     {/* Mobile number input */}
     <View style={{marginTop:-15}}>
     <CustomTextInput 
+    blurColor={Colors.primary}
          value={address}
         onChangeText={text=>setAddress(text)} 
         placeholder='Address'/>
@@ -89,6 +101,7 @@ const handleSignup = () => {
     {/* Password */}
     <View style={{marginTop:-15}}>
     <CustomTextInput 
+    blurColor={Colors.primary}
          value={hotline}
         onChangeText={text=>setHotline(text)} 
         placeholder='Hotline'
@@ -301,6 +314,7 @@ const styles = StyleSheet.create({
     },
 
     pickLogo:{
+        flex:1,
         width:150,
         height:150,
         backgroundColor:'#F2F2F2',
@@ -308,7 +322,32 @@ const styles = StyleSheet.create({
         alignSelf:'center',
         marginTop:-5,
         justifyContent:'space-evenly',
-        alignItems:'center'
-    }   
+        alignItems:'center',
+        borderColor:'black',
+        borderWidth:3,
+        borderRadius:10,
+        borderStyle:'dashed'
+        
+    },
+    pick:{
+        
+        width:150,
+        height:150,
+        borderColor:'black',
+        
+       
+
+    },
+
+    ImageBackground:{
+        flex:1, 
+        height:50, 
+        width:50, 
+        position:'absolute', 
+        top:50
+        
+    }
+   
+
    
 })
