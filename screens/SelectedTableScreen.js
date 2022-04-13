@@ -1,6 +1,6 @@
 import { StyleSheet, FlatList, Text, View, TextInput, TouchableOpacity, ScrollView, Image } from 'react-native'
 import React, {Component} from 'react'
-
+import ModalTableSelect from '../custom component/ModalTableSelect';
 
 const SearchIconResouce = require('../assets/icons/search.png');
 const FillterIconResouce = require('../assets/icons/fillter.png')
@@ -61,18 +61,24 @@ const DataTable =  [
 class FlatlistItem extends Component {
     render() {
         return(
+            <View>
+            
             <TouchableOpacity style={styles.flatlistitemStyle}>
                 <View>
                     <Image source={this.props.item.imgSourceEmpty}  style={styles.imgItemFlatlist}/>
                     <Text style={styles.txtItemFlatlist}>{this.props.item.name}</Text>
                 </View>
             </TouchableOpacity>
+            </View>
         );
     }
 
 }
 
+
 const SelectedTable = () => {
+
+    
   return (
 
     // Root View
@@ -111,6 +117,7 @@ const SelectedTable = () => {
                 nestedScrollEnabled
                 numColumns={2}
             />
+            <ModalTableSelect ref={'ModalTable'} parentFlatlist={this}/>
         </View>
     </ScrollView>
     
@@ -208,7 +215,6 @@ const styles = StyleSheet.create({
         borderColor: 'grey',
         borderWidth: 2,
         alignItems: 'center',
-        flexDirection: 'column',
         margin: 20,
     }
 })
