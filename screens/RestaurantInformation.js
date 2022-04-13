@@ -5,7 +5,6 @@ import { useNavigation } from '@react-navigation/core'
 import logo from '../assets/images/logo_app.png'
 import CustomTextInput from '../component/CustomTextInput'
 import gallery from '../assets/icons/gallery.png'
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import * as ImagePicker from 'expo-image-picker'
 import { Constants } from 'expo-constants'
 

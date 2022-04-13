@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, Platform, SafeAreaView, Easing, Animated } from 'react-native';
+import { StyleSheet, Text, View, Platform, SafeAreaView, Easing, Animated, LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './screens/LoginScreen';
@@ -23,7 +23,7 @@ import SelectedTable from './screens/SelectedTableScreen';
 
 
 const Stack = createNativeStackNavigator();
-
+LogBox.ignoreLogs(['Remote debugger']);
 
 
 export default function App() {
@@ -31,9 +31,9 @@ export default function App() {
         <NavigationContainer>
       <Stack.Navigator>
         
+      <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} />
+      <Stack.Screen options={{headerShown: false}} name="Order" component={OrderScreen} />
         
-        <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} />
-        <Stack.Screen options={{headerShown: false}} name="Order" component={OrderScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen options={{headerShown: false}} name="StarterMenu" component={StarterMenuScreen} />
         <Stack.Screen options={{headerShown: false}} name="MainMenu" component={MainCourseMenuScreen} />
