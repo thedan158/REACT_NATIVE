@@ -1,5 +1,7 @@
+
 import { StyleSheet, Dimensions, TouchableOpacity, ScrollView, Text, View, Image, LogBox, FlatList, ImageBackground } from 'react-native'
 import React from 'react'
+
 
 
 // TODO 1: FLATLIST in Flash Offer view 
@@ -140,7 +142,13 @@ const deviceHeight = Dimensions.get('window').height;
 LogBox.ignoreLogs(['Remote debugger']);
 
 const HomeScreen = () => {
+  const navigation = useNavigation()
+
   return (
+
+    
+    
+
     // ROOT container
     <ScrollView>
     <View style={styles.container}>
@@ -223,13 +231,18 @@ const HomeScreen = () => {
     </View>  
     </ScrollView>
 
+
   )
 }
+
+
 
 export default HomeScreen
 
 const styles = StyleSheet.create({
   container:{
+
+
     paddingVertical: 30,
     paddingHorizontal: 10,
   },
@@ -352,4 +365,5 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginLeft: 100,
   },
+
 })
