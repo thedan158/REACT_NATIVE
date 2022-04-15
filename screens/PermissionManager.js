@@ -6,6 +6,8 @@ import Colors from '../assets/Colors'
 import { useNavigation } from '@react-navigation/core'
 
 
+
+
 const PermissionManager = () => {
   const navigation = useNavigation()
 
@@ -13,9 +15,7 @@ const PermissionManager = () => {
     <View>
       <Text style={styles.modalTitle}>Permission Manager</Text>
       <View style={styles.permission}>
-        <CustomCollapsible title="Tanhao" subTitle="This option will allow ... to ..... abcb xnxn x n
-xz nx znx nx nz x bzm xnz bm xnbzm xnzmx nz x
-zxn mbz nxm z nx mz  xz"/>
+        <CustomCollapsible title="Tanhao" subTitle="T"/>
         <CustomCollapsible title="Tanhao" subTitle="This option will allow ... to ..... abcb xnxn x n
 xz nx znx nx nz x bzm xnz bm xnbzm xnzmx nz x
 zxn mbz nxm z nx mz  xz"/>

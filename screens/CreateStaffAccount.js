@@ -43,6 +43,7 @@ const navigation = useNavigation();
                     onPress={() => {
                     setIsSecureEntry((prev) => !prev);
                     }}>
+                    
                     <Image source={isSecureEntry ? hidden : eye} style={{width:25, height:25}}/>
                     </TouchableOpacity>
                     }

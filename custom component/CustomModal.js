@@ -11,6 +11,8 @@ const CustomModal = ({visible, children}) => {
                     {children}
                 </View>
             </View>
+
+            
     </Modal>
   )
 }

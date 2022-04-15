@@ -2,7 +2,6 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View, Platform, SafeAreaView, Easing, Animated } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 import SplashScreen from './screens/SplashScreen';
@@ -103,14 +102,17 @@ export default function App() {
         gestureEnabled: true,
         gestureDirection: 'horizontal',
       }}>
-      <Stack.Screen name="RestaurantManagement" options={{headerShown: false}} component={RestaurantManagement} />
+      
+     
 
-      <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
+
+     <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
 
       <Stack.Screen options={{headerShown: false}} name="Signup" component={SignupScreen} />
       <Stack.Screen options={{headerShown: false}} name="Tab" component={tabBar}/>
 
       <Stack.Screen options={{headerShown: false}} name="Dashboard" component={Tab} />
+      <Stack.Screen name="RestaurantManagement" options={{headerShown: false}} component={RestaurantManagement} />
 
       <Stack.Screen name="CreateStaffAccount"  component={CreateStaffAccount} 
         options={{
@@ -120,7 +122,7 @@ export default function App() {
             open: config,
             close: closeConfig,
           },
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
           }}
       />
       <Stack.Screen name="PermissionManager"  component={PermissionManager} 
