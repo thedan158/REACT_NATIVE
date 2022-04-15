@@ -1,8 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, Platform, SafeAreaView, Easing, Animated } from 'react-native';
+import { StyleSheet, Text, View, Platform, SafeAreaView, Easing, Animated, LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 import SplashScreen from './screens/SplashScreen';
@@ -34,6 +33,7 @@ import StaffInformation from './screens/StaffInformation'
 
 
 const Stack = createStackNavigator();
+
 
 const config = {
   animation: 'spring',
@@ -94,6 +94,9 @@ const customTransition = {
   }
 }
 
+LogBox.ignoreLogs(['Remote debugger']); 
+
+
 
 export default function App() {
   return (
@@ -104,6 +107,10 @@ export default function App() {
         gestureDirection: 'horizontal',
       }}>
       <Stack.Screen name="RestaurantManagement" options={{headerShown: false}} component={RestaurantManagement} />
+
+
+
+     
 
       <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
 
@@ -160,7 +167,6 @@ export default function App() {
       <Stack.Screen options={{headerShown: false}} name="SelectedTable" component={SelectedTable} />
 
       
-
         
 
       </Stack.Navigator>
