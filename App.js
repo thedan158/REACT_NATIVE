@@ -2,7 +2,6 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View, Platform, SafeAreaView, Easing, Animated, LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 import AccountSettingScreen from './screens/AccountSettingScreen';
@@ -29,25 +28,87 @@ import RestaurantManagement from './screens/RestaurantManagement';
 import Tab from './custom component/TabForStaff'
 import tabBar from './custom component/TabForOwner'
 import RePasswordSuccess from './screens/RePasswordSuccess';
+import PermissionManager from './screens/PermissionManager';
+import StaffInformation from './screens/StaffInformation'
 
 
 
+const Stack = createStackNavigator();
 
-const Stack = createNativeStackNavigator();
-LogBox.ignoreLogs(['Remote debugger']);
+
+const config = {
+  animation: 'spring',
+  config: {
+    stiffness: 1000,
+    damping: 250,
+    mass: 3,
+    overshootClamping: true,
+    restDisplacementThreshold: 0.01,
+    restSpeedThreshold: 0.01,
+    
+  }
+}
+
+const closeConfig = {
+  animation: 'timing',
+  config: {
+    duration: 200,
+    easing: Easing.linear,
+    toValue:200
+  }
+}
+
+const customTransition = {
+  gestureEnabled: true,
+  gestureDirection: 'horizontal',
+  transitionSpec: {
+    open: TransitionSpecs.TransitionIOSSpec,
+    close: TransitionSpecs.TransitionIOSSpec,
+  },
+  cardStyleInterpolator: ({ current, next, layouts }) => {
+    return {
+      cardStyle: {
+        transform: [
+          {
+            translateX: current.progress.interpolate({
+              inputRange: [0, 1],
+              outputRange: [layouts.screen.width, 0],
+            })
+          },
+          {
+            rotate: current.progress.interpolate({
+              inputRange: [0, 1],
+              outputRange: ["180deg", "0deg"],
+            }),
+          },
+          {
+            scale: next ?
+              next.progress.interpolate({
+                inputRange: [0, 1],
+                outputRange: [1, 0.7],
+              }) : 1,
+          }
+        ]
+      },
+      opacity: current.opacity,
+    }
+  }
+}
+
+LogBox.ignoreLogs(['Remote debugger']); 
+
 
 
 export default function App() {
   return (
         <NavigationContainer>
-<<<<<<< HEAD
-      <Stack.Navigator>
-      <Stack.Screen options={{headerShown: false}} name="AccountSetting"  component={AccountSettingScreen}/>
-      <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} />
-=======
 
-
-      <Stack.Navigator >
+      
+      <Stack.Navigator screenOptions={{
+        gestureEnabled: true,
+        gestureDirection: 'horizontal',
+      }}>
+      <Stack.Screen name="RestaurantManagement" options={{headerShown: false}} component={RestaurantManagement} />
       <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
 
       <Stack.Screen options={{headerShown: false}} name="Signup" component={SignupScreen} />
@@ -55,13 +116,35 @@ export default function App() {
 
       <Stack.Screen options={{headerShown: false}} name="Dashboard" component={Tab} />
 
-
-      <Stack.Screen name="RestaurantManagement" options={{headerShown: false}} component={RestaurantManagement} />
-      <Stack.Screen name="CreateStaffAccount" options={{headerShown: false}} component={CreateStaffAccount} />
-
+      <Stack.Screen name="CreateStaffAccount"  component={CreateStaffAccount} 
+        options={{
+          
+        gestureDirection: 'vertical',
+          transitionSpec: {
+            open: config,
+            close: closeConfig,
+          },
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          }}
+      />
+      <Stack.Screen name="PermissionManager"  component={PermissionManager} 
+        options={{
+          headerShown: false,
+          gestureDirection: 'vertical',
+          transitionSpec: {
+            open: config,
+            close: closeConfig,
+          },
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          }}
+      />  
+     
+      <Stack.Screen name="StaffInformation" component={StaffInformation} options={{...customTransition}}/>
+      <Stack.Screen name="Home"  component={HomeScreen} options={{headerShown: false}} />
       
-
-
+      
+      
+      
       <Stack.Screen options={{headerShown: false}} name="ForgotPassword" component={ForgotPassword}/>
       <Stack.Screen options={{headerShown: false}} name="OTPsignup" component={OTPsignup}/>
       <Stack.Screen options={{headerShown: false}} name="OTPforgotpass" component={OTPforgotpass}/>
@@ -69,7 +152,7 @@ export default function App() {
       <Stack.Screen options={{headerShown: false}} name="RePasswordSuccess" component={RePasswordSuccess}/>
 
       <Stack.Screen options={{headerShown: false}} name="RestaurantInformation" component={RestaurantInformation}/>
->>>>>>> ac9af2e74d8b5107d71d539ee1e085d303da637b
+
       <Stack.Screen options={{headerShown: false}} name="Order" component={OrderScreen} />
 
 
@@ -85,7 +168,10 @@ export default function App() {
         
 
       </Stack.Navigator>
+   
+      
         </NavigationContainer>
+        
       
   );
 }

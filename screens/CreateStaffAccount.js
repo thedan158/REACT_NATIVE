@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text,TextInput, View,TouchableOpacity, ScrollView } from 'react-native'
+import {Image, StyleSheet, Text,TextInput, View,TouchableOpacity, ScrollView, Dimensions } from 'react-native'
 import React,{ useState } from 'react'
 import { useNavigation } from '@react-navigation/core'
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -7,86 +7,60 @@ import CustomTextInput from '../custom component/CustomTextInput';
 import eye from '../assets/icons/eye-green.png'
 import hidden from '../assets/icons/closed-eyes-green.png'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import Colors from '../assets/Colors';
+import HomeScreen from './HomeScreen';
+import LoginScreen from './LoginScreen';
+
+
 
 const CreateStaffAccount = () => {
 const [username, setUsername] = useState('');
 const [password, setPassword] = useState('');
 const [isSecureEntry, setIsSecureEntry] = useState(true);
-
-const navigation = useNavigation()
-
-
-// *Region for OnPress Login
-const handleLogin = () => {
-    navigation.navigate('Home')
-  }
-// *End Region
-
-
+const navigation = useNavigation();
   return (
-      <ScrollView>
-      <View style={styles.container}>
-    <View style={styles.view1}>
-    
-    
-    <Text style={styles.textPleaseRegister}>Create your staff account</Text>
-    
-    </View>
-    <View style={styles.view2}>
-    <View 
->
 
-     
-        <CustomTextInput
-        label='Username'
-        placeholder="Username"
-        value={username}
-        blurColor={'#4FA987'}
+<ScrollView>
 
-        onChangeText={text=>setUsername(text)}
-        />
-        
-
-    <CustomTextInput
-        label='Password'
-        placeholder="Password"
-        value={password}
-        onChangeText={text=>setPassword(text)}
-        secureTextEntry={isSecureEntry}
-        blurColor={'#4FA987'}
-        icon={
-              <TouchableOpacity
-                onPress={() => {
-                  setIsSecureEntry((prev) => !prev);
-                }}>
-                <Image source={isSecureEntry ? hidden : eye} style={{width:25, height:25}}>
-                </Image>
-              </TouchableOpacity>
-            }
-            iconPosition="right"
-
-        />
-
-      
-
-
-       
-
-       
-      
-</View>
-    
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-        onPress={handleLogin}
-        style={styles.button}>
-            <Text style={styles.buttonText}>Create</Text>
-        </TouchableOpacity>
-        </View>
-    
-    </View>
-    </View>
-    </ScrollView>
+                <Text style={styles.modalTitle}>Create your staff account</Text>
+                <View style={{marginTop:50, justifyContent:'center', alignItems:'center'}}>
+                <CustomTextInput
+                    label='Username'
+                    placeholder="Username"
+                    blurColor={Colors.secondary}
+                    value={username}
+                    onChangeText={text=>setUsername(text)}
+                />
+                <CustomTextInput
+                    label='Password'
+                    placeholder="Password"
+                    value={password}
+                    blurColor={Colors.secondary}
+                    onChangeText={text=>setPassword(text)}
+                    secureTextEntry={isSecureEntry}
+                    icon={
+                    <TouchableOpacity
+                    onPress={() => {
+                    setIsSecureEntry((prev) => !prev);
+                    }}>
+                    <Image source={isSecureEntry ? hidden : eye} style={{width:25, height:25}}/>
+                    </TouchableOpacity>
+                    }
+                    iconPosition="right"
+                />
+                </View>
+                <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                    onPress={() => {
+                    navigation.navigate('PermissionManager')
+                    }}
+                style={styles.button}>
+                    <Text style={styles.buttonText}>Create</Text>
+                </TouchableOpacity>
+                </View>
+               
+                </ScrollView>
+                
   )
 }
 
@@ -102,7 +76,7 @@ const styles = StyleSheet.create({
     inputContainer:{
         width: 300,
         height: 55,
-        backgroundColor: "white",
+        
         justifyContent:'center',
         alignItems:'flex-start',
         borderRadius:13,   
@@ -111,7 +85,7 @@ const styles = StyleSheet.create({
     },
 
     input:{
-        backgroundColor:'white',
+        
         paddingHorizontal:15,
         paddingVertical:10,
         borderRadius:10,
@@ -121,20 +95,20 @@ const styles = StyleSheet.create({
     buttonContainer:{
         justifyContent:'center',
         alignItems:'center',
-        marginTop:70,
+        marginTop:60,
     },
     button:{
         backgroundColor:'#4FA987',
-        width:'100%',
+        width:'80%',
         padding:15,
-        borderRadius:20,
+        borderRadius:30,
         justifyContent:'center',
         alignItems:'center',
         elevation:1,
         
     },
     buttonOutline:{
-        backgroundColor:'white',
+        
         marginTop:5,
         borderColor:'#4FA987',
         borderWidth:2,
@@ -193,7 +167,7 @@ const styles = StyleSheet.create({
     },
 
     view2:{
-        flex:0.9,
+        flex:1,
         marginTop:70
     },
 
@@ -208,12 +182,7 @@ const styles = StyleSheet.create({
         marginTop:20,
         justifyContent:'center'
     },
-    forgotPassword:{
-        color:'#FA4A0C',
-        fontWeight:'700',
-        fontSize:16,
-        marginTop:10
-    },
+    
     dropShadow: {
         shadowColor: '#171717',
         // shadowOffset: {width: 0, height: 3},
@@ -221,4 +190,12 @@ const styles = StyleSheet.create({
         // shadowRadius: 2,
         elevation:11
       },
+      modalTitle:{
+        fontSize:20,
+        fontWeight:'bold',
+        color:Colors.secondary,
+        textAlignVertical:'center',
+        marginTop:80,
+        textAlign:'center'     
+    },
 })
