@@ -22,7 +22,13 @@ const navigation = useNavigation();
 
 <ScrollView>
 
+
+                {/* Title */}
                 <Text style={styles.modalTitle}>Create your staff account</Text>
+
+
+
+                {/* Input section */}
                 <View style={{marginTop:50, justifyContent:'center', alignItems:'center'}}>
                 <CustomTextInput
                     label='Username'
@@ -49,6 +55,10 @@ const navigation = useNavigation();
                     }
                     iconPosition="right"
                 />
+
+
+
+                {/* Button section  */}
                 </View>
                 <View style={styles.buttonContainer}>
                 <TouchableOpacity
@@ -150,14 +160,6 @@ const styles = StyleSheet.create({
         fontWeight:'bold'
       },
 
-    logo:{
-        
-        height:270,
-        width:270,
-        position:'relative',
-        top:5
-     
-    },
 
     textView:{
         flex:0.12,

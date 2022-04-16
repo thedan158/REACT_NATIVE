@@ -387,6 +387,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     btnImagestyle:{
+        height:20,
+        width:20,
         left: 70,
     },
     btnBottomTabs:{

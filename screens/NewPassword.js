@@ -25,6 +25,8 @@ const handleConfirmNewPassword = () => {
   return (
       <ScrollView>
       <View style={styles.container}>
+
+      {/* Logo and title  */}
     <View style={styles.view1}>
     <View>
         <Image style={styles.logo} source={logo}></Image>
@@ -34,6 +36,8 @@ const handleConfirmNewPassword = () => {
     </View>
     
     </View>
+
+    {/* Input section  */}
     <View style={styles.view2}>
     <View 
 >
@@ -72,10 +76,11 @@ const handleConfirmNewPassword = () => {
               </TouchableOpacity>
             }
             iconPosition="right"
-    />
-        
+    />      
 </View>
     
+
+    {/* Button reset password  */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity
         onPress={handleConfirmNewPassword}

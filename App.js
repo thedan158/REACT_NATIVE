@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, Platform, SafeAreaView, Easing, Animated } from 'react-native';
+import { StyleSheet, Text, View, Platform, SafeAreaView, Easing, Animated, LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
@@ -33,6 +33,7 @@ import StaffInformation from './screens/StaffInformation'
 
 
 const Stack = createStackNavigator();
+
 
 const config = {
   animation: 'spring',
@@ -93,6 +94,9 @@ const customTransition = {
   }
 }
 
+LogBox.ignoreLogs(['Remote debugger']); 
+
+
 
 export default function App() {
   return (
@@ -102,21 +106,19 @@ export default function App() {
         gestureEnabled: true,
         gestureDirection: 'horizontal',
       }}>
-      
-     
+      <Stack.Screen name="RestaurantManagement" options={{headerShown: false}} component={RestaurantManagement} />
 
+      <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
 
-     <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
 
       <Stack.Screen options={{headerShown: false}} name="Signup" component={SignupScreen} />
       <Stack.Screen options={{headerShown: false}} name="Tab" component={tabBar}/>
 
       <Stack.Screen options={{headerShown: false}} name="Dashboard" component={Tab} />
-      <Stack.Screen name="RestaurantManagement" options={{headerShown: false}} component={RestaurantManagement} />
 
       <Stack.Screen name="CreateStaffAccount"  component={CreateStaffAccount} 
         options={{
-          
+          headerShown: false,
         gestureDirection: 'vertical',
           transitionSpec: {
             open: config,
@@ -137,7 +139,7 @@ export default function App() {
           }}
       />  
      
-      <Stack.Screen name="StaffInformation" component={StaffInformation} options={{...customTransition}}/>
+      <Stack.Screen name="StaffInformation" component={StaffInformation} options={{...customTransition, headerShown:false}}/>
       <Stack.Screen name="Home"  component={HomeScreen} options={{headerShown: false}} />
       
       
@@ -162,7 +164,6 @@ export default function App() {
       <Stack.Screen options={{headerShown: false}} name="SelectedTable" component={SelectedTable} />
 
       
-
         
 
       </Stack.Navigator>

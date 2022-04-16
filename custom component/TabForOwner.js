@@ -113,7 +113,7 @@ const Tabs = () => {
 
               <Tab.Screen
                 name="abc"
-                component={HomeScreen}
+                component={OrderScreen}
                 options={{
                     headerShown:false,
                     tabBarIcon: ({ focused }) => (

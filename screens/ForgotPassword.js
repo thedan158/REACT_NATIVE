@@ -21,19 +21,26 @@ const handleForgotPassword = () => {
   return (
       <ScrollView>
       <View style={styles.container}>
+
+        {/* Logo  and title*/}
     <View style={styles.view1}>
     <View>
         <Image style={styles.logo} source={logo}></Image>
     </View>
+       
     <View >
     <Text style={styles.textPleaseRegister}>Password Recovery</Text>
     </View>
     </View>
+
+
     <View style={styles.view2}>
-    <View 
->
+        {/* Subtitle  */}
+    <View>
 <Text style={styles.subtitle}>Please enter your mobile number to recover your password</Text>
       
+
+      {/* Input section  */}
         <Text style={styles.textLabel}>Mobile number</Text>
 
         <View style={styles.inputContainer}>
@@ -49,6 +56,7 @@ const handleForgotPassword = () => {
       </View>
 </View>
 
+        {/* Button  */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity
         onPress={handleForgotPassword}

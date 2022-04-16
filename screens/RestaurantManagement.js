@@ -14,10 +14,14 @@ const RestaurantManagement = () => {
 
   return (
       <View style={{flex:1}}>
+
+      {/* Title  */}
       <View style={styles.viewText}>
           <Text style={styles.text}>Your Restaurant</Text>
       </View>
       
+
+      {/* Top tab bar  */}
     <Tab.Navigator screenOptions={{
         
         tabBarLabelStyle: { fontSize: 14, fontWeight:'bold' },

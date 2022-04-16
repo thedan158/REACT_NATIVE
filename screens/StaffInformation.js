@@ -7,9 +7,12 @@ const StaffInformation = () => {
   return (
     <View style={styles.container}>
     
+    {/* Image  */}
     <View style={styles.image}>  
       <Image source={VKH} style={styles.avatar}/> 
     </View> 
+
+    {/* Staff's profile  */}
     <View style={styles.profile}>
       <Text style={styles.title}>Name</Text>
       <Text style={styles.information}>Vu Khanh Hoang</Text>
@@ -36,9 +39,10 @@ export default StaffInformation
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    
     overflow:'hidden',
-    backgroundColor:'white'
+    backgroundColor:'white',
+    justifyContent:'center',
+    top:-20
   },
   image:{
     alignItems:'center'
@@ -50,7 +54,7 @@ const styles = StyleSheet.create({
     width:150,
     borderRadius:100,
     
-    marginTop:50
+ 
     
     
   },
