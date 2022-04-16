@@ -4,6 +4,7 @@ import React from 'react'
 
 // TODO 1: FLATLIST in Flash Offer view 
 // TODO 2: Image Tag in Dicount Offers with text
+// TODO 3: Happy deals section view
 
 let DataBestSeller = [
   {
