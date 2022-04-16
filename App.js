@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Platform, SafeAreaView, Easing, Animated, LogBo
 import { NavigationContainer } from '@react-navigation/native';
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
+import AccountSettingScreen from './screens/AccountSettingScreen';
 import SplashScreen from './screens/SplashScreen';
 import SignupScreen from './screens/SignupScreen';
 
@@ -101,17 +102,13 @@ LogBox.ignoreLogs(['Remote debugger']);
 export default function App() {
   return (
         <NavigationContainer>
+
       
       <Stack.Navigator screenOptions={{
         gestureEnabled: true,
         gestureDirection: 'horizontal',
       }}>
       <Stack.Screen name="RestaurantManagement" options={{headerShown: false}} component={RestaurantManagement} />
-
-
-
-     
-
       <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
 
       <Stack.Screen options={{headerShown: false}} name="Signup" component={SignupScreen} />
@@ -155,6 +152,7 @@ export default function App() {
       <Stack.Screen options={{headerShown: false}} name="RePasswordSuccess" component={RePasswordSuccess}/>
 
       <Stack.Screen options={{headerShown: false}} name="RestaurantInformation" component={RestaurantInformation}/>
+
       <Stack.Screen options={{headerShown: false}} name="Order" component={OrderScreen} />
 
 
