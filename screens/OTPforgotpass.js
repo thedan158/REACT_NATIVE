@@ -16,6 +16,7 @@ useEffect(()=>{
     textInput.focus()
 },[])
 
+    // Countdown 60s function
 React.useEffect(()=>{
     let interval = setInterval(()=>{
         setTimer(prevTimer => {
@@ -30,16 +31,18 @@ React.useEffect(()=>{
     return () => clearInterval(interval)
 }, [])
 
-// *Region for OnPress Login
+
 const handleOTP = () => {
     navigation.navigate('NewPassword')
   }
-// *End Region
+
 
 
   return (
       <ScrollView>
       <View style={styles.container}>
+
+      {/* Logo and title  */}
     <View style={styles.view1}>
     <View>
         <Image style={styles.logo} source={logo}></Image>
@@ -48,15 +51,15 @@ const handleOTP = () => {
     <Text style={styles.textPleaseRegister}>OTP Authentication</Text>
     </View>
     </View>
+
+   
     <View style={styles.view2}>
-    <View 
->
+     {/* Subtitle  */}
+    <View>
 <Text style={styles.subtitle}>An authentication code has been send to your phone number</Text>
       
-
-
-        
-<View >
+    {/* Number input section  */}
+    <View >
        
         <TextInput
         ref={(input)=>textInput=input}
@@ -90,13 +93,9 @@ const handleOTP = () => {
         }
         </View>
     </View> 
-
-
-
-
-        
+ 
        
-      
+      {/* Resend code */}
       <View style={styles.countDown}>
       <Text style={styles.subtitle2}>Didn't receive code?</Text>
       <TouchableOpacity 
@@ -108,6 +107,7 @@ const handleOTP = () => {
         </View>
 </View>
 
+        {/* Button section  */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity
         

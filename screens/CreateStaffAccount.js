@@ -22,7 +22,13 @@ const navigation = useNavigation();
 
 <ScrollView>
 
+
+                {/* Title */}
                 <Text style={styles.modalTitle}>Create your staff account</Text>
+
+
+
+                {/* Input section */}
                 <View style={{marginTop:50, justifyContent:'center', alignItems:'center'}}>
                 <CustomTextInput
                     label='Username'
@@ -43,11 +49,16 @@ const navigation = useNavigation();
                     onPress={() => {
                     setIsSecureEntry((prev) => !prev);
                     }}>
+                    
                     <Image source={isSecureEntry ? hidden : eye} style={{width:25, height:25}}/>
                     </TouchableOpacity>
                     }
                     iconPosition="right"
                 />
+
+
+
+                {/* Button section  */}
                 </View>
                 <View style={styles.buttonContainer}>
                 <TouchableOpacity
@@ -149,14 +160,6 @@ const styles = StyleSheet.create({
         fontWeight:'bold'
       },
 
-    logo:{
-        
-        height:270,
-        width:270,
-        position:'relative',
-        top:5
-     
-    },
 
     textView:{
         flex:0.12,

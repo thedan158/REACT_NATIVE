@@ -153,7 +153,7 @@ const Tabs = () => {
 
             <Tab.Screen
                 name="Search"
-                component={RestaurantManagement}
+                component={OrderScreen}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Image

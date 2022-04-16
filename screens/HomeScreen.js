@@ -143,7 +143,7 @@ const deviceHeight = Dimensions.get('window').height;
 LogBox.ignoreLogs(['Remote debugger']);
 
 const HomeScreen = () => {
-  const navigation = useNavigation()
+  
 
   return (
 

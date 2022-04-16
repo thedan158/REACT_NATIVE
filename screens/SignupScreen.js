@@ -29,7 +29,7 @@ const handleSignup = () => {
     <ScrollView>
     
     <View style={styles.container}>
-    {/* Logo */}
+    {/* Logo and title */}
     <View style={styles.view1}>
         <View>
             <Image style={styles.logo} source={logo}></Image>
@@ -40,7 +40,7 @@ const handleSignup = () => {
      </View>
 
      
-
+        {/* Input section  */}
     <View style={styles.view2}>
 
     <View style={{marginTop:-15}}>
@@ -118,6 +118,8 @@ const handleSignup = () => {
             <Text style={styles.buttonText}>Sign-up</Text>
         </TouchableOpacity>
         </View>
+
+        {/* Login  */}
         <View style={styles.registerText}>
     <Text style={styles.ownerText}>Already an Owner? </Text>
 

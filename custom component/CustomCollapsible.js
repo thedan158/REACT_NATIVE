@@ -1,21 +1,29 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image, Switch } from 'react-native'
-import React, {Component} from 'react'
+import React, {Children, Component} from 'react'
+import { useState } from 'react';
 import Collapsible from 'react-native-collapsible'
 import { ScrollView } from 'react-native-gesture-handler';
 import question from '../assets/icons/question.png'
 
+
+
 export class CustomCollapsible extends Component  {
+    
     state = {
-        collapsed:true
+        collapsed:true,
+        switchValue: false,
     };
 
     toggleExpanded = () => {
         this.setState({collapsed: !this.state.collapsed})
     };
+    
+    
+    
 
   render() {
       const {title, subTitle} =this.props;
-    
+      
     return (
         <View style={styles.collapsing}>
            
@@ -24,7 +32,12 @@ export class CustomCollapsible extends Component  {
                     <View style={styles.header}>
                         <Text style={styles.headerText}>{title}</Text>
                         <Image style={styles.question} source={question}/>
-                        <Switch style={styles.switch}/>
+                        <View style={styles.switchBox}>
+                        <Switch
+                            style={styles.switch}
+                            value={this.state.switchValue} 
+                            onValueChange={(switchValue)=>this.setState({switchValue})}/>
+                        </View>
                     </View>
                 </TouchableOpacity>
 
@@ -72,5 +85,9 @@ const styles = StyleSheet.create({
         width:18,
         alignSelf:'center',
         margin:5
+    },
+    switch:{
+        position:'relative',
+        left:200
     }
 })
