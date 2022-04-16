@@ -10,6 +10,7 @@ const CustomTextInput = ({
     value,
     label,
     error,
+    blurColor,
     ...props
   }) => {
   
@@ -31,7 +32,7 @@ const CustomTextInput = ({
     }
 
     if (focused) {
-      return '#FA4A0C';
+      return blurColor;
     } else {
       return 'white';
     }
@@ -72,13 +73,19 @@ export default CustomTextInput
 
 const styles = StyleSheet.create({
     wrapper: {
-        // height: 42,
-        
-        // borderRadius: 4,
+      
         paddingHorizontal: 15,
         marginTop:15,
         
+        shadowColor:'#000000',
+        shadowOffset: {
+          width: 0,
+          height: 1,
+        },
+        shadowOpacity: 0.20,
+        shadowRadius: 1.41,
         
+        elevation: 2,
 
         width: 300,
         height: 55,

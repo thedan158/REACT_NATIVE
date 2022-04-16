@@ -10,7 +10,8 @@ import SplashScreen from './screens/SplashScreen';
 import SignupScreen from './screens/SignupScreen';
 
 import ForgotPassword from './screens/ForgotPassword';
-import OTP from './screens/OTP';
+import OTPsignup from './screens/OTPsignup';
+import OTPforgotpass from './screens/OTPforgotpass';
 import NewPassword from './screens/NewPassword';
 import RestaurantInformation from './screens/RestaurantInformation';
 
@@ -22,6 +23,15 @@ import DesertMenuScreen from './screens/DesertMenuScreen';
 import SelectedTable from './screens/SelectedTableScreen';
 
 
+import { createStackNavigator, TransitionSpecs, HeaderStyleInterpolators, CardStyleInterpolators } from "@react-navigation/stack";
+import CreateStaffAccount from './screens/CreateStaffAccount';
+import RestaurantManagement from './screens/RestaurantManagement';
+import Tab from './custom component/TabForStaff'
+import tabBar from './custom component/TabForOwner'
+import RePasswordSuccess from './screens/RePasswordSuccess';
+
+
+
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(['Remote debugger']);
@@ -30,18 +40,50 @@ LogBox.ignoreLogs(['Remote debugger']);
 export default function App() {
   return (
         <NavigationContainer>
+<<<<<<< HEAD
       <Stack.Navigator>
       <Stack.Screen options={{headerShown: false}} name="AccountSetting"  component={AccountSettingScreen}/>
       <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} />
+=======
+
+
+      <Stack.Navigator >
+      <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
+
+      <Stack.Screen options={{headerShown: false}} name="Signup" component={SignupScreen} />
+      <Stack.Screen options={{headerShown: false}} name="Tab" component={tabBar}/>
+
+      <Stack.Screen options={{headerShown: false}} name="Dashboard" component={Tab} />
+
+
+      <Stack.Screen name="RestaurantManagement" options={{headerShown: false}} component={RestaurantManagement} />
+      <Stack.Screen name="CreateStaffAccount" options={{headerShown: false}} component={CreateStaffAccount} />
+
+      
+
+
+      <Stack.Screen options={{headerShown: false}} name="ForgotPassword" component={ForgotPassword}/>
+      <Stack.Screen options={{headerShown: false}} name="OTPsignup" component={OTPsignup}/>
+      <Stack.Screen options={{headerShown: false}} name="OTPforgotpass" component={OTPforgotpass}/>
+      <Stack.Screen options={{headerShown: false}} name="NewPassword" component={NewPassword}/>
+      <Stack.Screen options={{headerShown: false}} name="RePasswordSuccess" component={RePasswordSuccess}/>
+
+      <Stack.Screen options={{headerShown: false}} name="RestaurantInformation" component={RestaurantInformation}/>
+>>>>>>> ac9af2e74d8b5107d71d539ee1e085d303da637b
       <Stack.Screen options={{headerShown: false}} name="Order" component={OrderScreen} />
+
+
+
+
+      <Stack.Screen options={{headerShown: false}} name="StarterMenu" component={StarterMenuScreen} />
+      <Stack.Screen options={{headerShown: false}} name="MainMenu" component={MainCourseMenuScreen} />
+      <Stack.Screen options={{headerShown: false}} name="DrinkMenu" component={DrinkMenuScreen} />
+      <Stack.Screen options={{headerShown: false}} name="DesertMenu" component={DesertMenuScreen} />
+      <Stack.Screen options={{headerShown: false}} name="SelectedTable" component={SelectedTable} />
+
+      
         
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen options={{headerShown: false}} name="StarterMenu" component={StarterMenuScreen} />
-        <Stack.Screen options={{headerShown: false}} name="MainMenu" component={MainCourseMenuScreen} />
-        <Stack.Screen options={{headerShown: false}} name="DrinkMenu" component={DrinkMenuScreen} />
-        <Stack.Screen options={{headerShown: false}} name="DesertMenu" component={DesertMenuScreen} />
-        <Stack.Screen options={{headerShown: false}} name="SelectedTable" component={SelectedTable} />
-        
+
       </Stack.Navigator>
         </NavigationContainer>
       

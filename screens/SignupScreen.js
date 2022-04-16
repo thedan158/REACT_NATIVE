@@ -4,10 +4,10 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/core'
 import logo from '../assets/images/logo_app.png'
 import { TextInput } from 'react-native-gesture-handler'
-import CustomTextInput from '../component/CustomTextInput'
+import CustomTextInput from '../custom component/CustomTextInput'
 import eye from '../assets/icons/eye.png'
 import hidden from '../assets/icons/close-eye.png'
-
+import Colors from '../assets/Colors'
 
 
 const SignupScreen = () => {
@@ -22,7 +22,7 @@ const SignupScreen = () => {
 
 // *Region for OnPress Signup
 const handleSignup = () => {
-    navigation.navigate('OTP')
+    navigation.navigate('OTPsignup')
   }
   return (
     
@@ -47,6 +47,7 @@ const handleSignup = () => {
     {/* Full name input */}
     
         <CustomTextInput 
+        blurColor={Colors.primary}
          value={fullName}
         onChangeText={text=>setFullName(text)} 
         placeholder='Full Name'/>
@@ -55,6 +56,7 @@ const handleSignup = () => {
     {/* Mobile number input */}
     <View style={{marginTop:-15}}>
     <CustomTextInput 
+    blurColor={Colors.primary}
          value={phoneNumber}
         onChangeText={text=>setPhoneNumber(text)} 
         keyboardType='decimal-pad'
@@ -63,6 +65,7 @@ const handleSignup = () => {
     {/* Password */}
     <View style={{marginTop:-15}}>
     <CustomTextInput 
+    blurColor={Colors.primary}
          value={password}
         onChangeText={text=>setPassword(text)} 
         placeholder='Password'
@@ -82,7 +85,7 @@ const handleSignup = () => {
     {/* Confirm password */}
     <View style={{marginTop:-15}}>
     <CustomTextInput 
-        
+        blurColor={Colors.primary}
          value={confirmPassword}
         onChangeText={text=>setConfirmPassword(text)} 
         placeholder='Confirm Password'
