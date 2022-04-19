@@ -57,6 +57,7 @@ const handleSignup = () => {
         </View>
      </View>
 
+    {/* Pick image  */}
      <TouchableOpacity 
         onPress={PickImage}>
      <View style={styles.pickLogo}>
@@ -77,7 +78,7 @@ const handleSignup = () => {
         </TouchableOpacity>
         
      
-
+        {/* Input section  */}
     <View style={styles.view2}>
 
     <View style={{marginTop:-15}}>
@@ -90,7 +91,7 @@ const handleSignup = () => {
         placeholder='Name of Restaurant'/>
     </View>
 
-    {/* Mobile number input */}
+    {/* Address input */}
     <View style={{marginTop:-15}}>
     <CustomTextInput 
     blurColor={Colors.primary}
@@ -98,7 +99,7 @@ const handleSignup = () => {
         onChangeText={text=>setAddress(text)} 
         placeholder='Address'/>
     </View>
-    {/* Password */}
+    {/* Hotline */}
     <View style={{marginTop:-15}}>
     <CustomTextInput 
     blurColor={Colors.primary}
@@ -118,7 +119,7 @@ const handleSignup = () => {
     
 
     
-    {/* Sign-up button */}
+    {/* Button */}
     <View style={styles.buttonContainer}>
         <TouchableOpacity
         onPress={handleSignup}

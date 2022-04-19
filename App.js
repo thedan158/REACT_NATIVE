@@ -108,8 +108,15 @@ export default function App() {
         gestureEnabled: true,
         gestureDirection: 'horizontal',
       }}>
+<<<<<<< HEAD
       <Stack.Screen name="Home"  component={HomeScreen} options={{headerShown: false}} />
       <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
+=======
+     
+
+      <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
+
+>>>>>>> c91d0d8d8bfe7bc9a7b0aed91dba754c2e1f8ed9
       <Stack.Screen name="RestaurantManagement" options={{headerShown: false}} component={RestaurantManagement} />
       <Stack.Screen options={{headerShown: false}} name="Signup" component={SignupScreen} />
       <Stack.Screen options={{headerShown: false}} name="Tab" component={tabBar}/>
@@ -118,13 +125,13 @@ export default function App() {
 
       <Stack.Screen name="CreateStaffAccount"  component={CreateStaffAccount} 
         options={{
-          
+          headerShown: false,
         gestureDirection: 'vertical',
           transitionSpec: {
             open: config,
             close: closeConfig,
           },
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
           }}
       />
       <Stack.Screen name="PermissionManager"  component={PermissionManager} 
@@ -139,8 +146,13 @@ export default function App() {
           }}
       />  
      
+<<<<<<< HEAD
       <Stack.Screen name="StaffInformation" component={StaffInformation} options={{...customTransition}}/>
       
+=======
+      <Stack.Screen name="StaffInformation" component={StaffInformation} options={{...customTransition, headerShown:false}}/>
+      <Stack.Screen name="Home"  component={HomeScreen} options={{headerShown: false}} />
+>>>>>>> c91d0d8d8bfe7bc9a7b0aed91dba754c2e1f8ed9
       
       
       

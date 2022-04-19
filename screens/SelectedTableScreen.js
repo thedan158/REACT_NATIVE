@@ -63,7 +63,7 @@ class FlatlistItem extends Component {
         return(
             <View>
             
-            <TouchableOpacity style={styles.flatlistitemStyle}>
+            <TouchableOpacity style={styles.flatlistitemStyle} >
                 <View>
                     <Image source={this.props.item.imgSourceEmpty}  style={styles.imgItemFlatlist}/>
                     <Text style={styles.txtItemFlatlist}>{this.props.item.name}</Text>
@@ -117,7 +117,6 @@ const SelectedTable = () => {
                 nestedScrollEnabled
                 numColumns={2}
             />
-            <ModalTableSelect ref={'ModalTable'} parentFlatlist={this}/>
         </View>
     </ScrollView>
     

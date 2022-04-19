@@ -26,6 +26,8 @@ const handleLogin = () => {
   return (
       <ScrollView>
       <View style={styles.container}>
+
+      {/* Logo and title  */}
     <View style={styles.view1}>
     <View>
         <Image style={styles.logo} source={logo}></Image>
@@ -34,6 +36,8 @@ const handleLogin = () => {
     <Text style={styles.textPleaseRegister}>Login to your account</Text>
     </View>
     </View>
+
+    {/* Input section  */}
     <View style={styles.view2}>
     <View 
 >
@@ -66,20 +70,17 @@ const handleLogin = () => {
             }
             iconPosition="right"
 
-        />
-
-      
-
-
-       
-
-       
-      
+        />       
 </View>
+
+
+            {/* Forgot password  */}
     <TouchableOpacity 
         onPress={() => navigation.navigate('ForgotPassword')}>
             <Text style={styles.forgotPassword}>Forgot password?</Text>
         </TouchableOpacity>
+
+            {/* Login button section  */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity
         onPress={handleLogin}
@@ -87,6 +88,8 @@ const handleLogin = () => {
             <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         </View>
+
+        {/* Register section  */}
     <View style={styles.registerText}>
     <Text style={styles.newOwnerText}>You're a new Owner? </Text>
 

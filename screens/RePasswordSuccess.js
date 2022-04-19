@@ -15,6 +15,8 @@ const handleRePassword = () => {
   return (
     <ScrollView>
       <View style={styles.container}>
+
+      {/* Logo and title  */}
     <View style={styles.view1}>
     <View>
         <Image style={styles.logo} source={logo}></Image>
@@ -23,6 +25,8 @@ const handleRePassword = () => {
     <Text style={styles.textPleaseRegister}>Password Reset!</Text>
     </View>
     </View>
+
+    {/* Notification  */}
     <View style={styles.view2}>
     <View 
 >
