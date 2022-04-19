@@ -108,9 +108,9 @@ export default function App() {
         gestureEnabled: true,
         gestureDirection: 'horizontal',
       }}>
-      <Stack.Screen name="RestaurantManagement" options={{headerShown: false}} component={RestaurantManagement} />
+      <Stack.Screen name="Home"  component={HomeScreen} options={{headerShown: false}} />
       <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
-
+      <Stack.Screen name="RestaurantManagement" options={{headerShown: false}} component={RestaurantManagement} />
       <Stack.Screen options={{headerShown: false}} name="Signup" component={SignupScreen} />
       <Stack.Screen options={{headerShown: false}} name="Tab" component={tabBar}/>
 
@@ -140,7 +140,7 @@ export default function App() {
       />  
      
       <Stack.Screen name="StaffInformation" component={StaffInformation} options={{...customTransition}}/>
-      <Stack.Screen name="Home"  component={HomeScreen} options={{headerShown: false}} />
+      
       
       
       

@@ -1,7 +1,6 @@
 
-import { StyleSheet, Dimensions, TouchableOpacity, ScrollView, Text, View, Image, LogBox, FlatList, ImageBackground } from 'react-native'
+import { StyleSheet, Dimensions, TouchableOpacity, ScrollView, Text, View, Image, LogBox, FlatList, ImageBackground, useNavigation } from 'react-native'
 import React from 'react'
-
 
 
 // TODO 1: FLATLIST in Flash Offer view 
@@ -47,6 +46,17 @@ let DataDiscountOffer = [
   },
   {
     id: 2,
+    name: 'Fried rice',
+    type: 'VietNam, No1 on Earth server',
+    price: 10.00,
+    discount: 40,
+    starReview: '5.0',
+    detail: 'Hoooooolyyyyyyyyyyy ssssssssssssssss asdgfasbo adsgasjna',
+    numDish: 100,
+    imgSource: require('../assets/images/fried-rice-chicken-prepared-served-260nw-1043177890.png'),
+  },
+  {
+    id: 3,
     name: 'Fried rice',
     type: 'VietNam, No1 on Earth server',
     price: 10.00,
@@ -143,7 +153,7 @@ const deviceHeight = Dimensions.get('window').height;
 LogBox.ignoreLogs(['Remote debugger']);
 
 const HomeScreen = () => {
-  const navigation = useNavigation()
+  
 
   return (
 
@@ -242,8 +252,7 @@ export default HomeScreen
 
 const styles = StyleSheet.create({
   container:{
-
-
+    marginBottom: 50,
     paddingVertical: 30,
     paddingHorizontal: 10,
   },
