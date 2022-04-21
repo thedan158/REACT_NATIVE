@@ -114,40 +114,42 @@ const styles = StyleSheet.create({
         fontWeight:'normal'
     },
     
-      view1:{
-          
-          justifyContent:'center',
-          alignItems:'center'
-      },
-    
-      textPleaseRegister:{
-         
-        position:'relative',
-        top:-30,
-        fontSize:20,
-        fontWeight:'bold'
-      },
-
-    logo:{
-        
-        height:270,
-        width:270,
-        position:'relative',
-        top:5
-     
+    view1:{
+        margin:20,
+        justifyContent:'center',
+        alignItems:'center'
+    },
+  
+    textPleaseRegister:{
+       
+      position:'relative',
+      top:10,
+      fontSize:20,
+      fontWeight:'bold'
     },
 
-    textView:{
-        flex:0.12,
-        flexDirection:'row',
-        backgroundColor:'white',   
-        borderBottomLeftRadius: 50,
-        borderBottomRightRadius: 50,
-    },
+  logo:{
+      
+      height:160,
+      width:170,
+      position:'relative',
+      top:5
+   
+  },
 
-    view2:{
-        flex:0.9
-    },
+  textView:{
+      flex:0.12,
+      flexDirection:'row',
+      backgroundColor:'white',   
+      borderBottomLeftRadius: 50,
+      borderBottomRightRadius: 50,
+  },
+
+  view2:{
+      flex:0.9,
+      marginTop:20
+  },
+
 
     textLabel:{
         fontSize:15,

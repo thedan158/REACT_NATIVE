@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
 
     },
       view1:{
-          
+          margin:20,
           justifyContent:'center',
           alignItems:'center'
       },
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
         flexDirection:'column',
         alignItems:'center',
         justifyContent:'center',
-        marginTop:10
+        marginTop:20
     },
     view3:{
        
@@ -193,15 +193,15 @@ const styles = StyleSheet.create({
       textPleaseRegister:{
          
         position:'relative',
-        top:-30,
+        top:10,
         fontSize:20,
         fontWeight:'bold'
       },
 
     logo:{
         
-        height:270,
-        width:270,
+        height:160,
+        width:170,
         position:'relative',
         top:5
      
@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#F2F2F2',
         flex:1,
         alignSelf:'center',
-        marginTop:-5,
+        marginTop:5,
         justifyContent:'space-evenly',
         alignItems:'center',
         borderColor:'black',

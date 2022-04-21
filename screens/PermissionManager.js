@@ -42,7 +42,8 @@ zxn mbz nxm z nx mz  xz"/>
           Congratulations registration was successful
         </Text>
         <TouchableOpacity
-        onPress={() => navigation.navigate('RestaurantManagement')}
+        onPress={() => {navigation.navigate('RestaurantManagement'); setVisible(false)} }
+        
         style={styles.button}>
             <Text style={styles.buttonText}>OK</Text>
         </TouchableOpacity>
