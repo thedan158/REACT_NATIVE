@@ -217,6 +217,7 @@ const HomeScreen = () => {
             return(
               <FlatlistDiscountOffer item={item} index={index}/>
             )
+            
           }}
           keyExtractor = {item => item.id}
           />
@@ -270,6 +271,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginHorizontal: 5,
     elevation: 0,
+
+
+    
+
+
   },
   containerDiscountOffersItem:{
     width: 352.96, 

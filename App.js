@@ -2,11 +2,13 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View, Platform, SafeAreaView, Easing, Animated, LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import LottieView from 'lottie-react-native';
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 import AccountSettingScreen from './screens/AccountSettingScreen';
 import SplashScreen from './screens/SplashScreen';
 import SignupScreen from './screens/SignupScreen';
+import OnBoardingScreen from './screens/OnBoardingScreen'
 
 import ForgotPassword from './screens/ForgotPassword';
 import OTPsignup from './screens/OTPsignup';
@@ -35,7 +37,7 @@ import StaffInformation from './screens/StaffInformation'
 
 const Stack = createStackNavigator();
 
-
+// animation function
 const config = {
   animation: 'spring',
   config: {
@@ -94,6 +96,7 @@ const customTransition = {
     }
   }
 }
+// end animation function
 
 LogBox.ignoreLogs(['Remote debugger']); 
 
@@ -108,7 +111,11 @@ export default function App() {
         gestureEnabled: true,
         gestureDirection: 'horizontal',
       }}>
-     
+
+      <Stack.Screen options={{headerShown: false}} name="SplashScreen" component={SplashScreen} />
+      <Stack.Screen options={{headerShown: false}} name="OnBoardingScreen" component={OnBoardingScreen} />
+
+
 
       <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
 

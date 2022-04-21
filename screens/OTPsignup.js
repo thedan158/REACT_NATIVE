@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     },
     
       view1:{
-          
+          margin:20,
           justifyContent:'center',
           alignItems:'center'
       },
@@ -189,15 +189,15 @@ const styles = StyleSheet.create({
       textPleaseRegister:{
          
         position:'relative',
-        top:-30,
+        top:10,
         fontSize:20,
         fontWeight:'bold'
       },
 
     logo:{
         
-        height:270,
-        width:270,
+        height:160,
+        width:170,
         position:'relative',
         top:5
      
@@ -212,7 +212,8 @@ const styles = StyleSheet.create({
     },
 
     view2:{
-        flex:0.9
+        flex:0.9,
+        marginTop:20
     },
 
     textLabel:{

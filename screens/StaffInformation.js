@@ -39,10 +39,9 @@ export default StaffInformation
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    overflow:'hidden',
     backgroundColor:'white',
     justifyContent:'center',
-    top:-20
+    
   },
   image:{
     alignItems:'center'

@@ -32,11 +32,9 @@ const ModalPopup = ({visible, children}) => {
 const StaffManagement = () => {
     const Tab = createMaterialTopTabNavigator();
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [isSecureEntry, setIsSecureEntry] = useState(true);
+    
     const navigation = useNavigation()
-    const [visible, setVisible] = React.useState(false);
+    
   return (
       
     <ScrollView style={styles.container}>
