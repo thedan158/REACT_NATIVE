@@ -30,8 +30,8 @@ import tabBar from './custom component/TabForOwner'
 import RePasswordSuccess from './screens/RePasswordSuccess';
 import PermissionManager from './screens/PermissionManager';
 import StaffInformation from './screens/StaffInformation'
-
-
+import HomeScreen2nd from './screens/HomeScreen2nd'
+import MenuScreen from './screens/MenuScreen'
 
 const Stack = createStackNavigator();
 
@@ -108,6 +108,9 @@ export default function App() {
         gestureEnabled: true,
         gestureDirection: 'horizontal',
       }}>
+
+        <Stack.Screen name="HomeScreen2nd" options={{headerShown: false}} component={HomeScreen2nd} />
+        <Stack.Screen name="MenuScreen" options={{headerShown: false}} component={MenuScreen} />
       <Stack.Screen name="RestaurantManagement" options={{headerShown: false}} component={RestaurantManagement} />
       <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
 
