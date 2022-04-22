@@ -29,7 +29,7 @@ const handleSignup = () => {
     <ScrollView>
     
     <View style={styles.container}>
-    {/* Logo */}
+    {/* Logo and title */}
     <View style={styles.view1}>
         <View>
             <Image style={styles.logo} source={logo}></Image>
@@ -40,7 +40,7 @@ const handleSignup = () => {
      </View>
 
      
-
+        {/* Input section  */}
     <View style={styles.view2}>
 
     <View style={{marginTop:-15}}>
@@ -118,6 +118,8 @@ const handleSignup = () => {
             <Text style={styles.buttonText}>Sign-up</Text>
         </TouchableOpacity>
         </View>
+
+        {/* Login  */}
         <View style={styles.registerText}>
     <Text style={styles.ownerText}>Already an Owner? </Text>
 
@@ -166,13 +168,13 @@ const styles = StyleSheet.create({
 
     },
       view1:{
-          
+          margin:20,
           justifyContent:'center',
           alignItems:'center'
       },
 
       view2:{
-        
+        marginTop:20,
         flexDirection:'column',
         alignItems:'center',
         justifyContent:'center',
@@ -190,15 +192,15 @@ const styles = StyleSheet.create({
       textPleaseRegister:{
          
         position:'relative',
-        top:-30,
+        top:20,
         fontSize:20,
         fontWeight:'bold'
       },
 
     logo:{
         
-        height:270,
-        width:270,
+        height:160,
+        width:170,
         position:'relative',
         top:5
      

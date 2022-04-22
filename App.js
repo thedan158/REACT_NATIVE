@@ -2,11 +2,13 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View, Platform, SafeAreaView, Easing, Animated, LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import LottieView from 'lottie-react-native';
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 import AccountSettingScreen from './screens/AccountSettingScreen';
 import SplashScreen from './screens/SplashScreen';
 import SignupScreen from './screens/SignupScreen';
+import OnBoardingScreen from './screens/OnBoardingScreen'
 
 import ForgotPassword from './screens/ForgotPassword';
 import OTPsignup from './screens/OTPsignup';
@@ -35,7 +37,7 @@ import MenuScreen from './screens/MenuScreen'
 
 const Stack = createStackNavigator();
 
-
+// animation function
 const config = {
   animation: 'spring',
   config: {
@@ -94,6 +96,7 @@ const customTransition = {
     }
   }
 }
+// end animation function
 
 LogBox.ignoreLogs(['Remote debugger']); 
 
@@ -109,11 +112,17 @@ export default function App() {
         gestureDirection: 'horizontal',
       }}>
 
-        <Stack.Screen name="HomeScreen2nd" options={{headerShown: false}} component={HomeScreen2nd} />
+      <Stack.Screen options={{headerShown: false}} name="SplashScreen" component={SplashScreen} />
+      <Stack.Screen options={{headerShown: false}} name="OnBoardingScreen" component={OnBoardingScreen} />
+      <Stack.Screen name="HomeScreen2nd" options={{headerShown: false}} component={HomeScreen2nd} />
         <Stack.Screen name="MenuScreen" options={{headerShown: false}} component={MenuScreen} />
       <Stack.Screen name="RestaurantManagement" options={{headerShown: false}} component={RestaurantManagement} />
+
+
+
       <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
 
+      <Stack.Screen name="RestaurantManagement" options={{headerShown: false}} component={RestaurantManagement} />
       <Stack.Screen options={{headerShown: false}} name="Signup" component={SignupScreen} />
       <Stack.Screen options={{headerShown: false}} name="Tab" component={tabBar}/>
 
@@ -121,13 +130,13 @@ export default function App() {
 
       <Stack.Screen name="CreateStaffAccount"  component={CreateStaffAccount} 
         options={{
-          
+          headerShown: false,
         gestureDirection: 'vertical',
           transitionSpec: {
             open: config,
             close: closeConfig,
           },
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
           }}
       />
       <Stack.Screen name="PermissionManager"  component={PermissionManager} 
@@ -142,7 +151,7 @@ export default function App() {
           }}
       />  
      
-      <Stack.Screen name="StaffInformation" component={StaffInformation} options={{...customTransition}}/>
+      <Stack.Screen name="StaffInformation" component={StaffInformation} options={{...customTransition, headerShown:false}}/>
       <Stack.Screen name="Home"  component={HomeScreen} options={{headerShown: false}} />
       
       
