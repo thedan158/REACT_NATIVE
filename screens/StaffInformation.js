@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
+import { Avatar } from 'react-native-paper'
 import React from 'react'
 import VKH from '../assets/images/VKH.jpg'
 import Colors from '../assets/Colors'
