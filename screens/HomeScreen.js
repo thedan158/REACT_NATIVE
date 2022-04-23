@@ -166,7 +166,7 @@ const HomeScreen = () => {
 
       {/* ======Header container====== */}
       <View style={styles.containerHeader}>
-        <View style={[styles.containerHeaderTop, styles.elevation]}>
+        <View style={[styles.containerHeaderTop]}>
           <Image style={styles.imgHomeIc} source={{uri: 'https://icons-for-free.com/download-icon-HOME-131994911289288683_512.png'}}/>
           <View style={styles.containerHeaderText}>
             <Text style={styles.txtHeaderHome}>Home</Text>
@@ -175,7 +175,7 @@ const HomeScreen = () => {
           
         </View>
           {/* ---Button edit--- */}
-        <TouchableOpacity style={[styles.btnHeaderEdit, styles.elevation]}>
+        <TouchableOpacity style={[styles.btnHeaderEdit]}>
             <Text style={{fontSize: 18, color: '#fff', fontWeight: 'bold',}}>Edit</Text>
             <Image style={{ width: 18, height: 18, marginVertical: 2, marginHorizontal: 4, backgroundColor:'transparent'}} source={{uri: 'https://icon-library.com/images/pen-icon-png/pen-icon-png-5.jpg'}}></Image>
           </TouchableOpacity>
@@ -216,7 +216,7 @@ const HomeScreen = () => {
       </View>
 
       {/* =======Discount offer container====== */}
-      <View style={[styles.containerDiscountOffers, styles.elevation]}>
+      <View style={[styles.containerDiscountOffers]}>
         <Text style={{color: '#483332', fontSize: 18, fontWeight: 'bold', padding: 10}}>Discount Offers</Text>
         {/* ----Image View---- */}
         <FlatList 
@@ -279,12 +279,6 @@ const styles = StyleSheet.create({
     borderColor: '#808080',
     marginTop: 10,
     marginHorizontal: 5,
-    elevation: 0,
-
-
-    
-
-
   },
   containerDiscountOffersItem:{
     width: 352.96, 
