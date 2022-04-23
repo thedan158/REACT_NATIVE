@@ -11,7 +11,7 @@ import HomeScreen from '../screens/HomeScreen';
 import OrderScreen from '../screens/OrderScreen';
 import RestaurantManagement from '../screens/RestaurantManagement';
 import SelectedTable from '../screens/SelectedTableScreen';
-import Account from '../screens/Account';
+import AccountSetting from '../screens/AccountSettingScreen';
 import order from '../assets/icons/order.png'
 import home from '../assets/icons/home.png'
 import account from '../assets/icons/user.png'
@@ -152,7 +152,7 @@ const Tabs = () => {
             />
 
             <Tab.Screen
-                name="Search"
+                name="Order"
                 component={OrderScreen}
                 options={{
                     tabBarIcon: ({ focused }) => (
@@ -175,7 +175,7 @@ const Tabs = () => {
             />
 
             <Tab.Screen
-                name="Like"
+                name="Bill"
                 component={HomeScreen}
                 options={{
                     tabBarIcon: ({ focused }) => (
@@ -198,8 +198,8 @@ const Tabs = () => {
             />
 
             <Tab.Screen
-                name="User"
-                component={Account}
+                name="Account"
+                component={AccountSetting}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Image

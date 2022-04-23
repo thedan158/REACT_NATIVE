@@ -111,18 +111,22 @@ export default function App() {
         gestureEnabled: true,
         gestureDirection: 'horizontal',
       }}>
+            <Stack.Screen options={{headerShown: false}} name="SplashScreen" component={SplashScreen} />
 
-      <Stack.Screen options={{headerShown: false}} name="SplashScreen" component={SplashScreen} />
-      <Stack.Screen options={{headerShown: false}} name="OnBoardingScreen" component={OnBoardingScreen} />
-
-
+            <Stack.Screen options={{headerShown: false}} name="OnBoardingScreen" component={OnBoardingScreen} />
 
       <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
 
       <Stack.Screen name="RestaurantManagement" options={{headerShown: false}} component={RestaurantManagement} />
+
+
+      <Stack.Screen options={{headerShown: false}} name="AccountSetting" component={AccountSettingScreen} />
+
+
+
+
       <Stack.Screen options={{headerShown: false}} name="Signup" component={SignupScreen} />
       <Stack.Screen options={{headerShown: false}} name="Tab" component={tabBar}/>
-
       <Stack.Screen options={{headerShown: false}} name="Dashboard" component={Tab} />
 
       <Stack.Screen name="CreateStaffAccount"  component={CreateStaffAccount} 

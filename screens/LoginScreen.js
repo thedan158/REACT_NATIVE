@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text,TextInput, View,TouchableOpacity, ScrollView, ImageBackground } from 'react-native'
+import {Image, StyleSheet, Text,TextInput, View,TouchableOpacity, ScrollView, ImageBackground, Dimensions } from 'react-native'
 import React,{ useState } from 'react'
 import { useNavigation } from '@react-navigation/core'
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -9,7 +9,11 @@ import hidden from '../assets/icons/close-eye.png'
 import Colors from '../assets/Colors';
 import background from '../assets/images/background.png'
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const LoginScreen = () => {
+
+
 const [username, setUsername] = useState('');
 const [password, setPassword] = useState('');
 const [isSecureEntry, setIsSecureEntry] = useState(true);
@@ -26,8 +30,7 @@ const handleLogin = () => {
 
   return (
       <ScrollView>
-            <ImageBackground source={background} resizeMode="cover" style={{flex:1}}/>
-
+            <ImageBackground source={background} resizeMode="cover" style={{flex:1}}>
       <View style={styles.container}>
 
       {/* Logo and title  */}
@@ -103,6 +106,8 @@ const handleLogin = () => {
     </View>
     </View>
     </View>
+    </ImageBackground>
+
     </ScrollView>
   )
 }
@@ -113,7 +118,9 @@ const styles = StyleSheet.create({
     container:{
         justifyContent:'center',
         alignItems:'center',
-        flex: 1,
+        flex:1,
+        width:windowWidth,
+        height:windowHeight
         
     },
     inputContainer:{
@@ -123,6 +130,7 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'flex-start',
         borderRadius:13,   
+        
     },
 
     input:{
@@ -196,7 +204,8 @@ const styles = StyleSheet.create({
         height:160,
         width:170,
         position:'relative',
-        top:5
+        top:5,
+        marginTop:25
      
     },
 
@@ -209,7 +218,7 @@ const styles = StyleSheet.create({
     },
 
     view2:{
-        flex:0.9,
+        flex:1,
         marginTop:20
     },
 

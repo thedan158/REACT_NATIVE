@@ -199,7 +199,8 @@ const styles = StyleSheet.create({
         height:160,
         width:170,
         position:'relative',
-        top:5
+        top:5,
+        marginTop:25
      
     },
 
