@@ -111,16 +111,11 @@ export default function App() {
         gestureEnabled: true,
         gestureDirection: 'horizontal',
       }}>
-
-      <Stack.Screen options={{headerShown: false}} name="SplashScreen" component={SplashScreen} />
+        <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
+        <Stack.Screen name="HomeScreen2nd" options={{headerShown: false}} component={HomeScreen2nd} />
+        <Stack.Screen options={{headerShown: false}} name="SplashScreen" component={SplashScreen} />
       <Stack.Screen options={{headerShown: false}} name="OnBoardingScreen" component={OnBoardingScreen} />
-      <Stack.Screen name="HomeScreen2nd" options={{headerShown: false}} component={HomeScreen2nd} />
-        <Stack.Screen name="MenuScreen" options={{headerShown: false}} component={MenuScreen} />
-      <Stack.Screen name="RestaurantManagement" options={{headerShown: false}} component={RestaurantManagement} />
-
-
-
-      <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
+        <Stack.Screen name="MenuScreen" options={{headerShown: false}} component={MenuScreen}/>
 
       <Stack.Screen name="RestaurantManagement" options={{headerShown: false}} component={RestaurantManagement} />
       <Stack.Screen options={{headerShown: false}} name="Signup" component={SignupScreen} />
