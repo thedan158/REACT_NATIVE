@@ -14,8 +14,9 @@ import { LinearGradient } from "expo-linear-gradient";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
-const imgDishTransparentCrop = require("../assets/images/food-dishes-Transparent-Images-crop.png");
-const imgDishTransparent = require("../assets/images/food-dishes-Transparent-Images-crop.png");
+const imgDishTransparentCrop = require("../assets/images/food-dishes-Transparent-Images.png")
+const imgDishTransparent = require("../assets/images/food-dishes-Transparent-Images.jpg");
+
 
 // TODO: FlastList fix;
 // Comment;
