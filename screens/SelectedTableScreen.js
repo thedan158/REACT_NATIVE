@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   txtSearchBar: {
-    color: "#000",
+    color: "#fff",
   },
   txtHeaderView: {
     fontSize: 30,
