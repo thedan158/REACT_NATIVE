@@ -48,6 +48,8 @@ import TabForOwner from './custom component/TabForOwner';
 import RePasswordSuccess from './screens/RePasswordSuccess';
 import PermissionManager from './screens/PermissionManager';
 import StaffInformation from './screens/StaffInformation';
+import HomeScreen2nd from './screens/HomeScreen2nd';
+import MenuScreen from './screens/MenuScreen';
 
 const Stack = createStackNavigator();
 
