@@ -1,9 +1,12 @@
-import {Image, StyleSheet, Text,TextInput, View,TouchableOpacity, ScrollView } from 'react-native'
+import {Image, StyleSheet, Text,TextInput, View,TouchableOpacity, ScrollView,ImageBackground, Dimensions } from 'react-native'
 import React,{ useState, useEffect, useRef } from 'react'
 import { useNavigation } from '@react-navigation/core'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import logo from '../assets/images/logo_app.png'
+import background from '../assets/images/background.png'
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const OTP = () => {
 let textInput = useRef(null);
 const [internalVal, setInternalVal] = useState('');
@@ -33,16 +36,18 @@ React.useEffect(()=>{
 
 
 const handleOTP = () => {
-    navigation.navigate('NewPassword')
+    navigation.navigate('RestaurantInformation')
   }
 
 
 
   return (
       <ScrollView>
+       <ImageBackground source={background} resizeMode="cover" style={{flex:1}}>
+
       <View style={styles.container}>
 
-      {/* Logo and title  */}
+       {/* Logo and title  */}
     <View style={styles.view1}>
     <View>
         <Image style={styles.logo} source={logo}></Image>
@@ -51,15 +56,14 @@ const handleOTP = () => {
     <Text style={styles.textPleaseRegister}>OTP Authentication</Text>
     </View>
     </View>
-
-   
     <View style={styles.view2}>
-     {/* Subtitle  */}
     <View>
+      {/* Subtitle  */}
 <Text style={styles.subtitle}>An authentication code has been send to your phone number</Text>
-      
-    {/* Number input section  */}
-    <View >
+
+
+        {/* Number input section  */}
+<View >
        
         <TextInput
         ref={(input)=>textInput=input}
@@ -77,7 +81,7 @@ const handleOTP = () => {
                 key={index}
                 style={[styles.inputContainer,
                 {
-                    borderColor:  index === internalVal.length ? '#FA4A0C' : 'white'
+                    borderColor:  index === internalVal.length ? '#FA4A0C' : 'black'
                 }
                 ]}
                 >
@@ -93,9 +97,9 @@ const handleOTP = () => {
         }
         </View>
     </View> 
- 
-       
-      {/* Resend code */}
+        
+        {/* Resend code */}
+      
       <View style={styles.countDown}>
       <Text style={styles.subtitle2}>Didn't receive code?</Text>
       <TouchableOpacity 
@@ -118,7 +122,9 @@ const handleOTP = () => {
         </View>
     
     </View>
+    
     </View>
+    </ImageBackground>
     </ScrollView>
   )
 }
@@ -130,6 +136,8 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         flex: 1,
+        width:windowWidth,
+        height:windowHeight
     },
    
 
@@ -181,43 +189,43 @@ const styles = StyleSheet.create({
         fontWeight:'normal'
     },
     
-    view1:{
-        margin:20,
-        justifyContent:'center',
-        alignItems:'center'
+      view1:{
+          margin:20,
+          justifyContent:'center',
+          alignItems:'center',
+          flex:3
+      },
+    
+      textPleaseRegister:{
+         
+        position:'relative',
+        top:10,
+        fontSize:20,
+        fontWeight:'bold'
+      },
+
+    logo:{
+        
+        height:160,
+        width:170,
+        position:'relative',
+        top:5,
+        marginTop:25
+     
     },
-  
-    textPleaseRegister:{
-       
-      position:'relative',
-      top:10,
-      fontSize:20,
-      fontWeight:'bold'
+
+    textView:{
+        flex:0.12,
+        flexDirection:'row',
+        backgroundColor:'white',   
+        borderBottomLeftRadius: 50,
+        borderBottomRightRadius: 50,
     },
 
-  logo:{
-      
-      height:160,
-      width:170,
-      position:'relative',
-      top:5,
-      marginTop:25
-   
-  },
-
-  textView:{
-      flex:0.12,
-      flexDirection:'row',
-      backgroundColor:'white',   
-      borderBottomLeftRadius: 50,
-      borderBottomRightRadius: 50,
-  },
-
-  view2:{
-      flex:0.9,
-      marginTop:20
-  },
-
+    view2:{
+        flex:7,
+        marginTop:20
+    },
 
     textLabel:{
         fontSize:15,

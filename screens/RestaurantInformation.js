@@ -1,354 +1,327 @@
-import {TouchableOpacity,TextInput, KeyboardAvoidingView, StyleSheet, Text, View, Image, Button,  Alert, ScrollView, ImageBackground } from 'react-native'
-import React, {useState, useEffect} from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { useNavigation } from '@react-navigation/core'
-import logo from '../assets/images/logo_app.png'
-import CustomTextInput from '../custom component/CustomTextInput'
-import gallery from '../assets/icons/gallery.png'
-import * as ImagePicker from 'expo-image-picker'
-import { Constants } from 'expo-constants'
-import Colors from '../assets/Colors'
+import {
+  TouchableOpacity,
+  Dimensions,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Button,
+  Alert,
+  ScrollView,
+} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/core';
+import logo from '../assets/images/logo_app.png';
+import CustomTextInput from '../custom component/CustomTextInput';
+import gallery from '../assets/icons/gallery.png';
+import * as ImagePicker from 'expo-image-picker';
+import { Constants } from 'expo-constants';
+import Colors from '../assets/Colors';
+import background from '../assets/images/background.png';
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const RestaurantInformation = () => {
-    const [nameOfRes, setNameOfRes] = useState('');
-    const [address, setAddress] = useState('');
-    const [hotline, setHotline] = useState('');
-    const navigation = useNavigation()
-    const [image, setImage]=useState('null');
+  const [nameOfRes, setNameOfRes] = useState('');
+  const [address, setAddress] = useState('');
+  const [hotline, setHotline] = useState('');
+  const navigation = useNavigation();
+  const [image, setImage] = useState('null');
 
-    useEffect(async()=>{
-        const{status}=await ImagePicker.requestMediaLibraryPermissionsAsync();
-    
-    if(status!=='granted'){
-        alert('Permission denied!')
-    }},[]
+  useEffect(async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-    )
-
-    const PickImage = async()=>{
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes:ImagePicker.MediaTypeOptions.All,
-            allowsEditing:true,
-            aspect:[4,3],
-            quality:1
-        })
-        console.log(result)
-        if(!result.cancelled){
-            setImage(result.uri)
-        }
+    if (status !== 'granted') {
+      alert('Permission denied!');
     }
+  }, []);
 
-// *Region for OnPress Signup
-const handleSignup = () => {
-    navigation.navigate('Tab')
-  }
+  const PickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    console.log(result);
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+
+  // *Region for OnPress Signup
+  const handleSignup = () => {
+    navigation.navigate('TabForOwner');
+  };
   return (
-    
     <ScrollView>
-    
-    <View style={styles.container}>
-    {/* Logo */}
-    <View style={styles.view1}>
-        <View>
-            <Image style={styles.logo} source={logo}></Image>
-        </View>
-        <View>
-        <Text style={styles.textPleaseRegister}>Fill your restaurant information</Text>
-        </View>
-     </View>
+      <View style={styles.container}>
+        <ImageBackground
+          source={background}
+          resizeMode="cover"
+          style={{ flex: 1 }}
+        >
+          {/* Logo */}
+          <View style={styles.view1}>
+            <View>
+              <Image style={styles.logo} source={logo}></Image>
+            </View>
+            <View>
+              <Text style={styles.textPleaseRegister}>
+                Fill your restaurant information
+              </Text>
+            </View>
+          </View>
 
-    {/* Pick image  */}
-     <TouchableOpacity 
-        onPress={PickImage}>
-     <View style={styles.pickLogo}>
-     <ImageBackground style={styles.ImageBackground} source={gallery}/>
+          {/* Pick image  */}
+          <View style={styles.view2}>
+            <TouchableOpacity onPress={PickImage}>
+              <View style={styles.pickLogo}>
+                <ImageBackground
+                  style={styles.ImageBackground}
+                  source={gallery}
+                />
 
-        {image && <Image i source={{uri:image}} style={styles.pick}>
-        </Image>}      
-        
-        </View>
-        </TouchableOpacity>
-        
-        
+                {image && (
+                  <Image source={{ uri: image }} style={styles.pick}></Image>
+                )}
+              </View>
+            </TouchableOpacity>
+          </View>
+          {/* Input section  */}
+          <View style={styles.view3}>
+            <View>
+              {/* Full name input */}
 
-        <TouchableOpacity 
-        onPress={PickImage}>
-            <Text style={styles.loginText}>Choose Your Logo</Text>
-          
-        </TouchableOpacity>
-        
-     
-        {/* Input section  */}
-    <View style={styles.view2}>
+              <CustomTextInput
+                blurColor={Colors.primary}
+                value={nameOfRes}
+                onChangeText={(text) => setNameOfRes(text)}
+                placeholder="Name of Restaurant"
+              />
+            </View>
 
-    <View style={{marginTop:-15}}>
-    {/* Full name input */}
-    
-        <CustomTextInput 
-        blurColor={Colors.primary}
-         value={nameOfRes}
-        onChangeText={text=>setNameOfRes(text)} 
-        placeholder='Name of Restaurant'/>
-    </View>
+            {/* Address input */}
+            <View style={{ marginTop: -15 }}>
+              <CustomTextInput
+                blurColor={Colors.primary}
+                value={address}
+                onChangeText={(text) => setAddress(text)}
+                placeholder="Address"
+              />
+            </View>
+            {/* Hotline */}
+            <View style={{ marginTop: -15 }}>
+              <CustomTextInput
+                blurColor={Colors.primary}
+                value={hotline}
+                onChangeText={(text) => setHotline(text)}
+                placeholder="Hotline"
+                keyboardType="decimal-pad"
+              />
+            </View>
+          </View>
 
-    {/* Address input */}
-    <View style={{marginTop:-15}}>
-    <CustomTextInput 
-    blurColor={Colors.primary}
-         value={address}
-        onChangeText={text=>setAddress(text)} 
-        placeholder='Address'/>
-    </View>
-    {/* Hotline */}
-    <View style={{marginTop:-15}}>
-    <CustomTextInput 
-    blurColor={Colors.primary}
-         value={hotline}
-        onChangeText={text=>setHotline(text)} 
-        placeholder='Hotline'
-        keyboardType='decimal-pad'
-        />
-        </View>
-   
-        </View>
-    </View>
-
-
-    
-    
-    
-
-    
-    {/* Button */}
-    <View style={styles.buttonContainer}>
-        <TouchableOpacity
-        onPress={handleSignup}
-        style={styles.button}>
-            <Text style={styles.buttonText}>Finish</Text>
-        </TouchableOpacity>
-        </View>
-        
-    
-
-    
-    
+          <View style={styles.view4}>
+            {/* Button */}
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity onPress={handleSignup} style={styles.button}>
+                <Text style={styles.buttonText}>Finish</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ImageBackground>
+      </View>
     </ScrollView>
-   
-    
-    
-  
-  )
-}
+  );
+};
 
-export default RestaurantInformation
+export default RestaurantInformation;
 
 const styles = StyleSheet.create({
-    container:{
-        // flex:1,
-        backgroundColor:'#F2F2F2'
-    },
-    buttonContainer:{
-        justifyContent:'center',
-        alignItems:'center',
-        marginTop:20,
-    },
-    button:{
-        backgroundColor:'#FA4A0C',
-        width:'80%',
-        padding:15,
-        borderRadius:20,
-        justifyContent:'center',
-        alignItems:'center',
-        elevation:1,
-        
-    },
-    buttonText:{
-        color:'white',
-        fontWeight:'700',
-        fontSize:16,
+  container: {
+    flex: 1,
+    backgroundColor: '#F2F2F2',
+    width: windowWidth,
+    height: windowHeight,
+  },
+  buttonContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    backgroundColor: '#FA4A0C',
+    width: '80%',
+    padding: 15,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 1,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 16,
+  },
+  view1: {
+    flex: 3,
+    margin: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  view2: {
+    flex: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
+  view3: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    flex: 3,
+  },
+  view4: {
+    flex: 2,
+    justifyContent: 'flex-end',
+    marginBottom: 5,
+  },
 
-    },
-      view1:{
-          margin:20,
-          justifyContent:'center',
-          alignItems:'center'
-      },
+  textPleaseRegister: {
+    position: 'relative',
+    top: 10,
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
 
-      view2:{
-        
-        flexDirection:'column',
-        alignItems:'center',
-        justifyContent:'center',
-        marginTop:20
-    },
-    view3:{
-       
-        position:'relative',
-        top:10,
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'center'
-    },
+  logo: {
+    height: 160,
+    width: 170,
+    position: 'relative',
+    top: 5,
+  },
 
-      textPleaseRegister:{
-         
-        position:'relative',
-        top:10,
-        fontSize:20,
-        fontWeight:'bold'
-      },
+  textView: {
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    borderBottomLeftRadius: 50,
+    borderBottomRightRadius: 50,
+  },
 
-    logo:{
-        
-        height:160,
-        width:170,
-        position:'relative',
-        top:5
-     
-    },
+  loginBox: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+    top: 30,
+    left: 10,
+  },
 
-    textView:{
-        flex:0.12,
-        flexDirection:'row',
-        backgroundColor:'white',   
-        borderBottomLeftRadius: 50,
-        borderBottomRightRadius: 50,
-    },
+  loginText: {
+    color: '#FA4A0C',
+    fontWeight: '700',
+    fontSize: 16,
+    textAlign: 'center',
+    position: 'absolute',
+    alignSelf: 'center',
+  },
 
-    loginBox:{
-        flex:1,
-        alignItems:'center',
-        justifyContent:'center',
-        position:'relative',
-        top:30,
-        left:10
-        
-      
-      
-    },
+  ownerText: {
+    color: 'black',
+    fontSize: 16,
+    fontWeight: 'normal',
+  },
 
-    loginText:{
-        color:'#FA4A0C',
-        fontWeight:'700',
-        fontSize:16,
-        textAlign:'center',
-        marginTop:15
-    },
+  signupBox: {
+    flex: 0.5,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    position: 'relative',
+    right: 15,
+  },
 
-    ownerText:{
-        color:'black',
-        fontSize:16,
-        fontWeight:'normal'
-    },
+  rectangle: {
+    width: 130,
+    height: 3,
+    backgroundColor: '#FA4A0C',
+    position: 'relative',
+    bottom: -9,
+  },
 
+  signupText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
 
-    signupBox:{
-        flex:0.5,
-        alignItems:'center',
-        justifyContent:'flex-start',
-        position:'relative',
-        right:15
-        
-    },
+  registerText: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    marginTop: 20,
+    justifyContent: 'center',
+  },
 
-    rectangle:{
-        width: 130,
-        height: 3,
-        backgroundColor: "#FA4A0C",
-        position:'relative',
-        bottom:-9,
-       
-    },
+  fullNameBox: {
+    width: 300,
+    height: 55,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    borderRadius: 13,
+  },
 
-    signupText:{
-        fontSize:20,
-        fontWeight:'bold'
-    },
-    
-    registerText:{
-        flexWrap:'wrap',
-        flexDirection:'row',
-        marginTop:20,
-        justifyContent:'center'
-    },
+  fullNameText: {
+    fontSize: 15,
+    marginLeft: 30,
+  },
 
-    fullNameBox:{
-        width: 300,
-        height: 55,
-        backgroundColor: 'white',
-        justifyContent:'center',
-        alignItems:'flex-start',
-        borderRadius:13,
-        
-    },
+  passwordBox: {
+    width: 300,
+    height: 55,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 13,
+    marginTop: 25,
+  },
 
-    fullNameText:{
-        fontSize:15,
-        marginLeft:30
-    },
+  gallery: {
+    height: 65,
+    width: 65,
+    alignSelf: 'center',
+  },
 
-    passwordBox:{
-        width: 300,
-        height: 55,
-        backgroundColor: "white",
-        justifyContent:'center',
-        alignItems:'center',
-        borderRadius:13,
-        marginTop:25,
-    },
+  textSignupButton: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'white',
+  },
 
-    gallery:{
-        height:65,
-        width:65,
-        alignSelf:'center'
-    },
-    
+  pickLogo: {
+    width: 140,
+    height: 140,
+    backgroundColor: 'white',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: 'black',
+    borderWidth: 3,
+    borderRadius: 10,
+    borderStyle: 'dashed',
+  },
+  pick: {
+    width: 140,
+    height: 140,
+    borderColor: 'black',
+  },
 
-  
-
-    textSignupButton:{
-        fontSize: 16,
-        lineHeight: 21,
-        fontWeight: 'bold',
-        letterSpacing: 0.25,
-        color: 'white',
-    },
-
-    pickLogo:{
-        flex:1,
-        width:150,
-        height:150,
-        backgroundColor:'#F2F2F2',
-        flex:1,
-        alignSelf:'center',
-        marginTop:5,
-        justifyContent:'space-evenly',
-        alignItems:'center',
-        borderColor:'black',
-        borderWidth:3,
-        borderRadius:10,
-        borderStyle:'dashed'
-        
-    },
-    pick:{
-        
-        width:150,
-        height:150,
-        borderColor:'black',
-        
-       
-
-    },
-
-    ImageBackground:{
-        flex:1, 
-        height:50, 
-        width:50, 
-        position:'absolute', 
-        top:50
-        
-    }
-   
-
-   
-})
+  ImageBackground: {
+    height: 80,
+    width: 80,
+    position: 'absolute',
+    alignSelf: 'center',
+  },
+});

@@ -9,12 +9,12 @@ import {
   StatusBar,
   TouchableOpacity,
   Dimensions,
+  LogBox
 } from 'react-native';
 import logo from '../assets/images/logo_app2.png'
 import restaurant from '../assets/images/logo_app.png'
 import Colors from '../assets/Colors';
 const {width, height} = Dimensions.get('window');
-
 
 const slides = [
   {
@@ -55,6 +55,8 @@ const Slide = ({item}) => {
 };
 
 const OnboardingScreen = ({navigation}) => {
+  LogBox.ignoreAllLogs();
+
   const [currentSlideIndex, setCurrentSlideIndex] = React.useState(0);
   const ref = React.useRef();
   const updateCurrentSlideIndex = e => {
@@ -116,7 +118,7 @@ const OnboardingScreen = ({navigation}) => {
               <TouchableOpacity
                 style={styles.btn}
                 onPress={() => navigation.replace('Login')}>
-                <Text style={{fontWeight: 'bold', fontSize: 15}}>
+                <Text style={{fontWeight: 'bold', fontSize: 15, color:'white'}}>
                   GET STARTED
                 </Text>
               </TouchableOpacity>
