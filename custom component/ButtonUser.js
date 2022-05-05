@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
   },
   textName: {
     position: 'absolute',
-
     fontSize: 18,
     fontWeight: 'bold',
     top: 32,

@@ -6,9 +6,6 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
-  Dimensions,
-  ImageBackground,
-  KeyboardAvoidingView,
 } from 'react-native';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
@@ -18,11 +15,8 @@ import CustomTextInput from '../custom component/CustomTextInput';
 import eye from '../assets/icons/eye.png';
 import hidden from '../assets/icons/close-eye.png';
 import Colors from '../assets/Colors';
-import background from '../assets/images/background.png';
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-const NewPassword = () => {
+const ChangePassword = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
@@ -37,98 +31,86 @@ const NewPassword = () => {
 
   return (
     <ScrollView>
-      <KeyboardAvoidingView>
-        <ImageBackground
-          source={background}
-          resizeMode="cover"
-          style={{ flex: 1 }}
-        >
-          <View style={styles.container}>
-            {/* Logo and title  */}
-            <View style={styles.view1}>
-              <View>
-                <Image style={styles.logo} source={logo}></Image>
-              </View>
-              <View>
-                <Text style={styles.textPleaseRegister}>
-                  Reset new password
-                </Text>
-              </View>
-            </View>
-
-            {/* Input section  */}
-            <View style={styles.view2}>
-              <View>
-                <CustomTextInput
-                  blurColor={Colors.primary}
-                  label="Password"
-                  placeholder="Password"
-                  value={password}
-                  onChangeText={(text) => setPassword(text)}
-                  secureTextEntry={isSecureEntry}
-                  icon={
-                    <TouchableOpacity
-                      onPress={() => {
-                        setIsSecureEntry((prev) => !prev);
-                      }}
-                    >
-                      <Image
-                        source={isSecureEntry ? hidden : eye}
-                        style={{ width: 25, height: 25 }}
-                      ></Image>
-                    </TouchableOpacity>
-                  }
-                  iconPosition="right"
-                />
-                <CustomTextInput
-                  blurColor={Colors.primary}
-                  label="Confirm password"
-                  placeholder="Confirm password"
-                  value={confirmPassword}
-                  onChangeText={(text) => setConfirmPassword(text)}
-                  secureTextEntry={isSecureEntryConfirm}
-                  icon={
-                    <TouchableOpacity
-                      onPress={() => {
-                        setIsSecureEntryConfirm((prev) => !prev);
-                      }}
-                    >
-                      <Image
-                        source={isSecureEntryConfirm ? hidden : eye}
-                        style={{ width: 25, height: 25 }}
-                      ></Image>
-                    </TouchableOpacity>
-                  }
-                  iconPosition="right"
-                />
-              </View>
-
-              {/* Button reset password  */}
-              <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                  onPress={handleConfirmNewPassword}
-                  style={styles.button}
-                >
-                  <Text style={styles.buttonText}>Reset password</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+      <View style={styles.container}>
+        {/* Logo and title  */}
+        <View style={styles.view1}>
+          <View>
+            <Image style={styles.logo} source={logo}></Image>
           </View>
-        </ImageBackground>
-      </KeyboardAvoidingView>
+          <View>
+            <Text style={styles.textPleaseRegister}>Reset new password</Text>
+          </View>
+        </View>
+
+        {/* Input section  */}
+        <View style={styles.view2}>
+          <View>
+            <CustomTextInput
+              blurColor={Colors.primary}
+              label="Password"
+              placeholder="Password"
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+              secureTextEntry={isSecureEntry}
+              icon={
+                <TouchableOpacity
+                  onPress={() => {
+                    setIsSecureEntry((prev) => !prev);
+                  }}
+                >
+                  <Image
+                    source={isSecureEntry ? hidden : eye}
+                    style={{ width: 25, height: 25 }}
+                  ></Image>
+                </TouchableOpacity>
+              }
+              iconPosition="right"
+            />
+            <CustomTextInput
+              blurColor={Colors.primary}
+              label="Confirm password"
+              placeholder="Confirm password"
+              value={confirmPassword}
+              onChangeText={(text) => setConfirmPassword(text)}
+              secureTextEntry={isSecureEntryConfirm}
+              icon={
+                <TouchableOpacity
+                  onPress={() => {
+                    setIsSecureEntryConfirm((prev) => !prev);
+                  }}
+                >
+                  <Image
+                    source={isSecureEntryConfirm ? hidden : eye}
+                    style={{ width: 25, height: 25 }}
+                  ></Image>
+                </TouchableOpacity>
+              }
+              iconPosition="right"
+            />
+          </View>
+
+          {/* Button reset password  */}
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={handleConfirmNewPassword}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Reset password</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
     </ScrollView>
   );
 };
 
-export default NewPassword;
+export default ChangePassword;
 
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    width: windowWidth,
-    height: windowHeight,
   },
   inputContainer: {
     width: 300,

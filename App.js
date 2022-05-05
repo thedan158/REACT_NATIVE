@@ -27,12 +27,14 @@ import AccountForOwner from './screens/AccountForOwner';
 import SplashScreen from './screens/SplashScreen';
 import SignupScreen from './screens/SignupScreen';
 import OnBoardingScreen from './screens/OnBoardingScreen';
+import AppLoader from './screens/AppLoader';
 
 import ForgotPassword from './screens/ForgotPassword';
 import OTPsignup from './screens/OTPsignup';
 import OTPforgotpass from './screens/OTPforgotpass';
 import NewPassword from './screens/NewPassword';
 import RestaurantInformation from './screens/RestaurantInformation';
+import ChangePassword from './screens/ChangePassword';
 
 import OrderScreen from './screens/OrderScreen';
 import StarterMenuScreen from './screens/StarterMenuScreen';
@@ -50,6 +52,7 @@ import PermissionManager from './screens/PermissionManager';
 import StaffInformation from './screens/StaffInformation';
 import HomeScreen2nd from './screens/HomeScreen2nd';
 import MenuScreen from './screens/MenuScreen';
+import EditProfile from './screens/EditProfile';
 
 const Stack = createStackNavigator();
 
@@ -127,11 +130,6 @@ export default function App() {
       >
         <Stack.Screen
           options={{ headerShown: false }}
-          name="OnBoardingScreen"
-          component={OnBoardingScreen}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
           name="SplashScreen"
           component={SplashScreen}
         />
@@ -140,6 +138,25 @@ export default function App() {
           options={{ headerShown: false }}
           name="Login"
           component={LoginScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="AppLoader"
+          component={AppLoader}
+        />
+
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="OnBoardingScreen"
+          component={OnBoardingScreen}
+        />
+
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="EditProfile"
+          component={EditProfile}
         />
         <Stack.Screen
           options={{ headerShown: false }}
@@ -155,6 +172,11 @@ export default function App() {
           name="RestaurantManagement"
           options={{ headerShown: false }}
           component={RestaurantManagement}
+        />
+        <Stack.Screen
+          name="ChangePassword"
+          options={{ headerShown: false }}
+          component={ChangePassword}
         />
 
         <Stack.Screen
