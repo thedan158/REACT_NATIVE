@@ -6,8 +6,9 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
+  Switch,
 } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import VKH from '../assets/images/VKH.jpg';
 import CardInformation from '../custom component/CardInformation';
 import ButtonUser from '../custom component/ButtonUser';
@@ -17,25 +18,57 @@ import power from '../assets/icons/power.png';
 import setting from '../assets/icons/setting.png';
 import pen from '../assets/icons/pen.png';
 import info from '../assets/icons/info.png';
+import personal from '../assets/icons/personal.png';
+import vector from '../assets/icons/Vector.png';
+import light_on from '../assets/icons/light-on.png';
+import light_off from '../assets/icons/light-off.png';
+import dark_off from '../assets/icons/dark-off.png';
+import dark_on from '../assets/icons/dark-on.png';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const AccountForStaff = () => {
   const navigation = useNavigation();
+  const [isEnabled, setIsEnabled] = useState(false);
 
   return (
     <ScrollView>
       <View style={styles.container}>
         {/* Header  */}
         <View style={styles.containerHeader}>
-          <Text style={styles.textHeader}>Personal details</Text>
-          <TouchableOpacity style={styles.btnEdit}>
-            <Text style={styles.editText}>Edit</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
             <Image
-              source={pen}
-              style={{ height: 15, width: 15, marginHorizontal: 5 }}
+              source={personal}
+              style={{ height: 30, width: 30, marginHorizontal: 15 }}
             />
-          </TouchableOpacity>
+            <Text style={styles.textHeader}>Personal details</Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginLeft: 40,
+              }}
+            >
+              <Image
+                source={isEnabled ? light_off : light_on}
+                style={{ width: 25, height: 25 }}
+              />
+              <Switch
+                value={isEnabled}
+                onValueChange={setIsEnabled}
+                style={{ marginHorizontal: 5 }}
+              />
+              <Image
+                source={isEnabled ? dark_on : dark_off}
+                style={{ width: 25, height: 25 }}
+              />
+            </View>
+          </View>
         </View>
         {/* Card Info  */}
         <View style={styles.feature}>
@@ -49,10 +82,38 @@ const AccountForStaff = () => {
         </View>
 
         <View style={styles.buttonUser}>
-          <ButtonUser name="Your Order" />
-          <ButtonUser name="Notifications" />
-          <ButtonUser name="My Preferences" />
-          <ButtonUser name="Help" />
+          <View>
+            <TouchableOpacity
+              style={styles.TouchableOpacity}
+              onPress={() => navigation.navigate('EditProfile')}
+            />
+            <Text style={styles.textName}>Edit Your Profile</Text>
+            <Image style={styles.icon} source={vector} />
+          </View>
+          <View>
+            <TouchableOpacity
+              style={styles.TouchableOpacity}
+              onPress={() => navigation.navigate('ChangePassword')}
+            />
+            <Text style={styles.textName}>Change Your Password</Text>
+            <Image style={styles.icon} source={vector} />
+          </View>
+          <View>
+            <TouchableOpacity
+              style={styles.TouchableOpacity}
+              onPress={() => navigation.navigate('StaffInformation')}
+            />
+            <Text style={styles.textName}>My Preferences</Text>
+            <Image style={styles.icon} source={vector} />
+          </View>
+          <View>
+            <TouchableOpacity
+              style={styles.TouchableOpacity}
+              onPress={() => navigation.navigate('StaffInformation')}
+            />
+            <Text style={styles.textName}>Notifications</Text>
+            <Image style={styles.icon} source={vector} />
+          </View>
         </View>
         <TouchableOpacity
           onPress={() => {
@@ -78,26 +139,10 @@ const AccountForStaff = () => {
             style={styles.button1}
           >
             <Image
-              source={setting}
-              style={{
-                height: 15,
-                width: 15,
-                marginHorizontal: 10,
-              }}
-            />
-            <Text style={styles.buttonText1}>Setting</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('Login');
-            }}
-            style={styles.button2}
-          >
-            <Image
               source={power}
               style={{ height: 15, width: 15, marginHorizontal: 10 }}
             />
-            <Text style={styles.buttonText2}>Log out</Text>
+            <Text style={styles.buttonText1}>Log out</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -132,15 +177,15 @@ const styles = StyleSheet.create({
   },
   about: {
     flexDirection: 'row',
-    flex: 1,
-    alignItems: 'center',
+    flex: 1.5,
+    alignItems: 'flex-end',
     marginLeft: 40,
   },
   buttonContainer: {
     justifyContent: 'center',
     alignItems: 'flex-start',
     flexDirection: 'row',
-    flex: 2.5,
+    flex: 2,
     marginHorizontal: 15,
   },
   btnEdit: {
@@ -148,7 +193,7 @@ const styles = StyleSheet.create({
     height: 42,
     borderRadius: 25,
     backgroundColor: '#FA4A0C',
-    top: '20%',
+
     left: '10%',
     alignItems: 'center',
     flexDirection: 'row',
@@ -156,9 +201,7 @@ const styles = StyleSheet.create({
   },
   textHeader: {
     width: 147,
-    height: 27,
-    top: '2%',
-    right: '30%',
+
     fontWeight: 'bold',
     fontSize: 18,
     // lineHeight: 27,
@@ -203,11 +246,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     alignItems: 'flex-start',
     width: 180,
-  },
-  textName: {
-    fontWeight: '400',
-    fontSize: 18,
-    lineHeight: 27,
   },
   details: {
     fontWeight: '400',
@@ -258,5 +296,27 @@ const styles = StyleSheet.create({
     elevation: 1,
     margin: 5,
     flexDirection: 'row',
+  },
+  TouchableOpacity: {
+    backgroundColor: 'white',
+    width: 350,
+    height: 50,
+    marginTop: 20,
+    borderRadius: 20,
+    flexDirection: 'row',
+  },
+  textName: {
+    position: 'absolute',
+    fontSize: 18,
+    fontWeight: 'bold',
+    top: 32,
+    left: 30,
+  },
+  icon: {
+    width: 18,
+    height: 18,
+    position: 'absolute',
+    right: 30,
+    top: 35,
   },
 });

@@ -96,20 +96,22 @@ const styles = StyleSheet.create({
     height: windowHeight,
   },
   inputContainer: {
-    width: 300,
-    height: 55,
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  input: {
+    // borderRadius: 10,
+    // marginTop: 5,
+    // alignSelf: 'center',
+    // left: 20,
+
     backgroundColor: 'black',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 30,
     left: 27,
-  },
-
-  input: {
-    borderRadius: 10,
-    marginTop: 5,
-    alignSelf: 'center',
-    left: 20,
   },
   buttonContainer: {
     justifyContent: 'center',
