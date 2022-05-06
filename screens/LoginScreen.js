@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text,TextInput, View,TouchableOpacity, ScrollView } from 'react-native'
+import {Image, StyleSheet, Text,TextInput, View,TouchableOpacity, ScrollView, ImageBackground } from 'react-native'
 import React,{ useState } from 'react'
 import { useNavigation } from '@react-navigation/core'
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -7,6 +7,7 @@ import CustomTextInput from '../custom component/CustomTextInput';
 import eye from '../assets/icons/eye.png'
 import hidden from '../assets/icons/close-eye.png'
 import Colors from '../assets/Colors';
+import background from '../assets/images/background.png'
 
 const LoginScreen = () => {
 const [username, setUsername] = useState('');
@@ -25,7 +26,11 @@ const handleLogin = () => {
 
   return (
       <ScrollView>
+            <ImageBackground source={background} resizeMode="cover" style={{flex:1}}/>
+
       <View style={styles.container}>
+
+      {/* Logo and title  */}
     <View style={styles.view1}>
     <View>
         <Image style={styles.logo} source={logo}></Image>
@@ -34,6 +39,8 @@ const handleLogin = () => {
     <Text style={styles.textPleaseRegister}>Login to your account</Text>
     </View>
     </View>
+
+    {/* Input section  */}
     <View style={styles.view2}>
     <View 
 >
@@ -66,20 +73,17 @@ const handleLogin = () => {
             }
             iconPosition="right"
 
-        />
-
-      
-
-
-       
-
-       
-      
+        />       
 </View>
+
+
+            {/* Forgot password  */}
     <TouchableOpacity 
         onPress={() => navigation.navigate('ForgotPassword')}>
             <Text style={styles.forgotPassword}>Forgot password?</Text>
         </TouchableOpacity>
+
+            {/* Login button section  */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity
         onPress={handleLogin}
@@ -87,6 +91,8 @@ const handleLogin = () => {
             <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         </View>
+
+        {/* Register section  */}
     <View style={styles.registerText}>
     <Text style={styles.newOwnerText}>You're a new Owner? </Text>
 
@@ -108,6 +114,7 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         flex: 1,
+        
     },
     inputContainer:{
         width: 300,
@@ -172,21 +179,22 @@ const styles = StyleSheet.create({
       view1:{
           
           justifyContent:'center',
-          alignItems:'center'
+          alignItems:'center',
+          margin:20
       },
     
       textPleaseRegister:{
          
         position:'relative',
-        top:-30,
+        top:20,
         fontSize:20,
         fontWeight:'bold'
       },
 
     logo:{
         
-        height:270,
-        width:270,
+        height:160,
+        width:170,
         position:'relative',
         top:5
      
@@ -201,7 +209,8 @@ const styles = StyleSheet.create({
     },
 
     view2:{
-        flex:0.9
+        flex:0.9,
+        marginTop:20
     },
 
     textLabel:{

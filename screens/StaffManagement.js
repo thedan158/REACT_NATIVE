@@ -32,80 +32,34 @@ const ModalPopup = ({visible, children}) => {
 const StaffManagement = () => {
     const Tab = createMaterialTopTabNavigator();
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [isSecureEntry, setIsSecureEntry] = useState(true);
+    
     const navigation = useNavigation()
-    const [visible, setVisible] = React.useState(false);
+    
   return (
       
     <ScrollView style={styles.container}>
+
+    {/* header  */}
         <View style={styles.view1}>
+
+        {/* title  */}
             <Text style={styles.title}>List Staffs</Text>
 
+        {/* add and create account for new staff  */}
             <TouchableOpacity onPress={()=>navigation.navigate('CreateStaffAccount')}>
                 <Image source={add} style={styles.add}/>        
             </TouchableOpacity>
-            <CustomModal visible={visible}>
-            
-            
-            <ScrollView>
-                <View >
-                    <View style={styles.header}>
-                        <Image source={close} style={{width:20, height:20}}/>
-                    </View>
-                </View>
-                <Text style={styles.modalTitle}>Create your staff account</Text>
-                <View style={{marginTop:50}}>
-                <CustomTextInput
-                    label='Username'
-                    placeholder="Username"
-                    blurColor={Colors.secondary}
-                    value={username}
-                    onChangeText={text=>setUsername(text)}
-                />
-                <CustomTextInput
-                    label='Password'
-                    placeholder="Password"
-                    value={password}
-                    blurColor={Colors.secondary}
-                    onChangeText={text=>setPassword(text)}
-                    secureTextEntry={isSecureEntry}
-                    icon={
-                    <TouchableOpacity
-                    onPress={() => {
-                    setIsSecureEntry((prev) => !prev);
-                    }}>
-                    <Image source={isSecureEntry ? hidden : eye} style={{width:25, height:25}}/>
-                    </TouchableOpacity>
-                    }
-                    iconPosition="right"
-                />
-                </View>
-                <TouchableOpacity
-                    onPress={() => {
-                    navigation.navigate('Home')
-                    }}
-                style={styles.button}>
-                    <Text style={styles.buttonText}>Create</Text>
-                </TouchableOpacity>
-                </ScrollView>
-                
-                
-
-                
-            </CustomModal>
-
+ 
+        {/* Edit button  */}
             <TouchableOpacity style={styles.editBox} onPress={() => navigation.navigate('Signup')}>
                
                 <Text style={styles.editText}>Edit</Text>
                 <Image source={pencil} style={styles.pencil}/>
                 
-                </TouchableOpacity>
-                
-                
-            
+                </TouchableOpacity>    
         </View>
+
+        {/* Search bar  */}
         <View style={styles.containerTemp}>
         <View style={styles.containerSearchLayout}>
                 <TouchableOpacity style={styles.btnSearch}>
@@ -119,6 +73,8 @@ const StaffManagement = () => {
                 placeholder ={'Search Staff...'} />
             </View>
             </View>
+
+            {/* List staffs  */}
         <View style={{justifyContent:'center', alignItems:'center'}}>
             <Text style={styles.textWaiter}>Cashiers</Text>
             <ButtonUser name={'Huy'}/>

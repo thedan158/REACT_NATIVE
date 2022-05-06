@@ -3,8 +3,8 @@ import React,{ useState } from 'react'
 import { useNavigation } from '@react-navigation/core'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import logo from '../assets/images/logo_app.png'
-import PhoneInput from 'react-native-phone-number-input';
 import CustomTextInput from '../custom component/CustomTextInput'
+import PhoneInput from 'react-native-phone-number-input';
 
 const ForgotPassword = () => {
 const [phoneNumber, setPhoneNumber] = useState('');
@@ -21,34 +21,41 @@ const handleForgotPassword = () => {
   return (
       <ScrollView>
       <View style={styles.container}>
+
+        {/* Logo  and title*/}
     <View style={styles.view1}>
     <View>
         <Image style={styles.logo} source={logo}></Image>
     </View>
+       
     <View >
     <Text style={styles.textPleaseRegister}>Password Recovery</Text>
     </View>
     </View>
+
+
     <View style={styles.view2}>
-    <View 
->
+        {/* Subtitle  */}
+    <View>
 <Text style={styles.subtitle}>Please enter your mobile number to recover your password</Text>
       
+
+      {/* Input section  */}
         <Text style={styles.textLabel}>Mobile number</Text>
 
         <View style={styles.inputContainer}>
-
-       
-        <PhoneInput
-        placeholder="Mobile number"
+            <PhoneInput
+                 placeholder="Mobile number"
         value={phoneNumber}
         onChangeText={text=>setPhoneNumber(text)}
         style={styles.input}
-        >
-        </PhoneInput>
+            />
+       
+        
       </View>
 </View>
 
+        {/* Button  */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity
         onPress={handleForgotPassword}
@@ -135,15 +142,15 @@ const styles = StyleSheet.create({
       textPleaseRegister:{
          
         position:'relative',
-        top:-30,
+        top:10,
         fontSize:20,
         fontWeight:'bold'
       },
 
     logo:{
         
-        height:270,
-        width:270,
+        height:160,
+        width:170,
         position:'relative',
         top:5
      
@@ -158,7 +165,8 @@ const styles = StyleSheet.create({
     },
 
     view2:{
-        flex:0.9
+        flex:0.9,
+        marginTop:20
     },
 
     textLabel:{

@@ -57,6 +57,7 @@ const handleSignup = () => {
         </View>
      </View>
 
+    {/* Pick image  */}
      <TouchableOpacity 
         onPress={PickImage}>
      <View style={styles.pickLogo}>
@@ -77,7 +78,7 @@ const handleSignup = () => {
         </TouchableOpacity>
         
      
-
+        {/* Input section  */}
     <View style={styles.view2}>
 
     <View style={{marginTop:-15}}>
@@ -90,7 +91,7 @@ const handleSignup = () => {
         placeholder='Name of Restaurant'/>
     </View>
 
-    {/* Mobile number input */}
+    {/* Address input */}
     <View style={{marginTop:-15}}>
     <CustomTextInput 
     blurColor={Colors.primary}
@@ -98,7 +99,7 @@ const handleSignup = () => {
         onChangeText={text=>setAddress(text)} 
         placeholder='Address'/>
     </View>
-    {/* Password */}
+    {/* Hotline */}
     <View style={{marginTop:-15}}>
     <CustomTextInput 
     blurColor={Colors.primary}
@@ -118,7 +119,7 @@ const handleSignup = () => {
     
 
     
-    {/* Sign-up button */}
+    {/* Button */}
     <View style={styles.buttonContainer}>
         <TouchableOpacity
         onPress={handleSignup}
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
 
     },
       view1:{
-          
+          margin:20,
           justifyContent:'center',
           alignItems:'center'
       },
@@ -178,7 +179,7 @@ const styles = StyleSheet.create({
         flexDirection:'column',
         alignItems:'center',
         justifyContent:'center',
-        marginTop:10
+        marginTop:20
     },
     view3:{
        
@@ -192,15 +193,15 @@ const styles = StyleSheet.create({
       textPleaseRegister:{
          
         position:'relative',
-        top:-30,
+        top:10,
         fontSize:20,
         fontWeight:'bold'
       },
 
     logo:{
         
-        height:270,
-        width:270,
+        height:160,
+        width:170,
         position:'relative',
         top:5
      
@@ -320,7 +321,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#F2F2F2',
         flex:1,
         alignSelf:'center',
-        marginTop:-5,
+        marginTop:5,
         justifyContent:'space-evenly',
         alignItems:'center',
         borderColor:'black',

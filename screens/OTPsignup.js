@@ -16,6 +16,7 @@ useEffect(()=>{
     textInput.focus()
 },[])
 
+    // Countdown 60s function
 React.useEffect(()=>{
     let interval = setInterval(()=>{
         setTimer(prevTimer => {
@@ -30,16 +31,18 @@ React.useEffect(()=>{
     return () => clearInterval(interval)
 }, [])
 
-// *Region for OnPress Login
+
 const handleOTP = () => {
     navigation.navigate('RestaurantInformation')
   }
-// *End Region
+
 
 
   return (
       <ScrollView>
       <View style={styles.container}>
+
+       {/* Logo and title  */}
     <View style={styles.view1}>
     <View>
         <Image style={styles.logo} source={logo}></Image>
@@ -49,13 +52,12 @@ const handleOTP = () => {
     </View>
     </View>
     <View style={styles.view2}>
-    <View 
->
+    <View>
+      {/* Subtitle  */}
 <Text style={styles.subtitle}>An authentication code has been send to your phone number</Text>
-      
 
 
-        
+        {/* Number input section  */}
 <View >
        
         <TextInput
@@ -90,12 +92,8 @@ const handleOTP = () => {
         }
         </View>
     </View> 
-
-
-
-
         
-       
+        {/* Resend code */}
       
       <View style={styles.countDown}>
       <Text style={styles.subtitle2}>Didn't receive code?</Text>
@@ -108,6 +106,7 @@ const handleOTP = () => {
         </View>
 </View>
 
+        {/* Button section  */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity
         
@@ -182,7 +181,7 @@ const styles = StyleSheet.create({
     },
     
       view1:{
-          
+          margin:20,
           justifyContent:'center',
           alignItems:'center'
       },
@@ -190,15 +189,15 @@ const styles = StyleSheet.create({
       textPleaseRegister:{
          
         position:'relative',
-        top:-30,
+        top:10,
         fontSize:20,
         fontWeight:'bold'
       },
 
     logo:{
         
-        height:270,
-        width:270,
+        height:160,
+        width:170,
         position:'relative',
         top:5
      
@@ -213,7 +212,8 @@ const styles = StyleSheet.create({
     },
 
     view2:{
-        flex:0.9
+        flex:0.9,
+        marginTop:20
     },
 
     textLabel:{
