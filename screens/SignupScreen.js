@@ -1,312 +1,301 @@
-import {TouchableOpacity, KeyboardAvoidingView, StyleSheet, Text, View, Image, Button,  Alert, ScrollView } from 'react-native'
-import React, {useState} from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { useNavigation } from '@react-navigation/core'
-import logo from '../assets/images/logo_app.png'
-import { TextInput } from 'react-native-gesture-handler'
-import CustomTextInput from '../custom component/CustomTextInput'
-import eye from '../assets/icons/eye.png'
-import hidden from '../assets/icons/close-eye.png'
-import Colors from '../assets/Colors'
+import {
+  TouchableOpacity,
+  Dimensions,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ImageBackground,
+  Alert,
+  ScrollView,
+} from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/core';
+import logo from '../assets/images/logo_app.png';
+import { TextInput } from 'react-native-gesture-handler';
+import CustomTextInput from '../custom component/CustomTextInput';
+import eye from '../assets/icons/eye.png';
+import hidden from '../assets/icons/close-eye.png';
+import Colors from '../assets/Colors';
+import background from '../assets/images/background.png';
 
-
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const SignupScreen = () => {
-    const [fullName, setFullName] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [isSecureEntry, setIsSecureEntry] = useState(true);
-    const [isSecureEntryConfirm, setIsSecureEntryConfirm] = useState(true);
-    const navigation = useNavigation()
+  const [fullName, setFullName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isSecureEntry, setIsSecureEntry] = useState(true);
+  const [isSecureEntryConfirm, setIsSecureEntryConfirm] = useState(true);
+  const navigation = useNavigation();
 
-
-// *Region for OnPress Signup
-const handleSignup = () => {
-    navigation.navigate('OTPsignup')
-  }
+  // *Region for OnPress Signup
+  const handleSignup = () => {
+    navigation.navigate('OTPsignup');
+  };
   return (
-    
     <ScrollView>
-    
-    <View style={styles.container}>
-    {/* Logo and title */}
-    <View style={styles.view1}>
-        <View>
-            <Image style={styles.logo} source={logo}></Image>
-        </View>
-        <View >
-        <Text style={styles.textPleaseRegister}>Register your information</Text>
-        </View>
-     </View>
+      <View style={styles.container}>
+        <ImageBackground
+          source={background}
+          resizeMode="cover"
+          style={{ flex: 1 }}
+        >
+          {/* Logo and title */}
+          <View style={styles.view1}>
+            <View>
+              <Image style={styles.logo} source={logo}></Image>
+            </View>
+          </View>
 
-     
-        {/* Input section  */}
-    <View style={styles.view2}>
+          {/* Input section  */}
+          <View style={styles.view2}>
+            <View>
+              <Text style={styles.textPleaseRegister}>
+                Register your information
+              </Text>
+            </View>
+            <View style={{ marginTop: -15 }}>
+              {/* Full name input */}
 
-    <View style={{marginTop:-15}}>
-    {/* Full name input */}
-    
-        <CustomTextInput 
-        blurColor={Colors.primary}
-         value={fullName}
-        onChangeText={text=>setFullName(text)} 
-        placeholder='Full Name'/>
-    </View>
+              <CustomTextInput
+                blurColor={Colors.primary}
+                value={fullName}
+                onChangeText={(text) => setFullName(text)}
+                placeholder="Full Name"
+              />
+            </View>
 
-    {/* Mobile number input */}
-    <View style={{marginTop:-15}}>
-    <CustomTextInput 
-    blurColor={Colors.primary}
-         value={phoneNumber}
-        onChangeText={text=>setPhoneNumber(text)} 
-        keyboardType='decimal-pad'
-        placeholder='Mobile Number'/>
-    </View>
-    {/* Password */}
-    <View style={{marginTop:-15}}>
-    <CustomTextInput 
-    blurColor={Colors.primary}
-         value={password}
-        onChangeText={text=>setPassword(text)} 
-        placeholder='Password'
-        secureTextEntry={isSecureEntry}
-        icon={
-              <TouchableOpacity
-                onPress={() => {
-                  setIsSecureEntry((prev) => !prev);
-                }}>
-                <Image source={isSecureEntry ? hidden : eye} style={{width:25, height:25}}>
-                </Image>
+            {/* Mobile number input */}
+            <View style={{ marginTop: -15 }}>
+              <CustomTextInput
+                blurColor={Colors.primary}
+                value={phoneNumber}
+                onChangeText={(text) => setPhoneNumber(text)}
+                keyboardType="decimal-pad"
+                placeholder="Mobile Number"
+              />
+            </View>
+            {/* Password */}
+            <View style={{ marginTop: -15 }}>
+              <CustomTextInput
+                blurColor={Colors.primary}
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+                placeholder="Password"
+                secureTextEntry={isSecureEntry}
+                icon={
+                  <TouchableOpacity
+                    onPress={() => {
+                      setIsSecureEntry((prev) => !prev);
+                    }}
+                  >
+                    <Image
+                      source={isSecureEntry ? hidden : eye}
+                      style={{ width: 25, height: 25 }}
+                    ></Image>
+                  </TouchableOpacity>
+                }
+                iconPosition="right"
+              />
+            </View>
+            {/* Confirm password */}
+            <View style={{ marginTop: -15 }}>
+              <CustomTextInput
+                blurColor={Colors.primary}
+                value={confirmPassword}
+                onChangeText={(text) => setConfirmPassword(text)}
+                placeholder="Confirm Password"
+                secureTextEntry={isSecureEntryConfirm}
+                icon={
+                  <TouchableOpacity
+                    onPress={() => {
+                      setIsSecureEntryConfirm((prev) => !prev);
+                    }}
+                  >
+                    <Image
+                      source={isSecureEntryConfirm ? hidden : eye}
+                      style={{ width: 25, height: 25 }}
+                    ></Image>
+                  </TouchableOpacity>
+                }
+                iconPosition="right"
+              />
+            </View>
+          </View>
+
+          <View style={styles.view3}>
+            {/* Sign-up button */}
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity onPress={handleSignup} style={styles.button}>
+                <Text style={styles.buttonText}>Sign-up</Text>
               </TouchableOpacity>
-            }
-            iconPosition="right"
-        />
-        </View>
-    {/* Confirm password */}
-    <View style={{marginTop:-15}}>
-    <CustomTextInput 
-        blurColor={Colors.primary}
-         value={confirmPassword}
-        onChangeText={text=>setConfirmPassword(text)} 
-        placeholder='Confirm Password'
-        secureTextEntry={isSecureEntryConfirm}
-        icon={
-              <TouchableOpacity
-                onPress={() => {
-                  setIsSecureEntryConfirm((prev) => !prev);
-                }}>
-                <Image source={isSecureEntryConfirm ? hidden : eye} style={{width:25, height:25}}>
-                </Image>
+            </View>
+
+            {/* Login  */}
+            <View style={styles.registerText}>
+              <Text style={styles.ownerText}>Already an Owner? </Text>
+
+              <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                <Text style={styles.loginText}> Login</Text>
               </TouchableOpacity>
-            }
-            iconPosition="right"
-        />
-        </View>
-    </View>
-
-
-    
-    
-    
-
-    
-    {/* Sign-up button */}
-    <View style={styles.buttonContainer}>
-        <TouchableOpacity
-        onPress={handleSignup}
-        style={styles.button}>
-            <Text style={styles.buttonText}>Sign-up</Text>
-        </TouchableOpacity>
-        </View>
-
-        {/* Login  */}
-        <View style={styles.registerText}>
-    <Text style={styles.ownerText}>Already an Owner? </Text>
-
-        <TouchableOpacity 
-        onPress={() => navigation.navigate('Login')}>
-            <Text style={styles.loginText}> Login</Text>
-        </TouchableOpacity>
-    </View>
-    
-
-    
-    </View>
+            </View>
+          </View>
+        </ImageBackground>
+      </View>
     </ScrollView>
-   
-    
-    
-  )
-}
+  );
+};
 
-export default SignupScreen
+export default SignupScreen;
 
 const styles = StyleSheet.create({
-    container:{
-        // flex:1,
-        backgroundColor:'#F2F2F2'
-    },
-    buttonContainer:{
-        justifyContent:'center',
-        alignItems:'center',
-        marginTop:20,
-    },
-    button:{
-        backgroundColor:'#FA4A0C',
-        width:'80%',
-        padding:15,
-        borderRadius:20,
-        justifyContent:'center',
-        alignItems:'center',
-        elevation:1,
-        
-    },
-    buttonText:{
-        color:'white',
-        fontWeight:'700',
-        fontSize:16,
+  container: {
+    flex: 1,
+    backgroundColor: '#F2F2F2',
+    justifyContent: 'center',
+    width: windowWidth,
+    height: windowHeight,
+  },
+  buttonContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  button: {
+    backgroundColor: '#FA4A0C',
+    width: '80%',
+    padding: 15,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 1,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 16,
+  },
+  view1: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 3,
+  },
 
-    },
-      view1:{
-          margin:20,
-          justifyContent:'center',
-          alignItems:'center'
-      },
+  view2: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 5,
+  },
+  view3: {
+    flex: 2,
+  },
 
-      view2:{
-        marginTop:20,
-        flexDirection:'column',
-        alignItems:'center',
-        justifyContent:'center',
+  textPleaseRegister: {
+    position: 'relative',
 
-    },
-    view3:{
-       
-        position:'relative',
-        top:10,
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'center'
-    },
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
 
-      textPleaseRegister:{
-         
-        position:'relative',
-        top:20,
-        fontSize:20,
-        fontWeight:'bold'
-      },
+  logo: {
+    height: 160,
+    width: 170,
+    position: 'relative',
 
-    logo:{
-        
-        height:160,
-        width:170,
-        position:'relative',
-        top:5
-     
-    },
+    marginTop: 25,
+  },
 
-    textView:{
-        flex:0.12,
-        flexDirection:'row',
-        backgroundColor:'white',   
-        borderBottomLeftRadius: 50,
-        borderBottomRightRadius: 50,
-    },
+  textView: {
+    flex: 0.12,
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    borderBottomLeftRadius: 50,
+    borderBottomRightRadius: 50,
+  },
 
-    loginBox:{
-        flex:1,
-        alignItems:'center',
-        justifyContent:'center',
-        position:'relative',
-        top:30,
-        left:10
-        
-      
-      
-    },
+  loginBox: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+    top: 30,
+    left: 10,
+  },
 
-    loginText:{
-        color:'#FA4A0C',
-        fontWeight:'700',
-        fontSize:16,
-    },
+  loginText: {
+    color: '#FA4A0C',
+    fontWeight: '700',
+    fontSize: 16,
+  },
 
-    ownerText:{
-        color:'black',
-        fontSize:16,
-        fontWeight:'normal'
-    },
+  ownerText: {
+    color: 'black',
+    fontSize: 16,
+    fontWeight: 'normal',
+  },
 
+  signupBox: {
+    flex: 0.5,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    position: 'relative',
+    right: 15,
+  },
 
-    signupBox:{
-        flex:0.5,
-        alignItems:'center',
-        justifyContent:'flex-start',
-        position:'relative',
-        right:15
-        
-    },
+  rectangle: {
+    width: 130,
+    height: 3,
+    backgroundColor: '#FA4A0C',
+    position: 'relative',
+    bottom: -9,
+  },
 
-    rectangle:{
-        width: 130,
-        height: 3,
-        backgroundColor: "#FA4A0C",
-        position:'relative',
-        bottom:-9,
-       
-    },
+  signupText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
 
-    signupText:{
-        fontSize:20,
-        fontWeight:'bold'
-    },
-    
-    registerText:{
-        flexWrap:'wrap',
-        flexDirection:'row',
-        marginTop:20,
-        justifyContent:'center'
-    },
+  registerText: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    marginTop: 20,
+    justifyContent: 'center',
+  },
 
-    fullNameBox:{
-        width: 300,
-        height: 55,
-        backgroundColor: "white",
-        justifyContent:'center',
-        alignItems:'flex-start',
-        borderRadius:13,
-        
-    },
+  fullNameBox: {
+    width: 300,
+    height: 55,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    borderRadius: 13,
+  },
 
-    fullNameText:{
-        fontSize:15,
-        marginLeft:30
-    },
+  fullNameText: {
+    fontSize: 15,
+    marginLeft: 30,
+  },
 
-    passwordBox:{
-        width: 300,
-        height: 55,
-        backgroundColor: "white",
-        justifyContent:'center',
-        alignItems:'center',
-        borderRadius:13,
-        marginTop:25,
-    },
+  passwordBox: {
+    width: 300,
+    height: 55,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 13,
+    marginTop: 25,
+  },
 
-   
-    
-
-  
-
-    textSignupButton:{
-        fontSize: 16,
-        lineHeight: 21,
-        fontWeight: 'bold',
-        letterSpacing: 0.25,
-        color: 'white',
-    },
-
-   
-    
-})
+  textSignupButton: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'white',
+  },
+});

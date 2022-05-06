@@ -11,4 +11,5 @@ export default {
    BarbiePink: '#E01D89',
    RosePink: '#FC69CD',
    lightGray: '#D3D3D3'
-}
+};
+

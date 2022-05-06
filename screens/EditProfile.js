@@ -13,9 +13,8 @@ import {
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/core';
-import logo from '../assets/images/logo_app.png';
 import CustomTextInput from '../custom component/CustomTextInput';
-import gallery from '../assets/icons/gallery.png';
+import gallery from '../assets/icons/picture.png';
 import * as ImagePicker from 'expo-image-picker';
 import { Constants } from 'expo-constants';
 import Colors from '../assets/Colors';
@@ -23,7 +22,7 @@ import background from '../assets/images/background.png';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-const RestaurantInformation = () => {
+const EditProfile = () => {
   const [nameOfRes, setNameOfRes] = useState('');
   const [address, setAddress] = useState('');
   const [hotline, setHotline] = useState('');
@@ -63,18 +62,6 @@ const RestaurantInformation = () => {
           resizeMode="cover"
           style={{ flex: 1 }}
         >
-          {/* Logo */}
-          <View style={styles.view1}>
-            <View>
-              <Image style={styles.logo} source={logo}></Image>
-            </View>
-            <View>
-              <Text style={styles.textPleaseRegister}>
-                Fill your restaurant information
-              </Text>
-            </View>
-          </View>
-
           {/* Pick image  */}
           <View style={styles.view2}>
             <TouchableOpacity onPress={PickImage}>
@@ -89,46 +76,55 @@ const RestaurantInformation = () => {
                 )}
               </View>
             </TouchableOpacity>
+            <TouchableOpacity onPress={PickImage} style={styles.button1}>
+              <Text style={styles.buttonText}>Choose Your Avatar</Text>
+            </TouchableOpacity>
           </View>
+
           {/* Input section  */}
           <View style={styles.view3}>
-            <View>
-              {/* Full name input */}
+            {/* Full name input */}
 
-              <CustomTextInput
-                blurColor={Colors.primary}
-                value={nameOfRes}
-                onChangeText={(text) => setNameOfRes(text)}
-                placeholder="Name of Restaurant"
-              />
-            </View>
+            <CustomTextInput
+              blurColor={Colors.primary}
+              value={nameOfRes}
+              onChangeText={(text) => setNameOfRes(text)}
+              placeholder="Full Name"
+            />
 
             {/* Address input */}
-            <View style={{ marginTop: -15 }}>
-              <CustomTextInput
-                blurColor={Colors.primary}
-                value={address}
-                onChangeText={(text) => setAddress(text)}
-                placeholder="Address"
-              />
-            </View>
+
+            <CustomTextInput
+              blurColor={Colors.primary}
+              value={address}
+              onChangeText={(text) => setAddress(text)}
+              placeholder="Address"
+            />
+
             {/* Hotline */}
-            <View style={{ marginTop: -15 }}>
-              <CustomTextInput
-                blurColor={Colors.primary}
-                value={hotline}
-                onChangeText={(text) => setHotline(text)}
-                placeholder="Hotline"
-                keyboardType="decimal-pad"
-              />
-            </View>
+
+            <CustomTextInput
+              blurColor={Colors.primary}
+              value={hotline}
+              onChangeText={(text) => setHotline(text)}
+              placeholder="Hotline"
+              keyboardType="decimal-pad"
+            />
+
+            <CustomTextInput
+              blurColor={Colors.primary}
+              value={hotline}
+              onChangeText={(text) => setHotline(text)}
+              placeholder="Hotline"
+              keyboardType="decimal-pad"
+            />
           </View>
 
           <View style={styles.view4}>
             {/* Button */}
             <View style={styles.buttonContainer}>
               <TouchableOpacity onPress={handleSignup} style={styles.button}>
-                <Text style={styles.buttonText}>Finish</Text>
+                <Text style={styles.buttonText}>Save</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -138,7 +134,7 @@ const RestaurantInformation = () => {
   );
 };
 
-export default RestaurantInformation;
+export default EditProfile;
 
 const styles = StyleSheet.create({
   container: {
@@ -160,47 +156,38 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 1,
   },
+  button1: {
+    backgroundColor: '#FA4A0C',
+    width: '60%',
+    padding: 10,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 1,
+  },
   buttonText: {
     color: 'white',
     fontWeight: '700',
     fontSize: 16,
   },
-  view1: {
-    flex: 3,
-    margin: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+
   view2: {
-    flex: 2,
-    justifyContent: 'center',
+    flex: 3,
+    justifyContent: 'space-evenly',
     alignItems: 'center',
     backgroundColor: 'white',
+    marginTop: 30,
   },
   view3: {
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'flex-start',
-    flex: 3,
+    justifyContent: 'center',
+    flex: 5,
   },
   view4: {
-    flex: 2,
-    justifyContent: 'flex-end',
-    marginBottom: 5,
-  },
-
-  textPleaseRegister: {
-    position: 'relative',
-    top: 10,
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-
-  logo: {
-    height: 160,
-    width: 170,
-    position: 'relative',
-    top: 5,
+    flex: 1,
+    justifyContent: 'center',
+    margin: 5,
   },
 
   textView: {
@@ -319,8 +306,8 @@ const styles = StyleSheet.create({
   },
 
   ImageBackground: {
-    height: 80,
-    width: 80,
+    height: 50,
+    width: 50,
     position: 'absolute',
     alignSelf: 'center',
   },

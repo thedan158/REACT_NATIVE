@@ -1,29 +1,6 @@
 import React from "react";
 import { View, Image, TouchableOpacity } from "react-native";
 import {
-<<<<<<< HEAD
-    View,
-    Image,
-    TouchableOpacity
-} from 'react-native';
-import { createBottomTabNavigator, BottomTabBar } from "@react-navigation/bottom-tabs"
-import  { Path } from 'react-native-svg';
-import  Svg from 'react-native-svg'
-import HomeScreen from '../screens/HomeScreen';
-import OrderScreen from '../screens/OrderScreen';
-import RestaurantManagement from '../screens/RestaurantManagement';
-import SelectedTable from '../screens/SelectedTableScreen';
-import Account from '../screens/Account';
-import order from '../assets/icons/order.png'
-import home from '../assets/icons/home.png'
-import account from '../assets/icons/user.png'
-import cash from '../assets/icons/cash.png'
-import HomeScreen2nd from '../screens/HomeScreen2nd';
-
-
-
-
-=======
   createBottomTabNavigator,
   BottomTabBar,
 } from "@react-navigation/bottom-tabs";
@@ -39,7 +16,6 @@ import home from "../assets/icons/home.png";
 import account from "../assets/icons/user.png";
 import cash from "../assets/icons/cash.png";
 import HomeScreen2nd from "../screens/HomeScreen2nd";
->>>>>>> f4f9ea8b2f85e59e672b95b58bf93087df28ab78
 
 const Tab = createBottomTabNavigator();
 
@@ -112,55 +88,6 @@ const CustomTabBar = (props) => {
 };
 
 const Tabs = () => {
-<<<<<<< HEAD
-    return (
-        <Tab.Navigator
-        
-            screenOptions={{
-                tabBarShowLabel: false,
-                headerShown:false,
-                tabBarStyle: {
-                    position: 'absolute',
-                    left: 0,
-                    bottom: 0,
-                    right: 0,
-                    borderTopWidth: 0,
-                    backgroundColor: 'transparent',
-                    elevation: 0,
-                    display:'flex',
-                    
-                    
-                }
-                
-            }}
-            tabBar={(props) => (
-                <CustomTabBar
-                    props={props}
-                />
-            )}
-        >
-            <Tab.Screen
-                name="Home"
-                component={HomeScreen2nd}
-                options={{
-                    tabBarIcon: ({ focused }) => (
-                        <Image
-                            source={home}
-                            resizeMode="contain"
-                            style={{
-                                width: 25,
-                                height: 25,
-                                tintColor: focused ? "#FC6D3F" : "#CDCDD2"
-                            }}
-                        />
-                    ),
-                    tabBarButton: (props) => (
-                        <TabBarCustomButton
-                            {...props}
-                        />
-                    )
-                }}
-=======
   return (
     <Tab.Navigator
       screenOptions={{
@@ -192,7 +119,6 @@ const Tabs = () => {
                 height: 25,
                 tintColor: focused ? "#FC6D3F" : "#CDCDD2",
               }}
->>>>>>> f4f9ea8b2f85e59e672b95b58bf93087df28ab78
             />
           ),
           tabBarButton: (props) => <TabBarCustomButton {...props} />,

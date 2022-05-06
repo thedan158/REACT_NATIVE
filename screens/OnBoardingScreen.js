@@ -9,13 +9,12 @@ import {
   StatusBar,
   TouchableOpacity,
   Dimensions,
+  LogBox
 } from 'react-native';
 import logo from '../assets/images/logo_app2.png'
 import restaurant from '../assets/images/logo_app.png'
-
+import Colors from '../assets/Colors';
 const {width, height} = Dimensions.get('window');
-
-const COLORS = {primary: '#282534', white: '#fff'};
 
 const slides = [
   {
@@ -48,7 +47,7 @@ const Slide = ({item}) => {
       </View>
       <Image
         source={item?.image}
-        style={{height:'60%', width:width, resizeMode:'contain'}}
+        style={{height:'50%', width:width, resizeMode:'contain',marginTop:30}}
       />
       
     </View>
@@ -56,6 +55,8 @@ const Slide = ({item}) => {
 };
 
 const OnboardingScreen = ({navigation}) => {
+  LogBox.ignoreAllLogs();
+
   const [currentSlideIndex, setCurrentSlideIndex] = React.useState(0);
   const ref = React.useRef();
   const updateCurrentSlideIndex = e => {
@@ -102,7 +103,7 @@ const OnboardingScreen = ({navigation}) => {
               style={[
                 styles.indicator,
                 currentSlideIndex == index && {
-                  backgroundColor: COLORS.white,
+                  backgroundColor: Colors.primary,
                   width: 25,
                 },
               ]}
@@ -117,7 +118,7 @@ const OnboardingScreen = ({navigation}) => {
               <TouchableOpacity
                 style={styles.btn}
                 onPress={() => navigation.replace('Login')}>
-                <Text style={{fontWeight: 'bold', fontSize: 15}}>
+                <Text style={{fontWeight: 'bold', fontSize: 15, color:'white'}}>
                   GET STARTED
                 </Text>
               </TouchableOpacity>
@@ -129,7 +130,7 @@ const OnboardingScreen = ({navigation}) => {
                 style={[
                   styles.btn,
                   {
-                    borderColor: COLORS.white,
+                    borderColor: 'black',
                     borderWidth: 1,
                     backgroundColor: 'transparent',
                   },
@@ -139,7 +140,7 @@ const OnboardingScreen = ({navigation}) => {
                   style={{
                     fontWeight: 'bold',
                     fontSize: 15,
-                    color: COLORS.white,
+                    color: 'black',
                   }}>
                   SKIP
                 </Text>
@@ -153,6 +154,7 @@ const OnboardingScreen = ({navigation}) => {
                   style={{
                     fontWeight: 'bold',
                     fontSize: 15,
+                    color:'white'
                   }}>
                   NEXT
                 </Text>
@@ -165,9 +167,9 @@ const OnboardingScreen = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor:"#FC7C13"}}>
+    <SafeAreaView style={{flex: 1, backgroundColor:"white"}}>
       <Image source={restaurant} style={{top:20,width:90,height:90, alignSelf:'center'}}/>
-      <StatusBar backgroundColor={COLORS.primary} />
+      <StatusBar backgroundColor={Colors.primary} />
       <FlatList
         ref={ref}
         onMomentumScrollEnd={updateCurrentSlideIndex}
@@ -185,7 +187,7 @@ const OnboardingScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
   subtitle: {
-    color: COLORS.white,
+    color: 'white',
     fontSize: 13,
     marginTop: 10,
     maxWidth: '70%',
@@ -193,7 +195,7 @@ const styles = StyleSheet.create({
     lineHeight: 23,
   },
   title: {
-    color: COLORS.white,
+    color: Colors.primary,
     fontSize: 25,
     fontWeight: 'bold',
     marginTop:50,
@@ -216,7 +218,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 50,
     borderRadius: 10,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.primary,
     justifyContent: 'center',
     alignItems: 'center',
   },

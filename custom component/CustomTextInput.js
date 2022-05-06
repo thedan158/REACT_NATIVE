@@ -82,14 +82,14 @@ const styles = StyleSheet.create({
           width: 0,
           height: 2,
         },
-        shadowOpacity: 0.20,
+        shadowOpacity: 0.2,
         shadowRadius: 1.41,
         
-        elevation: 1,
+        elevation:15,
 
         width: 300,
         height: 55,
-        backgroundColor: "white",
+        backgroundColor: "#FFFCFB",
         justifyContent:'center',
         alignItems:'flex-start',
         borderRadius:13,  

@@ -1,9 +1,12 @@
-import {Image, StyleSheet, Text,TextInput, View,TouchableOpacity, ScrollView } from 'react-native'
+import {Image, StyleSheet, Text,TextInput, View,TouchableOpacity, ScrollView,ImageBackground, Dimensions } from 'react-native'
 import React,{ useState, useEffect, useRef } from 'react'
 import { useNavigation } from '@react-navigation/core'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import logo from '../assets/images/logo_app.png'
+import background from '../assets/images/background.png'
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const OTP = () => {
 let textInput = useRef(null);
 const [internalVal, setInternalVal] = useState('');
@@ -40,6 +43,8 @@ const handleOTP = () => {
 
   return (
       <ScrollView>
+       <ImageBackground source={background} resizeMode="cover" style={{flex:1}}>
+
       <View style={styles.container}>
 
        {/* Logo and title  */}
@@ -76,7 +81,7 @@ const handleOTP = () => {
                 key={index}
                 style={[styles.inputContainer,
                 {
-                    borderColor:  index === internalVal.length ? '#FA4A0C' : 'white'
+                    borderColor:  index === internalVal.length ? '#FA4A0C' : 'black'
                 }
                 ]}
                 >
@@ -117,7 +122,9 @@ const handleOTP = () => {
         </View>
     
     </View>
+    
     </View>
+    </ImageBackground>
     </ScrollView>
   )
 }
@@ -129,6 +136,8 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         flex: 1,
+        width:windowWidth,
+        height:windowHeight
     },
    
 
@@ -183,7 +192,8 @@ const styles = StyleSheet.create({
       view1:{
           margin:20,
           justifyContent:'center',
-          alignItems:'center'
+          alignItems:'center',
+          flex:3
       },
     
       textPleaseRegister:{
@@ -199,7 +209,8 @@ const styles = StyleSheet.create({
         height:160,
         width:170,
         position:'relative',
-        top:5
+        top:5,
+        marginTop:25
      
     },
 
@@ -212,7 +223,7 @@ const styles = StyleSheet.create({
     },
 
     view2:{
-        flex:0.9,
+        flex:7,
         marginTop:20
     },
 
