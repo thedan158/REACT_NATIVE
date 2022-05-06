@@ -16,7 +16,7 @@ import order from '../assets/icons/order.png'
 import home from '../assets/icons/home.png'
 import account from '../assets/icons/user.png'
 import cash from '../assets/icons/cash.png'
-
+import HomeScreen2nd from '../screens/HomeScreen2nd';
 
 
 
@@ -130,7 +130,7 @@ const Tabs = () => {
         >
             <Tab.Screen
                 name="Home"
-                component={HomeScreen}
+                component={HomeScreen2nd}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Image

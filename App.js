@@ -32,6 +32,7 @@ import PermissionManager from './screens/PermissionManager';
 import StaffInformation from './screens/StaffInformation'
 import HomeScreen2nd from './screens/HomeScreen2nd'
 import MenuScreen from './screens/MenuScreen'
+import HomeScreen2ndFinal from './screens/HomeScreen2ndFinal';
 
 const Stack = createStackNavigator();
 
@@ -108,9 +109,12 @@ export default function App() {
         gestureEnabled: true,
         gestureDirection: 'horizontal',
       }}>
-
+        
+        <Stack.Screen name="HomeScreen2ndFinal" options={{headerShown: false}} component={HomeScreen2ndFinal} />
         <Stack.Screen name="HomeScreen2nd" options={{headerShown: false}} component={HomeScreen2nd} />
         <Stack.Screen name="MenuScreen" options={{headerShown: false}} component={MenuScreen} />
+        
+        
       <Stack.Screen name="RestaurantManagement" options={{headerShown: false}} component={RestaurantManagement} />
       <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
 
@@ -144,8 +148,6 @@ export default function App() {
      
       <Stack.Screen name="StaffInformation" component={StaffInformation} options={{...customTransition}}/>
       <Stack.Screen name="Home"  component={HomeScreen} options={{headerShown: false}} />
-      
-      
       
       
       <Stack.Screen options={{headerShown: false}} name="ForgotPassword" component={ForgotPassword}/>

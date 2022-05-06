@@ -119,15 +119,19 @@ const HomeScreen2nd = () => {
           </View>
         </View>
         {/* Devide line */}
+        <View style={styles.view3}>
         <View style={styles.containerLineDevide}>               
+        </View>
+        <View>
+            <Text style={{fontSize: 20, fontWeight: 'bold'}}>Exclusively on Swiggy</Text>
+            <Text>Deal-icious offers from top voucher!</Text>
+          </View>
         </View>
         {/* Container bottom */}
         <View style={styles.containerBottom}>
           {/* Header bottom Info */}
-          <View>
-            <Text style={{fontSize: 20, fontWeight: 'bold'}}>Exclusively on Swiggy</Text>
-            <Text>Deal-icious offers from top voucher!</Text>
-          </View>
+          
+          
           <TouchableOpacity style={styles.btnExclusivelyDeal}>
             <LinearGradient
               colors={['#FB6A70', '#FCA384']}
@@ -162,20 +166,30 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingHorizontal: 10,
     marginBottom: 50,
+    flex: 1,
+    height:windowHeight
   },
   containerHeaderTop:{
     flexDirection:'row',
     alignContent: 'center',
+    flex: 2,
   },
   containerInfoView:{
     alignSelf: 'center',
     justifyContent:"center",
     width: windowWidth,
+    flex: 4,
+  },
+  view3:
+  {
+    flex:1, 
+    justifyContent:'center'
   },
   containerBottom:{
     width: windowWidth,
     marginTop: 0,
     paddingLeft: 10,
+    flex: 3,
   },
   containerBottomSection:{
     flexDirection: 'row'
@@ -201,6 +215,7 @@ const styles = StyleSheet.create({
     width: windowWidth - 30, 
     backgroundColor: 'transparent', 
     justifyContent:'space-around',
+    
   },
   containerHeaderDetailMenuInfoTxt:{
     paddingLeft: 10,
@@ -221,11 +236,12 @@ const styles = StyleSheet.create({
   },
   containerLineDevide:{
     marginLeft: 10,
-    marginTop: 30,
+    // marginTop: 30,
     marginBottom: 10,
     width: windowWidth - 40,
     height: 2,
     backgroundColor: '#AFAFAF',
+    
   },
   imgUserIc:{
     width: 50,
