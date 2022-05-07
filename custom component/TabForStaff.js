@@ -10,12 +10,13 @@ import HomeScreen from "../screens/HomeScreen";
 import OrderScreen from "../screens/OrderScreen";
 import RestaurantManagement from "../screens/RestaurantManagement";
 import SelectedTable from "../screens/SelectedTableScreen";
-import Account from "../screens/Account";
+import AccountForStaff from "../screens/AccountForStaff";
 import order from "../assets/icons/order.png";
 import home from "../assets/icons/home.png";
 import account from "../assets/icons/user.png";
 import cash from "../assets/icons/cash.png";
-import HomeScreen2nd from "../screens/HomeScreen2nd";
+import HomeScreen2ndFinal from "../screens/HomeScreen2ndFinal";
+
 
 const Tab = createBottomTabNavigator();
 
@@ -108,7 +109,7 @@ const Tabs = () => {
     >
       <Tab.Screen
         name="Home"
-        component={HomeScreen2nd}
+        component={HomeScreen2ndFinal}
         options={{
           tabBarIcon: ({ focused }) => (
             <Image
@@ -165,7 +166,7 @@ const Tabs = () => {
 
       <Tab.Screen
         name="User"
-        component={Account}
+        component={AccountForStaff}
         options={{
           tabBarIcon: ({ focused }) => (
             <Image

@@ -3337,6 +3337,11 @@
     "raw-body" "2.4.3"
     "type-is" "~1.6.18"
 
+"bodymovin@^4.13.0":
+  "integrity" "sha1-Btl8ATDiM03MszvqY4E2+Ip0VAs="
+  "resolved" "https://registry.npmjs.org/bodymovin/-/bodymovin-4.13.0.tgz"
+  "version" "4.13.0"
+
 "bonjour@^3.5.0":
   "integrity" "sha1-jokKGD2O6aI5OzhExpGkK897yfU="
   "resolved" "https://registry.npmjs.org/bonjour/-/bonjour-3.5.0.tgz"
@@ -5214,10 +5219,10 @@
   "resolved" "https://registry.npmjs.org/expo-updates-interface/-/expo-updates-interface-0.5.1.tgz"
   "version" "0.5.1"
 
-"expo-updates@~0.11.6":
-  "integrity" "sha512-nTzEc/z0/QHwu6gJhYSh5TWDSzNLO9bmtP4aQzStfqT8RRoh1bYRomszxjc7e3CsZT8xrG88XKlZ4iKL6zHLoQ=="
-  "resolved" "https://registry.npmjs.org/expo-updates/-/expo-updates-0.11.6.tgz"
-  "version" "0.11.6"
+"expo-updates@~0.11.7":
+  "integrity" "sha512-zmteCFOBj2OtDOZO5eGgFHR4EXZvFUv5DM56aMkZ6+PE/fo+8ZjNZLxkQWD33GXmXs/9jLCLKXPj2+6kCJvyhg=="
+  "resolved" "https://registry.npmjs.org/expo-updates/-/expo-updates-0.11.7.tgz"
+  "version" "0.11.7"
   dependencies:
     "@expo/config" "^6.0.6"
     "@expo/config-plugins" "^4.0.2"
