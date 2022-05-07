@@ -28,6 +28,8 @@ const HomeScreen2ndFinal = ({navigation }) => {
                     style={styles.icUserStyle} />
             </View>
             <View style={styles.containerBtnMenuInfo}>
+
+                {/* Button Menu Open */}
                 <TouchableOpacity style={styles.btnMenuOpen} onPress={() => navigation.navigate('MenuScreen')}>
                     <LinearGradient
                         colors={[Colors.ImperialRed, Colors.DarkOrange]}
@@ -74,7 +76,9 @@ const HomeScreen2ndFinal = ({navigation }) => {
                 </TouchableOpacity>
             </View>
             <View style={styles.containerBtnDealInfo}>
-                <TouchableOpacity style={styles.btnSaleOffOpen}>
+
+                {/* Button 2 */}
+                <TouchableOpacity style={styles.btnSaleOffOpen} onPress={() => navigation.navigate('Button2Screen')}>
                     <LinearGradient
                         style={styles.btnSaleOffOpen}
                         colors={[Colors.FrenchRaspberry, Colors.ParadisePink]}
@@ -93,8 +97,9 @@ const HomeScreen2ndFinal = ({navigation }) => {
                             style={styles.imgSaleOff} />
                     </LinearGradient>
                 </TouchableOpacity>
-
-                <TouchableOpacity style={styles.btnTryNewDishOpen}>
+                
+                {/* Button 3 */}
+                <TouchableOpacity style={styles.btnTryNewDishOpen} onPress={() => navigation.navigate('Button3Screen')}>
                     <LinearGradient
                         style={styles.btnTryNewDishOpen}
                         colors={['#f12711', '#f5af19']}
@@ -118,7 +123,8 @@ const HomeScreen2ndFinal = ({navigation }) => {
                 <Text style={styles.txtExclDealerText}>Exclusive Deal Of The DaY</Text>
             </View>
             <View style={styles.containerBtnExcDeals}>
-                <TouchableOpacity style={styles.btnBottomOpen}>
+                {/* Button 4 */}
+                <TouchableOpacity style={styles.btnBottomOpen} onPress={() => navigation.navigate('Button4Screen')}>
                     <LinearGradient
                         style={styles.btnBottomOpen}
                         colors={['#FB6A70', '#FCA384']}

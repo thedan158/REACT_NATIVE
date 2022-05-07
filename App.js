@@ -53,6 +53,10 @@ import StaffInformation from './screens/StaffInformation'
 import MenuScreen from './screens/MenuScreen'
 import HomeScreen2ndFinal from './screens/HomeScreen2ndFinal';
 import EditProfile from './screens/EditProfile';
+import Button2Screen from './screens/Button2Screen';
+import Button3Screen from './screens/Button3Screen';
+import Button4Screen from './screens/Button4Screen'
+
 
 
 const Stack = createStackNavigator();
@@ -129,6 +133,37 @@ export default function App() {
           gestureDirection: 'horizontal',
         }}
       >
+        <Stack.Screen
+          options={{headerShown: false,}}
+          name="HomeScreen2ndFinal"
+          component={HomeScreen2ndFinal}
+        />
+
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="MenuScreen"
+          component={MenuScreen}
+        />
+        
+        <Stack.Screen
+         options={{headerShown: false}}
+         name="Button2Screen"
+         component={Button2Screen}
+
+        />
+
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="Button3Screen"
+          component={Button3Screen}
+        />
+
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="Button4Screen"
+          component={Button4Screen}
+        />
+
         <Stack.Screen
           options={{ headerShown: false }}
           name="SplashScreen"

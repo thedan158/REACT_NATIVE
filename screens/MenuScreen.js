@@ -273,6 +273,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     fontWeight: 'bold',
+    paddingHorizontal: '6%',
   },
   txtInfo1: {
     color: '#fff',
