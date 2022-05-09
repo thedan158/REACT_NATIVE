@@ -53,6 +53,7 @@ import StaffInformation from './screens/StaffInformation';
 import HomeScreen2nd from './screens/HomeScreen2nd';
 import MenuScreen from './screens/MenuScreen';
 import EditProfile from './screens/EditProfile';
+import { ScreenStackHeaderLeftView } from 'react-native-screens';
 
 const Stack = createStackNavigator();
 
@@ -133,12 +134,12 @@ export default function App() {
           name="SplashScreen"
           component={SplashScreen}
         />
-
         <Stack.Screen
           options={{ headerShown: false }}
           name="Login"
           component={LoginScreen}
         />
+
         <Stack.Screen
           options={{ headerShown: false }}
           name="AppLoader"
