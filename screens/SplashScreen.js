@@ -19,7 +19,7 @@ const SplashScreen = ({ navigation }) => {
 
   setTimeout(function () {
     setTimePassed(true);
-  }, 5000);
+  }, 4000);
 
   if (!timePassed) {
     return (
@@ -53,7 +53,7 @@ const SplashScreen = ({ navigation }) => {
       </View>
     );
   }
-  navigation.navigate('OnBoardingScreen');
+  navigation.replace('OnBoardingScreen');
   return null;
 };
 
