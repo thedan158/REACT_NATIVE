@@ -47,17 +47,21 @@ import CreateStaffAccount from './screens/CreateStaffAccount';
 import RestaurantManagement from './screens/RestaurantManagement';
 import TabForStaff from './custom component/TabForStaff';
 import TabForOwner from './custom component/TabForOwner';
+import TabForChef from './custom component/TabForChef';
 import RePasswordSuccess from './screens/RePasswordSuccess';
 import PermissionManager from './screens/PermissionManager';
-import StaffInformation from './screens/StaffInformation'
-import MenuScreen from './screens/MenuScreen'
+import StaffInformation from './screens/StaffInformation';
+import MenuScreen from './screens/MenuScreen';
 import HomeScreen2ndFinal from './screens/HomeScreen2ndFinal';
 import EditProfile from './screens/EditProfile';
+import { ScreenStackHeaderLeftView } from 'react-native-screens';
 import Button2Screen from './screens/Button2Screen';
 import Button3Screen from './screens/Button3Screen';
-import Button4Screen from './screens/Button4Screen'
-
-
+import Button4Screen from './screens/Button4Screen';
+import RestaurantKitchen from './screens/ReceiveOrder';
+import AcceptedOrder from './screens/AcceptedOrder';
+import CompletedOrder from './screens/CompletedOrder';
+import OrderDetails from './custom component/OrderDetails';
 
 const Stack = createStackNavigator();
 
@@ -134,26 +138,60 @@ export default function App() {
         }}
       >
         <Stack.Screen
-          options={{headerShown: false,}}
+          options={{ headerShown: false }}
+          name="SplashScreen"
+          component={SplashScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="Login"
+          component={LoginScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="OnBoardingScreen"
+          component={OnBoardingScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="AcceptedOrder"
+          component={AcceptedOrder}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="CompletedOrder"
+          component={CompletedOrder}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="OrderDetails"
+          component={OrderDetails}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="RestaurantKitchen"
+          component={RestaurantKitchen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
           name="HomeScreen2ndFinal"
           component={HomeScreen2ndFinal}
         />
 
         <Stack.Screen
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
           name="MenuScreen"
           component={MenuScreen}
         />
-        
-        <Stack.Screen
-         options={{headerShown: false}}
-         name="Button2Screen"
-         component={Button2Screen}
 
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="Button2Screen"
+          component={Button2Screen}
         />
 
         <Stack.Screen
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
           name="Button3Screen"
           component={Button3Screen}
         />
@@ -166,25 +204,8 @@ export default function App() {
 
         <Stack.Screen
           options={{ headerShown: false }}
-          name="SplashScreen"
-          component={SplashScreen}
-        />
-
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="Login"
-          component={LoginScreen}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
           name="AppLoader"
           component={AppLoader}
-        />
-
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="OnBoardingScreen"
-          component={OnBoardingScreen}
         />
 
         <Stack.Screen
@@ -222,6 +243,11 @@ export default function App() {
         />
         <Stack.Screen
           options={{ headerShown: false }}
+          name="TabForChef"
+          component={TabForChef}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
           name="TabForOwner"
           component={TabForOwner}
         />
@@ -230,7 +256,6 @@ export default function App() {
           name="TabForStaff"
           component={TabForStaff}
         />
-
 
         <Stack.Screen
           name="CreateStaffAccount"
@@ -257,7 +282,7 @@ export default function App() {
             },
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           }}
-      /> 
+        />
         <Stack.Screen
           name="StaffInformation"
           component={StaffInformation}

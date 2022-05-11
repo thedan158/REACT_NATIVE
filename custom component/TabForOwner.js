@@ -6,7 +6,7 @@ import {
 } from '@react-navigation/bottom-tabs';
 import { Path } from 'react-native-svg';
 import Svg from 'react-native-svg';
-import HomeScreen from '../screens/HomeScreen';
+import HomeScreen from '../screens/HomeScreen2ndFinal';
 import OrderScreen from '../screens/OrderScreen';
 import RestaurantManagement from '../screens/RestaurantManagement';
 import SelectedTable from '../screens/SelectedTableScreen';

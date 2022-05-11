@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
     flexDirection: 'row',
-    flex: 2,
+    flex: 2.5,
     marginHorizontal: 15,
   },
   btnEdit: {
