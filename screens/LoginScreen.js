@@ -30,8 +30,8 @@ const LoginScreen = () => {
   const navigation = useNavigation();
 
   const handleLogin = () => {
-    // navigation.navigate('AppLoader');
-    setVisible(true);
+    navigation.navigate('AppLoader');
+    // setVisible(true);
   };
 
   return (

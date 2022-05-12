@@ -9,6 +9,7 @@ import {
   Easing,
   Animated,
   LogBox,
+  Image,
 } from 'react-native';
 
 import {
@@ -17,6 +18,8 @@ import {
   HeaderStyleInterpolators,
   CardStyleInterpolators,
 } from '@react-navigation/stack';
+
+import back from './assets/icons/search.png';
 
 import { NavigationContainer } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
@@ -163,7 +166,9 @@ export default function App() {
           component={CompletedOrder}
         />
         <Stack.Screen
-          options={{ headerShown: false }}
+          options={{
+            headerShown: false,
+          }}
           name="OrderDetails"
           component={OrderDetails}
         />
@@ -216,7 +221,9 @@ export default function App() {
           component={EditProfile}
         />
         <Stack.Screen
-          options={{ headerShown: false }}
+          options={{
+            headerShown: false,
+          }}
           name="AccountForStaff"
           component={AccountForStaff}
         />

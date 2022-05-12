@@ -58,7 +58,7 @@ const Tabs = () => {
         tabBarShowLabel: false,
         headerShown: false,
         tabBarStyle: {
-          position: 'absolute',
+          position: 'relative',
           left: 0,
           bottom: 0,
           right: 0,
