@@ -271,13 +271,13 @@ export default OrderScreen;
 
 const styles = StyleSheet.create({
   container_top: {
-    height: 150,
+    height: 100,
     justifyContent: "center",
     alignContent: "center",
   },
   container: {
     backgroundColor: "#FFF",
-    paddingTop: 20,
+    paddingTop: 0,
     paddingBottom: 0,
     paddingLeft: 20,
     paddingRight: 20,
@@ -337,7 +337,7 @@ const styles = StyleSheet.create({
     top: 10,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 55,
   },
   viewMENU: {
     top: 5,

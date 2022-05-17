@@ -16,7 +16,7 @@ import home from "../assets/icons/home.png";
 import account from "../assets/icons/user.png";
 import cash from "../assets/icons/cash.png";
 import HomeScreen2ndFinal from "../screens/HomeScreen2ndFinal";
-
+import BillScreen from "../screens/BillScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -147,7 +147,7 @@ const Tabs = () => {
 
       <Tab.Screen
         name="Like"
-        component={HomeScreen}
+        component={BillScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <Image
