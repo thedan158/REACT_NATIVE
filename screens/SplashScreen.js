@@ -19,7 +19,7 @@ const SplashScreen = ({ navigation }) => {
 
   setTimeout(function () {
     setTimePassed(true);
-  }, 3500);
+  }, 4000);
 
   if (!timePassed) {
     return (
@@ -32,27 +32,28 @@ const SplashScreen = ({ navigation }) => {
           <Image
             source={logo}
             style={{
-              height: 200,
-              width: 200,
+              height: 210,
+              width: 225,
               alignSelf: 'center',
               marginTop: '40%',
             }}
           />
           <LottieView
             style={{
-              width: 200,
+              width: 300,
               height: 200,
+              marginTop: 30,
               alignSelf: 'center',
             }}
-            source={require('../assets/json/abc.json')}
-            loop={true}
+            source={require('../assets/json/loading%.json')}
+            loop={false}
             autoPlay
           />
         </ImageBackground>
       </View>
     );
   }
-  navigation.navigate('OnBoardingScreen');
+  navigation.replace('OnBoardingScreen');
   return null;
 };
 
