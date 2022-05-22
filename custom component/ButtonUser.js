@@ -23,13 +23,25 @@ export default ButtonUser;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+    borderRadius: 20,
+
+    justifyContent: 'center',
+    marginTop: 20,
   },
   TouchableOpacity: {
-    backgroundColor: 'white',
+    backgroundColor: '#f6fff8',
     width: 350,
     height: 50,
-    marginTop: 20,
+
     borderRadius: 20,
     flexDirection: 'row',
   },
@@ -37,7 +49,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     fontSize: 18,
     fontWeight: 'bold',
-    top: 32,
+
     left: 30,
   },
   icon: {
@@ -45,6 +57,5 @@ const styles = StyleSheet.create({
     height: 18,
     position: 'absolute',
     right: 30,
-    top: 35,
   },
 });
