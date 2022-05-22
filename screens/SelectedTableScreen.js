@@ -88,7 +88,7 @@ const SelectedTable = () => {
     // Root View
     <ScrollView style={styles.container}>
       <View style={styles.containerTop}>
-        <Text style={styles.txtHeaderView}>BILL</Text>
+        <Text style={styles.txtHeaderView}>SELECT TABLE</Text>
         <View style={styles.containerTemp}>
           <View style={styles.containerSearchLayout}>
             <TouchableOpacity style={styles.btnSearch}>
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
   },
   containerTop: {
     backgroundColor: "#FF4B3A",
-    height: 200,
+    height: 180,
     flexDirection: "column",
     flex: 1,
     margin: 0,
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   txtSearchBar: {
-    color: "#fff",
+    color: "#000000",
   },
   txtHeaderView: {
     fontSize: 30,

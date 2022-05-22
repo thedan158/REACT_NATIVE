@@ -18,7 +18,7 @@ import eye from "../assets/icons/eye.png";
 import hidden from "../assets/icons/close-eye.png";
 import Colors from "../assets/Colors";
 import background from "../assets/images/background.png";
-import AppLoader from "./AppLoader";
+import CustomModal from "../custom component/CustomModal";
 import axios from "axios";
 
 const windowWidth = Dimensions.get("window").width;
@@ -27,15 +27,15 @@ const LoginScreen = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isSecureEntry, setIsSecureEntry] = useState(true);
+  const [visible, setVisible] = React.useState(false);
   const navigation = useNavigation();
 
   const handleLogin = async () => {
-    // const credentials = { username: username, password: password };
 
     console.log("Login");
     // Passing configuration object to axios
     const res = await axios.post(
-      `https://af4b-171-253-12-221.ap.ngrok.io/auth/login`,
+      `https://055f-171-253-180-251.ap.ngrok.io/auth/login`,
       {
         username: username,
         password: password,
@@ -49,6 +49,30 @@ const LoginScreen = () => {
 
   return (
     <ScrollView>
+      {/* Modal  pop-up when login failed*/}
+      <CustomModal visible={visible}>
+        <View style={{ alignItems: "center" }}>
+          <Image
+            source={require("../assets/icons/remove.png")}
+            style={{ height: 150, width: 150, marginVertical: 30 }}
+          />
+        </View>
+
+        <Text style={{ marginVertical: 20, fontSize: 20, textAlign: "center" }}>
+          Incorrect username or password
+        </Text>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Login");
+            setVisible(false);
+          }}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>Try again !</Text>
+        </TouchableOpacity>
+      </CustomModal>
+
+      {/* Background  */}
       <ImageBackground
         source={background}
         resizeMode="cover"
@@ -125,6 +149,20 @@ const LoginScreen = () => {
                 }}
               >
                 <Text style={styles.buttonOutlineText}> Register</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.registerText}>
+              <Text style={styles.newOwnerText}>
+                Login to Restaurant Kitchen?
+              </Text>
+
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("TabForChef");
+                }}
+              >
+                <Text style={styles.buttonOutlineText}> Login</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -245,6 +283,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 20,
     justifyContent: "center",
+    maxWidth: 300,
   },
   forgotPassword: {
     color: "#FA4A0C",

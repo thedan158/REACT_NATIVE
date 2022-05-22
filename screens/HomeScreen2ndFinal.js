@@ -2,15 +2,13 @@ import { StyleSheet, Text, View, Dimensions, Image, TouchableOpacity, ImageBackg
 import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import Colors from '../assets/Colors'
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const imgBackgroundSource = require('../assets/images/Dishs1-nonCut.png');
 const maxWidthConst = windowWidth - 30;
-const imgBackgroundSoure2 = require('../assets/images/Artboard1.png');
+const imgBackgroundSource2 = require('../assets/images/Artboard1.png');
 const imgBackgroundSource3 = {uri: 'https://www.pngall.com/wp-content/uploads/2/Meal-PNG-Pic.png'};
 
 
@@ -18,8 +16,8 @@ const HomeScreen2ndFinal = ({navigation }) => {
     return (
         <View style={styles.container}>
             <View style={styles.containerHeaderTop}>
-                <Image source={{ uri: 'https://icons-for-free.com/download-icon-HOME-131994911289288683_512.png' }}
-                    style={styles.icHomeStyle} />
+                {/* <Image source={{ uri: 'https://icons-for-free.com/download-icon-HOME-131994911289288683_512.png' }}
+                    style={styles.icHomeStyle} /> */}
                 <View style={styles.containerTitleInfo}>
                     <Text style={styles.txtHome}>Home</Text>
                     
@@ -139,7 +137,7 @@ const HomeScreen2ndFinal = ({navigation }) => {
                             <Text style={{}}>Get them now!!!</Text>
                         </View>
                         <Image 
-                            source={imgBackgroundSoure2}
+                            source={imgBackgroundSource2}
                             style={styles.imgExcDeal}
                         />
                     </LinearGradient>
@@ -156,16 +154,16 @@ const styles = StyleSheet.create({
         width: windowWidth,
         height: windowHeight,
         flex: 1,
-        paddingTop: 30,
+        paddingTop: 0,
     },
     containerTitleInfo: {
         flex: 4,
         flexWrap: 'wrap',
-        marginTop: 10,
-        maxWidth: '80%',
-        
+        marginTop: '1%',
+        maxWidth: '90%',
         alignItems: 'center',
-        alignContent: 'center',
+        paddingLeft: '5%',
+        justifyContent: 'center',
     },
     containerHeaderTop: {
         flex: 1,
@@ -198,7 +196,7 @@ const styles = StyleSheet.create({
     },
     containerHeaderDetailMenuInfoTxt: {
         flex: 1,
-        paddingLeft: 10,
+        paddingLeft: '6%',
 
     },
     containerBtnMenuInfo: {
@@ -246,10 +244,10 @@ const styles = StyleSheet.create({
         top: 5,
     },
     icUserStyle: {
-        height: 60,
-        width: 60,
+        height: '80%',
+        width: '80%',
         flex: 1,
-
+        resizeMode: 'contain',
     },
     imgSaleOff: {
         flex: 1,
@@ -292,9 +290,10 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
     },
     txtHome: {
-        fontSize: 25,
+        fontSize: 30,
         fontWeight: 'bold',
         alignSelf: 'center',
+        alignItems: 'center',
     },
     txtExclDealerText: {
         flex: 1,

@@ -27,7 +27,7 @@ const AppLoader = ({ navigation }) => {
 
         {/* Text Loading  */}
 
-        <View
+        {/* <View
           style={{
             flexDirection: 'row',
             justifyContent: 'center',
@@ -36,7 +36,17 @@ const AppLoader = ({ navigation }) => {
         >
           <Text style={styles.text}>Loading </Text>
           <Text style={styles.dot}>...</Text>
-        </View>
+        </View> */}
+
+        <LottieView
+          style={{
+            width: 300,
+            height: 150,
+          }}
+          source={require('../assets/json/loading-text.json')}
+          loop={true}
+          autoPlay
+        />
       </View>
     );
   }

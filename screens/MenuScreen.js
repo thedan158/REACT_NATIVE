@@ -1,16 +1,25 @@
-import { StyleSheet, Text, View, Dimensions, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, FlatList } from 'react-native'
-import React from 'react'
-import Colors from '../assets/Colors'
-import { LinearGradient } from 'expo-linear-gradient'
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+  TextInput,
+  KeyboardAvoidingView,
+  FlatList,
+} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import Colors from '../assets/Colors';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-const icBack = require('../assets/icons/back.png')
-const icUser = require('../assets/icons/user.png')
-const icSearch = require('../assets/icons/search.png')
-const icStar = require('../assets/icons/Star.png')
+const icBack = require('../assets/icons/back.png');
+const icUser = require('../assets/icons/user.png');
+const icSearch = require('../assets/icons/search.png');
+const icStar = require('../assets/icons/Star.png');
 const maxWidthConst = windowWidth - 10;
-
 
 const DataMenu = [
   {
@@ -28,12 +37,11 @@ const DataMenu = [
     rating: 4.8,
     votes: 422,
     price: 253,
-
   },
   {
     id: 3,
     imgSource: require('../assets/images/pizza.jpg'),
-    nameDish: 'Pizza with recommendations',
+    nameDish: 'Saro with recommendations',
     rating: 4.6,
     votes: 221,
     price: 131,
@@ -45,98 +53,121 @@ const DataMenu = [
     rating: 4.1,
     votes: 321,
     price: 203,
+  },
+];
 
-  }
+const MenuScreen = ({ navigation }) => {
+  const [search, setSearch] = useState('');
+  const [masterData, setMasterData] = useState([]);
+  const [dataFromState, setNewData] = useState(DataMenu);
 
+  useEffect(() => {
+    setMasterData(DataMenu);
+    console.log('filteredData is all selected');
+  }, []);
 
-]
+  const searchFilterFunction = (text) => {
+    if (text) {
+      const newData = masterData.filter(function (item) {
+        const itemData = item.nameDish
+          ? item.nameDish.toLowerCase()
+          : ''.toUpperCase();
+        const textData = text.toLowerCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setNewData(newData);
+      setSearch(text);
+    } else {
+      setNewData(masterData);
+      setSearch(text);
+    }
+  };
 
-const FlatListItem = ({ item }) => {
-  return (
-    <View style={styles.containerItemFlatList}>
-      <View style={styles.containerImageItem}>
-        <Image source={item.imgSource}
-          style={styles.imgSourceItem}
-        />
-      </View>
-
-      <View style={styles.containerInfoItem}>
-        <Text style={styles.txtNameDishItem}>{item.nameDish}</Text>
-        <View style={styles.containerRatingItem}>
-          <Text style={styles.txtPriceItemInfo2}>${item.price}</Text>
-          <Image source={icStar}
-            style={styles.imgStarItem}
-          />
-          
-          <Text style={styles.txtRatingItem}>{item.rating}</Text>
-          <Text>({item.votes})</Text>
-
+  const FlatListItem = ({ item }) => {
+    return (
+      <View style={styles.containerItemFlatList}>
+        <View style={styles.containerImageItem}>
+          <Image source={item.imgSource} style={styles.imgSourceItem} />
         </View>
-        
-        <View style={styles.containerPriceItem}>
-          
+
+        <View style={styles.containerInfoItem}>
+          <Text style={styles.txtNameDishItem}>{item.nameDish}</Text>
+          <View style={styles.containerRatingItem}>
+            <Text style={styles.txtPriceItemInfo2}>${item.price}</Text>
+            <Image source={icStar} style={styles.imgStarItem} />
+
+            <Text style={styles.txtRatingItem}>{item.rating}</Text>
+            <Text>({item.votes})</Text>
+          </View>
+
+          <View style={styles.containerPriceItem}></View>
         </View>
       </View>
+    );
+  };
 
-    </View>
-  )
-
-}
-
-
-
-const MenuScreen = () => {
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.containerKeyboardAvoid}
     >
       <LinearGradient
         colors={[Colors.ImperialRed, Colors.DarkOrange]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
-        style={styles.container}>
+        style={styles.container}
+      >
         <View style={styles.containerHeaderInfo}>
           <View style={styles.containerHeaderTab}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}
+            >
               <Image style={styles.imgBack} source={icBack} />
             </TouchableOpacity>
             <Text style={styles.txtMenuHeader}>MENU</Text>
             <TouchableOpacity>
               <Image style={styles.imgUser} source={icUser} />
             </TouchableOpacity>
-
           </View>
           <View style={styles.containerHeaderInfoSections}>
-            <Text style={styles.txtInfo1}>Homemade meals prepared with love</Text>
+            <Text style={styles.txtInfo1}>
+              Homemade meals prepared with love
+            </Text>
             <Text style={styles.txtInfo2}>60% Off today!!</Text>
             <View style={styles.containerSearchView}>
               <TouchableOpacity>
                 <Image style={styles.icSearch} source={icSearch} />
               </TouchableOpacity>
-              <TextInput placeholder='Search Menu' 
-                  style={{maxWidth: windowWidth - 120,}}/>
+              <TextInput
+                placeholder="Search Menu"
+                value={search}
+                onChangeText={(text) => searchFilterFunction(text)}
+                underlineColorAndroid="transparent"
+                style={{ maxWidth: windowWidth - 120 }}
+              />
             </View>
           </View>
         </View>
         <View style={styles.containerDevideLine}></View>
         <View style={styles.containerMenuInfo}>
-            <FlatList
-              data={DataMenu}
-              renderItem={({item, index}) => {
-                return(
-                  <FlatListItem item={item} index={index}/>
-                )
-              }}
-              keyExtractor={item => item.id}
-            />
+          <FlatList
+            data={dataFromState}
+            renderItem={({ item, index }) => {
+              return <FlatListItem item={item} index={index} />;
+            }}
+            keyExtractor={(item) => item.id}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+          />
         </View>
       </LinearGradient>
     </KeyboardAvoidingView>
-  )
-}
+  );
+};
 
-export default MenuScreen
+export default MenuScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -146,14 +177,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: '3%',
     flex: 1,
   },
-  containerKeyboardAvoid:{
+  containerKeyboardAvoid: {
     flex: 1,
     height: windowHeight,
     width: windowWidth,
   },
   containerHeaderInfo: {
     flex: 1,
-
   },
   containerDevideLine: {
     flex: 0.01,
@@ -163,7 +193,7 @@ const styles = StyleSheet.create({
     marginBottom: '0%',
     backgroundColor: '#AFAFAF',
     alignSelf: 'center',
-},
+  },
   containerMenuInfo: {
     flex: 3,
     justifyContent: 'center',
@@ -182,7 +212,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 15,
     paddingBottom: '1.5%',
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -201,7 +231,6 @@ const styles = StyleSheet.create({
   },
   containerInfoItem: {
     flex: 1,
-
   },
   containerRatingItem: {
     flexDirection: 'row',
@@ -219,7 +248,7 @@ const styles = StyleSheet.create({
     maxWidth: windowWidth - 80,
     borderRadius: 45,
     backgroundColor: '#fff',
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 3,
@@ -249,7 +278,6 @@ const styles = StyleSheet.create({
     maxWidth: windowWidth - 10,
     width: windowWidth - 0,
     paddingHorizontal: '0%',
-
   },
   imgBack: {
     height: 30,
@@ -285,16 +313,13 @@ const styles = StyleSheet.create({
   txtRatingItem: {
     color: '#EF5B5B',
     marginHorizontal: 5,
-
   },
   txtPriceItemInfo: {
     color: '#EF5B5B',
-
   },
-  txtPriceItemInfo2:{
+  txtPriceItemInfo2: {
     color: '#EF5B5B',
     marginRight: '55%',
-
   },
   txtInfo2: {
     color: '#fff',
@@ -309,7 +334,7 @@ const styles = StyleSheet.create({
   icSearch: {
     height: 20,
     width: 20,
-    marginRight: 10
+    marginRight: 10,
   },
   imgSourceItem: {
     resizeMode: 'cover',
@@ -317,13 +342,11 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     height: 150,
     width: windowWidth - 50,
-    alignSelf : 'center',
+    alignSelf: 'center',
     flex: 1,
   },
   imgStarItem: {
     height: 15,
     width: 15,
-    
   },
-
-})
+});

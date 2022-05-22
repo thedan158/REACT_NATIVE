@@ -9,7 +9,8 @@ import {
   Easing,
   Animated,
   LogBox,
-} from "react-native";
+  Image,
+} from 'react-native';
 
 import {
   createStackNavigator,
@@ -18,44 +19,52 @@ import {
   CardStyleInterpolators,
 } from "@react-navigation/stack";
 
-import { NavigationContainer } from "@react-navigation/native";
-import LottieView from "lottie-react-native";
-import LoginScreen from "./screens/LoginScreen";
-import HomeScreen from "./screens/HomeScreen";
-import AccountForStaff from "./screens/AccountForStaff";
-import AccountForOwner from "./screens/AccountForOwner";
-import SplashScreen from "./screens/SplashScreen";
-import SignupScreen from "./screens/SignupScreen";
-import OnBoardingScreen from "./screens/OnBoardingScreen";
-import AppLoader from "./screens/AppLoader";
+import back from './assets/icons/search.png';
 
-import ForgotPassword from "./screens/ForgotPassword";
-import OTPsignup from "./screens/OTPsignup";
-import OTPforgotpass from "./screens/OTPforgotpass";
-import NewPassword from "./screens/NewPassword";
-import RestaurantInformation from "./screens/RestaurantInformation";
-import ChangePassword from "./screens/ChangePassword";
+import { NavigationContainer } from '@react-navigation/native';
+import LottieView from 'lottie-react-native';
+import LoginScreen from './screens/LoginScreen';
+import HomeScreen from './screens/HomeScreen';
+import AccountForStaff from './screens/AccountForStaff';
+import AccountForOwner from './screens/AccountForOwner';
+import SplashScreen from './screens/SplashScreen';
+import SignupScreen from './screens/SignupScreen';
+import OnBoardingScreen from './screens/OnBoardingScreen';
+import AppLoader from './screens/AppLoader';
 
-import OrderScreen from "./screens/OrderScreen";
-import StarterMenuScreen from "./screens/StarterMenuScreen";
-import MainCourseMenuScreen from "./screens/MainCourseMenuScreen";
-import DrinkMenuScreen from "./screens/DrinkMenuScreen";
-import DesertMenuScreen from "./screens/DesertMenuScreen";
-import SelectedTable from "./screens/SelectedTableScreen";
+import ForgotPassword from './screens/ForgotPassword';
+import OTPsignup from './screens/OTPsignup';
+import OTPforgotpass from './screens/OTPforgotpass';
+import NewPassword from './screens/NewPassword';
+import RestaurantInformation from './screens/RestaurantInformation';
+import ChangePassword from './screens/ChangePassword';
 
-import CreateStaffAccount from "./screens/CreateStaffAccount";
-import RestaurantManagement from "./screens/RestaurantManagement";
-import TabForStaff from "./custom component/TabForStaff";
-import TabForOwner from "./custom component/TabForOwner";
-import RePasswordSuccess from "./screens/RePasswordSuccess";
-import PermissionManager from "./screens/PermissionManager";
-import StaffInformation from "./screens/StaffInformation";
-import MenuScreen from "./screens/MenuScreen";
-import HomeScreen2ndFinal from "./screens/HomeScreen2ndFinal";
-import EditProfile from "./screens/EditProfile";
-import Button2Screen from "./screens/Button2Screen";
-import Button3Screen from "./screens/Button3Screen";
-import Button4Screen from "./screens/Button4Screen";
+import OrderScreen from './screens/OrderScreen';
+import StarterMenuScreen from './screens/StarterMenuScreen';
+import MainCourseMenuScreen from './screens/MainCourseMenuScreen';
+import DrinkMenuScreen from './screens/DrinkMenuScreen';
+import DesertMenuScreen from './screens/DesertMenuScreen';
+import SelectedTable from './screens/SelectedTableScreen';
+
+import CreateStaffAccount from './screens/CreateStaffAccount';
+import RestaurantManagement from './screens/RestaurantManagement';
+import TabForStaff from './custom component/TabForStaff';
+import TabForOwner from './custom component/TabForOwner';
+import TabForChef from './custom component/TabForChef';
+import RePasswordSuccess from './screens/RePasswordSuccess';
+import PermissionManager from './screens/PermissionManager';
+import StaffInformation from './screens/StaffInformation';
+import MenuScreen from './screens/MenuScreen';
+import HomeScreen2ndFinal from './screens/HomeScreen2ndFinal';
+import EditProfile from './screens/EditProfile';
+import { ScreenStackHeaderLeftView } from 'react-native-screens';
+import Button2Screen from './screens/Button2Screen';
+import Button3Screen from './screens/Button3Screen';
+import Button4Screen from './screens/Button4Screen';
+import RestaurantKitchen from './screens/ReceiveOrder';
+import AcceptedOrder from './screens/AcceptedOrder';
+import CompletedOrder from './screens/CompletedOrder';
+import OrderDetails from './custom component/OrderDetails';
 
 const Stack = createStackNavigator();
 
@@ -138,6 +147,38 @@ export default function App() {
         />
         <Stack.Screen
           options={{ headerShown: false }}
+          name="Login"
+          component={LoginScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="OnBoardingScreen"
+          component={OnBoardingScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="AcceptedOrder"
+          component={AcceptedOrder}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="CompletedOrder"
+          component={CompletedOrder}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="OrderDetails"
+          component={OrderDetails}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="RestaurantKitchen"
+          component={RestaurantKitchen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
           name="HomeScreen2ndFinal"
           component={HomeScreen2ndFinal}
         />
@@ -168,19 +209,8 @@ export default function App() {
 
         <Stack.Screen
           options={{ headerShown: false }}
-          name="Login"
-          component={LoginScreen}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
           name="AppLoader"
           component={AppLoader}
-        />
-
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="OnBoardingScreen"
-          component={OnBoardingScreen}
         />
 
         <Stack.Screen
@@ -191,7 +221,9 @@ export default function App() {
           component={EditProfile}
         />
         <Stack.Screen
-          options={{ headerShown: false }}
+          options={{
+            headerShown: false,
+          }}
           name="AccountForStaff"
           component={AccountForStaff}
         />
@@ -215,6 +247,11 @@ export default function App() {
           options={{ headerShown: false }}
           name="Signup"
           component={SignupScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="TabForChef"
+          component={TabForChef}
         />
         <Stack.Screen
           options={{ headerShown: false }}
