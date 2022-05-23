@@ -53,7 +53,6 @@ import TabForOwner from './custom component/TabForOwner';
 import TabForChef from './custom component/TabForChef';
 import RePasswordSuccess from './screens/RePasswordSuccess';
 import PermissionManager from './screens/PermissionManager';
-import StaffInformation from './screens/StaffInformation';
 import MenuScreen from './screens/MenuScreen';
 import HomeScreen2ndFinal from './screens/HomeScreen2ndFinal';
 import EditProfile from './screens/EditProfile';
@@ -65,6 +64,7 @@ import RestaurantKitchen from './screens/ReceiveOrder';
 import AcceptedOrder from './screens/AcceptedOrder';
 import CompletedOrder from './screens/CompletedOrder';
 import OrderDetails from './custom component/OrderDetails';
+import StaffInformation from './screens/StaffInformation';
 
 const Stack = createStackNavigator();
 
@@ -144,6 +144,11 @@ export default function App() {
           options={{ headerShown: false }}
           name="SplashScreen"
           component={SplashScreen}
+        />
+        <Stack.Screen
+          name="StaffInformation"
+          component={StaffInformation}
+          options={{ ...customTransition, headerShown: false }}
         />
         <Stack.Screen
           name="RestaurantManagement"
@@ -292,11 +297,7 @@ export default function App() {
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           }}
         />
-        <Stack.Screen
-          name="StaffInformation"
-          component={StaffInformation}
-          options={{ ...customTransition, headerShown: false }}
-        />
+
         <Stack.Screen
           name="Home"
           component={HomeScreen}

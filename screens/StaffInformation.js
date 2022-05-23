@@ -1,26 +1,90 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import { Avatar } from 'react-native-paper';
 import React from 'react';
-import VKH from '../assets/images/VKH.jpg';
+import VKH from '../assets/images/girl.png';
 import Colors from '../assets/Colors';
-import back from '../assets/icons/back-green.png';
+import Svg, { Path } from 'react-native-svg';
+import back from '../assets/icons/back-white.png';
 import del from '../assets/icons/delete.png';
-import { NavigationContainer } from '@react-navigation/native';
-import { useNavigation } from '@react-navigation/core';
 import CustomModal from '../custom component/CustomModal';
+import { useNavigation } from '@react-navigation/core';
+import name from '../assets/icons/name.png';
+import phone from '../assets/icons/phone.png';
+import cake from '../assets/icons/cake.png';
+import address from '../assets/icons/address.png';
 
-const StaffInformation = () => {
+const example = () => {
   const navigation = useNavigation();
   const [visible, setVisible] = React.useState(false);
   return (
     <View style={styles.container}>
-      <View style={{ marginTop: 30 }}>
+      {/* Profile  */}
+      <View style={styles.header}>
+        {/* Name  */}
+        <View style={{ flexDirection: 'row' }}>
+          <Image
+            source={name}
+            style={{ width: 20, height: 20, marginTop: 23, marginRight: 10 }}
+          />
+          <Text style={styles.title}>Name</Text>
+        </View>
+        <Text style={styles.information}>Vu Khanh Hoang</Text>
+
+        {/* Number  */}
+        <View style={{ flexDirection: 'row' }}>
+          <Image
+            source={phone}
+            style={{ width: 20, height: 20, marginTop: 23, marginRight: 10 }}
+          />
+          <Text style={styles.title}>Contact number</Text>
+        </View>
+        <Text style={styles.information}>052 867 9244</Text>
+
+        {/* Birthday  */}
+        <View style={{ flexDirection: 'row' }}>
+          <Image
+            source={cake}
+            style={{ width: 20, height: 20, marginTop: 23, marginRight: 10 }}
+          />
+          <Text style={styles.title}>Day of birth</Text>
+        </View>
+        <Text style={styles.information}>14/06/2002</Text>
+
+        {/* Address  */}
+        <View style={{ flexDirection: 'row' }}>
+          <Image
+            source={address}
+            style={{ width: 20, height: 20, marginTop: 23, marginRight: 10 }}
+          />
+          <Text style={styles.title}>Address</Text>
+        </View>
+        <Text style={styles.information}>
+          No. 10, Street No. 16, Linh Trung Ward, Thu Duc District, Ho Chi Minh
+          City
+        </Text>
+      </View>
+
+      {/* Wave view  */}
+      <View style={styles.box}>
+        <Svg style={styles.svg} viewBox="0 0 1440 320">
+          <Path
+            fill={Colors.secondary}
+            d="M0,32L40,69.3C80,107,160,181,240,202.7C320,224,400,192,480,165.3C560,139,640,117,720,112C800,107,880,117,960,122.7C1040,128,1120,128,1200,160C1280,192,1360,256,1400,288L1440,320L1440,0L1400,0C1360,0,1280,0,1200,0C1120,0,1040,0,960,0C880,0,800,0,720,0C640,0,560,0,480,0C400,0,320,0,240,0C160,0,80,0,40,0L0,0Z"
+            fill-opacity="1"
+          />
+        </Svg>
+      </View>
+
+      {/* Back button  */}
+      <View>
         <TouchableOpacity
           style={{
-            justifyContent: 'flex-start',
+            justifyContent: 'center',
             alignItems: 'center',
-            flexDirection: 'row',
-            marginLeft: 20,
+            flexDirection: 'column',
+            marginLeft: '5%',
+            height: 50,
+            width: 50,
+            marginTop: '-15%',
           }}
           onPress={() => {
             navigation.goBack();
@@ -30,37 +94,18 @@ const StaffInformation = () => {
             source={back}
             style={{
               height: 20,
-
               width: 20,
             }}
           />
         </TouchableOpacity>
       </View>
 
-      {/* Image  */}
-      <View style={styles.image}>
+      {/* Avatar  */}
+      <View style={styles.circle}>
         <Image source={VKH} style={styles.avatar} />
       </View>
 
-      {/* Staff's profile  */}
-      <View style={styles.profile}>
-        <Text style={styles.title}>Name</Text>
-        <Text style={styles.information}>Vu Khanh Hoang</Text>
-
-        <Text style={styles.title}>Email</Text>
-        <Text style={styles.information}>20521352@gm.uit.edu.vn</Text>
-
-        <Text style={styles.title}>Contact number</Text>
-        <Text style={styles.information}>0528679244</Text>
-
-        <Text style={styles.title}>Day of birth</Text>
-        <Text style={styles.information}>14/06/2002</Text>
-
-        <Text style={styles.title}>Address</Text>
-        <Text style={styles.information}>Bien Hoa, Dong Nai, TP.HCM</Text>
-      </View>
-
-      {/* Button  */}
+      {/* Button section  */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           onPress={() => {
@@ -112,28 +157,54 @@ const StaffInformation = () => {
   );
 };
 
-export default StaffInformation;
+export default example;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    justifyContent: 'center',
   },
-  image: {
-    alignItems: 'center',
+  svg: {
+    height: '295%',
   },
-  avatar: {
-    height: 150,
-    width: 150,
-    borderRadius: 100,
-    margin: 30,
+  box: {
+    backgroundColor: Colors.secondary,
+    height: '10%',
   },
-  profile: {
-    flex: 5,
+  header: {
     justifyContent: 'flex-start',
 
-    left: 40,
+    position: 'absolute',
+    height: '60%',
+    width: '80%',
+    alignSelf: 'center',
+    backgroundColor: 'white',
+    top: '25%',
+    borderRadius: 20,
+    paddingTop: '5%',
+    paddingLeft: '8%',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+  },
+  circle: {
+    height: 120,
+    width: 120,
+    alignSelf: 'center',
+    position: 'absolute',
+    top: '5%',
+  },
+  avatar: {
+    width: 120,
+    height: 120,
+    borderRadius: 120,
+    alignSelf: 'center',
   },
   title: {
     marginTop: 20,
@@ -145,16 +216,20 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 17,
     marginLeft: 20,
-    fontWeight: 'bold',
+
+    color: '#495057',
+    maxWidth: '85%',
   },
+
   buttonContainer: {
     justifyContent: 'flex-start',
     alignItems: 'center',
-    flexDirection: 'column',
+    flexDirection: 'column-reverse',
+    marginBottom: '5%',
     flex: 1,
   },
   button: {
-    backgroundColor: 'white',
+    backgroundColor: '#FFF0F3',
     width: '50%',
     padding: 15,
     borderRadius: 15,
@@ -163,6 +238,17 @@ const styles = StyleSheet.create({
     elevation: 5,
     margin: 5,
     flexDirection: 'row',
+
+    shadowColor: '#C9184A',
+
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+
+    elevation: 8,
   },
   buttonText: {
     color: '#DA0000',
