@@ -4,7 +4,7 @@ import React from 'react'
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 const modalHeight = deviceHeight - 50;
-
+const maxWidthConst = windowWidth - 10;
 
 
 export default function ModalTableSelected (props) {

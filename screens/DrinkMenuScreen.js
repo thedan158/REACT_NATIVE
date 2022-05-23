@@ -60,7 +60,7 @@ const DrinkMenuScreen = () => {
   const navigation = useNavigation();
   const btnCloseResource = require("../assets/icons/close.png");
   const btnFillterResource = require("../assets/icons/fillter.png");
-  
+
   const counterStateList = [];
 
   const FlatlistItem = ({ item }) => {
