@@ -64,7 +64,7 @@ import RestaurantKitchen from './screens/ReceiveOrder';
 import AcceptedOrder from './screens/AcceptedOrder';
 import CompletedOrder from './screens/CompletedOrder';
 import OrderDetails from './custom component/OrderDetails';
-import from './screens/StaffInformation';
+import StaffInformation from './screens/StaffInformation';
 import CheckOutTableScreen from './screens/CheckOutTableScreen';
 
 const Stack = createStackNavigator();
