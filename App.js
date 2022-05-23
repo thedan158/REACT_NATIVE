@@ -65,6 +65,8 @@ import RestaurantKitchen from './screens/ReceiveOrder';
 import AcceptedOrder from './screens/AcceptedOrder';
 import CompletedOrder from './screens/CompletedOrder';
 import OrderDetails from './custom component/OrderDetails';
+import CheckOutTableScreen from './screens/CheckOutTableScreen';
+
 
 const Stack = createStackNavigator();
 
@@ -140,6 +142,11 @@ export default function App() {
           gestureDirection: 'horizontal',
         }}
       >
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="CheckOutTableScreen"
+          component={CheckOutTableScreen}
+        />
         <Stack.Screen
           options={{ headerShown: false }}
           name="SplashScreen"
