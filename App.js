@@ -1,5 +1,5 @@
-import { StatusBar } from "expo-status-bar";
-import React from "react";
+import { StatusBar } from 'expo-status-bar';
+import React from 'react';
 import {
   StyleSheet,
   Text,
@@ -17,7 +17,7 @@ import {
   TransitionSpecs,
   HeaderStyleInterpolators,
   CardStyleInterpolators,
-} from "@react-navigation/stack";
+} from '@react-navigation/stack';
 
 import back from './assets/icons/search.png';
 
@@ -64,14 +64,14 @@ import RestaurantKitchen from './screens/ReceiveOrder';
 import AcceptedOrder from './screens/AcceptedOrder';
 import CompletedOrder from './screens/CompletedOrder';
 import OrderDetails from './custom component/OrderDetails';
-import from './screens/StaffInformation';
+import StaffInformation from './screens/StaffInformation';
 import CheckOutTableScreen from './screens/CheckOutTableScreen';
 
 const Stack = createStackNavigator();
 
 // animation function
 const config = {
-  animation: "spring",
+  animation: 'spring',
   config: {
     stiffness: 1000,
     damping: 250,
@@ -83,7 +83,7 @@ const config = {
 };
 
 const closeConfig = {
-  animation: "timing",
+  animation: 'timing',
   config: {
     duration: 200,
     easing: Easing.linear,
@@ -93,7 +93,7 @@ const closeConfig = {
 
 const customTransition = {
   gestureEnabled: true,
-  gestureDirection: "horizontal",
+  gestureDirection: 'horizontal',
   transitionSpec: {
     open: TransitionSpecs.TransitionIOSSpec,
     close: TransitionSpecs.TransitionIOSSpec,
@@ -111,7 +111,7 @@ const customTransition = {
           {
             rotate: current.progress.interpolate({
               inputRange: [0, 1],
-              outputRange: ["180deg", "0deg"],
+              outputRange: ['180deg', '0deg'],
             }),
           },
           {
@@ -138,19 +138,20 @@ export default function App() {
       <Stack.Navigator
         screenOptions={{
           gestureEnabled: true,
-          gestureDirection: "horizontal",
+          gestureDirection: 'horizontal',
         }}
       >
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="CheckOutTableScreen"
-          component={CheckOutTableScreen}
-        />
         <Stack.Screen
           options={{ headerShown: false }}
           name="SplashScreen"
           component={SplashScreen}
         />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="CheckOutTableScreen"
+          component={CheckOutTableScreen}
+        />
+
         <Stack.Screen
           name="StaffInformation"
           component={StaffInformation}
@@ -282,7 +283,7 @@ export default function App() {
           component={CreateStaffAccount}
           options={{
             headerShown: false,
-            gestureDirection: "vertical",
+            gestureDirection: 'vertical',
             transitionSpec: {
               open: config,
               close: closeConfig,
@@ -295,7 +296,7 @@ export default function App() {
           component={PermissionManager}
           options={{
             headerShown: false,
-            gestureDirection: "vertical",
+            gestureDirection: 'vertical',
             transitionSpec: {
               open: config,
               close: closeConfig,
@@ -381,13 +382,13 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   AndroidSafeArea: {
     flex: 1,
-    backgroundColor: "white",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    backgroundColor: 'white',
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
 });
