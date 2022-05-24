@@ -141,11 +141,7 @@ export default function App() {
           gestureDirection: "horizontal",
         }}
       >
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="CheckOutTableScreen"
-          component={CheckOutTableScreen}
-        />
+        
         <Stack.Screen
           options={{ headerShown: false }}
           name="SplashScreen"
@@ -161,7 +157,11 @@ export default function App() {
           options={{ headerShown: false }}
           component={RestaurantManagement}
         />
-
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="CheckOutTableScreen"
+          component={CheckOutTableScreen}
+        />
         <Stack.Screen
           options={{ headerShown: false }}
           name="Login"
