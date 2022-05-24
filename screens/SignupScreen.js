@@ -25,10 +25,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 const SignupScreen = () => {
-  const [fullName, setFullName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [fullName, setFullName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [isSecureEntry, setIsSecureEntry] = useState(true);
   const [isSecureEntryConfirm, setIsSecureEntryConfirm] = useState(true);
   const navigation = useNavigation();
@@ -106,6 +107,16 @@ const SignupScreen = () => {
                 placeholder="Mobile Number"
               />
             </View>
+
+            {/* Username */}
+            <View style={{ marginTop: -15 }}>
+              <CustomTextInput
+                blurColor={Colors.primary}
+                value={username}
+                onChangeText={(text) => setUsername(text)}
+                placeholder="Username"
+              />
+            </View>
             {/* Password */}
             <View style={{ marginTop: -15 }}>
               <CustomTextInput
@@ -122,29 +133,6 @@ const SignupScreen = () => {
                   >
                     <Image
                       source={isSecureEntry ? hidden : eye}
-                      style={{ width: 25, height: 25 }}
-                    ></Image>
-                  </TouchableOpacity>
-                }
-                iconPosition="right"
-              />
-            </View>
-            {/* Confirm password */}
-            <View style={{ marginTop: -15 }}>
-              <CustomTextInput
-                blurColor={Colors.primary}
-                value={confirmPassword}
-                onChangeText={(text) => setConfirmPassword(text)}
-                placeholder="Confirm Password"
-                secureTextEntry={isSecureEntryConfirm}
-                icon={
-                  <TouchableOpacity
-                    onPress={() => {
-                      setIsSecureEntryConfirm((prev) => !prev);
-                    }}
-                  >
-                    <Image
-                      source={isSecureEntryConfirm ? hidden : eye}
                       style={{ width: 25, height: 25 }}
                     ></Image>
                   </TouchableOpacity>
