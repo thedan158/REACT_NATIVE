@@ -34,7 +34,7 @@ const LoginScreen = () => {
     console.log('Login');
     // Passing configuration object to axios
     const res = await axios.post(
-      `https://63c1-171-253-191-143.ap.ngrok.io/auth/login`,
+      `https://foody-uit.herokuapp.com/auth/login`,
       {
         username: username,
         password: password,

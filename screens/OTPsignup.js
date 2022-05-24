@@ -51,7 +51,7 @@ const OTP = () => {
     const user = JSON.parse(userInfo);
     console.log("+84" + user.phoneNumber.substring(1));
     const res = await axios.post(
-      `https://63c1-171-253-191-143.ap.ngrok.io/otp/verifyOtp`,
+      `https://foody-uit.herokuapp.com/otp/verifyOtp`,
       {
         phoneNumber: "+84" + user.phoneNumber.substring(1),
         otp: internalVal,
@@ -63,7 +63,7 @@ const OTP = () => {
     if (success) {
       try {
           console.log(user.fullName);
-        const resSignup = await axios.post(`https://63c1-171-253-191-143.ap.ngrok.io/auth/register`, {
+        const resSignup = await axios.post(`https://foody-uit.herokuapp.com/auth/register`, {
           fullname: user.fullName,
           phoneNumber: user.phoneNumber,
           password: user.password,

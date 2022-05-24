@@ -46,7 +46,7 @@ const SignupScreen = () => {
     await AsyncStorage.setItem("userInfo", JSON.stringify(data));
     navigation.navigate("OTPsignup");
     const res = await axios.post(
-      `https://63c1-171-253-191-143.ap.ngrok.io/otp/sendOtp`,
+      `https://foody-uit.herokuapp.com/otp/sendOtp`,
       {
         phoneNumber: "+84" + phoneNumber.substring(1),
       }
