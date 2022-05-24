@@ -19,6 +19,7 @@ import hidden from '../assets/icons/close-eye.png';
 import Colors from '../assets/Colors';
 import background from '../assets/images/background.png';
 import CustomModal from '../custom component/CustomModal';
+import axios from 'axios';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;

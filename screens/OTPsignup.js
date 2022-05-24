@@ -8,6 +8,7 @@ import {
   ScrollView,
   ImageBackground,
   Dimensions,
+  Alert,
 } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigation } from "@react-navigation/core";
@@ -15,6 +16,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import logo from "../assets/images/logo_app.png";
 import background from "../assets/images/background.png";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
@@ -47,32 +49,36 @@ const OTP = () => {
   const handleOTP = async () => {
     const userInfo = await AsyncStorage.getItem("userInfo");
     const user = JSON.parse(userInfo);
-    console.log(user);
-    // const res = await axios.post(
-    //   `https://63c1-171-253-191-143.ap.ngrok.io/otp/verifyOtp`,
-    //   {
-    //     phoneNumber: "+84" + data.phoneNumber.substring(1),
-    //     otp: internalVal,
-    //   }
-    // );
-    // const { success } = res.data;
-    // if (success) {
-    //   const resSignup = await axios.post(
-    //     `https://63c1-171-253-191-143.ap.ngrok.io/auth/register`,
-    //     {
-    //       fullName: data.fullName,
-    //       phoneNumber: data.phoneNumber,
-    //       password: data.password,
-    //       username: data.username,
-    //     }
-    //   );
-    //   const { success } = resSignup.data;
-    //   console.log(success);
-    //   success && navigation.navigate("RestaurantInformation");
-    // } else {
-    //   Alert.alert("Wrong OTP");
-    // }
-    navigation.navigate("RestaurantInformation");
+    console.log("+84" + user.phoneNumber.substring(1));
+    const res = await axios.post(
+      `https://63c1-171-253-191-143.ap.ngrok.io/otp/verifyOtp`,
+      {
+        phoneNumber: "+84" + user.phoneNumber.substring(1),
+        otp: internalVal,
+      }
+    );
+    const { success } = res.data;
+    console.log(success);
+
+    if (success) {
+      try {
+          console.log(user.fullName);
+        const resSignup = await axios.post(`https://63c1-171-253-191-143.ap.ngrok.io/auth/register`, {
+          fullname: user.fullName,
+          phoneNumber: user.phoneNumber,
+          password: user.password,
+          username: user.username,
+        });
+        const { success } = resSignup.data;
+        console.log(success);
+        navigation.navigate("RestaurantInformation");
+      } catch (error) {
+        console.log(error);
+        Alert.alert("Error", "Something went wrong");
+      }
+    } else {
+      Alert.alert("Wrong OTP");
+    }
   };
 
   return (

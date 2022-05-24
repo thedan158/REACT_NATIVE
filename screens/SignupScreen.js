@@ -20,49 +20,39 @@ import hidden from "../assets/icons/close-eye.png";
 import Colors from "../assets/Colors";
 import background from "../assets/images/background.png";
 import axios from "axios";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 const SignupScreen = () => {
-  const [fullName, setFullName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [fullName, setFullName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [isSecureEntry, setIsSecureEntry] = useState(true);
   const [isSecureEntryConfirm, setIsSecureEntryConfirm] = useState(true);
   const navigation = useNavigation();
 
   // *Region for OnPress Signup
-  const handleSignup = async() => {
-    if (password !== confirmPassword) {
-      Alert.alert("Password not match");
-    } else {
-      const data = {
-        fullName: fullName,
-        phoneNumber: phoneNumber,
-        password: password,
-        username: 'thedantest10'
-      };
-      saveUserInfo = async () => {
-        try {
-          await AsyncStorage.setItem('userInfo', JSON.stringify(data));
-        } catch (e) {
-          console.log(e);
-        }
+  const handleSignup = async () => {
+    console.log("Signup");
+    const data = {
+      fullName: fullName,
+      phoneNumber: phoneNumber,
+      password: password,
+      username: username,
+    };
+    console.log(data);
+    await AsyncStorage.setItem("userInfo", JSON.stringify(data));
+    navigation.navigate("OTPsignup");
+    const res = await axios.post(
+      `https://63c1-171-253-191-143.ap.ngrok.io/otp/sendOtp`,
+      {
+        phoneNumber: "+84" + phoneNumber.substring(1),
       }
-      navigation.navigate("OTPsignup");
-      const res = await axios.post(
-        `https://63c1-171-253-191-143.ap.ngrok.io/otp/sendOtp`,
-        {
-          phoneNumber: '+84' + phoneNumber.substring(1),
-        }
-      );
-      const { success } = res.data;
-      console.log(success);
-      
-    }
+    );
+    const { success } = res.data;
+    console.log(success);
   };
   return (
     <ScrollView>
