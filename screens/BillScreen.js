@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
+
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import Colors from "../assets/Colors";
@@ -91,6 +92,7 @@ const FlatlistItemFunctions = ({ item }) => {
     );
   }
 
+
   return (
     <View>
       <TouchableOpacity style={styles.flatlistitemStyleInUse}>
@@ -131,6 +133,7 @@ const BillScreen = () => {
     }
   };
 
+
   return (
     // Root View
     <ScrollView style={styles.container}>
@@ -142,10 +145,12 @@ const BillScreen = () => {
               <Image source={SearchIconResouce} style={styles.imgIconSearch} />
             </TouchableOpacity>
             <TextInput
+
               value={search}
               onChangeText={(text) => searchFilterFunction(text)}
               style={styles.txtSearchBar}
               placeholder={"Search Table..."}
+
             />
           </View>
 
@@ -156,6 +161,7 @@ const BillScreen = () => {
       </View>
       <View style={styles.containerBottom}>
         <FlatList
+
           data={dataFromState}
           renderItem={({ item, index }) => {
             return (
@@ -164,6 +170,7 @@ const BillScreen = () => {
                 index={index}
               ></FlatlistItemFunctions>
             );
+
           }}
           keyExtractor={(item) => item.id}
           nestedScrollEnabled
@@ -178,6 +185,7 @@ export default BillScreen;
 
 const styles = StyleSheet.create({
   container: {
+
     marginBottom: 55,
   },
   containerTop: {
@@ -189,19 +197,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignContent: "center",
     justifyContent: "center",
+
   },
   containerBottom: {
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
+
     borderColor: "#808080",
     backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
+
     marginTop: -50,
     paddingTop: 20,
     paddingLeft: 10,
   },
   txtSearchBar: {
+
     color: "#000",
   },
   txtHeaderView: {
@@ -211,6 +223,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   txtItemFlatlist: {
+
     color: "#A09A99",
     marginBottom: 10,
     alignSelf: "center",
@@ -224,6 +237,7 @@ const styles = StyleSheet.create({
   },
   containerTemp: {
     flexDirection: "row",
+
     marginBottom: 10,
   },
   containerSearchLayout: {
@@ -232,6 +246,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginRight: 10,
     borderWidth: 1,
+
     borderColor: "#A09A99",
     backgroundColor: "#fff",
     flexDirection: "row",
@@ -252,6 +267,7 @@ const styles = StyleSheet.create({
   imgItemFlatlist: {
     height: 70,
     width: 70,
+
     marginTop: 20,
     marginBottom: 5,
     resizeMode: "cover",
@@ -272,6 +288,7 @@ const styles = StyleSheet.create({
     height: 130,
     width: 130,
     borderRadius: 20,
+
     justifyContent: "center",
     borderColor: "grey",
     borderWidth: 2,

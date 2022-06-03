@@ -1,20 +1,27 @@
-import {Image, StyleSheet, Text,TextInput, View,TouchableOpacity, ScrollView } from 'react-native'
-import React,{ useState } from 'react'
-import { useNavigation } from '@react-navigation/core'
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
+import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/core';
 
 const CustomTextInput = ({
-    onChangeText,
-    iconPosition,
-    icon,
-    style,
-    value,
-    label,
-    error,
-    blurColor,
-    ...props
-  }) => {
-  
-    const [focused, setFocused] = React.useState(false);
+  onChangeText,
+  iconPosition,
+  icon,
+  style,
+  value,
+  label,
+  error,
+  blurColor,
+  ...props
+}) => {
+  const [focused, setFocused] = React.useState(false);
 
   const getFlexDirection = () => {
     if (icon && iconPosition) {
@@ -44,9 +51,10 @@ const CustomTextInput = ({
       <View
         style={[
           styles.wrapper,
-          {alignItems: icon ? 'center' : 'baseline'},
-          {borderColor: getBorderColor(), flexDirection: getFlexDirection()},
-        ]}>
+          { alignItems: icon ? 'center' : 'baseline' },
+          { borderColor: getBorderColor(), flexDirection: getFlexDirection() },
+        ]}
+      >
         <View>{icon && icon}</View>
 
         <TextInput
@@ -66,48 +74,46 @@ const CustomTextInput = ({
       {error && <Text style={styles.error}>{error}</Text>}
     </View>
   );
-  
-}
+};
 
-export default CustomTextInput
+export default CustomTextInput;
 
 const styles = StyleSheet.create({
-    wrapper: {
-      
-        paddingHorizontal: 15,
-        marginTop:15,
-        
-        shadowColor:'#000000',
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.2,
-        shadowRadius: 1.41,
-        
-        elevation:15,
+  wrapper: {
+    paddingHorizontal: 15,
+    marginTop: 15,
 
-        width: 300,
-        height: 55,
-        backgroundColor: "#FFFCFB",
-        justifyContent:'center',
-        alignItems:'flex-start',
-        borderRadius:13,  
-        borderWidth: 1,
-      },
-    
-      inputContainer: {
-        paddingVertical: 12,
-      },
-    
-      textInput: {
-        flex: 1,
-        width: '100%',
-      },
-    
-      error: {
-        color: 'red',
-        paddingTop: 4,
-        fontSize: 12,
-      },
-})
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+
+    elevation: 15,
+
+    width: 300,
+    height: 50,
+    backgroundColor: '#FFFCFB',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    borderRadius: 13,
+    borderWidth: 1,
+  },
+
+  inputContainer: {
+    paddingVertical: 12,
+  },
+
+  textInput: {
+    flex: 1,
+    width: '100%',
+  },
+
+  error: {
+    color: 'red',
+    paddingTop: 4,
+    fontSize: 12,
+  },
+});

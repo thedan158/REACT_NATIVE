@@ -8,6 +8,7 @@ import {
   ScrollView,
   ImageBackground,
   Dimensions,
+
   Alert,
 } from "react-native";
 import React, { useState } from "react";
@@ -24,6 +25,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
+
 const LoginScreen = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -43,6 +45,7 @@ const LoginScreen = () => {
       username: username,
       password: password,
     });
+
     const { success } = res.data;
     console.log("Correct account " + success);
     await AsyncStorage.setItem("userLoginData", JSON.stringify(data));
@@ -176,6 +179,7 @@ const LoginScreen = () => {
               </TouchableOpacity>
             </View>
 
+
             <View style={styles.registerText}>
               <Text style={styles.newOwnerText}>
                 Login to Restaurant Kitchen?
@@ -189,6 +193,7 @@ const LoginScreen = () => {
                 <Text style={styles.buttonOutlineText}> Login</Text>
               </TouchableOpacity>
             </View>
+
           </View>
         </View>
       </ImageBackground>
