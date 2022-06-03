@@ -145,14 +145,15 @@ export default function App() {
       >
         <Stack.Screen
           options={{ headerShown: false }}
-          name="ListFood"
-          component={ListFood}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
           name="SplashScreen"
           component={SplashScreen}
         />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="ListFood"
+          component={ListFood}
+        />
+
         <Stack.Screen
           options={{ headerShown: false }}
           name="TabForOwner"
