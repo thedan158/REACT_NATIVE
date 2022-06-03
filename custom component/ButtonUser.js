@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   TouchableOpacity: {
-    backgroundColor: '#f6fff8',
+    backgroundColor: 'white',
     width: 350,
     height: 50,
 

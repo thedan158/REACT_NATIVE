@@ -20,9 +20,11 @@ import Colors from '../assets/Colors';
 import background from '../assets/images/background.png';
 import CustomModal from '../custom component/CustomModal';
 import axios from 'axios';
+import { useFonts } from 'expo-font';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+
 const LoginScreen = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -33,13 +35,10 @@ const LoginScreen = () => {
   const handleLogin = async () => {
     console.log('Login');
     // Passing configuration object to axios
-    const res = await axios.post(
-      `https://foody-uit.herokuapp.com/auth/login`,
-      {
-        username: username,
-        password: password,
-      }
-    );
+    const res = await axios.post(`https://foody-uit.herokuapp.com/auth/login`, {
+      username: username,
+      password: password,
+    });
 
     const { success } = res.data;
     console.log(success);
@@ -148,20 +147,6 @@ const LoginScreen = () => {
                 }}
               >
                 <Text style={styles.buttonOutlineText}> Register</Text>
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.registerText}>
-              <Text style={styles.newOwnerText}>
-                Login to Restaurant Kitchen?
-              </Text>
-
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('TabForChef');
-                }}
-              >
-                <Text style={styles.buttonOutlineText}> Login</Text>
               </TouchableOpacity>
             </View>
           </View>

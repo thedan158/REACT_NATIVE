@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     height: windowHeight,
   },
   buttonContainer: {
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
   button: {
@@ -186,8 +186,8 @@ const styles = StyleSheet.create({
   },
   view4: {
     flex: 1,
-    justifyContent: 'center',
-    margin: 5,
+    justifyContent: 'flex-start',
+    marginTop: 10,
   },
 
   textView: {

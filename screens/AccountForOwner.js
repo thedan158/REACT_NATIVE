@@ -48,27 +48,6 @@ const AccountForOwner = () => {
               style={{ height: 30, width: 30, marginHorizontal: 15 }}
             />
             <Text style={styles.textHeader}>Personal details</Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginLeft: 40,
-              }}
-            >
-              <Image
-                source={isEnabled ? light_off : light_on}
-                style={{ width: 25, height: 25 }}
-              />
-              <Switch
-                value={isEnabled}
-                onValueChange={setIsEnabled}
-                style={{ marginHorizontal: 5 }}
-              />
-              <Image
-                source={isEnabled ? dark_on : dark_off}
-                style={{ width: 25, height: 25 }}
-              />
-            </View>
           </View>
         </View>
         {/* Card Info  */}
@@ -105,14 +84,6 @@ const AccountForOwner = () => {
               onPress={() => navigation.navigate('StaffInformation')}
             />
             <Text style={styles.textName}>My Preferences</Text>
-            <Image style={styles.icon} source={vector} />
-          </View>
-          <View>
-            <TouchableOpacity
-              style={styles.TouchableOpacity}
-              onPress={() => navigation.navigate('StaffInformation')}
-            />
-            <Text style={styles.textName}>Notifications</Text>
             <Image style={styles.icon} source={vector} />
           </View>
         </View>
@@ -163,8 +134,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     // flex: 1,
     alignItems: 'flex-end',
-    justifyContent: 'center',
-    marginVertical: '5%',
+    justifyContent: 'flex-start',
+    marginVertical: '7%',
+    marginLeft: '5%',
   },
   feature: {
     justifyContent: 'center',
@@ -182,7 +154,7 @@ const styles = StyleSheet.create({
     // flex: 1.5,
     alignItems: 'flex-end',
     marginLeft: '10%',
-    marginVertical: '2%',
+    marginVertical: '5%',
   },
   buttonContainer: {
     justifyContent: 'flex-start',
