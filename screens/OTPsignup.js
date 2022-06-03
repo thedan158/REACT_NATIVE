@@ -62,9 +62,9 @@ const OTP = () => {
 
     if (success) {
       try {
-          console.log(user.fullName);
+          console.log(user.fullname);
         const resSignup = await axios.post(`https://foody-uit.herokuapp.com/auth/register`, {
-          fullname: user.fullName,
+          fullname: user.fullname,
           phoneNumber: user.phoneNumber,
           password: user.password,
           username: user.username,

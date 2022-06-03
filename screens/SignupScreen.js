@@ -37,7 +37,7 @@ const SignupScreen = () => {
   const handleSignup = async () => {
     console.log("Signup");
     const data = {
-      fullName: fullName,
+      fullname: fullName,
       phoneNumber: phoneNumber,
       password: password,
       username: username,

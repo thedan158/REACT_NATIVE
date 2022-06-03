@@ -7,84 +7,133 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
-  Dimensions,
-} from 'react-native';
-import React, { Component } from 'react';
-import ModalTableSelect from '../custom component/ModalTableSelect';
 
-const SearchIconResouce = require('../assets/icons/search.png');
-const FillterIconResouce = require('../assets/icons/fillter.png');
+} from "react-native";
+import React, { useState, useEffect } from "react";
+import Colors from "../assets/Colors";
+import ModalTableSelect from "../custom component/ModalTableSelect";
+
+const SearchIconResouce = require("../assets/icons/search.png");
+const FillterIconResouce = require("../assets/icons/fillter.png");
 
 const DataTable = [
   {
     id: 1,
-    name: 'Table 1',
-    imgSourceSelected: require('../assets/icons/table ic.png'),
-    imgSourceEmpty: require('../assets/icons/table gray ic.png'),
+    name: "Table 1",
+    imgSourceSelected: require("../assets/icons/TableOrange.png"),
+    imgSourceEmpty: require("../assets/icons/TableGray.png"),
+    isUse: true,
   },
   {
     id: 2,
-    name: 'Table 2',
-    imgSourceSelected: require('../assets/icons/table ic.png'),
-    imgSourceEmpty: require('../assets/icons/table gray ic.png'),
+    name: "Table 2",
+    imgSourceSelected: require("../assets/icons/TableOrange.png"),
+    imgSourceEmpty: require("../assets/icons/TableGray.png"),
+    isUse: false,
   },
   {
     id: 3,
-    name: 'Table 3',
-    imgSourceSelected: require('../assets/icons/table ic.png'),
-    imgSourceEmpty: require('../assets/icons/table gray ic.png'),
+    name: "Table 3",
+    imgSourceSelected: require("../assets/icons/TableOrange.png"),
+    imgSourceEmpty: require("../assets/icons/TableGray.png"),
+    isUse: true,
   },
   {
     id: 4,
-    name: 'Table 4',
-    imgSourceSelected: require('../assets/icons/table ic.png'),
-    imgSourceEmpty: require('../assets/icons/table gray ic.png'),
+    name: "Table 4",
+    imgSourceSelected: require("../assets/icons/TableOrange.png"),
+    imgSourceEmpty: require("../assets/icons/TableGray.png"),
+    isUse: true,
   },
   {
     id: 5,
-    name: 'Table 5',
-    imgSourceSelected: require('../assets/icons/table ic.png'),
-    imgSourceEmpty: require('../assets/icons/table gray ic.png'),
+    name: "Table 5",
+    imgSourceSelected: require("../assets/icons/TableOrange.png"),
+    imgSourceEmpty: require("../assets/icons/TableGray.png"),
+    isUse: true,
   },
   {
     id: 6,
-    name: 'Table 6',
-    imgSourceSelected: require('../assets/icons/table ic.png'),
-    imgSourceEmpty: require('../assets/icons/table gray ic.png'),
+    name: "Table 6",
+    imgSourceSelected: require("../assets/icons/TableOrange.png"),
+    imgSourceEmpty: require("../assets/icons/TableGray.png"),
+    isUse: true,
   },
   {
     id: 7,
-    name: 'Table 7',
-    imgSourceSelected: require('../assets/icons/table ic.png'),
-    imgSourceEmpty: require('../assets/icons/table gray ic.png'),
+    name: "Table 7",
+    imgSourceSelected: require("../assets/icons/TableOrange.png"),
+    imgSourceEmpty: require("../assets/icons/TableGray.png"),
+    isUse: true,
   },
   {
     id: 8,
-    name: 'Table 8',
-    imgSourceSelected: require('../assets/icons/table ic.png'),
-    imgSourceEmpty: require('../assets/icons/table gray ic.png'),
+    name: "Table 8",
+    imgSourceSelected: require("../assets/icons/TableOrange.png"),
+    imgSourceEmpty: require("../assets/icons/TableGray.png"),
+    isUse: false,
   },
 ];
 
-class FlatlistItem extends Component {
-  render() {
+const FlatlistItemFunctions = ({ item }) => {
+  if (item.isUse === true) {
     return (
       <View>
-        <TouchableOpacity style={styles.flatlistitemStyle}>
+        <TouchableOpacity disabled={true} style={styles.flatlistitemStyle}>
           <View>
             <Image
-              source={this.props.item.imgSourceEmpty}
+              source={item.imgSourceEmpty}
               style={styles.imgItemFlatlist}
             />
-            <Text style={styles.txtItemFlatlist}>{this.props.item.name}</Text>
+            <Text style={styles.txtItemFlatlist}>{item.name}</Text>
           </View>
         </TouchableOpacity>
       </View>
     );
   }
-}
+
+
+  return (
+    <View>
+      <TouchableOpacity style={styles.flatlistitemStyleInUse}>
+        <View>
+          <Image
+            source={item.imgSourceSelected}
+            style={styles.imgItemFlatlist}
+          />
+          <Text style={styles.txtItemFlatlistInUse}>{item.name}</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 const BillScreen = () => {
+  const [search, setSearch] = useState("");
+  const [masterData, setMasterData] = useState([]);
+  const [dataFromState, setNewData] = useState(DataTable);
+
+  useEffect(() => {
+    setMasterData(DataTable);
+    console.log("filteredData is all selected");
+  }, []);
+
+  const searchFilterFunction = (text) => {
+    if (text) {
+      const newData = masterData.filter(function (item) {
+        const itemData = item.name ? item.name.toLowerCase() : "".toUpperCase();
+        const textData = text.toLowerCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setNewData(newData);
+      setSearch(text);
+    } else {
+      setNewData(masterData);
+      setSearch(text);
+    }
+  };
+
+
   return (
     // Root View
     <ScrollView style={styles.container}>
@@ -96,8 +145,12 @@ const BillScreen = () => {
               <Image source={SearchIconResouce} style={styles.imgIconSearch} />
             </TouchableOpacity>
             <TextInput
+
+              value={search}
+              onChangeText={(text) => searchFilterFunction(text)}
               style={styles.txtSearchBar}
-              placeholder={'Search Table...'}
+              placeholder={"Search Table..."}
+
             />
           </View>
 
@@ -108,9 +161,16 @@ const BillScreen = () => {
       </View>
       <View style={styles.containerBottom}>
         <FlatList
-          data={DataTable}
+
+          data={dataFromState}
           renderItem={({ item, index }) => {
-            return <FlatlistItem item={item} index={index}></FlatlistItem>;
+            return (
+              <FlatlistItemFunctions
+                item={item}
+                index={index}
+              ></FlatlistItemFunctions>
+            );
+
           }}
           keyExtractor={(item) => item.id}
           nestedScrollEnabled
@@ -125,44 +185,59 @@ export default BillScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+
+    marginBottom: 55,
   },
   containerTop: {
-    backgroundColor: '#FF4B3A',
+    backgroundColor: "#FF4B3A",
     height: 180,
-    flexDirection: 'column',
+    flexDirection: "column",
     flex: 1,
     margin: 0,
-    alignItems: 'center',
-    alignContent: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    alignContent: "center",
+    justifyContent: "center",
+
   },
   containerBottom: {
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    borderColor: '#808080',
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center',
+
+    borderColor: "#808080",
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
+
     marginTop: -50,
     paddingTop: 20,
     paddingLeft: 10,
   },
   txtSearchBar: {
-    color: '#000',
+
+    color: "#000",
   },
   txtHeaderView: {
     fontSize: 30,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginTop: -40,
     marginBottom: 10,
   },
   txtItemFlatlist: {
-    color: '#A09A99',
-    margin: 20,
+
+    color: "#A09A99",
+    marginBottom: 10,
+    alignSelf: "center",
+    fontSize: 20,
+  },
+  txtItemFlatlistInUse: {
+    color: Colors.primary,
+    marginBottom: 10,
+    alignSelf: "center",
+    fontSize: 20,
   },
   containerTemp: {
-    flexDirection: 'row',
+    flexDirection: "row",
+
     marginBottom: 10,
   },
   containerSearchLayout: {
@@ -171,11 +246,12 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginRight: 10,
     borderWidth: 1,
-    borderColor: '#A09A99',
-    backgroundColor: '#fff',
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignContent: 'center',
+
+    borderColor: "#A09A99",
+    backgroundColor: "#fff",
+    flexDirection: "row",
+    alignItems: "center",
+    alignContent: "center",
     padding: 0,
   },
   imgIconSearch: {
@@ -191,6 +267,11 @@ const styles = StyleSheet.create({
   imgItemFlatlist: {
     height: 70,
     width: 70,
+
+    marginTop: 20,
+    marginBottom: 5,
+    resizeMode: "cover",
+    alignSelf: "center",
     margin: 0,
   },
   btnSearch: {
@@ -207,10 +288,24 @@ const styles = StyleSheet.create({
     height: 130,
     width: 130,
     borderRadius: 20,
-    justifyContent: 'center',
-    borderColor: 'grey',
+
+    justifyContent: "center",
+    borderColor: "grey",
     borderWidth: 2,
-    alignItems: 'center',
+    alignItems: "center",
+    marginRight: 20,
+    marginVertical: 20,
+    marginLeft: 10,
+  },
+  flatlistitemStyleInUse: {
+    height: 130,
+    width: 130,
+    borderRadius: 20,
+    justifyContent: "center",
+    borderColor: Colors.primary,
+    borderWidth: 2,
+    alignContent: "center",
+    alignItems: "center",
     marginRight: 20,
     marginVertical: 20,
     marginLeft: 10,
