@@ -1,394 +1,571 @@
 import {
   StyleSheet,
-  Dimensions,
-  TouchableOpacity,
-  ScrollView,
   Text,
   View,
+  Dimensions,
   Image,
-  LogBox,
-  FlatList,
   ImageBackground,
-  useNavigation,
-} from 'react-native';
-import React from 'react';
+  TouchableOpacity,
+  FlatList,
+  ScrollView,
+  TextInput,
+} from "react-native";
+import React from "react";
+import Colors from "../assets/Colors";
 
-// TODO 1: FLATLIST in Flash Offer view
-// TODO 2: Image Tag in Dicount Offers with text
-// TODO 3: Happy deals section view
-
-let DataBestSeller = [
+const icHome = require("../assets/icons/HomeOrange.png");
+const icUser = require("../assets/icons/UserIcon.png");
+const imgSourceDish = require("../assets/images/sushi.jpg");
+const DATADish = [
   {
     id: 1,
-    name: 'Beef Bacon',
-    detail: 'Hooooooooolaaaaaaa',
-    imgSource: require('../assets/images/BeefBaconMeal.png'),
-    price: '$4.99',
+    NameDish: "Fast Burgers",
+    PriceDish: 5,
+    RatingDish: "4.5",
+    NumberRatingsDish: 144,
+    imgSource: require("../assets/images/sushi.jpg"),
   },
   {
     id: 2,
-    name: 'Egg fried rice',
-    detail: 'Hooooolyyyyyyyyy',
-    imgSource: require('../assets/images/1512474034-837-bua-sang-chac-da-voi-com-chien-ca-hoi-mem-toi-bo-duong-_mg_8357-1512473926-width660height440.jpg'),
-    price: '$4.99',
+    NameDish: "Fast Burgers",
+    PriceDish: 10,
+    RatingDish: "4.7",
+    NumberRatingsDish: 243,
+    imgSource: require("../assets/images/sushi.jpg"),
   },
   {
     id: 3,
-    name: 'Basad saad',
-    detail: 'Hooooolyyyyyyyyy',
-    imgSource: require('../assets/images/1512474034-837-bua-sang-chac-da-voi-com-chien-ca-hoi-mem-toi-bo-duong-_mg_8357-1512473926-width660height440.jpg'),
-    price: '$4.99',
+    NameDish: "Fast Burgers",
+    PriceDish: 32,
+    RatingDish: "5.0",
+    NumberRatingsDish: 167,
+    imgSource: require("../assets/images/sushi.jpg"),
+  },
+  {
+    id: 4,
+    NameDish: "Fast Burgers",
+    PriceDish: 10,
+    RatingDish: "4.2",
+    NumberRatingsDish: 124,
+    imgSource: require("../assets/images/sushi.jpg"),
+  },
+  {
+    id: 5,
+    NameDish: "Fast Burgers",
+    PriceDish: 21,
+    RatingDish: "4.1",
+    NumberRatingsDish: 323,
+    imgSource: require("../assets/images/sushi.jpg"),
   },
 ];
 
-let DataDiscountOffer = [
-  {
-    id: 1,
-    name: 'Suhani',
-    type: 'Chinese, North India',
-    price: 8.0,
-    discount: 50,
-    starReview: '4.5',
-    detail:
-      'Hoooooolyyyyyyyyyyy ssssssssssssssss Vhkagasasddasfgdasfg husmg aadsgdan asjhga asghas',
-    numDish: 145,
-    imgSource: require('../assets/images/fried-rice-chicken-prepared-served-260nw-1043177890.png'),
-  },
-  {
-    id: 2,
-    name: 'Fried rice',
-    type: 'VietNam, No1 on Earth server',
-    price: 10.0,
-    discount: 40,
-    starReview: '5.0',
-    detail: 'Hoooooolyyyyyyyyyyy ssssssssssssssss asdgfasbo adsgasjna',
-    numDish: 100,
-    imgSource: require('../assets/images/fried-rice-chicken-prepared-served-260nw-1043177890.png'),
-  },
-  {
-    id: 3,
-    name: 'Fried rice',
-    type: 'VietNam, No1 on Earth server',
-    price: 10.0,
-    discount: 40,
-    starReview: '5.0',
-    detail: 'Hoooooolyyyyyyyyyyy ssssssssssssssss asdgfasbo adsgasjna',
-    numDish: 100,
-    imgSource: require('../assets/images/fried-rice-chicken-prepared-served-260nw-1043177890.png'),
-  },
-];
-
-class FlatlistBestSellerItem extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <View style={[styles.containerBestSellerItem]}>
-        <Image
-          style={{ height: 130, width: 145 }}
-          resizeMode="contain"
-          source={this.props.item.imgSource}
-        />
-        <Text
-          style={{
-            alignSelf: 'center',
-            fontWeight: 'bold',
-            fontSize: 16,
-            color: '#483332',
-            marginVertical: 5,
-          }}
-        >
-          {this.props.item.name}
-        </Text>
-        <Text
-          style={{
-            color: '#483332',
-            fontSize: 10,
-            alignSelf: 'center',
-            marginBottom: 5,
-          }}
-        >
-          {this.props.item.detail}
-        </Text>
-        <TouchableOpacity
-          style={{
-            height: 35,
-            width: 129,
-            borderRadius: 10,
-            borderWidth: 0.5,
-            backgroundColor: '#F8774A',
-            alignSelf: 'center',
-            padding: 5,
-          }}
-        >
-          <Text
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+const HomeScreen = () => {
+  function FlatListItem({ item }) {
+    if (item.RatingDish >= 4.5) {
+      return (
+        <View style={styles.containerItem1}>
+          <Image
+            source={item.imgSource}
             style={{
-              alignSelf: 'center',
-              alignItems: 'center',
-              alignContent: 'center',
-              color: '#fff',
-              fontSize: 15,
+              width: 300,
+              height: 170,
+              resizeMode: "cover",
+              alignSelf: "center",
+              borderRadius: 15,
+              marginBottom: "2%",
+            }}
+          />
+          <View
+            style={{
+              flexDirection: "row",
             }}
           >
-            {this.props.item.price}
+            <View style={{}}>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  fontSize: 17,
+                  marginLeft: 10,
+                }}
+              >
+                {item.NameDish}
+              </Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  marginLeft: 10,
+                  maxWidth: 200,
+                }}
+              >
+                <Text>
+                  ${item.PriceDish}
+                  {"\t\t\t\t\t\t\t\t"}
+                </Text>
+
+                <Image
+                  source={require("../assets/icons/Star.png")}
+                  style={{
+                    marginTop: 4,
+                  }}
+                />
+                <Text
+                  style={{
+                    color: "#c36e68",
+                  }}
+                >
+                  {item.RatingDish}
+                </Text>
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "flex-end",
+                alignItems: "flex-end",
+              }}
+            >
+              <ImageBackground
+                source={{
+                  uri: "https://st.depositphotos.com/1023799/3237/v/380/depositphotos_32379595-stock-illustration-recommended-golden-label-vector-illustration.jpg?forcejpeg=true",
+                }}
+                style={{
+                  height: 40,
+                  width: 40,
+                  resizeMode: "cover",
+                  marginLeft: 135,
+                  marginBottom: 0,
+                  zIndex: 1,
+                }}
+              />
+            </View>
+          </View>
+        </View>
+      );
+    }
+    return (
+      <View style={styles.containerItem1}>
+        <Image
+          source={item.imgSource}
+          style={{
+            width: 300,
+            height: 170,
+            resizeMode: "cover",
+            alignSelf: "center",
+            borderRadius: 15,
+            marginBottom: "2%",
+          }}
+        />
+        <View style={styles}>
+          <Text
+            style={{
+              fontWeight: "bold",
+              fontSize: 17,
+              marginLeft: 10,
+            }}
+          >
+            {item.NameDish}
           </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              marginLeft: 10,
+            }}
+          >
+            <Text>
+              ${item.PriceDish}
+              {"\t\t\t\t\t\t\t\t"}
+            </Text>
+
+            <Image
+              source={require("../assets/icons/Star.png")}
+              style={{
+                marginTop: 4,
+              }}
+            />
+            <Text
+              style={{
+                color: "#c36e68",
+              }}
+            >
+              {item.RatingDish}
+            </Text>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  function HeaderInfo() {
+    return (
+      <View style={styles.containerHeaderInfo}>
+        <View style={{ flex: 3, maxWidth: 200 }}>
+          <Text style={styles.txtHeaderInfoWelcome}>Hello there, </Text>
+          <Text style={styles.txtHeaderInfoAccount}>VKH</Text>
+        </View>
+        <TouchableOpacity style={styles.btnAccountOpen}>
+          <Image
+            source={{
+              uri: "https://png.pngtree.com/png-vector/20190116/ourlarge/pngtree-vector-avatar-icon-png-image_322275.jpg",
+            }}
+            style={styles.imgUserAccountInfoHeader}
+          />
         </TouchableOpacity>
       </View>
     );
   }
-}
 
-class FlatlistDiscountOffer extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
+  function HeaderInfoTab() {
     return (
-      // container discount view
-      <View style={styles.containerDiscountOffersItem}>
-        <View style={styles.containerDiscountOffersItemImg}>
-          <ImageBackground
-            resizeMode="cover"
-            resizeMethod="auto"
+      <View style={styles.containerInfoViewTab}>
+        <View style={styles.containerIcHomeView}>
+          <TouchableOpacity
             style={{
-              zIndex: 2,
-              height: 141.1,
-              overflow: 'hidden',
-              width: 351.94,
-              borderTopLeftRadius: 13.31,
-              borderTopRightRadius: 13.31,
+              height: 45,
+              width: 45,
+              alignSelf: "center",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#fff",
+              borderRadius: 15,
             }}
-            source={this.props.item.imgSource}
           >
-            <View style={{ marginLeft: 0, marginVertical: 10 }}>
-              <Image
-                style={{ zIndex: 1, marginVertical: 5 }}
-                source={require('../assets/icons/Tag.png')}
-              />
-              <Image
-                style={{ zIndex: 1, marginVertical: 5 }}
-                source={require('../assets/icons/Tag1.png')}
-              />
-            </View>
-          </ImageBackground>
+            <Image
+              source={icHome}
+              style={{
+                height: 20,
+                width: 20,
+                resizeMode: "cover",
+                alignSelf: "center",
+              }}
+            />
+          </TouchableOpacity>
         </View>
-
-        {/* ----Info View---- */}
-        <View style={styles.containerDiscountOffersItemInfo}>
-          {/* Big Info View */}
-          <View style={styles.containerDiscountOffersItemInfoBigInfo}>
-            <View>
-              <Text
-                style={{
-                  color: '#333333',
-                  fontSize: 18,
-                  fontWeight: 'bold',
-                  marginVertical: 2.5,
-                }}
-              >
-                {this.props.item.name}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 14.64,
-                  marginTop: 0,
-                  marginBottom: 0,
-                  width: 150,
-                }}
-              >
-                {this.props.item.type}
-              </Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  marginBottom: 0,
-                  marginTop: 0,
-                  justifyContent: 'space-around',
-                  paddingRight: 80,
-                  alignItems: 'flex-end',
-                }}
-              >
-                <Text
-                  style={{
-                    textDecorationLine: 'line-through',
-                    fontSize: 12,
-                    marginLeft: -5,
-                  }}
-                >
-                  ${this.props.item.price}
-                </Text>
-                <Text style={{ fontSize: 19, color: '#F88922' }}>
-                  $
-                  {this.props.item.price -
-                    this.props.item.price * (this.props.item.discount / 100)}
-                </Text>
-              </View>
-            </View>
-            <View style={{ justifyContent: 'space-around' }}>
-              <View style={styles.boxStarReview}>
-                <Text
-                  style={{
-                    color: '#fff',
-                    alignSelf: 'center',
-                    fontSize: 14,
-                    fontWeight: 'bold',
-                    marginLeft: 0,
-                  }}
-                >
-                  {this.props.item.starReview}
-                </Text>
-                <Image
-                  style={{
-                    height: 12,
-                    width: 12,
-                    marginVertical: 6,
-                    marginRight: 0,
-                  }}
-                  source={require('../assets/icons/Star1.png')}
-                />
-              </View>
-
-              <View style={styles.boxCaloriesInfo}>
-                <Image
-                  style={{ alignSelf: 'center' }}
-                  source={require('../assets/icons/009-fire.png')}
-                />
-                <Text style={{ alignSelf: 'center' }}>
-                  {this.props.item.numDish}
-                </Text>
-              </View>
-            </View>
-          </View>
-          {/* -------- Devide line -------- */}
+        <View style={styles.containerTextTitlesInfo}>
           <View
             style={{
-              width: 324.56,
-              backgroundColor: '#EDEDED',
-              height: 3,
-              marginVertical: 2.5,
+              alignSelf: "center",
             }}
-          ></View>
-          {/* Detail Info View */}
-          <View style={styles.containerDiscountOffersItemInfoDetaiInfo}>
-            <Text style={{ fontSize: 11, marginTop: 0 }}>
-              {this.props.item.detail}
+          >
+            <Text
+              style={{
+                fontSize: 17,
+                color: "#8c9099",
+                alignSelf: "center",
+              }}
+            >
+              Hello,
+            </Text>
+            <Text
+              style={{
+                fontSize: 17,
+                color: Colors.primary,
+                alignSelf: "center",
+                fontWeight: "bold",
+              }}
+            >
+              Vu Khanh Hoang
+            </Text>
+          </View>
+        </View>
+        <View style={styles.containerIcUserAccount}>
+          <TouchableOpacity
+            style={{
+              height: 45,
+              width: 45,
+              alignSelf: "center",
+              marginHorizontal: "5%",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#fff",
+              borderRadius: 15,
+            }}
+          >
+            <Image
+              source={icUser}
+              style={{
+                height: 18,
+                width: 18,
+                resizeMode: "cover",
+                alignSelf: "center",
+                marginLeft: 3,
+              }}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+
+  function SearchBarViewComponent() {
+    return (
+      <View
+        style={{
+          height: 35,
+          width: windowWidth - 50,
+          marginLeft: "5%",
+          backgroundColor: "#f9f9f9",
+          borderRadius: 20,
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          marginLeft: '6%',
+          marginBottom: "5%",
+          marginTop: '5%',
+          alignContent: "center",
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 3,
+          },
+          shadowOpacity: 0.29,
+          shadowRadius: 4.65,
+
+          elevation: 7,
+        }}
+      >
+        <TouchableOpacity
+          style={{
+            flex: 1,
+            height: 20,
+            width: 20,
+            alignSelf: "center",
+          }}
+        >
+          <Image
+            style={{
+              width: 20,
+              height: 20,
+              resizeMode: "cover",
+              alignSelf: "center",
+            }}
+            source={require("../assets/icons/search.png")}
+          />
+        </TouchableOpacity>
+        <TextInput
+          style={{
+            flex: 3.5,
+            maxWidth: "85%",
+            flexWrap: "wrap",
+          }}
+          placeholder="Search foods"
+        ></TextInput>
+      </View>
+    );
+  }
+
+  function HeaderTab() {
+    return (
+      <View style={[styles.containerBtnAdjust]}>
+        <View style={styles.containerBtnMMenuOpen}>
+          <TouchableOpacity
+            style={{ flexDirection: "row", alignSelf: "center" }}
+          >
+            <Image
+              source={{
+                uri: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAflBMVEX////0xE7m5ub0w0fl5+vw1Jb7+/v0wkT0w0rzwDvzwT/zwUH19fX//fnzvzj++/T2znLq6ur88dr42ZT768n1yV/425z99OL++vD1zGn304H+9+n53qT54Kr31Yn76MD647P879X1x1n2zW765bn20Xv314742Jbx2aTx3K6pDfF7AAAH30lEQVR4nO2c6ZqjKBSGy3amEIzGJFZWsy81c/83ONlEQXALCjjn/Zn008WXw1kFv74AAAAAAAAAAAAAAAAAAAAAAAAAAAAAoAXBeDMOdC+iM45JdPIxxugUbae6F6OeceIS5DkvPISd7cBMOSfIYfAQ2upelEKmHqfviX9a6F6YKrZYoO9hR7LXvTQ13IhY4J0w0b04FZQIdBw8AGfc5gS6BGMXY9/NWTHWvcBPmYZZZPFm8fL+0Sa+oSzykI3uJX7IieZAfMg+HSch/fysbW1K2PrpBl0tmS8WVLrlATXdjW7EfxOkEr0fHQtTxeFtQu9U/G7svSXiY/8LU8bKKwknx3ch4O56X5cyNm8NaC78ev3OGqjnZSnk8t6k4Vj49fSdKom92/T2MpJ3lXx/etvw0OeilPJ2Q3SRfD9//QLurddVqeTtZ0TW0e9fu9grpBJreAcaLCvMji9H9Fa9rkolOLXh4ri/bJPZ7nqNztF1vZsl20t83MTvSGRvzk8rGkKIj5Drut4L10UI+fcPHdtt+JPWnuV4a90Lbc3OrZb3iKXigsAGLqIBVBFibxe8KRtgZCBLR6fB9LCu6Yezi31zxWNyRtmMuwoXETdK7KlON5crrq+OGhIRvL4sq/973WwOq+bqqEqfrLZGb9jlYRW2lpeaEv9sTR2/xdf21mNFkrOB+WOZeESFvLdI4mzFXbMuFjv+6dnHGhG5mbNZp1dcrzxrhouvZjwqnka4zvZ8thR3UIMfw8OR/si6uVbp8+75nODQWV13s9/5PNnV+kGoxp3eFDm+hWXLfWRx53w7xIv8MserJiHJC+cay9ZD6Za777EkFllg3CwqIVfXk43pqbR18FbS/TVrGJjISoc7BlX+5Mk3V82+Mfd/4d8epb2I3Qo7lB0m2TZPnsjpufXYSY5XZJSN6k+NBd7Bs/7k3T2w2gi+vLS8tat/0E9vRc62TkZziwO0IBiPl4t41bbA88J+gmpwrTd9yeZLm+MlWUc/p8dRDEz8Dwp03MejxoUnCjGiVZPZZjy9zFbhveN/zoLbK6OgU+c7dS8IMY++iQh0321GfFddT/X8WyX+rYQkLP5REt1bgOWs3t79nPDQpcBdUYab1lS/XXRQIkiHI/LIL/w5vKalS2WKVCaxq+ccwU/BSq6b84pIrceVgLo5RzU+FQSSKD9MOfem0HG7eB63LGYEzJwODXrbpQ+JJ+VNY1EgH7ebtkSGSVwW8rV7Ytq/YN1XtuhGIj1mR/HZ8xN7YaXTrUSlT/8LUZQwrcyy3rhNtUSFEfXMC2RjzL7JhFAhSFleXPPtDnP+PFj3GUQZiKKmeM7HkPx55q+Fo8eAT8hBsuZGFLoJnD+mtlf4PKYFoYLpzaJU4K+2HfoGfdwvBnymZ3yw7yRYRHS+uhkR52VM63JW/EitDZ8G1IQzEsoNSgS9hg6I7PRqLY6cm+Vr+qDYa+gBfzDyDwrVaFYLGmJB5zNXXHMi8r+WKRa8g1onfj4T5u/vFAo5nbS9k8I/5kO5A+dXA6JonnYKuT2av5/0qz0PsrTbpzG3R3Pn0S+6K5kCuM2pDS6O5orcqWAsrJk28XTOelruIuRYydkuxTTvMjZ8HM2mMo2OUvQGanpKjAszuZ9oXhx8m0DTq0VT1oS5OHo0zwlfSG/miOF2YkhDVaGbMgbBQ+cSuEyR2wE1r1DooFHG4C67ZF5s7B51ml2Bi9mSJXc0ptU5kb6Q3gKsMqHn0S8Sw8pRFuld1QJH1oQ+baKXhpWjPLV7Yf5RJ/3iam6YeeLVPIzCzQ8zE06NK7h5/HrHbW+MpXJeaGa5lgfVeqNPIAukseFe+MArU5ZyYOtOnw6fat4I1Uqtq4ysEJd2zzaYsFbW58JJVs/2eNTiA2q8soiLM/Q3MT+QPqkRa7jZBd3XVytM6FSP3fiSNP18aXDJzVDZYbDdURZnzK5Ic1RefWeFZNW6sY1vgYqpG1d0039tRap4UVF+z9lNSi3OP6MxmIq3hrIdLt2kgS1xxql6jwj3EgQ//Xxv5gRRDCmbnF4YJR4dQFmTDB+U1qZsrqDHKwNbUsWT0nzBFTSpuS2KpE65I7IPK7J/2e/h2I/B8pOnbEDJrG1Pun9Scm1uJnbDmq+ZMYaSjMgOYnA61oltyhVO2dw0YN2N9hW93YZRhCftoNgxYtb8mj9j45AOFWNxoAksc8OSBxjsBWQ6D5hap9CX3TVlKxrqrwerKpoH0qqGG4im8wDLsqFTEkz53fi8mLa0Ls7IXy9dbALJz2+k96R6S1yxQkHp4im+xdsXobgyPVoXM6UQ8azGqka+HEntbV9WkCK50t7ijSOmInn79NyyArsESf9k8HGnpkiKmppvG7UBiUKrRobluOJz3/29MaBzJIdNz8gdCoX3SnyPHvzz93D4d5Ty/RA4+vPkryHxhzKhAgfL6GuiewkdM/nSvYLO+R/Y8Fv3EjrmHk2HbcTJI13oXkSnvDK+7lV0yPerqBluShylddtQXXGSlaa6l9IRueJ7mPt0lFM4yH06+WLQvZwO4JtE3etRzjff4w/NFUe8wKG54qQocGCuKBI4KFcsOOHQXFHghMOSKBU4FIklAofhixIfpNieNIRpgjOjzRonVQa0XGNNfU9GI9tUTkalAUZiS3toLg4AAAAAAAAAAAAAAAAAAAAAAAAAAACwkP8ANm/At0JepUcAAAAASUVORK5CYII=",
+              }}
+              style={styles.imgIconMenuOpen}
+            />
+            <Text style={styles.txtMenuOpen}>Special</Text>
+          </TouchableOpacity>
+          <View style={styles.VerticalLineDivider}></View>
+          <TouchableOpacity
+            style={{ flexDirection: "row", alignSelf: "center" }}
+          >
+            <Image
+              source={{
+                uri: "https://gentlemancrafter.files.wordpress.com/2021/03/sale-01.png?w=350&h=200&crop=1",
+              }}
+              style={styles.imgIconMenuOpen}
+            />
+            <Text style={styles.txtMenuOpen}>Sale off</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+
+  function ListPopularFood() {
+    return (
+      <View style={styles.containerListPopularFood}>
+        <View style={styles.containerTitlePopularFood}>
+          <Text style={{ fontSize: 20, color: "#c36e68", fontWeight: "bold" }}>
+            Popular Choices
+          </Text>
+          <TouchableOpacity style={styles.btnPopularChoiceSeeMoreOpen}>
+            <Text style={{ marginTop: 3 }}>See more</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{ marginHorizontal: "4%" }}>
+          <FlatList
+            data={DATADish}
+            renderItem={({ item, index }) => {
+              return <FlatListItem item={item} index={index} />;
+            }}
+            horizontal={true}
+            keyExtractor={(item) => item.id}
+            showsHorizontalScrollIndicator={false}
+          ></FlatList>
+        </View>
+      </View>
+    );
+  }
+
+  const CardFoodMenuHome = ({ imgSource, NameDish, PriceDish, RatingDish }) => {
+    return (
+      <View style={styles.containerCardFoodMenuHome}>
+        <Image
+          source={imgSource}
+          style={{
+            height: 80,
+            width: 80,
+            resizeMode: "cover",
+            marginRight: "3%",
+            borderRadius: 15,
+          }}
+        />
+        <View style={styles.containerInfoCardFoodMenuItem}>
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: "bold",
+            }}
+          >
+            {NameDish}
+          </Text>
+          <Text>{PriceDish}</Text>
+          <View style={{ flexDirection: "row" }}>
+            <Image
+              source={require("../assets/icons/Star.png")}
+              style={{
+                marginTop: 4,
+              }}
+            />
+            <Text
+              style={{
+                color: "#c36e68",
+              }}
+            >
+              {RatingDish}
             </Text>
           </View>
         </View>
       </View>
     );
-  }
-}
+  };
 
-const deviceWidth = Dimensions.get('window').width;
-const deviceHeight = Dimensions.get('window').height;
-LogBox.ignoreLogs(['Remote debugger']);
-
-const HomeScreen = () => {
-  return (
-    // ROOT container
-    <ScrollView>
-      <View style={styles.container}>
-        {/* ======Header container====== */}
-        <View style={styles.containerHeader}>
-          <View style={[styles.containerHeaderTop]}>
-            <Image
-              style={styles.imgHomeIc}
-              source={{
-                uri: 'https://icons-for-free.com/download-icon-HOME-131994911289288683_512.png',
-              }}
-            />
-            <View style={styles.containerHeaderText}>
-              <Text style={styles.txtHeaderHome}>Home</Text>
-              <Text style={{ fontSize: 16 }}>21-42-34, Q1 Tp.HCM</Text>
-            </View>
-          </View>
-          {/* ---Button edit--- */}
-          <TouchableOpacity style={[styles.btnHeaderEdit]}>
-            <Text style={{ fontSize: 18, color: '#fff', fontWeight: 'bold' }}>
-              Edit
+  function ListMenu() {
+    const NameDish = "Super Sushi dish";
+    const PriceDish = "10";
+    const RatingDish = "4.9";
+    return (
+      <View style={styles.containerNewDishes}>
+        <View>
+          <View style={styles.containerTitlePopularFood}>
+            <Text
+              style={{ fontSize: 20, color: "#c36e68", fontWeight: "bold" }}
+            >
+              Menu Restaurant
             </Text>
-            <Image
-              style={{
-                width: 18,
-                height: 18,
-                marginVertical: 2,
-                marginHorizontal: 4,
-                backgroundColor: 'transparent',
-              }}
-              source={{
-                uri: 'https://icon-library.com/images/pen-icon-png/pen-icon-png-5.jpg',
-              }}
-            ></Image>
-          </TouchableOpacity>
-        </View>
-
-        {/* =======Flash Offer container====== */}
-        <View style={styles.containerFlashOffer}>
-          {/* <<<<<<<<<<<<<<<-----------------FLATLIST View rework --------------->>>>>>>>>>>> */}
-          <View style={styles.containerFlashOfferBanner}>
-            <View style={{ width: 90, margin: 5 }}>
-              <Text
-                style={{ fontWeight: 'bold', fontSize: 16, color: '#AD3F32' }}
-              >
-                Flash Offer
-              </Text>
-              <Text style={{ color: '#000', fontSize: 8 }}>
-                We are here with the hottest meals in town.
-              </Text>
-            </View>
-            <Image
-              style={{ width: 218, height: 134, margin: 5 }}
-              source={require('../assets/images/Meal.png')}
-            />
+            <TouchableOpacity style={styles.btnMenuSeeMoreOpen}>
+              <Text style={{ marginTop: 3 }}>See more</Text>
+            </TouchableOpacity>
           </View>
-          {/* <<<<<<<<<<<<<<<<--------------Index FlatList item dot ------------>>>>>>>>>> */}
-          <View style={styles.containerFlashOfferBannerIndexDot}></View>
-        </View>
-        {/* =======Best Seller container====== */}
-        <View style={styles.containerBestSeller}>
-          <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Best seller</Text>
-          <FlatList
-            style={{}}
-            data={DataBestSeller}
-            horizontal={true}
-            renderItem={({ item, index }) => {
-              return <FlatlistBestSellerItem item={item} index={index} />;
-            }}
-            keyExtractor={(item) => item.id}
-          ></FlatList>
-        </View>
 
-        {/* =======Discount offer container====== */}
-        <View style={[styles.containerDiscountOffers]}>
-          <Text
-            style={{
-              color: '#483332',
-              fontSize: 18,
-              fontWeight: 'bold',
-              padding: 10,
-            }}
-          >
-            Discount Offers
-          </Text>
-          {/* ----Image View---- */}
-          <FlatList
-            style={{}}
-            data={DataDiscountOffer}
-            horizontal={true}
-            renderItem={({ item, index }) => {
-              return <FlatlistDiscountOffer item={item} index={index} />;
-            }}
-            keyExtractor={(item) => item.id}
-          />
-        </View>
+          <View style={styles.containerCardFoodMenuHome}>
+            <Image
+              source={imgSourceDish}
+              style={{
+                height: 80,
+                width: 80,
+                resizeMode: "cover",
+                marginRight: "3%",
+                borderRadius: 15,
+              }}
+            />
+            <View style={styles.containerInfoCardFoodMenuItem}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: "bold",
+                }}
+              >
+                {NameDish}
+              </Text>
+              <Text>{PriceDish}</Text>
+              <View style={{ flexDirection: "row" }}>
+                <Image
+                  source={require("../assets/icons/Star.png")}
+                  style={{
+                    marginTop: 4,
+                  }}
+                />
+                <Text
+                  style={{
+                    color: "#c36e68",
+                  }}
+                >
+                  {RatingDish}
+                </Text>
+              </View>
+            </View>
+          </View>
 
-        {/* =======Happy meal container====== */}
-        <View style={styles.containerHappyMeal}></View>
+          <View style={styles.lineDividerHorizontal}></View>
+
+          <View style={styles.containerCardFoodMenuHome}>
+            <Image
+              source={imgSourceDish}
+              style={{
+                height: 80,
+                width: 80,
+                resizeMode: "cover",
+                marginRight: "3%",
+                borderRadius: 15,
+              }}
+            />
+            <View style={styles.containerInfoCardFoodMenuItem}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: "bold",
+                }}
+              >
+                {NameDish}
+              </Text>
+              <Text>{PriceDish}</Text>
+              <View style={{ flexDirection: "row" }}>
+                <Image
+                  source={require("../assets/icons/Star.png")}
+                  style={{
+                    marginTop: 4,
+                  }}
+                />
+                <Text
+                  style={{
+                    color: "#c36e68",
+                  }}
+                >
+                  {RatingDish}
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
       </View>
+    );
+  }
+
+  return (
+    <ScrollView style={styles.container}>
+      {/* {HeaderInfo()} */}
+      {HeaderInfoTab()}
+      {/* {HeaderTab()} */}
+      {/* {SearchBarViewComponent()} */}
+      {ListPopularFood()}
+      {ListMenu()}
     </ScrollView>
   );
 };
@@ -397,120 +574,198 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 50,
-    paddingVertical: 30,
-    paddingHorizontal: 10,
+    flex: 1,
+    paddingTop: "5%",
+    paddingLeft: "2%",
+    height: windowHeight,
+    width: windowWidth,
+    paddingBottom: "8%",
+    backgroundColor: 'white',
   },
-  containerHeader: {
-    backgroundColor: 'transparent',
-  },
-  containerHeaderTop: {
-    flexDirection: 'row',
-    alignContent: 'center',
-  },
-  containerFlashOffer: {},
-  containerBestSeller: {
-    paddingHorizontal: 10,
-    marginVertical: 5,
-  },
-  containerBestSellerItem: {
-    height: 222,
-    width: 148,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#808080',
-    marginTop: 10,
-    marginHorizontal: 5,
-  },
-  containerDiscountOffersItem: {
-    width: 352.96,
-    height: 269,
-    borderRadius: 13.31,
-    borderWidth: 1,
-    zIndex: 2,
-
-    marginLeft: 10,
-  },
-  containerDiscountOffersItemImg: {
-    height: 141.1,
-    width: 351.94,
-    borderTopLeftRadius: 13.31,
-    borderTopRightRadius: 13.31,
-    marginBottom: 0,
-  },
-  containerDiscountOffersItemInfo: {
-    alignSelf: 'center',
-  },
-  containerDiscountOffersItemInfoBigInfo: {
-    flexDirection: 'row',
-    marginLeft: 5,
-    marginBottom: 0,
-  },
-  containerDiscountOffersItemInfoDetaiInfo: {
-    alignSelf: 'center',
-    justifyContent: 'flex-end',
-  },
-  containerFlashOfferBanner: {
-    margin: 10,
-    padding: 5,
-    flexDirection: 'row',
-    backgroundColor: '#E9B7B2',
-    borderRadius: 10,
-  },
-  containerFlashOfferBannerIndexDot: {
-    margin: 5,
-    justifyContent: 'center',
-    alignSelf: 'center',
-    backgroundColor: '#808080',
-  },
-  containerDiscountOffers: {},
-  containerHappyMeal: {},
-  containerHeaderText: {
-    paddingVertical: 5,
-  },
-  imgHomeIc: {
-    height: 60,
-    width: 60,
-  },
-  txtHeaderHome: {
-    fontWeight: 'bold',
-    fontSize: 18,
-  },
-  btnHeaderEdit: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    height: 42,
-    width: 104,
-    marginLeft: deviceWidth - 130,
-    backgroundColor: '#F8774A',
+  containerInfoViewTab: {
+    height: 65,
+    width: windowWidth - 0,
+    justifyContent: "center",
+    alignContent: "center",
     borderRadius: 25,
-    alignContent: 'center',
-    alignItems: 'center',
+    paddingHorizontal: '2%',
+    alignSelf: "center",
+    flexDirection: "row",
+    marginTop: "1%",
+    marginBottom: "5%",
+    backgroundColor: "#f9f9f9",
+    alignItems: "center",
+    borderRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7,
   },
-  elevation: {
-    elevation: 20,
-    shadowOpacity: 1,
-    shadowColor: '#000',
+  containerIcHomeView: {
+    flex: 1,
   },
-  boxStarReview: {
-    height: 24,
-    width: 54.77,
-    borderRadius: 24,
-    opacity: 38.2,
-    backgroundColor: '#509807',
-    alignSelf: 'center',
-    flexDirection: 'row',
-    padding: 0,
-    justifyContent: 'center',
-    marginLeft: 110,
-    marginBottom: 20,
+  containerTextTitlesInfo: {
+    flex: 3,
+    maxWidth: "90%",
+    justifyContent: "center",
+    alignContent: "center",
   },
-  boxCaloriesInfo: {
-    height: 18,
-    width: 56.8,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignSelf: 'center',
-    marginLeft: 100,
+  containerIcUserAccount: {
+    flex: 1,
+  },
+  containerCardFoodMenuHome: {
+    width: windowWidth - 50,
+    alignSelf: "center",
+    borderRadius: 15,
+    backgroundColor: "#fff",
+    height: 100,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    paddingLeft: "3%",
+  },
+  containerNewDishes: {
+    marginTop: "1%",
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+  },
+  containerHeaderInfo: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    flexWrap: "wrap-reverse",
+    paddingHorizontal: "5%",
+    width: windowWidth,
+    height: 50,
+    marginTop: "2%",
+  },
+  lineDividerHorizontal: {
+    width: windowWidth - 40,
+    height: 1,
+    backgroundColor: "#808080",
+    alignSelf: "center",
+    marginVertical: "3%",
+  },
+  containerInfoCardFoodMenuItem: {
+    maxWidth: "90%",
+    justifyContent: "flex-start",
+    alignItems: "stretch",
+    marginBottom: "10%",
+  },
+  containerItem1: {
+    height: 220,
+    width: 300,
+    borderRadius: 15,
+    marginHorizontal: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+
+    elevation: 3,
+    backgroundColor: "#fff",
+    alignContent: "center",
+    justifyContent: "center",
+  },
+  containerBtnAdjust: {
+    flexDirection: "row",
+    width: windowWidth - 100,
+    height: 50,
+    alignSelf: "center",
+    marginTop: "5%",
+    // borderRadius: 15,
+    backgroundColor: "transparent",
+    // borderWidth: 0.5,
+    borderColor: Colors.lightGray,
+  },
+  containerListPopularFood: {
+    height: 250,
+    width: windowWidth,
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+    marginTop: "5%",
+  },
+  containerTitlePopularFood: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    flexWrap: "wrap-reverse",
+    paddingHorizontal: "5%",
+    width: windowWidth,
+    marginTop: "5%",
+    marginBottom: "4%",
+    height: 30,
+  },
+  containerBtnMMenuOpen: {
+    flexDirection: "row",
+    flex: 1,
+    alignContent: "center",
+    justifyContent: "center",
+  },
+  VerticalLineDivider: {
+    alignSelf: "center",
+    height: 30,
+    backgroundColor: "#808080",
+    width: 1.5,
+    marginHorizontal: "10%",
+  },
+  imgIconMenuOpen: {
+    height: 25,
+    width: 25,
+    resizeMode: "cover",
+    alignSelf: "center",
+  },
+  imgUserAccountInfoHeader: {
+    height: 40,
+    width: 40,
+    resizeMode: "cover",
+    alignSelf: "center",
+  },
+  txtMenuOpen: {
+    alignSelf: "center",
+    fontSize: 18,
+    lineHeight: 30,
+  },
+  btnAccountOpen: {
+    flex: 1,
+    marginLeft: "20%",
+  },
+  btnPopularChoiceSeeMoreOpen: {
+    alignContent: "center",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    flexDirection: "row-reverse",
+    flexWrap: "nowrap",
+  },
+  btnMenuSeeMoreOpen: {
+    alignContent: "center",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    flexDirection: "row-reverse",
+    flexWrap: "nowrap",
+  },
+  txtHeaderInfoWelcome: {},
+  txtHeaderInfoAccount: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  shadowStyle: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
   },
 });

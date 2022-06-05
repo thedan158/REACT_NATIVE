@@ -3,6 +3,7 @@ import { View, Image, TouchableOpacity } from 'react-native';
 import {
   createBottomTabNavigator,
   BottomTabBar,
+
 } from '@react-navigation/bottom-tabs';
 import { Path } from 'react-native-svg';
 import Svg from 'react-native-svg';

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import React, { Children } from 'react';
 import back from '../assets/icons/back-orange.png';
-import home from '../assets/icons/home-orange.png';
+import home from '../assets/icons/HomeOrange.png';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/core';
 
