@@ -66,7 +66,6 @@ import CompletedOrder from "./screens/CompletedOrder";
 import OrderDetails from "./custom component/OrderDetails";
 import StaffInformation from "./screens/StaffInformation";
 import CheckOutTableScreen from "./screens/CheckOutTableScreen";
-
 const Stack = createStackNavigator();
 
 // animation function
@@ -141,6 +140,11 @@ export default function App() {
           gestureDirection: "horizontal",
         }}
       >
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="HomeScreen"
+          component={HomeScreen}
+        />
         <Stack.Screen
           options={{ headerShown: false }}
           name="SplashScreen"
@@ -304,11 +308,6 @@ export default function App() {
           }}
         />
 
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ headerShown: false }}
-        />
 
         <Stack.Screen
           options={{ headerShown: false }}

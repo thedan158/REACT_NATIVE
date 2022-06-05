@@ -237,6 +237,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     elevation: 1,
+    marginLeft: 0,
+    marginRight: '2%',
   },
   containerBtnApply: {
     backgroundColor: "#F8774A",
@@ -266,6 +268,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "row",
+    
   },
   txtQuantityItem: {
     fontSize: 16,
