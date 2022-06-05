@@ -37,7 +37,8 @@ import OTPsignup from './screens/OTPsignup';
 import OTPforgotpass from './screens/OTPforgotpass';
 import NewPassword from './screens/NewPassword';
 import RestaurantInformation from './screens/RestaurantInformation';
-import ChangePassword from './screens/ChangePassword';
+import ChangeStaffPassword from './screens/ChangeStaffPassword';
+import ChangeOwnerPassword from './screens/ChangeOwnerPassword';
 
 import OrderScreen from './screens/OrderScreen';
 import StarterMenuScreen from './screens/StarterMenuScreen';
@@ -55,8 +56,8 @@ import RePasswordSuccess from './screens/RePasswordSuccess';
 import PermissionManager from './screens/PermissionManager';
 import MenuScreen from './screens/MenuScreen';
 import HomeScreen2ndFinal from './screens/HomeScreen2ndFinal';
-import EditProfile from './screens/EditProfile';
-import { ScreenStackHeaderLeftView } from 'react-native-screens';
+import EditStaffProfile from './screens/EditStaffProfile';
+import EditOwnerProfile from './screens/EditOwnerProfile';
 import Button2Screen from './screens/Button2Screen';
 import Button3Screen from './screens/Button3Screen';
 import Button4Screen from './screens/Button4Screen';
@@ -148,6 +149,12 @@ export default function App() {
           name="SplashScreen"
           component={SplashScreen}
         />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="OTPsignup"
+          component={OTPsignup}
+        />
+
         <Stack.Screen
           options={{ headerShown: false }}
           name="ListFood"
@@ -275,9 +282,28 @@ export default function App() {
         <Stack.Screen
           options={{
             headerShown: false,
+            gestureDirection: 'horizontal',
+            transitionSpec: {
+              open: config,
+              close: closeConfig,
+            },
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           }}
-          name="EditProfile"
-          component={EditProfile}
+          name="EditStaffProfile"
+          component={EditStaffProfile}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+            gestureDirection: 'horizontal',
+            transitionSpec: {
+              open: config,
+              close: closeConfig,
+            },
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          }}
+          name="EditOwnerProfile"
+          component={EditOwnerProfile}
         />
 
         <Stack.Screen
@@ -287,9 +313,32 @@ export default function App() {
         />
 
         <Stack.Screen
-          name="ChangePassword"
-          options={{ headerShown: false }}
-          component={ChangePassword}
+          name="ChangeStaffPassword"
+          options={{
+            headerShown: false,
+            gestureDirection: 'horizontal',
+            transitionSpec: {
+              open: config,
+              close: closeConfig,
+            },
+            cardStyleInterpolator:
+              CardStyleInterpolators.forModalPresentationIOS,
+          }}
+          component={ChangeStaffPassword}
+        />
+        <Stack.Screen
+          name="ChangeOwnerPassword"
+          options={{
+            headerShown: false,
+            gestureDirection: 'horizontal',
+            transitionSpec: {
+              open: config,
+              close: closeConfig,
+            },
+            cardStyleInterpolator:
+              CardStyleInterpolators.forModalPresentationIOS,
+          }}
+          component={ChangeOwnerPassword}
         />
 
         <Stack.Screen
@@ -314,7 +363,7 @@ export default function App() {
           component={CreateStaffAccount}
           options={{
             headerShown: false,
-            gestureDirection: 'vertical',
+            gestureDirection: 'horizontal',
             transitionSpec: {
               open: config,
               close: closeConfig,
@@ -347,11 +396,7 @@ export default function App() {
           name="ForgotPassword"
           component={ForgotPassword}
         />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="OTPsignup"
-          component={OTPsignup}
-        />
+
         <Stack.Screen
           options={{ headerShown: false }}
           name="OTPforgotpass"

@@ -14,6 +14,7 @@ import { useNavigation } from '@react-navigation/core';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import logo from '../assets/images/logo_app.png';
 import background from '../assets/images/background.png';
+import Colors from '../assets/Colors';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -42,6 +43,10 @@ const OTP = () => {
     }, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  const isEnable = () => {
+    return internalVal.length === 4;
+  };
 
   const handleOTP = () => {
     navigation.navigate('NewPassword');
@@ -131,7 +136,16 @@ const OTP = () => {
 
             {/* Button section  */}
             <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={handleOTP} style={styles.button}>
+              <TouchableOpacity
+                disabled={isEnable() ? false : true}
+                onPress={handleOTP}
+                style={[
+                  styles.button,
+                  {
+                    backgroundColor: isEnable() ? Colors.primary : '#FFB196',
+                  },
+                ]}
+              >
                 <Text style={styles.buttonText}>Continue</Text>
               </TouchableOpacity>
             </View>
