@@ -185,8 +185,7 @@ export default BillScreen;
 
 const styles = StyleSheet.create({
   container: {
-
-    marginBottom: 55,
+    marginBottom: 50,
   },
   containerTop: {
     backgroundColor: "#FF4B3A",
@@ -215,6 +214,8 @@ const styles = StyleSheet.create({
   txtSearchBar: {
 
     color: "#000",
+    maxWidth: 200,
+    width: 200,
   },
   txtHeaderView: {
     fontSize: 30,
