@@ -8,12 +8,15 @@ import {
   ScrollView,
   ImageBackground,
   Dimensions,
+  Alert,
 } from 'react-native';
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigation } from '@react-navigation/core';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import logo from '../assets/images/logo_app.png';
 import background from '../assets/images/background.png';
+import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -43,8 +46,22 @@ const OTP = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const handleOTP = () => {
+  const handleOTP = async() => {
+    const numberValue = await AsyncStorage.getItem('userPhone');
+    console.log('+84' + numberValue);
+    const res = await axios.post(
+      'https://foody-uit.herokuapp.com/otp/verifyOtp',
+      {
+        phoneNumber: '+84' + numberValue,
+        otp: internalVal,
+      }
+    );
+    const { success } = res.data;
+    if (success) {
     navigation.navigate('NewPassword');
+    } else {
+      Alert.alert('Wrong OTP');
+    }
   };
 
   return (
