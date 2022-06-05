@@ -143,6 +143,7 @@ export default StaffManagement;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#f8f9fa',
   },
   view1: {
     flexDirection: 'row',

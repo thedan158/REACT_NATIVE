@@ -5,9 +5,9 @@ import {
   TouchableOpacity,
   Switch,
   Image,
+  ScrollView,
 } from 'react-native';
 import React from 'react';
-import { ScrollView } from 'react-native-gesture-handler';
 import { CustomCollapsible } from '../custom component/CustomCollapsible';
 import Colors from '../assets/Colors';
 import { useNavigation } from '@react-navigation/core';
@@ -17,12 +17,12 @@ const PermissionManager = () => {
   const navigation = useNavigation();
   const [visible, setVisible] = React.useState(false);
   return (
-    <View>
+    <View style={{ backgroundColor: 'white', flex: 1 }}>
       {/* Title  */}
       <Text style={styles.modalTitle}>Permission Manager</Text>
 
       {/* Permission manager  */}
-      <View style={styles.permission}>
+      <ScrollView style={styles.permission}>
         <CustomCollapsible title="Tanhao" subTitle="T" />
         <CustomCollapsible
           title="Tanhao"
@@ -36,7 +36,17 @@ zxn mbz nxm z nx mz  xz"
 xz nx znx nx nz x bzm xnz bm xnbzm xnzmx nz x
 zxn mbz nxm z nx mz  xz"
         />
-      </View>
+
+        {/* Button  */}
+        <View style={{ marginTop: '10%' }}>
+          <TouchableOpacity
+            onPress={() => setVisible(true)}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>Finish</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
 
       {/* Modal  */}
       <CustomModal visible={visible}>
@@ -60,16 +70,6 @@ zxn mbz nxm z nx mz  xz"
           <Text style={styles.buttonText}>OK</Text>
         </TouchableOpacity>
       </CustomModal>
-
-      {/* Button  */}
-      <View>
-        <TouchableOpacity
-          onPress={() => setVisible(true)}
-          style={styles.button}
-        >
-          <Text style={styles.buttonText}>Finish</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };
