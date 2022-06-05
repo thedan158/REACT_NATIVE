@@ -151,6 +151,7 @@ export default function App() {
         />
         <Stack.Screen
           options={{ headerShown: false }}
+
           name="OTPsignup"
           component={OTPsignup}
         />
@@ -160,6 +161,8 @@ export default function App() {
           name="ListFood"
           component={ListFood}
         />
+
+
 
         <Stack.Screen
           options={{ headerShown: false }}
