@@ -17,12 +17,12 @@ const CustomTextInput = ({
   style,
   value,
   label,
-  error,
+  error = '',
   blurColor,
+  paddingVertical,
   ...props
 }) => {
   const [focused, setFocused] = React.useState(false);
-
   const getFlexDirection = () => {
     if (icon && iconPosition) {
       if (iconPosition === 'left') {
@@ -45,7 +45,7 @@ const CustomTextInput = ({
     }
   };
   return (
-    <View style={styles.inputContainer}>
+    <View style={{ paddingVertical: paddingVertical }}>
       {label && <Text>{label}</Text>}
 
       <View
@@ -71,7 +71,7 @@ const CustomTextInput = ({
         />
       </View>
 
-      {error && <Text style={styles.error}>{error}</Text>}
+      <Text style={styles.error}>{error}</Text>
     </View>
   );
 };
@@ -100,10 +100,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     borderRadius: 13,
     borderWidth: 1,
-  },
-
-  inputContainer: {
-    paddingVertical: 12,
   },
 
   textInput: {

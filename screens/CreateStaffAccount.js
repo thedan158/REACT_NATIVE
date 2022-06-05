@@ -11,14 +11,15 @@ import {
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import logo from '../assets/images/logo_app.png';
 import CustomTextInput from '../custom component/CustomTextInput';
 import eye from '../assets/icons/eye-green.png';
 import hidden from '../assets/icons/closed-eyes-green.png';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Colors from '../assets/Colors';
-import HomeScreen from './HomeScreen';
-import LoginScreen from './LoginScreen';
+
+import back from '../assets/icons/back-green.png';
+
+const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get('window').width;
 
 const CreateStaffAccount = () => {
   const [username, setUsername] = useState('');
@@ -27,6 +28,30 @@ const CreateStaffAccount = () => {
   const navigation = useNavigation();
   return (
     <ScrollView style={{ backgroundColor: 'white' }}>
+      {/* Back button  */}
+      <View>
+        <TouchableOpacity
+          style={{
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            flexDirection: 'row',
+            marginLeft: 20,
+            marginTop: 40,
+          }}
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
+          <Image
+            source={back}
+            style={{
+              height: 20,
+              width: 20,
+            }}
+          />
+        </TouchableOpacity>
+      </View>
+
       {/* Title */}
       <Text style={styles.modalTitle}>Create your staff account</Text>
 
@@ -91,6 +116,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     backgroundColor: '#FFFFFF',
+    height: windowHeight,
+    width: windowWidth,
   },
   inputContainer: {
     width: 300,
@@ -197,7 +224,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Colors.secondary,
     textAlignVertical: 'center',
-    marginTop: 80,
+    marginTop: 40,
     textAlign: 'center',
   },
 });

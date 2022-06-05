@@ -65,7 +65,7 @@ const AccountForOwner = () => {
           <View>
             <TouchableOpacity
               style={styles.TouchableOpacity}
-              onPress={() => navigation.navigate('EditProfile')}
+              onPress={() => navigation.navigate('EditOwnerProfile')}
             />
             <Text style={styles.textName}>Edit Your Profile</Text>
             <Image style={styles.icon} source={vector} />
@@ -73,7 +73,7 @@ const AccountForOwner = () => {
           <View>
             <TouchableOpacity
               style={styles.TouchableOpacity}
-              onPress={() => navigation.navigate('ChangePassword')}
+              onPress={() => navigation.navigate('ChangeOwnerPassword')}
             />
             <Text style={styles.textName}>Change Your Password</Text>
             <Image style={styles.icon} source={vector} />

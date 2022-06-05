@@ -12,12 +12,36 @@ import { CustomCollapsible } from '../custom component/CustomCollapsible';
 import Colors from '../assets/Colors';
 import { useNavigation } from '@react-navigation/core';
 import CustomModal from '../custom component/CustomModal';
+import back from '../assets/icons/back-green.png';
 
 const PermissionManager = () => {
   const navigation = useNavigation();
   const [visible, setVisible] = React.useState(false);
   return (
     <View style={{ backgroundColor: 'white', flex: 1 }}>
+      {/* Back button  */}
+      <View>
+        <TouchableOpacity
+          style={{
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            flexDirection: 'row',
+            marginLeft: 20,
+            marginTop: 40,
+          }}
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
+          <Image
+            source={back}
+            style={{
+              height: 20,
+              width: 20,
+            }}
+          />
+        </TouchableOpacity>
+      </View>
       {/* Title  */}
       <Text style={styles.modalTitle}>Permission Manager</Text>
 
@@ -82,7 +106,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Colors.secondary,
     textAlignVertical: 'center',
-    marginTop: 80,
+    marginTop: 40,
     textAlign: 'center',
   },
   permission: {
