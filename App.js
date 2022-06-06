@@ -31,7 +31,7 @@ import SplashScreen from './screens/SplashScreen';
 import SignupScreen from './screens/SignupScreen';
 import OnBoardingScreen from './screens/OnBoardingScreen';
 import AppLoader from './screens/AppLoader';
-
+import AppLoaderOwner from './screens/AppLoaderOwner';
 import ForgotPassword from './screens/ForgotPassword';
 import OTPsignup from './screens/OTPsignup';
 import OTPforgotpass from './screens/OTPforgotpass';
@@ -280,6 +280,11 @@ export default function App() {
           options={{ headerShown: false }}
           name="AppLoader"
           component={AppLoader}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="AppLoaderOwner"
+          component={AppLoaderOwner}
         />
 
         <Stack.Screen

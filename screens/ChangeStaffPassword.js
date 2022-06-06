@@ -8,31 +8,60 @@ import {
   ScrollView,
   ImageBackground,
   Dimensions,
-} from 'react-native';
-import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/core';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import logo from '../assets/images/logo_app.png';
-import CustomTextInput from '../custom component/CustomTextInput';
-import eye from '../assets/icons/eye.png';
-import hidden from '../assets/icons/close-eye.png';
-import Colors from '../assets/Colors';
-import background from '../assets/images/background.png';
-import StaffScreen from '../custom component/StaffScreen';
-import CustomModal from '../custom component/CustomModal';
+  Alert,
+} from "react-native";
+import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/core";
+import { SafeAreaView } from "react-native-safe-area-context";
+import logo from "../assets/images/logo_app.png";
+import CustomTextInput from "../custom component/CustomTextInput";
+import eye from "../assets/icons/eye.png";
+import hidden from "../assets/icons/close-eye.png";
+import Colors from "../assets/Colors";
+import background from "../assets/images/background.png";
+import StaffScreen from "../custom component/StaffScreen";
+import CustomModal from "../custom component/CustomModal";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 const ChangePassword = () => {
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [password, setPassword] = useState('');
-  const [oldPassword, setOldPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [password, setPassword] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
   const navigation = useNavigation();
   const [isSecureEntry, setIsSecureEntry] = useState(true);
   const [isSecureEntryConfirm, setIsSecureEntryConfirm] = useState(true);
   const [visible, setVisible] = React.useState(false);
 
+  const handleChangePassword = async () => {
+    console.log("Change password");
+    const userInfo = await AsyncStorage.getItem("userLoginData");
+    const user = JSON.parse(userInfo);
+    console.log(user.username);
+    if (password !== confirmPassword) {
+      Alert.alert("Password not match");
+      return;
+    }
+    const res = await axios.post(
+      `https://foody-uit.herokuapp.com/auth/changePassword`,
+      {
+        username: user.username,
+        oldPassword: oldPassword,
+        newPassword: password,
+      }
+    );
+    const { success } = res.data;
+    console.log("Correct account " + success);
+    if (!success) {
+      Alert.alert("Error", "Wrong infomation");
+      return;
+    }
+
+    setVisible(true);
+  };
   return (
     <StaffScreen>
       <View style={styles.container}>
@@ -117,7 +146,7 @@ const ChangePassword = () => {
           {/* Button reset password  */}
           <View style={styles.buttonContainer}>
             <TouchableOpacity
-              onPress={() => setVisible(true)}
+              onPress={handleChangePassword}
               style={styles.button}
             >
               <Text style={styles.buttonText}>Reset password</Text>
@@ -127,15 +156,15 @@ const ChangePassword = () => {
 
         {/* Modal  */}
         <CustomModal visible={visible}>
-          <View style={{ alignItems: 'center' }}>
+          <View style={{ alignItems: "center" }}>
             <Image
-              source={require('../assets/icons/password-orange.png')}
+              source={require("../assets/icons/password-orange.png")}
               style={{ height: 150, width: 150, marginVertical: 30 }}
             />
           </View>
 
           <Text
-            style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}
+            style={{ marginVertical: 30, fontSize: 20, textAlign: "center" }}
           >
             Congratulations registration was successful
           </Text>
@@ -158,8 +187,8 @@ export default ChangePassword;
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     flex: 1,
     height: windowHeight,
     width: windowWidth,
@@ -167,22 +196,22 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: 300,
     height: 55,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "flex-start",
     borderRadius: 13,
   },
 
   input: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 5,
   },
   buttonContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 20,
   },
   view2: {
@@ -190,40 +219,40 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   view1: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     flex: 3,
   },
 
   button: {
-    backgroundColor: '#FA4A0C',
-    width: '100%',
+    backgroundColor: "#FA4A0C",
+    width: "100%",
     padding: 15,
     borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     elevation: 1,
   },
   buttonOutline: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     marginTop: 5,
-    borderColor: '#FA4A0C',
+    borderColor: "#FA4A0C",
     borderWidth: 2,
   },
   buttonText: {
-    color: 'white',
-    fontWeight: '700',
+    color: "white",
+    fontWeight: "700",
     fontSize: 16,
   },
   buttonOutlineText: {
-    color: '#FA4A0C',
-    fontWeight: '700',
+    color: "#FA4A0C",
+    fontWeight: "700",
     fontSize: 16,
   },
   newOwnerText: {
-    color: 'black',
+    color: "black",
     fontSize: 16,
-    fontWeight: 'normal',
+    fontWeight: "normal",
   },
 
   // container:{
@@ -232,24 +261,24 @@ const styles = StyleSheet.create({
   // },
 
   textPleaseRegister: {
-    position: 'relative',
+    position: "relative",
     top: 10,
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 
   logo: {
     height: 160,
     width: 170,
-    position: 'relative',
+    position: "relative",
     top: 5,
     marginTop: 25,
   },
 
   textView: {
     flex: 0.12,
-    flexDirection: 'row',
-    backgroundColor: 'white',
+    flexDirection: "row",
+    backgroundColor: "white",
     borderBottomLeftRadius: 50,
     borderBottomRightRadius: 50,
   },
@@ -260,21 +289,21 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   registerText: {
-    flexWrap: 'wrap',
-    flexDirection: 'row',
+    flexWrap: "wrap",
+    flexDirection: "row",
     marginTop: 20,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   forgotPassword: {
-    color: '#FA4A0C',
-    fontWeight: '700',
+    color: "#FA4A0C",
+    fontWeight: "700",
     fontSize: 16,
     marginTop: 10,
   },
   subtitle: {
     fontSize: 15,
     marginBottom: 15,
-    textAlign: 'center',
-    color: '#9B9B9B',
+    textAlign: "center",
+    color: "#9B9B9B",
   },
 });
