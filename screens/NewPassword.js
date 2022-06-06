@@ -20,6 +20,7 @@ import eye from "../assets/icons/eye.png";
 import hidden from "../assets/icons/close-eye.png";
 import Colors from "../assets/Colors";
 import background from "../assets/images/background.png";
+import validate from "../assets/validate";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -31,6 +32,7 @@ const NewPassword = () => {
   const navigation = useNavigation();
   const [isSecureEntry, setIsSecureEntry] = useState(true);
   const [isSecureEntryConfirm, setIsSecureEntryConfirm] = useState(true);
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
   // *Region for OnPress Login
   const handleConfirmNewPassword = async () => {
@@ -61,6 +63,12 @@ const NewPassword = () => {
     navigation.navigate("RePasswordSuccess");
   };
   // *End Region
+
+  function isEnable() {
+    return (
+      password !== "" && confirmPassword !== "" && password === confirmPassword
+    );
+  }
 
   return (
     <ScrollView>
@@ -112,7 +120,14 @@ const NewPassword = () => {
                   label="Confirm password"
                   placeholder="Confirm password"
                   value={confirmPassword}
-                  onChangeText={(text) => setConfirmPassword(text)}
+                  onChangeText={(text) => {
+                    setConfirmPassword(text),
+                      validate.validatePasswordConfirm(
+                        text,
+                        password,
+                        setConfirmPasswordError
+                      );
+                  }}
                   secureTextEntry={isSecureEntryConfirm}
                   icon={
                     <TouchableOpacity
@@ -127,14 +142,21 @@ const NewPassword = () => {
                     </TouchableOpacity>
                   }
                   iconPosition="right"
+                  error={confirmPasswordError}
                 />
               </View>
 
               {/* Button reset password  */}
               <View style={styles.buttonContainer}>
                 <TouchableOpacity
+                  disabled={isEnable() ? false : true}
                   onPress={handleConfirmNewPassword}
-                  style={styles.button}
+                  style={[
+                    styles.button,
+                    {
+                      backgroundColor: isEnable() ? Colors.primary : "#FFB196",
+                    },
+                  ]}
                 >
                   <Text style={styles.buttonText}>Reset password</Text>
                 </TouchableOpacity>

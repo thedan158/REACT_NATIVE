@@ -9,33 +9,33 @@ import {
   Button,
   Alert,
   ScrollView,
-} from "react-native";
-import React, { useState, useEffect } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/core";
-import logo from "../assets/images/logo_app.png";
-import CustomTextInput from "../custom component/CustomTextInput";
-import gallery from "../assets/icons/gallery.png";
-import * as ImagePicker from "expo-image-picker";
-import { Constants } from "expo-constants";
-import Colors from "../assets/Colors";
-import background from "../assets/images/background.png";
-import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
+} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/core';
+import logo from '../assets/images/logo_app.png';
+import CustomTextInput from '../custom component/CustomTextInput';
+import gallery from '../assets/icons/gallery.png';
+import * as ImagePicker from 'expo-image-picker';
+import { Constants } from 'expo-constants';
+import Colors from '../assets/Colors';
+import background from '../assets/images/background.png';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const RestaurantInformation = () => {
-  const [nameOfRes, setNameOfRes] = useState("");
-  const [address, setAddress] = useState("");
-  const [hotline, setHotline] = useState("");
+  const [nameOfRes, setNameOfRes] = useState('');
+  const [address, setAddress] = useState('');
+  const [hotline, setHotline] = useState('');
   const navigation = useNavigation();
-  const [image, setImage] = useState("null");
+  const [image, setImage] = useState('null');
 
   useEffect(async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-    if (status !== "granted") {
-      alert("Permission denied!");
+    if (status !== 'granted') {
+      alert('Permission denied!');
     }
   }, []);
 
@@ -68,7 +68,7 @@ const RestaurantInformation = () => {
       }
     );
     const successCheckRes = resCheckRestaurantNotExists.data.success;
-    console.log("Res not exists: " + successCheckRes);
+    console.log('Res not exists: ' + successCheckRes);
     while (!successCheckRes) {
       const id = rNumber.toString();
       resCheckRestaurantNotExists = await axios.post(
@@ -79,7 +79,7 @@ const RestaurantInformation = () => {
       );
       successCheckRes = resCheckRestaurantNotExists.data.success;
     }
-    console.log("Create restaurant");
+    console.log('Create restaurant');
     const res = await axios.post(
       `https://foody-uit.herokuapp.com/restaurant/createRestaurant`,
       {
@@ -92,10 +92,10 @@ const RestaurantInformation = () => {
     const { success } = res.data;
     console.log(success);
     if (success) {
-      const userLoginData = await AsyncStorage.getItem("userLoginData");
+      const userLoginData = await AsyncStorage.getItem('userLoginData');
       const user = JSON.parse(userLoginData);
 
-      console.log("user name: " + user.username);
+      console.log('user name: ' + user.username);
       const resUpdateUserRestaurantID = await axios.put(
         `https://foody-uit.herokuapp.com/auth/updateUser`,
         {
@@ -106,8 +106,8 @@ const RestaurantInformation = () => {
       const successUpdateUserRestaurantID =
         resUpdateUserRestaurantID.data.success;
       if (successUpdateUserRestaurantID) {
-        console.log("Update user restaurant id success");
-        navigation.navigate("AppLoader");
+        console.log('Update user restaurant id success');
+        navigation.navigate('AppLoader');
       }
     }
   };
@@ -199,131 +199,131 @@ export default RestaurantInformation;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F2F2F2",
+    backgroundColor: '#F2F2F2',
     width: windowWidth,
     height: windowHeight,
   },
   buttonContainer: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   button: {
-    backgroundColor: "#FA4A0C",
-    width: "80%",
+    backgroundColor: '#FA4A0C',
+    width: '80%',
     padding: 15,
     borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     elevation: 1,
   },
   buttonText: {
-    color: "white",
-    fontWeight: "700",
+    color: 'white',
+    fontWeight: '700',
     fontSize: 16,
   },
   view1: {
     flex: 3,
     margin: 20,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   view2: {
     flex: 2,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
   },
   view3: {
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "flex-start",
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
     flex: 3,
   },
   view4: {
     flex: 2,
-    justifyContent: "flex-end",
-    marginBottom: 5,
+    justifyContent: 'flex-end',
+    marginBottom: '8%',
   },
 
   textPleaseRegister: {
-    position: "relative",
+    position: 'relative',
     top: 10,
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 
   logo: {
     height: 160,
     width: 170,
-    position: "relative",
+    position: 'relative',
     top: 5,
   },
 
   textView: {
-    flexDirection: "row",
-    backgroundColor: "white",
+    flexDirection: 'row',
+    backgroundColor: 'white',
     borderBottomLeftRadius: 50,
     borderBottomRightRadius: 50,
   },
 
   loginBox: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    position: "relative",
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
     top: 30,
     left: 10,
   },
 
   loginText: {
-    color: "#FA4A0C",
-    fontWeight: "700",
+    color: '#FA4A0C',
+    fontWeight: '700',
     fontSize: 16,
-    textAlign: "center",
-    position: "absolute",
-    alignSelf: "center",
+    textAlign: 'center',
+    position: 'absolute',
+    alignSelf: 'center',
   },
 
   ownerText: {
-    color: "black",
+    color: 'black',
     fontSize: 16,
-    fontWeight: "normal",
+    fontWeight: 'normal',
   },
 
   signupBox: {
     flex: 0.5,
-    alignItems: "center",
-    justifyContent: "flex-start",
-    position: "relative",
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    position: 'relative',
     right: 15,
   },
 
   rectangle: {
     width: 130,
     height: 3,
-    backgroundColor: "#FA4A0C",
-    position: "relative",
+    backgroundColor: '#FA4A0C',
+    position: 'relative',
     bottom: -9,
   },
 
   signupText: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 
   registerText: {
-    flexWrap: "wrap",
-    flexDirection: "row",
+    flexWrap: 'wrap',
+    flexDirection: 'row',
     marginTop: 20,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
 
   fullNameBox: {
     width: 300,
     height: 55,
-    backgroundColor: "white",
-    justifyContent: "center",
-    alignItems: "flex-start",
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
     borderRadius: 13,
   },
 
@@ -335,9 +335,9 @@ const styles = StyleSheet.create({
   passwordBox: {
     width: 300,
     height: 55,
-    backgroundColor: "white",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 13,
     marginTop: 25,
   },
@@ -345,39 +345,39 @@ const styles = StyleSheet.create({
   gallery: {
     height: 65,
     width: 65,
-    alignSelf: "center",
+    alignSelf: 'center',
   },
 
   textSignupButton: {
     fontSize: 16,
     lineHeight: 21,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     letterSpacing: 0.25,
-    color: "white",
+    color: 'white',
   },
 
   pickLogo: {
     width: 140,
     height: 140,
-    backgroundColor: "white",
-    alignSelf: "center",
-    justifyContent: "center",
-    alignItems: "center",
-    borderColor: "black",
+    backgroundColor: 'white',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: 'black',
     borderWidth: 3,
     borderRadius: 10,
-    borderStyle: "dashed",
+    borderStyle: 'dashed',
   },
   pick: {
     width: 140,
     height: 140,
-    borderColor: "black",
+    borderColor: 'black',
   },
 
   ImageBackground: {
     height: 80,
     width: 80,
-    position: "absolute",
-    alignSelf: "center",
+    position: 'absolute',
+    alignSelf: 'center',
   },
 });

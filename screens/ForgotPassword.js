@@ -17,6 +17,8 @@ import logo from "../assets/images/logo_app.png";
 import CustomTextInput from "../custom component/CustomTextInput";
 import PhoneInput from "react-native-phone-number-input";
 import background from "../assets/images/background.png";
+import Colors from "../assets/Colors";
+import validate from "../assets/validate";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -25,6 +27,11 @@ const windowHeight = Dimensions.get("window").height;
 const ForgotPassword = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const navigation = useNavigation();
+  const [phoneError, setPhoneError] = React.useState("");
+
+  function isEnableGetCode() {
+    return phoneNumber !== "" && phoneError == "";
+  }
 
   // *Region for OnPress Login
   const handleForgotPassword = async () => {
@@ -73,14 +80,18 @@ const ForgotPassword = () => {
               </Text>
 
               {/* Input section  */}
-              <Text style={styles.textLabel}>Mobile number</Text>
-
               <View style={styles.inputContainer}>
-                <PhoneInput
-                  placeholder="Mobile number"
+                <CustomTextInput
+                  blurColor={Colors.primary}
                   value={phoneNumber}
-                  onChangeText={(text) => setPhoneNumber(text)}
-                  style={styles.input}
+                  onChangeText={(text) => {
+                    setPhoneNumber(text),
+                      validate.validatePhone(text, setPhoneError);
+                  }}
+                  keyboardType="decimal-pad"
+                  placeholder="Mobile Number"
+                  error={phoneError}
+                  label="Mobile number"
                 />
               </View>
             </View>
@@ -89,8 +100,16 @@ const ForgotPassword = () => {
               {/* Button  */}
               <View style={styles.buttonContainer}>
                 <TouchableOpacity
+                  disabled={isEnableGetCode() ? false : true}
                   onPress={handleForgotPassword}
-                  style={styles.button}
+                  style={[
+                    styles.button,
+                    {
+                      backgroundColor: isEnableGetCode()
+                        ? Colors.primary
+                        : "#FFB196",
+                    },
+                  ]}
                 >
                   <Text style={styles.buttonText}>Get code</Text>
                 </TouchableOpacity>

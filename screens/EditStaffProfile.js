@@ -19,6 +19,8 @@ import * as ImagePicker from 'expo-image-picker';
 import { Constants } from 'expo-constants';
 import Colors from '../assets/Colors';
 import background from '../assets/images/background.png';
+import StaffScreen from '../custom component/StaffScreen';
+import CustomModal from '../custom component/CustomModal';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -28,6 +30,7 @@ const EditProfile = () => {
   const [hotline, setHotline] = useState('');
   const navigation = useNavigation();
   const [image, setImage] = useState('null');
+  const [visible, setVisible] = React.useState(false);
 
   useEffect(async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -52,16 +55,12 @@ const EditProfile = () => {
 
   // *Region for OnPress Signup
   const handleSignup = () => {
-    navigation.navigate('TabForOwner');
+    navigation.navigate('AccountForOwner');
   };
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <ImageBackground
-          source={background}
-          resizeMode="cover"
-          style={{ flex: 1 }}
-        >
+    <StaffScreen>
+      <ScrollView>
+        <View style={styles.container}>
           {/* Pick image  */}
           <View style={styles.view2}>
             <TouchableOpacity onPress={PickImage}>
@@ -122,15 +121,41 @@ const EditProfile = () => {
 
           <View style={styles.view4}>
             {/* Button */}
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={handleSignup} style={styles.button}>
-                <Text style={styles.buttonText}>Save</Text>
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity
+              onPress={() => setVisible(true)}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Save</Text>
+            </TouchableOpacity>
           </View>
-        </ImageBackground>
-      </View>
-    </ScrollView>
+
+          {/* Modal  */}
+          <CustomModal visible={visible}>
+            <View style={{ alignItems: 'center' }}>
+              <Image
+                source={require('../assets/icons/save-orange.png')}
+                style={{ height: 150, width: 150, marginVertical: 30 }}
+              />
+            </View>
+
+            <Text
+              style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}
+            >
+              Congratulations registration was successful
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                handleSignup();
+                setVisible(false);
+              }}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>OK</Text>
+            </TouchableOpacity>
+          </CustomModal>
+        </View>
+      </ScrollView>
+    </StaffScreen>
   );
 };
 
@@ -139,22 +164,20 @@ export default EditProfile;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F2F2F2',
     width: windowWidth,
     height: windowHeight,
+    alignItems: 'center',
   },
   buttonContainer: {
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    justifyContent: 'center',
   },
   button: {
     backgroundColor: '#FA4A0C',
-    width: '80%',
+    width: '100%',
     padding: 15,
     borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
     elevation: 1,
+    alignItems: 'center',
   },
   button1: {
     backgroundColor: '#FA4A0C',
@@ -175,8 +198,6 @@ const styles = StyleSheet.create({
     flex: 3,
     justifyContent: 'space-evenly',
     alignItems: 'center',
-    backgroundColor: 'white',
-    marginTop: 30,
   },
   view3: {
     flexDirection: 'column',
@@ -185,9 +206,11 @@ const styles = StyleSheet.create({
     flex: 5,
   },
   view4: {
-    flex: 1,
+    flex: 2,
     justifyContent: 'flex-start',
     marginTop: 10,
+    width: '80%',
+    alignItems: 'center',
   },
 
   textView: {

@@ -65,7 +65,7 @@ const AccountForStaff = () => {
         <View style={styles.buttonUser}>
           <TouchableOpacity
             style={styles.TouchableOpacity}
-            onPress={() => navigation.navigate('EditProfile')}
+            onPress={() => navigation.navigate('EditStaffProfile')}
           >
             <Text style={styles.textName}>Edit Your Profile</Text>
             <Image style={styles.icon} source={vector} />
@@ -73,7 +73,7 @@ const AccountForStaff = () => {
 
           <TouchableOpacity
             style={styles.TouchableOpacity}
-            onPress={() => navigation.navigate('ChangePassword')}
+            onPress={() => navigation.navigate('ChangeStaffPassword')}
           >
             <Text style={styles.textName}>Change Your Password</Text>
             <Image style={styles.icon} source={vector} />
