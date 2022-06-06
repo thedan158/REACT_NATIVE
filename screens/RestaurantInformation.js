@@ -39,6 +39,7 @@ const RestaurantInformation = () => {
     }
   }, []);
 
+ 
   const PickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
