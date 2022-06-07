@@ -1,5 +1,5 @@
-import { StatusBar } from "expo-status-bar";
-import React from "react";
+import { StatusBar } from 'expo-status-bar';
+import React from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,68 +10,71 @@ import {
   Animated,
   LogBox,
   Image,
-} from "react-native";
+} from 'react-native';
 
 import {
   createStackNavigator,
   TransitionSpecs,
   HeaderStyleInterpolators,
   CardStyleInterpolators,
-} from "@react-navigation/stack";
+} from '@react-navigation/stack';
 
-import back from "./assets/icons/search.png";
+import back from './assets/icons/search.png';
 
-import { NavigationContainer } from "@react-navigation/native";
-import LottieView from "lottie-react-native";
-import LoginScreen from "./screens/LoginScreen";
-import HomeScreen from "./screens/HomeScreen";
-import AccountForStaff from "./screens/AccountForStaff";
-import AccountForOwner from "./screens/AccountForOwner";
-import SplashScreen from "./screens/SplashScreen";
-import SignupScreen from "./screens/SignupScreen";
-import OnBoardingScreen from "./screens/OnBoardingScreen";
-import AppLoader from "./screens/AppLoader";
+import { NavigationContainer } from '@react-navigation/native';
+import LottieView from 'lottie-react-native';
+import LoginScreen from './screens/LoginScreen';
+import HomeScreen from './screens/HomeScreen';
+import AccountForStaff from './screens/AccountForStaff';
+import AccountForOwner from './screens/AccountForOwner';
+import SplashScreen from './screens/SplashScreen';
+import SignupScreen from './screens/SignupScreen';
+import OnBoardingScreen from './screens/OnBoardingScreen';
+import AppLoader from './screens/AppLoader';
+import AppLoaderOwner from './screens/AppLoaderOwner';
+import ForgotPassword from './screens/ForgotPassword';
+import OTPsignup from './screens/OTPsignup';
+import OTPforgotpass from './screens/OTPforgotpass';
+import NewPassword from './screens/NewPassword';
+import RestaurantInformation from './screens/RestaurantInformation';
+import ChangeStaffPassword from './screens/ChangeStaffPassword';
+import ChangeOwnerPassword from './screens/ChangeOwnerPassword';
 
-import ForgotPassword from "./screens/ForgotPassword";
-import OTPsignup from "./screens/OTPsignup";
-import OTPforgotpass from "./screens/OTPforgotpass";
-import NewPassword from "./screens/NewPassword";
-import RestaurantInformation from "./screens/RestaurantInformation";
-import ChangePassword from "./screens/ChangePassword";
+import OrderScreen from './screens/OrderScreen';
+import StarterMenuScreen from './screens/StarterMenuScreen';
+import MainCourseMenuScreen from './screens/MainCourseMenuScreen';
+import DrinkMenuScreen from './screens/DrinkMenuScreen';
+import DesertMenuScreen from './screens/DesertMenuScreen';
+import SelectedTable from './screens/SelectedTableScreen';
 
-import OrderScreen from "./screens/OrderScreen";
-import StarterMenuScreen from "./screens/StarterMenuScreen";
-import MainCourseMenuScreen from "./screens/MainCourseMenuScreen";
-import DrinkMenuScreen from "./screens/DrinkMenuScreen";
-import DesertMenuScreen from "./screens/DesertMenuScreen";
-import SelectedTable from "./screens/SelectedTableScreen";
-
-import CreateStaffAccount from "./screens/CreateStaffAccount";
-import RestaurantManagement from "./screens/RestaurantManagement";
-import TabForStaff from "./custom component/TabForStaff";
-import TabForOwner from "./custom component/TabForOwner";
-import TabForChef from "./custom component/TabForChef";
-import RePasswordSuccess from "./screens/RePasswordSuccess";
-import PermissionManager from "./screens/PermissionManager";
-import MenuScreen from "./screens/MenuScreen";
-import HomeScreen2ndFinal from "./screens/HomeScreen2ndFinal";
-import EditProfile from "./screens/EditProfile";
-import { ScreenStackHeaderLeftView } from "react-native-screens";
-import Button2Screen from "./screens/Button2Screen";
-import Button3Screen from "./screens/Button3Screen";
-import Button4Screen from "./screens/Button4Screen";
-import RestaurantKitchen from "./screens/ReceiveOrder";
-import AcceptedOrder from "./screens/AcceptedOrder";
-import CompletedOrder from "./screens/CompletedOrder";
-import OrderDetails from "./custom component/OrderDetails";
-import StaffInformation from "./screens/StaffInformation";
-import CheckOutTableScreen from "./screens/CheckOutTableScreen";
+import CreateStaffAccount from './screens/CreateStaffAccount';
+import RestaurantManagement from './screens/RestaurantManagement';
+import TabForStaff from './custom component/TabForStaff';
+import TabForOwner from './custom component/TabForOwner';
+import TabForChef from './custom component/TabForChef';
+import RePasswordSuccess from './screens/RePasswordSuccess';
+import PermissionManager from './screens/PermissionManager';
+import MenuScreen from './screens/MenuScreen';
+import HomeScreen2ndFinal from './screens/HomeScreen2ndFinal';
+import EditStaffProfile from './screens/EditStaffProfile';
+import EditOwnerProfile from './screens/EditOwnerProfile';
+import Button2Screen from './screens/Button2Screen';
+import Button3Screen from './screens/Button3Screen';
+import Button4Screen from './screens/Button4Screen';
+import RestaurantKitchen from './screens/ReceiveOrder';
+import AcceptedOrder from './screens/AcceptedOrder';
+import CompletedOrder from './screens/CompletedOrder';
+import OrderDetails from './custom component/OrderDetails';
+import StaffInformation from './screens/StaffInformation';
+import CheckOutTableScreen from './screens/CheckOutTableScreen';
+import ListFood from './screens/ListFood';
+import ListFoodDetails from './screens/ListFoodDetails';
+import Analytics from './screens/Analytics';
 
 const Stack = createStackNavigator();
-
 // animation function
 const config = {
-  animation: "spring",
+  animation: 'spring',
   config: {
     stiffness: 1000,
     damping: 250,
@@ -83,7 +86,7 @@ const config = {
 };
 
 const closeConfig = {
-  animation: "timing",
+  animation: 'timing',
   config: {
     duration: 200,
     easing: Easing.linear,
@@ -93,7 +96,7 @@ const closeConfig = {
 
 const customTransition = {
   gestureEnabled: true,
-  gestureDirection: "horizontal",
+  gestureDirection: 'horizontal',
   transitionSpec: {
     open: TransitionSpecs.TransitionIOSSpec,
     close: TransitionSpecs.TransitionIOSSpec,
@@ -111,7 +114,7 @@ const customTransition = {
           {
             rotate: current.progress.interpolate({
               inputRange: [0, 1],
-              outputRange: ["180deg", "0deg"],
+              outputRange: ['180deg', '0deg'],
             }),
           },
           {
@@ -138,14 +141,68 @@ export default function App() {
       <Stack.Navigator
         screenOptions={{
           gestureEnabled: true,
-          gestureDirection: "horizontal",
+          gestureDirection: 'horizontal',
         }}
       >
+        
         <Stack.Screen
           options={{ headerShown: false }}
           name="SplashScreen"
           component={SplashScreen}
         />
+        <Stack.Screen
+          options={{ headerShown: false }}
+
+          name="OTPsignup"
+          component={OTPsignup}
+        />
+
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="ListFood"
+          component={ListFood}
+        />
+
+
+
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="TabForOwner"
+          component={TabForOwner}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="Analytics"
+          component={Analytics}
+        />
+
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="AccountForStaff"
+          component={AccountForStaff}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="Login"
+          component={LoginScreen}
+        />
+
+        <Stack.Screen
+          name="ListFoodDetails"
+          component={ListFoodDetails}
+          options={{
+            headerShown: false,
+            gestureDirection: 'vertical',
+            transitionSpec: {
+              open: config,
+              close: closeConfig,
+            },
+            cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
+          }}
+        />
+
         <Stack.Screen
           options={{ headerShown: false }}
           name="CheckOutTableScreen"
@@ -162,11 +219,7 @@ export default function App() {
           options={{ headerShown: false }}
           component={RestaurantManagement}
         />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="Login"
-          component={LoginScreen}
-        />
+
         <Stack.Screen
           options={{ headerShown: false }}
           name="OnBoardingScreen"
@@ -229,21 +282,39 @@ export default function App() {
           name="AppLoader"
           component={AppLoader}
         />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="AppLoaderOwner"
+          component={AppLoaderOwner}
+        />
 
         <Stack.Screen
           options={{
             headerShown: false,
+            gestureDirection: 'horizontal',
+            transitionSpec: {
+              open: config,
+              close: closeConfig,
+            },
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           }}
-          name="EditProfile"
-          component={EditProfile}
+          name="EditStaffProfile"
+          component={EditStaffProfile}
         />
         <Stack.Screen
           options={{
             headerShown: false,
+            gestureDirection: 'horizontal',
+            transitionSpec: {
+              open: config,
+              close: closeConfig,
+            },
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           }}
-          name="AccountForStaff"
-          component={AccountForStaff}
+          name="EditOwnerProfile"
+          component={EditOwnerProfile}
         />
+
         <Stack.Screen
           options={{ headerShown: false }}
           name="AccountForOwner"
@@ -251,9 +322,32 @@ export default function App() {
         />
 
         <Stack.Screen
-          name="ChangePassword"
-          options={{ headerShown: false }}
-          component={ChangePassword}
+          name="ChangeStaffPassword"
+          options={{
+            headerShown: false,
+            gestureDirection: 'horizontal',
+            transitionSpec: {
+              open: config,
+              close: closeConfig,
+            },
+            cardStyleInterpolator:
+              CardStyleInterpolators.forModalPresentationIOS,
+          }}
+          component={ChangeStaffPassword}
+        />
+        <Stack.Screen
+          name="ChangeOwnerPassword"
+          options={{
+            headerShown: false,
+            gestureDirection: 'horizontal',
+            transitionSpec: {
+              open: config,
+              close: closeConfig,
+            },
+            cardStyleInterpolator:
+              CardStyleInterpolators.forModalPresentationIOS,
+          }}
+          component={ChangeOwnerPassword}
         />
 
         <Stack.Screen
@@ -266,11 +360,7 @@ export default function App() {
           name="TabForChef"
           component={TabForChef}
         />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="TabForOwner"
-          component={TabForOwner}
-        />
+
         <Stack.Screen
           options={{ headerShown: false }}
           name="TabForStaff"
@@ -282,7 +372,7 @@ export default function App() {
           component={CreateStaffAccount}
           options={{
             headerShown: false,
-            gestureDirection: "vertical",
+            gestureDirection: 'horizontal',
             transitionSpec: {
               open: config,
               close: closeConfig,
@@ -295,7 +385,7 @@ export default function App() {
           component={PermissionManager}
           options={{
             headerShown: false,
-            gestureDirection: "vertical",
+            gestureDirection: 'vertical',
             transitionSpec: {
               open: config,
               close: closeConfig,
@@ -315,11 +405,7 @@ export default function App() {
           name="ForgotPassword"
           component={ForgotPassword}
         />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="OTPsignup"
-          component={OTPsignup}
-        />
+
         <Stack.Screen
           options={{ headerShown: false }}
           name="OTPforgotpass"
@@ -381,13 +467,13 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   AndroidSafeArea: {
     flex: 1,
-    backgroundColor: "white",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    backgroundColor: 'white',
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
 });

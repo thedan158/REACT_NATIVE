@@ -7,6 +7,7 @@ import {
   Image,
   Dimensions,
   Switch,
+  ImageBackground,
 } from 'react-native';
 import React, { useState } from 'react';
 import VKH from '../assets/images/VKH.jpg';
@@ -24,6 +25,7 @@ import light_on from '../assets/icons/light-on.png';
 import light_off from '../assets/icons/light-off.png';
 import dark_off from '../assets/icons/dark-off.png';
 import dark_on from '../assets/icons/dark-on.png';
+import background from '../assets/images/background.png';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -47,27 +49,6 @@ const AccountForStaff = () => {
               style={{ height: 30, width: 30, marginHorizontal: 15 }}
             />
             <Text style={styles.textHeader}>Personal details</Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginLeft: 40,
-              }}
-            >
-              <Image
-                source={isEnabled ? light_off : light_on}
-                style={{ width: 25, height: 25 }}
-              />
-              <Switch
-                value={isEnabled}
-                onValueChange={setIsEnabled}
-                style={{ marginHorizontal: 5 }}
-              />
-              <Image
-                source={isEnabled ? dark_on : dark_off}
-                style={{ width: 25, height: 25 }}
-              />
-            </View>
           </View>
         </View>
         {/* Card Info  */}
@@ -82,38 +63,29 @@ const AccountForStaff = () => {
         </View>
 
         <View style={styles.buttonUser}>
-          <View>
-            <TouchableOpacity
-              style={styles.TouchableOpacity}
-              onPress={() => navigation.navigate('EditProfile')}
-            />
+          <TouchableOpacity
+            style={styles.TouchableOpacity}
+            onPress={() => navigation.navigate('EditStaffProfile')}
+          >
             <Text style={styles.textName}>Edit Your Profile</Text>
             <Image style={styles.icon} source={vector} />
-          </View>
-          <View>
-            <TouchableOpacity
-              style={styles.TouchableOpacity}
-              onPress={() => navigation.navigate('ChangePassword')}
-            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.TouchableOpacity}
+            onPress={() => navigation.navigate('ChangeStaffPassword')}
+          >
             <Text style={styles.textName}>Change Your Password</Text>
             <Image style={styles.icon} source={vector} />
-          </View>
-          <View>
-            <TouchableOpacity
-              style={styles.TouchableOpacity}
-              onPress={() => navigation.navigate('StaffInformation')}
-            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.TouchableOpacity}
+            onPress={() => navigation.navigate('StaffInformation')}
+          >
             <Text style={styles.textName}>My Preferences</Text>
             <Image style={styles.icon} source={vector} />
-          </View>
-          <View>
-            <TouchableOpacity
-              style={styles.TouchableOpacity}
-              onPress={() => navigation.navigate('StaffInformation')}
-            />
-            <Text style={styles.textName}>Notifications</Text>
-            <Image style={styles.icon} source={vector} />
-          </View>
+          </TouchableOpacity>
         </View>
         <TouchableOpacity
           onPress={() => {
@@ -162,8 +134,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     // flex: 1,
     alignItems: 'flex-end',
-    justifyContent: 'center',
-    marginVertical: '5%',
+    justifyContent: 'flex-start',
+    marginVertical: '7%',
+    marginLeft: '5%',
   },
   feature: {
     justifyContent: 'center',
@@ -181,7 +154,7 @@ const styles = StyleSheet.create({
     // flex: 1.5,
     alignItems: 'flex-end',
     marginLeft: '10%',
-    marginVertical: '2%',
+    marginVertical: '5%',
   },
   buttonContainer: {
     justifyContent: 'flex-start',
@@ -297,26 +270,29 @@ const styles = StyleSheet.create({
     margin: 5,
     flexDirection: 'row',
   },
+
   TouchableOpacity: {
     backgroundColor: 'white',
     width: 350,
     height: 50,
-    marginTop: 20,
+    marginTop: '5%',
     borderRadius: 20,
     flexDirection: 'row',
   },
+
   textName: {
     position: 'absolute',
     fontSize: 18,
     fontWeight: 'bold',
-    top: 32,
+    top: '25%',
     left: 30,
   },
+
   icon: {
     width: 18,
     height: 18,
     position: 'absolute',
     right: 30,
-    top: 35,
+    top: '30%',
   },
 });

@@ -22,13 +22,16 @@ import background from "../assets/images/background.png";
 import CustomModal from "../custom component/CustomModal";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import user from "../assets/icons/user.png";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
+
 const LoginScreen = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isSecureEntry, setIsSecureEntry] = useState(true);
   const [visible, setVisible] = React.useState(false);
+
   const navigation = useNavigation();
 
   const handleLogin = async () => {
@@ -43,7 +46,10 @@ const LoginScreen = () => {
       username: username,
       password: password,
     });
+
     const { success } = res.data;
+    const role = res.data.role;
+    console.log(role);
     console.log("Correct account " + success);
     await AsyncStorage.setItem("userLoginData", JSON.stringify(data));
     if (success) {
@@ -58,7 +64,11 @@ const LoginScreen = () => {
         const successRes = resRestaurant.data.success;
         console.log("Has no res " + successRes);
         if (!successRes) {
-          navigation.navigate("AppLoader");
+          if (role === "owner") {
+            navigation.navigate("AppLoaderOwner");
+          } else {
+            navigation.navigate("AppLoader");
+          }
         } else {
           navigation.navigate("RestaurantInformation");
         }
@@ -173,20 +183,6 @@ const LoginScreen = () => {
                 }}
               >
                 <Text style={styles.buttonOutlineText}> Register</Text>
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.registerText}>
-              <Text style={styles.newOwnerText}>
-                Login to Restaurant Kitchen?
-              </Text>
-
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("TabForChef");
-                }}
-              >
-                <Text style={styles.buttonOutlineText}> Login</Text>
               </TouchableOpacity>
             </View>
           </View>

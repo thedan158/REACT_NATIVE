@@ -30,15 +30,13 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-
     elevation: 5,
     borderRadius: 20,
-
     justifyContent: 'center',
     marginTop: 20,
   },
   TouchableOpacity: {
-    backgroundColor: '#f6fff8',
+    backgroundColor: 'white',
     width: 350,
     height: 50,
 
