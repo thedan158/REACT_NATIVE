@@ -144,6 +144,7 @@ export default function App() {
           gestureDirection: 'horizontal',
         }}
       >
+        
         <Stack.Screen
           options={{ headerShown: false }}
           name="SplashScreen"
