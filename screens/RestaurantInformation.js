@@ -107,7 +107,7 @@ const RestaurantInformation = () => {
         resUpdateUserRestaurantID.data.success;
       if (successUpdateUserRestaurantID) {
         console.log('Update user restaurant id success');
-        navigation.navigate('AppLoader');
+        navigation.navigate('AppLoaderOwner');
       }
     }
   };
