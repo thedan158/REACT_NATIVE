@@ -60,29 +60,7 @@ const StaffManagement = () => {
       </View>
 
       {/* List staffs  */}
-      <View
-        style={{ justifyContent: 'center', alignItems: 'center', margin: 20 }}
-      >
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginLeft: '5%',
-          }}
-        >
-          <Image
-            source={cashier}
-            style={{
-              width: 20,
-              height: 20,
-              alignSelf: 'flex-start',
-              margin: 10,
-            }}
-          />
-          <Text style={styles.textWaiter}>Cashiers</Text>
-        </View>
-        <ButtonUser name={'Huy'} />
-      </View>
+      
 
       <View
         style={{ justifyContent: 'center', alignItems: 'center', margin: 10 }}
