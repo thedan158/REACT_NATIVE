@@ -10,9 +10,11 @@ import {
   Keyboard,
   FlatList,
 } from "react-native";
-import React, {useState, useEffect} from "react";
-import { LinearGradient } from "expo-linear-gradient";
+import React, { useState, useEffect } from "react";
 import Colors from "../assets/Colors";
+import { LinearGradient } from "expo-linear-gradient";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const maxWidthConst = windowWidth - 10;
@@ -26,55 +28,84 @@ const imgSearchSource = require("../assets/icons/search.png");
 const DataMenu = [
   {
     id: 1,
-    imgSource: require('../assets/images/pizza.jpg'),
-    nameDish: 'Pizza',
+    // imgSource: require("../assets/images/pizza.jpg"),
+    nameDish: "Pizza",
     rating: 4.5,
     votes: 355,
     price: 200,
   },
   {
     id: 2,
-    imgSource: require('../assets/images/pizza.jpg'),
-    nameDish: 'Pizza with recommendations',
+    // imgSource: require("../assets/images/pizza.jpg"),
+    nameDish: "Pizza with recommendations",
     rating: 4.8,
     votes: 422,
     price: 253,
   },
   {
     id: 3,
-    imgSource: require('../assets/images/pizza.jpg'),
-    nameDish: 'Saro with recommendations',
+    // imgSource: require("../assets/images/pizza.jpg"),
+    nameDish: "Saro with recommendations",
     rating: 4.6,
     votes: 221,
     price: 131,
   },
   {
     id: 4,
-    imgSource: require('../assets/images/sarawak-laksa.jpg'),
-    nameDish: 'Sarawak laksa',
+    // imgSource: require("../assets/images/sarawak-laksa.jpg"),
+    nameDish: "Sarawak laksa",
     rating: 4.1,
     votes: 321,
     price: 203,
   },
 ];
+const DataMenu1 = [
+  {
+    id: 1,
+    // imgSource: require("../assets/images/pizza.jpg"),
+    nameDish: "Pizza",
+    rating: 4.5,
+    votes: 355,
+    price: 200,
+  },
+];
 
 
 const MenuScreen = ({ navigation }) => {
-  const [search, setSearch] = useState('');
-  const [masterData, setMasterData] = useState([]);
-  const [dataFromState, setNewData] = useState(DataMenu);
-
+  const [dataFromState, setNewData] = useState([]);
   useEffect(() => {
-    setMasterData(DataMenu);
-    console.log('filteredData is all selected');
-  }, []);
+    const getData = async () => {
+      const userLoginData = await AsyncStorage.getItem("userLoginData");
+      const user = JSON.parse(userLoginData);
+      console.log("username: " + user.username);
+      const res = await axios.post(
+        `https://foody-uit.herokuapp.com/food/getAllFoodOfRestaurant`,
+        {
+          username: user.username,
+        }
+      );
 
+      const { success, message } = res.data;
+      console.log(message);
+      console.log(success);
+
+      console.log("filteredData is all selected");
+      setNewData(message);
+    };
+
+    getData().catch((err) => console.log(err));
+  }, []);
+  const [search, setSearch] = useState("");
+  const [masterData, setMasterData] = useState([]);
+  useEffect(() => {
+    setMasterData(dataFromState);
+  }, []);
   const searchFilterFunction = (text) => {
     if (text) {
       const newData = masterData.filter(function (item) {
         const itemData = item.nameDish
           ? item.nameDish.toLowerCase()
-          : ''.toUpperCase();
+          : "".toUpperCase();
         const textData = text.toLowerCase();
         return itemData.indexOf(textData) > -1;
       });
@@ -162,17 +193,17 @@ const MenuScreen = ({ navigation }) => {
     return (
       <View style={styles.containerItemFlatList}>
         <View style={styles.containerImageItem}>
-          <Image source={item.imgSource} style={styles.imgSourceItem} />
+          {/* <Image source={item.imgSource} style={styles.imgSourceItem} /> */}
+          <Image
+            source={require("../assets/images/sarawak-laksa.jpg")}
+            style={styles.imgSourceItem}
+          />
         </View>
 
         <View style={styles.containerInfoItem}>
-          <Text style={styles.txtNameDishItem}>{item.nameDish}</Text>
+          <Text style={styles.txtNameDishItem}>{item.name}</Text>
           <View style={styles.containerRatingItem}>
             <Text style={styles.txtPriceItemInfo2}>${item.price}</Text>
-            <Image source={icStar} style={styles.imgStarItem} />
-
-            <Text style={styles.txtRatingItem}>{item.rating}</Text>
-            <Text>({item.votes})</Text>
           </View>
 
           <View style={styles.containerPriceItem}></View>
@@ -182,6 +213,7 @@ const MenuScreen = ({ navigation }) => {
   };
 
   return (
+
         <LinearGradient
           style={styles.container}
           colors={[Colors.ImperialRed, Colors.DarkOrange]}
@@ -236,16 +268,16 @@ const styles = StyleSheet.create({
   },
   containerItemFlatList: {
     width: windowWidth - 40,
-    height: '100%',
-    paddingHorizontal: '5%',
-    backgroundColor: '#FFFFFF',
+    height: "100%",
+    paddingHorizontal: "5%",
+    backgroundColor: "#FFFFFF",
     paddingTop: 0,
-    marginVertical: '2%',
-    alignSelf: 'center',
-    justifyContent: 'center',
+    marginVertical: "2%",
+    alignSelf: "center",
+    justifyContent: "center",
     borderRadius: 15,
-    paddingBottom: '1.5%',
-    shadowColor: '#000',
+    paddingBottom: "1.5%",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -258,9 +290,9 @@ const styles = StyleSheet.create({
   },
   containerImageItem: {
     flex: 2,
-    marginBottom: '1%',
-    justifyContent: 'center',
-    alignContent: 'center',
+    marginBottom: "1%",
+    justifyContent: "center",
+    alignContent: "center",
   },
   containerSearchViewComponent: {
     height: 40,
@@ -276,7 +308,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-
+    
     elevation: 5,
   },
   containerInfoViewTab: {
@@ -301,8 +333,8 @@ const styles = StyleSheet.create({
     marginBottom: '3%',
   },
   txtPriceItemInfo2: {
-    color: '#EF5B5B',
-    marginRight: '55%',
+    color: "#EF5B5B",
+    marginRight: "55%",
   },
   txtHeaderViewTab: {
     color: "#fff",
@@ -312,8 +344,8 @@ const styles = StyleSheet.create({
   },
   txtNameDishItem: {
     fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: '2%',
+    fontWeight: "bold",
+    marginBottom: "2%",
   },
   txtRatingItem: {
     color: '#EF5B5B',
@@ -358,12 +390,12 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   imgSourceItem: {
-    resizeMode: 'cover',
-    margin: '2%',
+    resizeMode: "cover",
+    margin: "2%",
     borderRadius: 15,
     height: 150,
     width: windowWidth - 50,
-    alignSelf: 'center',
+    alignSelf: "center",
     flex: 1,
   },
   imgUserStyle: {
