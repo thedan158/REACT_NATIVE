@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Dimensions,
+  Alert,
 } from 'react-native';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
@@ -15,7 +16,7 @@ import CustomTextInput from '../custom component/CustomTextInput';
 import eye from '../assets/icons/eye-green.png';
 import hidden from '../assets/icons/closed-eyes-green.png';
 import Colors from '../assets/Colors';
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import back from '../assets/icons/back-green.png';
 
 const windowHeight = Dimensions.get('window').height;
@@ -26,6 +27,22 @@ const CreateStaffAccount = () => {
   const [password, setPassword] = useState('');
   const [isSecureEntry, setIsSecureEntry] = useState(true);
   const navigation = useNavigation();
+  const handleCreateAccount = async() => {
+    if (username === '' || password === '') {
+      Alert.alert('Warning', 'Please fill all field');
+      return;
+    }
+    if (password.length < 6) {
+      Alert.alert('Warning', 'Password must be at least 6 characters');
+      return;
+    }
+    const data = {
+      username: username,
+      password: password,
+    };
+    await AsyncStorage.setItem('staffInfo', JSON.stringify(data));
+    navigation.navigate('PermissionManager');
+  }
   return (
     <ScrollView style={{ backgroundColor: 'white' }}>
       {/* Back button  */}
@@ -96,9 +113,7 @@ const CreateStaffAccount = () => {
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('PermissionManager');
-          }}
+          onPress={handleCreateAccount}
           style={styles.button}
         >
           <Text style={styles.buttonText}>Create</Text>

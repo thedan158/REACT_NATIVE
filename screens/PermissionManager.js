@@ -6,6 +6,7 @@ import {
   Switch,
   Image,
   ScrollView,
+  Alert,
 } from "react-native";
 import React, { useRef } from "react";
 import { CustomCollapsible } from "../custom component/CustomCollapsible";
@@ -13,21 +14,52 @@ import Colors from "../assets/Colors";
 import { useNavigation } from "@react-navigation/core";
 import CustomModal from "../custom component/CustomModal";
 import back from "../assets/icons/back-green.png";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const PermissionManager = () => {
   const navigation = useNavigation();
   const [visible, setVisible] = React.useState(false);
-  const collapsible = useRef();
-  const collapsible1 = useRef();
   const [isWaiter, setIsWaiter] = React.useState(false);
   const [isChef, setIsChef] = React.useState(false);
-  const childtoParent = async(childData) => {
-    setIsWaiter(childData);
-    console.log('Waiter:'+childData);
+  const childtoParent = async (childData) => {
+    setIsWaiter(!childData);
   };
-  const childtoParentChef = async(childData) => {
-    setIsChef(childData);
-    console.log('Chef:'+childData);
+  const childtoParentChef = async (childData) => {
+    setIsChef(!childData);
+  };
+  const handleCreateAccount = async () => {
+    const owner = await AsyncStorage.getItem("userLoginData");
+    const ownerData = JSON.parse(owner);
+    const staff = await AsyncStorage.getItem("staffInfo");
+    const staffData = JSON.parse(staff);
+    console.log(staffData.username);
+    console.log(ownerData.username);
+    console.log("isWaiter:" + isWaiter);
+    console.log("isChef:" + isChef);
+    if (isWaiter && isChef) {
+      Alert.alert("Error", "You can't choose both");
+      return;
+    }
+    if (!isWaiter && !isChef) {
+      Alert.alert("Error", "You must choose one");
+      return;
+    }
+    const res = await axios.post(
+      `https://foody-uit.herokuapp.com/auth/createUser/${ownerData.username}`,
+      {
+        username: staffData.username,
+        password: staffData.password,
+        role: isWaiter ? "waiter" : "chef",
+      }
+    );
+    const { success } = res.data;
+    console.log("Success: " + success);
+    if (!success) {
+      Alert.alert("Error", "Wrong infomation");
+      return;
+    }
+    setVisible(true);
   };
 
   return (
@@ -72,10 +104,7 @@ const PermissionManager = () => {
         />
         {/* Button  */}
         <View style={{ marginTop: "10%" }}>
-          <TouchableOpacity
-            onPress={() => setVisible(true)}
-            style={styles.button}
-          >
+          <TouchableOpacity onPress={handleCreateAccount} style={styles.button}>
             <Text style={styles.buttonText}>Finish</Text>
           </TouchableOpacity>
         </View>
