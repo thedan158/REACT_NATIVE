@@ -147,6 +147,11 @@ export default function App() {
         
         <Stack.Screen
           options={{ headerShown: false }}
+          name="Order"
+          component={OrderScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
           name="SplashScreen"
           component={SplashScreen}
         />
@@ -247,6 +252,7 @@ export default function App() {
           name="RestaurantKitchen"
           component={RestaurantKitchen}
         />
+        
         <Stack.Screen
           options={{ headerShown: false }}
           name="HomeScreen2ndFinal"
@@ -428,11 +434,6 @@ export default function App() {
           component={RestaurantInformation}
         />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="Order"
-          component={OrderScreen}
-        />
 
         <Stack.Screen
           options={{ headerShown: false }}

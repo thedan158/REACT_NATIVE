@@ -11,6 +11,7 @@ import React from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../assets/Colors';
 
+const imgDesertDish = require('../assets/images/DessertDish.png')
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const imgBackgroundSource = require('../assets/images/Dishs1-nonCut.png');
@@ -52,7 +53,7 @@ const HomeScreen2ndFinal = ({ navigation }) => {
               <View style={styles.containerTxtInfo}>
                 {/* Header Tag Info View */}
                 <View style={styles.containerHeaderInfoTxt}>
-                  <Text style={styles.txtMenu}>MENU</Text>
+                  <Text style={styles.txtMenu}>MAIN</Text>
                   <View
                     style={{
                       alignContent: 'center',
@@ -84,7 +85,7 @@ const HomeScreen2ndFinal = ({ navigation }) => {
                       fontWeight: 'bold',
                     }}
                   >
-                    DAY
+                    MEAL
                   </Text>
                 </View>
                 {/* Detail info for Menu Section */}
@@ -99,7 +100,7 @@ const HomeScreen2ndFinal = ({ navigation }) => {
                   </Text>
                 </View>
                 <Image
-                  source={imgBackgroundSource3}
+                  source={imgBackgroundSource}
                   style={{
                     flex: 1.5,
                     zIndex: 1,
@@ -138,26 +139,27 @@ const HomeScreen2ndFinal = ({ navigation }) => {
           >
             <View style={styles.ContainnerTextSaleOff}>
               <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>
-                LARGE DISCOUNT
+                STARTER
+              </Text>
+              <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>
+                DISH 
               </Text>
               <View style={{ flexDirection: 'row' }}>
-                <Text style={{ color: '#fff' }}>Upto </Text>
-                <Text
+                <Text style={{ color: '#fff' }}>Guarantee </Text>
+                
+              </View>
+              <Text
                   style={{
                     color: '#fee38d',
                     fontWeight: 'bold',
                     fontSize: 15,
-                    textDecorationLine: 'underline',
+
                   }}
                 >
-                  50% OFF
+                  100% FRESH
                 </Text>
-              </View>
-              <Text style={{ color: '#fff', fontSize: 17, fontWeight: 'bold' }}>
-                No upper limit!!!
-              </Text>
             </View>
-            <Image source={imgBackgroundSource} style={styles.imgSaleOff} />
+            <Image source={{uri: 'http://assets.stickpng.com/images/5ea1507fe0ebe6000479458d.png'}} style={styles.imgSaleOff} />
           </LinearGradient>
         </TouchableOpacity>
 
@@ -174,10 +176,10 @@ const HomeScreen2ndFinal = ({ navigation }) => {
           >
             <View style={styles.ContainnerTextSaleOff}>
               <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>
-                TRY NEW
+                DESERT and DRINK
               </Text>
-              <Text style={{ color: '#fff' }}>
-                Explore unique tastes from new easteries
+              <Text style={{ color: '#fff'}}>
+                Guarantee
               </Text>
               <Text
                 style={{
@@ -189,7 +191,7 @@ const HomeScreen2ndFinal = ({ navigation }) => {
                 100% Worth Try
               </Text>
             </View>
-            <Image source={imgBackgroundSource} style={styles.imgTryNew} />
+            <Image source={imgDesertDish} style={styles.imgTryNew} />
           </LinearGradient>
         </TouchableOpacity>
       </View>
@@ -270,6 +272,7 @@ const styles = StyleSheet.create({
   },
   containerHeaderInfoTxt: {
     flex: 1,
+    paddingLeft: '8%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -340,12 +343,12 @@ const styles = StyleSheet.create({
   },
   imgTryNew: {
     flex: 1,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
     zIndex: 1,
-    height: '100%',
-    width: '100%',
+    height: '75%',
+    width: '75%',
     top: '5%',
-    left: '20%',
+    left: '25%',
   },
   imgBackgroundMenuInfo: {
     flex: 1.5,
