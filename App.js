@@ -147,11 +147,6 @@ export default function App() {
         
         <Stack.Screen
           options={{ headerShown: false }}
-          name="Order"
-          component={OrderScreen}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
           name="SplashScreen"
           component={SplashScreen}
         />
@@ -282,7 +277,13 @@ export default function App() {
           name="Button4Screen"
           component={Button4Screen}
         />
-
+        
+         <Stack.Screen
+          options={{ headerShown: false }}
+          name="Order"
+          component={OrderScreen}
+        />
+            
         <Stack.Screen
           options={{ headerShown: false }}
           name="AppLoader"
