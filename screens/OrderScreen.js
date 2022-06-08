@@ -10,36 +10,37 @@ import {
   View,
   Image,
   TouchableOpacity,
-} from "react-native";
-import React, { Component } from "react";
-import AppLoading from "expo-app-loading";
-import { useFonts, Inter_900Black } from "@expo-google-fonts/inter";
-import { useNavigation } from "@react-navigation/core";
-import { SafeAreaView } from "react-navigation";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Constants from "expo-constants";
+} from 'react-native';
+import React, { Component } from 'react';
+import AppLoading from 'expo-app-loading';
+import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
+import { useNavigation } from '@react-navigation/core';
+import { SafeAreaView } from 'react-navigation';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Constants from 'expo-constants';
+import table from '../assets/icons/table.png';
 
 const statusBarHeight = Constants.statusBarHeight;
-const deviceWidth = Dimensions.get("window").width;
-const deviceHeight = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get('window').width;
+const deviceHeight = Dimensions.get('window').height;
 
 // TODO fix the Scrollview with flatlist
 
 const DATA = [
   {
-    id: "1",
-    name: "Rồng 7 Món",
-    quantity: "1",
+    id: '1',
+    name: 'Rồng 7 Món',
+    quantity: '1',
   },
   {
-    id: "2",
-    name: "Choáng váng thần dược",
-    quantity: "2",
+    id: '2',
+    name: 'Choáng váng thần dược',
+    quantity: '2',
   },
   {
-    id: "3",
-    name: "Ốc Luộc",
-    quantity: "1",
+    id: '3',
+    name: 'Ốc Luộc',
+    quantity: '1',
   },
 ];
 
@@ -62,22 +63,22 @@ const OrderScreen = () => {
   const insets = useSafeAreaInsets();
 
   const handleStarterMenu = () => {
-    navigation.navigate("StarterMenu");
+    navigation.navigate('StarterMenu');
   };
   const handleMainMenu = () => {
-    navigation.navigate("MainMenu");
+    navigation.navigate('MainMenu');
   };
   const handleDrinkMenu = () => {
-    navigation.navigate("DrinkMenu");
+    navigation.navigate('DrinkMenu');
   };
   const handleDesertMenu = () => {
-    navigation.navigate("DesertMenu");
+    navigation.navigate('DesertMenu');
   };
   const handleSelectedTable = () => {
-    navigation.navigate("SelectedTable");
+    navigation.navigate('SelectedTable');
   };
 
-  let arrowResource = require("../assets/icons/Vector.png");
+  let arrowResource = require('../assets/icons/Vector.png');
   let [fontsLoaded] = useFonts({
     Inter_900Black,
   });
@@ -100,20 +101,42 @@ const OrderScreen = () => {
           <View>
             {/* --------------btnSelectTable section view---------- */}
             <View style={styles.btnContainerViewStyle}>
-              <TouchableOpacity
-                style={styles.btnTest}
-                onPress={handleSelectedTable}
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flex: 1,
+                  width: deviceWidth,
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: 20,
+                }}
               >
-                <View style={styles.viewtest}>
-                  <Text style={styles.btnTextstyle}>Select table</Text>
-                  <Image
-                    style={styles.btnImagestyle}
-                    source={arrowResource}
-                  ></Image>
+                <View
+                  style={{
+                    flex: 7.5,
+                  }}
+                >
+                  <View
+                    style={{
+                      backgroundColor: '#F3F3F3',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      width: '95%',
+                      height: '140%',
+                      borderRadius: 20,
+                    }}
+                  >
+                    <Text style={styles.btnTextstyle}>Select table</Text>
+                  </View>
                 </View>
-              </TouchableOpacity>
-              {/* ---dividing line---  */}
-              <View style={styles.lineStyle} />
+
+                <TouchableOpacity
+                  onPress={handleSelectedTable}
+                  style={{ flex: 2.5 }}
+                >
+                  <Image source={table} style={{ width: 40, height: 40 }} />
+                </TouchableOpacity>
+              </View>
             </View>
             {/* -------------- end btnSelectTable section view---------- */}
 
@@ -272,39 +295,39 @@ export default OrderScreen;
 const styles = StyleSheet.create({
   container_top: {
     height: 100,
-    justifyContent: "center",
-    alignContent: "center",
+    justifyContent: 'center',
+    alignContent: 'center',
   },
   container: {
-    backgroundColor: "#FFF",
+    backgroundColor: '#FFF',
     paddingTop: 0,
     paddingBottom: 0,
     paddingLeft: 20,
     paddingRight: 20,
-    justifyContent: "center",
+    justifyContent: 'center',
     marginBottom: 50,
     height: deviceHeight,
   },
   container_bottom: {
     top: 0,
-    flexDirection: "column",
+    flexDirection: 'column',
     borderRadius: 20,
   },
   rectangleGreydevideView: {
-    backgroundColor: "#EFEFEF",
+    backgroundColor: '#EFEFEF',
     width: deviceWidth,
     height: 10,
     marginBottom: 15,
     marginTop: 25,
   },
   container_layout_row: {
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   container_bottomTabs: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginHorizontal: 0,
-    backgroundColor: "#8000",
+    backgroundColor: '#8000',
     height: 60,
     marginLeft: 0,
     paddingLeft: 0,
@@ -314,50 +337,47 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   container_layout_row1: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     left: 0,
   },
   container_layout_row2: {
-    flexDirection: "row",
+    flexDirection: 'row',
     height: 50,
   },
   container_layout_column: {
-    flexDirection: "column",
-    top: 0,
-    marginBottom: 0,
+    flexDirection: 'column',
   },
   container_layout_column2: {
-    flexDirection: "column",
+    flexDirection: 'column',
     top: 10,
     bottom: 30,
   },
   container_layout_column3: {
-    flexDirection: "column",
+    flexDirection: 'column',
     top: 10,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: 55,
   },
   viewMENU: {
     top: 5,
   },
   viewtest: {
-    flex: 1,
-    backgroundColor: "#F3F3F3",
-    justifyContent: "center",
-    alignContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
+    flex: 7,
+    backgroundColor: '#F3F3F3',
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
     borderRadius: 20,
     left: 10,
     right: 0,
   },
   btnContainerViewStyle: {
-    flexDirection: "column",
+    flexDirection: 'column',
     top: 5,
-    left: -10,
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
   btnImagestyle: {
     height: 20,
@@ -365,13 +385,13 @@ const styles = StyleSheet.create({
     left: 70,
   },
   btnBottomTabs: {
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
   },
   flatlistitemStyle: {
     flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
     top: 1,
   },
   flatlistStyle: {},
@@ -379,9 +399,9 @@ const styles = StyleSheet.create({
     width: 310,
     height: 60,
     borderRadius: 30,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#FF6838",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FF6838',
     marginBottom: 30,
     marginTop: 20,
   },
@@ -389,116 +409,117 @@ const styles = StyleSheet.create({
     height: 54,
 
     borderRadius: 30,
-    backgroundColor: "#fff",
-    borderColor: "#000",
-    alignContent: "center",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: '#fff',
+    borderColor: '#000',
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   btnMenuDesert: {
     height: 54,
 
     borderRadius: 30,
-    backgroundColor: "#fff",
-    borderColor: "#000",
-    alignContent: "center",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: '#fff',
+    borderColor: '#000',
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   btnMenuDrink: {
     height: 54,
 
     borderRadius: 30,
-    backgroundColor: "#fff",
-    borderColor: "#000",
-    alignContent: "center",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: '#fff',
+    borderColor: '#000',
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   btnTest: {
     width: 310,
     height: 60,
-    borderRadius: 20,
+
+    flexDirection: 'row',
   },
   btnMenuStarter: {
     height: 54,
 
     borderRadius: 30,
-    backgroundColor: "#fff",
-    borderColor: "#000",
-    alignContent: "center",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: '#fff',
+    borderColor: '#000',
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   btnTextstyle: {
     fontSize: 18,
-    right: 80,
+
     // width: 175,
     // height: 27,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   lineStyle: {
     width: 350,
-    backgroundColor: "#000000",
+    backgroundColor: '#000000',
     height: 0.6,
     marginTop: 20,
     marginBottom: 20,
   },
   lineStyle2: {
     width: 350,
-    backgroundColor: "#000000",
+    backgroundColor: '#000000',
     height: 0.6,
     marginTop: 20,
     marginBottom: 10,
   },
   textMENU: {
     height: 20,
-    alignSelf: "center",
+    alignSelf: 'center',
     marginTop: 0,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     fontSize: 12,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     margin: 2,
     top: 0,
   },
   txtOrder: {
-    color: "#F6F6F9",
-    fontWeight: "bold",
+    color: '#F6F6F9',
+    fontWeight: 'bold',
     fontSize: 18,
   },
   lineStyle1: {
     width: 18,
     height: 1,
     margin: 2,
-    alignContent: "center",
-    justifyContent: "center",
-    alignItems: "center",
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
     left: 7,
-    backgroundColor: "#000",
+    backgroundColor: '#000',
   },
   marginFlatlistText: {
     margin: 5,
   },
   textHeaderTab: {
-    color: "#ff6838",
+    color: '#ff6838',
     top: -40,
     fontSize: 25,
     bottom: 0,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   textHeaderBottomMessage: {
     fontSize: 18,
-    fontWeight: "bold",
-    color: "#ff6838",
-    alignItems: "center",
-    justifyContent: "center",
-    alignSelf: "center",
+    fontWeight: 'bold',
+    color: '#ff6838',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
   textHeaderBottom: {
     fontSize: 25,
-    fontWeight: "bold",
-    color: "#ff6838",
+    fontWeight: 'bold',
+    color: '#ff6838',
   },
   txtinput: {
     width: 115,
@@ -514,8 +535,8 @@ const styles = StyleSheet.create({
     marginTop: 0,
   },
   textHeader: {
-    color: "#000",
-    fontFamily: "Inter_900Black",
+    color: '#000',
+    fontFamily: 'Inter_900Black',
     left: 0,
     top: 0,
     fontSize: 25,
@@ -532,19 +553,19 @@ const styles = StyleSheet.create({
     top: -10,
     bottom: 100,
     borderRadius: 20,
-    backgroundColor: "#F3F3F6",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#F3F3F6',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   appButtonText: {
     width: 175,
     height: 30,
-    color: "#000",
+    color: '#000',
   },
   droidSafeArea: {
     flex: 1,
-    paddingTop: Platform.OS === "Android" ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS === 'Android' ? StatusBar.currentHeight : 0,
     marginBottom: 50,
   },
   imgBottomTab: {

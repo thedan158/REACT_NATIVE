@@ -151,7 +151,12 @@ export default function App() {
         />
         <Stack.Screen
           options={{ headerShown: false }}
+          name="TabForStaff"
+          component={TabForStaff}
+        />
 
+        <Stack.Screen
+          options={{ headerShown: false }}
           name="OTPsignup"
           component={OTPsignup}
         />
@@ -161,8 +166,6 @@ export default function App() {
           name="ListFood"
           component={ListFood}
         />
-
-
 
         <Stack.Screen
           options={{ headerShown: false }}
@@ -353,12 +356,6 @@ export default function App() {
           options={{ headerShown: false }}
           name="TabForChef"
           component={TabForChef}
-        />
-
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="TabForStaff"
-          component={TabForStaff}
         />
 
         <Stack.Screen
