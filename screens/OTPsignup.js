@@ -79,6 +79,7 @@ const OTP = () => {
         );
         const { success } = resSignup.data;
         console.log(success);
+        await AsyncStorage.setItem('userLoginData', JSON.stringify(user));
         navigation.navigate('RestaurantInformation');
       } catch (error) {
         console.log(error);
