@@ -6,72 +6,106 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
-  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
   FlatList,
-} from 'react-native';
-import React, { useState, useEffect } from 'react';
-import Colors from '../assets/Colors';
-import { LinearGradient } from 'expo-linear-gradient';
+} from "react-native";
+import React, { useState, useEffect } from "react";
+import Colors from "../assets/Colors";
+import { LinearGradient } from "expo-linear-gradient";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-const icBack = require('../assets/icons/back.png');
-const icUser = require('../assets/icons/user.png');
-const icSearch = require('../assets/icons/search.png');
-const icStar = require('../assets/icons/Star.png');
 const maxWidthConst = windowWidth - 10;
-
+const imgUserSource = require("../assets/icons/user.png");
+const imgGoBackSource = require("../assets/icons/back.png");
+const icStar = require('../assets/icons/Star.png');
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+const maxWidth40 = windowWidth - 30;
+const imgSearchSource = require("../assets/icons/search.png");
 const DataMenu = [
   {
     id: 1,
-    imgSource: require('../assets/images/pizza.jpg'),
-    nameDish: 'Pizza',
+    // imgSource: require("../assets/images/pizza.jpg"),
+    nameDish: "Pizza",
     rating: 4.5,
     votes: 355,
     price: 200,
   },
   {
     id: 2,
-    imgSource: require('../assets/images/pizza.jpg'),
-    nameDish: 'Pizza with recommendations',
+    // imgSource: require("../assets/images/pizza.jpg"),
+    nameDish: "Pizza with recommendations",
     rating: 4.8,
     votes: 422,
     price: 253,
   },
   {
     id: 3,
-    imgSource: require('../assets/images/pizza.jpg'),
-    nameDish: 'Saro with recommendations',
+    // imgSource: require("../assets/images/pizza.jpg"),
+    nameDish: "Saro with recommendations",
     rating: 4.6,
     votes: 221,
     price: 131,
   },
   {
     id: 4,
-    imgSource: require('../assets/images/sarawak-laksa.jpg'),
-    nameDish: 'Sarawak laksa',
+    // imgSource: require("../assets/images/sarawak-laksa.jpg"),
+    nameDish: "Sarawak laksa",
     rating: 4.1,
     votes: 321,
     price: 203,
   },
 ];
+const DataMenu1 = [
+  {
+    id: 1,
+    // imgSource: require("../assets/images/pizza.jpg"),
+    nameDish: "Pizza",
+    rating: 4.5,
+    votes: 355,
+    price: 200,
+  },
+];
+
 
 const MenuScreen = ({ navigation }) => {
-  const [search, setSearch] = useState('');
-  const [masterData, setMasterData] = useState([]);
-  const [dataFromState, setNewData] = useState(DataMenu);
-
+  const [dataFromState, setNewData] = useState([]);
   useEffect(() => {
-    setMasterData(DataMenu);
-    console.log('filteredData is all selected');
-  }, []);
+    const getData = async () => {
+      const userLoginData = await AsyncStorage.getItem("userLoginData");
+      const user = JSON.parse(userLoginData);
+      console.log("username: " + user.username);
+      const res = await axios.post(
+        `https://foody-uit.herokuapp.com/food/getAllFoodOfRestaurant`,
+        {
+          username: user.username,
+        }
+      );
 
+      const { success, message } = res.data;
+      console.log(message);
+      console.log(success);
+
+      console.log("filteredData is all selected");
+      setNewData(message);
+    };
+
+    getData().catch((err) => console.log(err));
+  }, []);
+  const [search, setSearch] = useState("");
+  const [masterData, setMasterData] = useState([]);
+  useEffect(() => {
+    setMasterData(dataFromState);
+  }, []);
   const searchFilterFunction = (text) => {
     if (text) {
       const newData = masterData.filter(function (item) {
         const itemData = item.nameDish
           ? item.nameDish.toLowerCase()
-          : ''.toUpperCase();
+          : "".toUpperCase();
         const textData = text.toLowerCase();
         return itemData.indexOf(textData) > -1;
       });
@@ -83,21 +117,93 @@ const MenuScreen = ({ navigation }) => {
     }
   };
 
+  function HeaderViewTab({ HeaderText }) {
+    return (
+      <View style={styles.containerHeaderViewTab}>
+        <TouchableOpacity
+          style={styles.btnGoBack}
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
+          <Image source={imgGoBackSource} style={styles.imgGoBackStyle} />
+        </TouchableOpacity>
+
+        <Text style={styles.txtHeaderViewTab}>{HeaderText}</Text>
+        <TouchableOpacity style={styles.btnUserStyle}>
+          <Image source={imgUserSource} style={styles.imgUserStyle} />
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  function InformationViewTab({ TextInFo1, TextInFo2 }) {
+    return (
+      <View style={styles.containerInfoViewTab}>
+        <Text
+          style={{
+            color: "#fff",
+            fontSize: 18,
+            alignSelf: "center",
+          }}
+        >
+          {TextInFo1}
+        </Text>
+        <Text>{TextInFo2}</Text>
+      </View>
+    );
+  }
+
+  function SearchBarViewComponent() {
+    
+    return (
+      <View style={styles.containerSearchViewComponent}>
+        <View style={{
+          alignSelf: "center",
+          flexDirection: "row",
+          justifyContent: 'flex-end',
+          alignItems: "center",
+          direction: "inherit",
+          flexWrap: "wrap-reverse",
+          flex: 1,
+          alignSelf: 'center',
+          maxWidth: "95%",
+          marginBottom: '2%',
+          paddingHorizontal: '5%',
+        }}>
+          <TouchableOpacity style={styles.btnSearchStyle}>
+            <Image source={imgSearchSource} style={styles.imgSearchStyle} />
+          </TouchableOpacity>
+          <TextInput
+            placeholder="Search Menu..."
+            value={search}
+            onChangeText={(text) => searchFilterFunction(text)}
+            underlineColorAndroid="transparent"
+            style={{
+              flex: 9,
+            }}
+          ></TextInput>
+        </View>
+        
+      </View>
+    );
+  }
+
   const FlatListItem = ({ item }) => {
     return (
       <View style={styles.containerItemFlatList}>
         <View style={styles.containerImageItem}>
-          <Image source={item.imgSource} style={styles.imgSourceItem} />
+          {/* <Image source={item.imgSource} style={styles.imgSourceItem} /> */}
+          <Image
+            source={require("../assets/images/sarawak-laksa.jpg")}
+            style={styles.imgSourceItem}
+          />
         </View>
 
         <View style={styles.containerInfoItem}>
-          <Text style={styles.txtNameDishItem}>{item.nameDish}</Text>
+          <Text style={styles.txtNameDishItem}>{item.name}</Text>
           <View style={styles.containerRatingItem}>
             <Text style={styles.txtPriceItemInfo2}>${item.price}</Text>
-            <Image source={icStar} style={styles.imgStarItem} />
-
-            <Text style={styles.txtRatingItem}>{item.rating}</Text>
-            <Text>({item.votes})</Text>
           </View>
 
           <View style={styles.containerPriceItem}></View>
@@ -107,63 +213,30 @@ const MenuScreen = ({ navigation }) => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.containerKeyboardAvoid}
-    >
-      <LinearGradient
-        colors={[Colors.ImperialRed, Colors.DarkOrange]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        style={styles.container}
-      >
-        <View style={styles.containerHeaderInfo}>
-          <View style={styles.containerHeaderTab}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.goBack();
+
+        <LinearGradient
+          style={styles.container}
+          colors={[Colors.ImperialRed, Colors.DarkOrange]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+        >
+          {HeaderViewTab({ HeaderText: "Menu Of the day" })}
+          {InformationViewTab({ TextInFo1: "Have a good day!" })}
+          {SearchBarViewComponent()}
+          <View style={styles.containerDevideLine}></View>
+          <View style={styles.containerInfoItem}>
+            <FlatList
+              data={dataFromState}
+              renderItem={({ item, index }) => {
+                return <FlatListItem item={item} index={index} />;
               }}
-            >
-              <Image style={styles.imgBack} source={icBack} />
-            </TouchableOpacity>
-            <Text style={styles.txtMenuHeader}>MENU</Text>
-            <TouchableOpacity>
-              <Image style={styles.imgUser} source={icUser} />
-            </TouchableOpacity>
+              keyExtractor={(item) => item.id}
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+            />
+
           </View>
-          <View style={styles.containerHeaderInfoSections}>
-            <Text style={styles.txtInfo1}>
-              Homemade meals prepared with love
-            </Text>
-            <Text style={styles.txtInfo2}>60% Off today!!</Text>
-            <View style={styles.containerSearchView}>
-              <TouchableOpacity>
-                <Image style={styles.icSearch} source={icSearch} />
-              </TouchableOpacity>
-              <TextInput
-                placeholder="Search Menu"
-                value={search}
-                onChangeText={(text) => searchFilterFunction(text)}
-                underlineColorAndroid="transparent"
-                style={{ maxWidth: windowWidth - 120 }}
-              />
-            </View>
-          </View>
-        </View>
-        <View style={styles.containerDevideLine}></View>
-        <View style={styles.containerMenuInfo}>
-          <FlatList
-            data={dataFromState}
-            renderItem={({ item, index }) => {
-              return <FlatListItem item={item} index={index} />;
-            }}
-            keyExtractor={(item) => item.id}
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
-      </LinearGradient>
-    </KeyboardAvoidingView>
+        </LinearGradient>
   );
 };
 
@@ -171,48 +244,40 @@ export default MenuScreen;
 
 const styles = StyleSheet.create({
   container: {
-    height: windowHeight,
+    flex: 1,
     width: windowWidth,
-    paddingTop: 20,
-    paddingHorizontal: '3%',
-    flex: 1,
-  },
-  containerKeyboardAvoid: {
-    flex: 1,
     height: windowHeight,
-    width: windowWidth,
+    paddingTop: "0%",
   },
-  containerHeaderInfo: {
+  containerHeaderViewTab: {
     flex: 1,
+    flexDirection: "row",
+    height: 60,
+    width: windowWidth,
+    justifyContent: "space-around",
+    alignItems: "center",
+    flexWrap: "wrap-reverse",
   },
   containerDevideLine: {
-    flex: 0.01,
-    width: maxWidthConst,
-    height: '0.1%',
-    marginTop: '0%',
-    marginBottom: '0%',
+    height: 1,
+    width: windowWidth - 15,
+    marginTop: '4%',
+    marginBottom: '5%',
     backgroundColor: '#AFAFAF',
     alignSelf: 'center',
   },
-  containerMenuInfo: {
-    flex: 3,
-    justifyContent: 'center',
-    marginTop: '1.5%',
-    backgroundColor: 'transparent',
-    marginBottom: '0%',
-  },
   containerItemFlatList: {
     width: windowWidth - 40,
-    height: '100%',
-    paddingHorizontal: '5%',
-    backgroundColor: '#FFFFFF',
+    height: "100%",
+    paddingHorizontal: "5%",
+    backgroundColor: "#FFFFFF",
     paddingTop: 0,
-    marginVertical: '2%',
-    alignSelf: 'center',
-    justifyContent: 'center',
+    marginVertical: "2%",
+    alignSelf: "center",
+    justifyContent: "center",
     borderRadius: 15,
-    paddingBottom: '1.5%',
-    shadowColor: '#000',
+    paddingBottom: "1.5%",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -225,128 +290,118 @@ const styles = StyleSheet.create({
   },
   containerImageItem: {
     flex: 2,
-    marginBottom: '1%',
-    justifyContent: 'center',
-    alignContent: 'center',
+    marginBottom: "1%",
+    justifyContent: "center",
+    alignContent: "center",
+  },
+  containerSearchViewComponent: {
+    height: 40,
+    width: windowWidth,
+    maxWidth: "85%",
+    alignSelf: "center",
+    borderRadius: 15,
+    backgroundColor: '#fff',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    
+    elevation: 5,
+  },
+  containerInfoViewTab: {
+    height: 70,
+    width: windowWidth,
+    maxWidth: "110%",
+    justifyContent: "center",
+    alignItems: "center",
+    alignContent: "center",
+    paddingHorizontal: "5%",
   },
   containerInfoItem: {
     flex: 1,
+  },
+  containerInfoItem:{
+    flex: 7,
+
   },
   containerRatingItem: {
     flexDirection: 'row',
     flex: 2,
     marginBottom: '3%',
   },
-  containerSearchView: {
-    flexDirection: 'row',
-    height: '40%',
-    width: windowWidth - 80,
-    justifyContent: 'center',
-    alignSelf: 'center',
-    alignItems: 'center',
-    marginTop: '3%',
-    maxWidth: windowWidth - 80,
-    borderRadius: 45,
-    backgroundColor: '#fff',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.29,
-    shadowRadius: 4.65,
-
-    elevation: 7,
+  txtPriceItemInfo2: {
+    color: "#EF5B5B",
+    marginRight: "55%",
   },
-  containerHeaderTab: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center',
-    paddingTop: '0%',
+  txtHeaderViewTab: {
+    color: "#fff",
+    fontSize: 25,
+    fontWeight: "bold",
+    paddingTop: "0%",
   },
-  containerPriceItem: {
-    flex: 1,
-  },
-  containerHeaderInfoSections: {
-    flex: 1.5,
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    maxWidth: windowWidth - 10,
-    width: windowWidth - 0,
-    paddingHorizontal: '0%',
-  },
-  imgBack: {
-    height: 30,
-    width: 30,
-    marginRight: '0%',
-    resizeMode: 'contain',
-    flex: 1,
-  },
-  imgUser: {
-    height: 30,
-    width: 30,
-    marginLeft: '0%',
-    resizeMode: 'contain',
-    flex: 1,
-  },
-  txtMenuHeader: {
-    color: '#fff',
-    fontSize: 30,
-    paddingTop: '0%',
-    flex: 4,
-    alignSelf: 'center',
-    alignItems: 'center',
-    fontWeight: 'bold',
-    paddingHorizontal: '6%',
-  },
-  txtInfo1: {
-    color: '#fff',
-    alignContent: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignSelf: 'center',
+  txtNameDishItem: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: "2%",
   },
   txtRatingItem: {
     color: '#EF5B5B',
     marginHorizontal: 5,
   },
-  txtPriceItemInfo: {
-    color: '#EF5B5B',
-  },
-  txtPriceItemInfo2: {
-    color: '#EF5B5B',
-    marginRight: '55%',
-  },
-  txtInfo2: {
-    color: '#fff',
-    alignContent: 'center',
-    alignSelf: 'center',
-  },
-  txtNameDishItem: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: '2%',
-  },
-  icSearch: {
-    height: 20,
-    width: 20,
-    marginRight: 10,
-  },
-  imgSourceItem: {
-    resizeMode: 'cover',
-    margin: '2%',
-    borderRadius: 15,
-    height: 150,
-    width: windowWidth - 50,
-    alignSelf: 'center',
+  containerPriceItem: {
     flex: 1,
+  },
+  btnSearchStyle: {
+    width: 20,
+    height: 20,
+    flex: 1,
+
+  },
+  imgSearchStyle: {
+    width: 20,
+    height: 20,
+    resizeMode: "cover",
   },
   imgStarItem: {
     height: 15,
     width: 15,
+  },
+  btnGoBack: {
+    height: 30,
+    width: 30,
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+  },
+  btnUserStyle: {
+    height: 30,
+    width: 30,
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+  },
+  imgGoBackStyle: {
+    height: 25,
+    width: 25,
+    resizeMode: "cover",
+    alignSelf: "center",
+  },
+  imgSourceItem: {
+    resizeMode: "cover",
+    margin: "2%",
+    borderRadius: 15,
+    height: 150,
+    width: windowWidth - 50,
+    alignSelf: "center",
+    flex: 1,
+  },
+  imgUserStyle: {
+    height: 25,
+    width: 25,
+    resizeMode: "cover",
+    alignSelf: "center",
   },
 });

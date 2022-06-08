@@ -8,19 +8,22 @@ import {
   ScrollView,
   ImageBackground,
   Dimensions,
-} from 'react-native';
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigation } from '@react-navigation/core';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import logo from '../assets/images/logo_app.png';
-import background from '../assets/images/background.png';
-import Colors from '../assets/Colors';
+  Alert,
+} from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigation } from "@react-navigation/core";
+import { SafeAreaView } from "react-native-safe-area-context";
+import logo from "../assets/images/logo_app.png";
+import background from "../assets/images/background.png";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Colors from "../assets/Colors";
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 const OTP = () => {
   let textInput = useRef(null);
-  const [internalVal, setInternalVal] = useState('');
+  const [internalVal, setInternalVal] = useState("");
   const [timer, setTimer] = useState(60);
   const navigation = useNavigation();
   const onChangeText = (val) => {
@@ -43,13 +46,25 @@ const OTP = () => {
     }, 1000);
     return () => clearInterval(interval);
   }, []);
-
   const isEnable = () => {
     return internalVal.length === 4;
   };
-
-  const handleOTP = () => {
-    navigation.navigate('NewPassword');
+  const handleOTP = async () => {
+    const numberValue = await AsyncStorage.getItem("userPhone");
+    console.log("+84" + numberValue);
+    const res = await axios.post(
+      "https://foody-uit.herokuapp.com/otp/verifyOtp",
+      {
+        phoneNumber: "+84" + numberValue,
+        otp: internalVal,
+      }
+    );
+    const { success } = res.data;
+    if (success) {
+      navigation.navigate("NewPassword");
+    } else {
+      Alert.alert("Wrong OTP");
+    }
   };
 
   return (
@@ -83,7 +98,7 @@ const OTP = () => {
                   onChangeText={onChangeText}
                   value={internalVal}
                   style={{
-                    position: 'absolute',
+                    position: "absolute",
                     width: 1,
                     height: 1,
                     opacity: 0,
@@ -103,8 +118,8 @@ const OTP = () => {
                           {
                             borderColor:
                               index === internalVal.length
-                                ? '#FA4A0C'
-                                : 'black',
+                                ? "#FA4A0C"
+                                : "black",
                           },
                         ]}
                       >
@@ -114,7 +129,7 @@ const OTP = () => {
                         >
                           {internalVal && internalVal.length > 0
                             ? internalVal[index]
-                            : ''}
+                            : ""}
                         </Text>
                       </View>
                     ))}
@@ -127,8 +142,8 @@ const OTP = () => {
                 <Text style={styles.subtitle2}>Didn't receive code?</Text>
                 <TouchableOpacity onPress={() => setTimer(60)}>
                   <Text style={styles.buttonOutlineText}>
-                    {' '}
-                    Resend ({timer}s){' '}
+                    {" "}
+                    Resend ({timer}s){" "}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -142,7 +157,7 @@ const OTP = () => {
                 style={[
                   styles.button,
                   {
-                    backgroundColor: isEnable() ? Colors.primary : '#FFB196',
+                    backgroundColor: isEnable() ? Colors.primary : "#FFB196",
                   },
                 ]}
               >
@@ -160,85 +175,85 @@ export default OTP;
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     flex: 1,
     width: windowWidth,
     height: windowHeight,
   },
 
   input: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 5,
-    flexWrap: 'wrap',
-    textAlign: 'center',
+    flexWrap: "wrap",
+    textAlign: "center",
   },
   buttonContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 40,
   },
   button: {
-    backgroundColor: '#FA4A0C',
-    width: '100%',
+    backgroundColor: "#FA4A0C",
+    width: "100%",
     padding: 15,
     borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     elevation: 1,
   },
   buttonOutline: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     marginTop: 5,
-    borderColor: '#FA4A0C',
+    borderColor: "#FA4A0C",
     borderWidth: 2,
   },
   buttonText: {
-    color: 'white',
-    fontWeight: '700',
+    color: "white",
+    fontWeight: "700",
     fontSize: 16,
   },
   buttonOutlineText: {
-    color: '#FA4A0C',
-    fontWeight: '700',
+    color: "#FA4A0C",
+    fontWeight: "700",
     fontSize: 16,
     marginTop: 15,
   },
   newOwnerText: {
-    color: 'black',
+    color: "black",
     fontSize: 16,
-    fontWeight: 'normal',
+    fontWeight: "normal",
   },
 
   view1: {
     margin: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     flex: 3,
   },
 
   textPleaseRegister: {
-    position: 'relative',
+    position: "relative",
     top: 10,
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 
   logo: {
     height: 160,
     width: 170,
-    position: 'relative',
+    position: "relative",
     top: 5,
     marginTop: 25,
   },
 
   textView: {
     flex: 0.12,
-    flexDirection: 'row',
-    backgroundColor: 'white',
+    flexDirection: "row",
+    backgroundColor: "white",
     borderBottomLeftRadius: 50,
     borderBottomRightRadius: 50,
   },
@@ -254,23 +269,23 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   registerText: {
-    flexWrap: 'wrap',
-    flexDirection: 'row',
+    flexWrap: "wrap",
+    flexDirection: "row",
     marginTop: 20,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   subtitle: {
     fontSize: 15,
     marginBottom: 15,
-    textAlign: 'center',
-    color: '#9B9B9B',
+    textAlign: "center",
+    color: "#9B9B9B",
   },
   inputContainer: {
     width: 55,
     height: 55,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 13,
     borderWidth: 2,
   },
@@ -279,28 +294,28 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     fontSize: 20,
-    textAlign: 'center',
-    fontWeight: 'bold',
-    color: 'black',
+    textAlign: "center",
+    fontWeight: "bold",
+    color: "black",
   },
   otpView: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
     marginTop: 30,
   },
   subtitle2: {
     fontSize: 15,
     marginTop: 15,
-    textAlign: 'center',
-    color: '#9B9B9B',
+    textAlign: "center",
+    color: "#9B9B9B",
   },
   countDown: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
   },
 });

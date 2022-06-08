@@ -140,3 +140,4 @@ yarn-error.log*
 
 # yarn
 yarn.lock
+.lock

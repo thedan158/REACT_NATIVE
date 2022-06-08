@@ -36,6 +36,8 @@ export class CustomCollapsible extends Component {
                 style={styles.switch}
                 value={this.state.switchValue}
                 onValueChange={(switchValue) => this.setState({ switchValue })}
+                onChange={()=>this.props.childtoParent(this.state.switchValue)}
+              
               />
             </View>
           </View>

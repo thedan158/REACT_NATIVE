@@ -39,6 +39,7 @@ const RestaurantInformation = () => {
     }
   }, []);
 
+ 
   const PickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -106,7 +107,7 @@ const RestaurantInformation = () => {
         resUpdateUserRestaurantID.data.success;
       if (successUpdateUserRestaurantID) {
         console.log('Update user restaurant id success');
-        navigation.navigate('AppLoader');
+        navigation.navigate('AppLoaderOwner');
       }
     }
   };
