@@ -38,29 +38,33 @@ const ChangePassword = () => {
 
   const handleChangePassword = async () => {
     console.log("Change password");
-    const userInfo = await AsyncStorage.getItem("userLoginData");
-    const user = JSON.parse(userInfo);
-    console.log(user.username);
+    const userLoginData = await AsyncStorage.getItem("userLoginData");
+    const user = JSON.parse(userLoginData);
+    console.log("username: " + user.username);
     if (password !== confirmPassword) {
       Alert.alert("Password not match");
       return;
     }
-    const res = await axios.post(
+    const res = await axios.put(
       `https://foody-uit.herokuapp.com/auth/changePassword`,
       {
         username: user.username,
         oldPassword: oldPassword,
         newPassword: password,
+        confirmPassword: confirmPassword,
       }
     );
     const { success } = res.data;
     console.log("Correct account " + success);
     if (!success) {
-      Alert.alert("Error", "Wrong infomation");
+      Alert.alert(
+        "Error",
+        "Failed to changed password, please ensure your infomation is correct"
+      );
       return;
     }
-
     setVisible(true);
+    const myTimeout = setTimeout(navigation.navigate("Login"), 5000);
   };
   return (
     <StaffScreen>
@@ -166,7 +170,7 @@ const ChangePassword = () => {
           <Text
             style={{ marginVertical: 30, fontSize: 20, textAlign: "center" }}
           >
-            Congratulations registration was successful
+            Your password has been reset successfully
           </Text>
           <TouchableOpacity
             onPress={() => {

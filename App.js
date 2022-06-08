@@ -152,7 +152,12 @@ export default function App() {
         />
         <Stack.Screen
           options={{ headerShown: false }}
+          name="TabForStaff"
+          component={TabForStaff}
+        />
 
+        <Stack.Screen
+          options={{ headerShown: false }}
           name="OTPsignup"
           component={OTPsignup}
         />
@@ -162,8 +167,6 @@ export default function App() {
           name="ListFood"
           component={ListFood}
         />
-
-
 
         <Stack.Screen
           options={{ headerShown: false }}
@@ -247,6 +250,7 @@ export default function App() {
           name="RestaurantKitchen"
           component={RestaurantKitchen}
         />
+        
         <Stack.Screen
           options={{ headerShown: false }}
           name="HomeScreen2ndFinal"
@@ -276,7 +280,13 @@ export default function App() {
           name="Button4Screen"
           component={Button4Screen}
         />
-
+        
+         <Stack.Screen
+          options={{ headerShown: false }}
+          name="Order"
+          component={OrderScreen}
+        />
+            
         <Stack.Screen
           options={{ headerShown: false }}
           name="AppLoader"
@@ -362,12 +372,6 @@ export default function App() {
         />
 
         <Stack.Screen
-          options={{ headerShown: false }}
-          name="TabForStaff"
-          component={TabForStaff}
-        />
-
-        <Stack.Screen
           name="CreateStaffAccount"
           component={CreateStaffAccount}
           options={{
@@ -428,11 +432,6 @@ export default function App() {
           component={RestaurantInformation}
         />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="Order"
-          component={OrderScreen}
-        />
 
         <Stack.Screen
           options={{ headerShown: false }}

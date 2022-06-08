@@ -174,7 +174,7 @@ const EditProfile = () => {
           <Text
             style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}
           >
-            Congratulations registration was successful
+            Update profile successfully{' '}
           </Text>
           <TouchableOpacity
             onPress={() => {
