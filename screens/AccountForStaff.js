@@ -21,7 +21,7 @@ import pen from '../assets/icons/pen.png';
 import info from '../assets/icons/info.png';
 import personal from '../assets/icons/personal.png';
 import vector from '../assets/icons/Vector.png';
-import light_on from '../assets/icons/light-on.png';
+import password from '../assets/icons/password.png';
 import light_off from '../assets/icons/light-off.png';
 import dark_off from '../assets/icons/dark-off.png';
 import dark_on from '../assets/icons/dark-on.png';
@@ -67,6 +67,7 @@ const AccountForStaff = () => {
             style={styles.TouchableOpacity}
             onPress={() => navigation.navigate('EditStaffProfile')}
           >
+            <Image source={personal} style={styles.iconTitle} />
             <Text style={styles.textName}>Edit Your Profile</Text>
             <Image style={styles.icon} source={vector} />
           </TouchableOpacity>
@@ -75,6 +76,7 @@ const AccountForStaff = () => {
             style={styles.TouchableOpacity}
             onPress={() => navigation.navigate('ChangeStaffPassword')}
           >
+            <Image source={password} style={styles.iconTitle} />
             <Text style={styles.textName}>Change Your Password</Text>
             <Image style={styles.icon} source={vector} />
           </TouchableOpacity>
@@ -285,7 +287,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     top: '25%',
-    left: 30,
+    left: '15%',
   },
 
   icon: {
@@ -293,6 +295,13 @@ const styles = StyleSheet.create({
     height: 18,
     position: 'absolute',
     right: 30,
+    top: '30%',
+  },
+  iconTitle: {
+    width: 20,
+    height: 20,
+    position: 'absolute',
+    marginLeft: 20,
     top: '30%',
   },
 });

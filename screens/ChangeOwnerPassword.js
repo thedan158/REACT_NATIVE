@@ -196,8 +196,10 @@ const ChangePassword = () => {
           />
         </View>
 
-        <Text style={{ marginVertical: 30, fontSize: 20, textAlign: "center" }}>
-          Congratulations registration was successful
+
+        <Text style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}>
+          Your password has been reset successfully
+
         </Text>
         <TouchableOpacity
           onPress={() => {

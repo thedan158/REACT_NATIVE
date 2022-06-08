@@ -16,9 +16,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/core';
 import power from '../assets/icons/power.png';
 import setting from '../assets/icons/setting.png';
-import pen from '../assets/icons/pen.png';
-import info from '../assets/icons/info.png';
 import personal from '../assets/icons/personal.png';
+import info from '../assets/icons/info.png';
 import vector from '../assets/icons/Vector.png';
 import light_on from '../assets/icons/light-on.png';
 import light_off from '../assets/icons/light-off.png';
@@ -67,6 +66,7 @@ const AccountForOwner = () => {
               style={styles.TouchableOpacity}
               onPress={() => navigation.navigate('EditOwnerProfile')}
             />
+
             <Text style={styles.textName}>Edit Your Profile</Text>
             <Image style={styles.icon} source={vector} />
           </View>
