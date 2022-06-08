@@ -22,13 +22,16 @@ import background from '../assets/images/background.png';
 import StaffScreen from '../custom component/StaffScreen';
 import CustomModal from '../custom component/CustomModal';
 import back from '../assets/icons/back-green.png';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const EditProfile = () => {
   const [nameOfRes, setNameOfRes] = useState('');
   const [address, setAddress] = useState('');
-  const [hotline, setHotline] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [email, setEmail] = useState('');
   const navigation = useNavigation();
   const [image, setImage] = useState('null');
   const [visible, setVisible] = React.useState(false);
@@ -134,17 +137,17 @@ const EditProfile = () => {
 
           <CustomTextInput
             blurColor={Colors.secondary}
-            value={hotline}
-            onChangeText={(text) => setHotline(text)}
-            placeholder="Hotline"
+            value={phoneNumber}
+            onChangeText={(text) => setPhoneNumber(text)}
+            placeholder="Phone number"
             keyboardType="decimal-pad"
           />
 
           <CustomTextInput
             blurColor={Colors.secondary}
-            value={hotline}
-            onChangeText={(text) => setHotline(text)}
-            placeholder="Hotline"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+            placeholder="Email"
             keyboardType="decimal-pad"
           />
         </View>
