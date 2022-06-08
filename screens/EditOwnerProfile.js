@@ -85,7 +85,7 @@ const EditProfile = () => {
     });
 
     //*Upload blob to firebase
-    const ref = firebase.storage().ref().child(`images/${userData.username}`);
+    const ref = firebase.storage().ref().child(`images/profile/${userData.username}.jpg`);
     const snapshot = ref.put(blob);
     snapshot.on(
       firebase.storage.TaskEvent.STATE_CHANGED,
@@ -110,7 +110,7 @@ const EditProfile = () => {
     console.log("platform: " + Platform.OS);
     console.log("blob:" + blob);
     const res = await axios.post(
-      `https://61d5-116-98-169-213.ap.ngrok.io/profile/update/${userData.username}`,
+      `https://foody-uit.herokuapp.com/profile/update/${userData.username}`,
       {
         fullname: fullname,
         address: address,
