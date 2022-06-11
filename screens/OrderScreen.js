@@ -97,7 +97,11 @@ const OrderScreen = () => {
         </View>
 
         {/* ----------------------------second view section---------------------------------- */}
-        <ScrollView style={styles.container_bottom} nestedScrollEnabled>
+        <ScrollView 
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          style={styles.container_bottom} 
+          nestedScrollEnabled>
           <View>
             {/* --------------btnSelectTable section view---------- */}
             <View style={styles.btnContainerViewStyle}>
@@ -144,7 +148,7 @@ const OrderScreen = () => {
 
             <View style={styles.container_layout_column}>
               <View style={styles.container_layout_row1}>
-                <Text style={styles.textHeaderBottom}>Starter: </Text>
+                <Text style={styles.textHeaderBottom}>STARTER: </Text>
                 <View style={styles}>
                   <TouchableOpacity
                     style={styles.btnMenuStarter}
@@ -176,7 +180,7 @@ const OrderScreen = () => {
             {/* --------------View Main Course Order-----------  */}
             <View style={styles.container_layout_column}>
               <View style={styles.container_layout_row1}>
-                <Text style={styles.textHeaderBottom}>Main Course: </Text>
+                <Text style={styles.textHeaderBottom}>MAIN COURSE: </Text>
                 <View style={styles}>
                   <TouchableOpacity
                     style={styles.btnMenuMainCourse}
@@ -206,7 +210,7 @@ const OrderScreen = () => {
             {/* -----------------View Desert Order-------------- */}
             <View style={styles.container_layout_column}>
               <View style={styles.container_layout_row1}>
-                <Text style={styles.textHeaderBottom}>Desert: </Text>
+                <Text style={styles.textHeaderBottom}>DESERT - DRINK: </Text>
                 <View style={styles}>
                   <TouchableOpacity
                     style={styles.btnMenuDesert}
@@ -234,7 +238,7 @@ const OrderScreen = () => {
               <View style={styles.lineStyle2} />
             </View>
             {/* ----------------View Drink Order--------------- */}
-            <View style={styles.container_layout_column}>
+            {/* <View style={styles.container_layout_column}>
               <View style={styles.container_layout_row1}>
                 <Text style={styles.textHeaderBottom}>Drink: </Text>
                 <View style={styles}>
@@ -261,7 +265,7 @@ const OrderScreen = () => {
                 keyExtractor={(item) => item.id}
               />
               <View style={styles.lineStyle2} />
-            </View>
+            </View> */}
             {/* ----------------View Message Order----------- */}
             <View style={styles.container_layout_column2}>
               <View style={styles.container_layout_row1}>
@@ -297,6 +301,7 @@ const styles = StyleSheet.create({
     height: 100,
     justifyContent: 'center',
     alignContent: 'center',
+    marginTop: '7%',
   },
   container: {
     backgroundColor: '#FFF',
@@ -312,12 +317,14 @@ const styles = StyleSheet.create({
     top: 0,
     flexDirection: 'column',
     borderRadius: 20,
+    paddingTop: 15,
+    marginBottom:'13%'
   },
   rectangleGreydevideView: {
     backgroundColor: '#EFEFEF',
     width: deviceWidth,
-    height: 10,
-    marginBottom: 15,
+    height: 5, 
+    marginBottom: 10,
     marginTop: 25,
   },
   container_layout_row: {

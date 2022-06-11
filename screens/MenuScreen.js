@@ -18,6 +18,7 @@ import axios from "axios";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const maxWidthConst = windowWidth - 10;
+const imgAddItem = require("../assets/icons/AddItem.png");
 const imgUserSource = require("../assets/icons/user.png");
 const imgGoBackSource = require("../assets/icons/back.png");
 const icStar = require('../assets/icons/Star.png');
@@ -96,7 +97,7 @@ const MenuScreen = ({ navigation }) => {
     getData().catch((err) => console.log(err));
   }, []);
   const [search, setSearch] = useState("");
-  const [masterData, setMasterData] = useState([]);
+  const [masterData, setMasterData] = useState([]); 
   useEffect(() => {
     setMasterData(dataFromState);
   }, []);
@@ -130,8 +131,12 @@ const MenuScreen = ({ navigation }) => {
         </TouchableOpacity>
 
         <Text style={styles.txtHeaderViewTab}>{HeaderText}</Text>
-        <TouchableOpacity style={styles.btnUserStyle}>
-          <Image source={imgUserSource} style={styles.imgUserStyle} />
+        <TouchableOpacity style={styles.btnUserStyle}
+        onPress={() => {
+          navigation.navigate('AddingMenuItemScreen')
+        }}>
+        
+          <Image source={imgAddItem} style={styles.imgUserStyle} />
         </TouchableOpacity>
       </View>
     );

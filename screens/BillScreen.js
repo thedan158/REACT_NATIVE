@@ -185,7 +185,7 @@ export default BillScreen;
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 50,
+    marginBottom: '8%',
   },
   containerTop: {
     backgroundColor: "#FF4B3A",
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignContent: "center",
     justifyContent: "center",
-
+    paddingTop: '3%',
   },
   containerBottom: {
     borderTopLeftRadius: 30,
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
-
+    
     marginTop: -50,
     paddingTop: 20,
     paddingLeft: 10,
