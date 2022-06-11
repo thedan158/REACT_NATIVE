@@ -39,10 +39,11 @@ const EditProfile = () => {
   const [address, setAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
-  const navigation = useNavigation();
   const [image, setImage] = useState("null");
   const [visible, setVisible] = React.useState(false);
   const [url, setUrl] = React.useState("");
+
+  const navigation = useNavigation();
 
   useEffect(async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -50,6 +51,33 @@ const EditProfile = () => {
     if (status !== "granted") {
       alert("Permission denied!");
     }
+
+    const getData = async () => {
+      const user = await AsyncStorage.getItem("userLoginData");
+      const userInfo = JSON.parse(user);
+      console.log(userInfo.username);
+      const response = await axios.get(
+        `https://foody-uit.herokuapp.com/profile/getUserProfile/${userInfo.username}`
+      );
+      const { success } = response.data;
+      const { data } = response.data;
+      console.log(data);
+      console.log(success);
+      if (!success) {
+        Alert.alert("Account not found");
+        return;
+      }
+      setAddress(data.address ? data.address : "");
+      setEmail(data.email ? data.email : "");
+      setFullname(data.fullname ? data.fullname : "");
+      setPhoneNumber(data.phoneNumber ? data.phoneNumber : "");
+      setImage(
+        data.imagePath
+          ? data.imagePath
+          : "https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fgood.png?alt=media&token=de139437-3a20-4eb3-ba56-f6a591779d15"
+      );
+    };
+    getData().catch((err) => console.log(err));
   }, []);
 
   const PickImage = async () => {
@@ -85,9 +113,12 @@ const EditProfile = () => {
     });
 
     //*Upload blob to firebase
-    const ref = firebase.storage().ref().child(`images/profile/${userData.username}.jpg`);
+    const ref = firebase
+      .storage()
+      .ref()
+      .child(`images/profile/${userData.username}.jpg`);
     const snapshot = ref.put(blob);
-    snapshot.on(
+    await snapshot.on(
       firebase.storage.TaskEvent.STATE_CHANGED,
       () => {
         console.log("uploading");
@@ -97,35 +128,36 @@ const EditProfile = () => {
         blob.close();
         return;
       },
-      () => {
-        ref.getDownloadURL().then((url) => {
+      async () => {
+        await ref.getDownloadURL().then(async (url) => {
           console.log("download url: " + url);
           setUrl(url);
           blob.close();
+          console.log(userData);
+          console.log("platform: " + Platform.OS);
+          console.log("blob:" + blob);
+          console.log("url:" + url);
+          const res = await axios.post(
+            `https://foody-uit.herokuapp.com/profile/update/${userData.username}`,
+            {
+              fullname: fullname,
+              address: address,
+              phoneNumber: phoneNumber,
+              email: email,
+              imagePath: url,
+            }
+          );
+          const { success } = res.data;
+          console.log(success);
+          if (!success) {
+            Alert.alert("Update failed");
+            return;
+          }
+          setVisible(true);
         });
       }
     );
     //*Update user data
-    console.log(userData);
-    console.log("platform: " + Platform.OS);
-    console.log("blob:" + blob);
-    const res = await axios.post(
-      `https://foody-uit.herokuapp.com/profile/update/${userData.username}`,
-      {
-        fullname: fullname,
-        address: address,
-        phoneNumber: phoneNumber,
-        email: email,
-        imagePath: url,
-      }
-    );
-    const { success } = res.data;
-    console.log(success);
-    if (!success) {
-      Alert.alert("Update failed");
-      return;
-    }
-    setVisible(true);
   };
   // *Region for OnPress Signup
   const handleSignup = () => {
@@ -179,7 +211,7 @@ const EditProfile = () => {
             </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={PickImage} style={styles.button1}>
-            <Text style={styles.buttonText}>Choose Your Avatar</Text>
+            <Text style={styles.buttonText}>Change Your Avatar</Text>
           </TouchableOpacity>
         </View>
 
