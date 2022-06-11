@@ -205,7 +205,7 @@ const HomeScreen2ndFinal = ({ navigation }) => {
         {/* Button 4 */}
         <TouchableOpacity
           style={styles.btnBottomOpen}
-          onPress={() => navigation.navigate('Button4Screen')}
+          onPress={() => navigation.navigate('ListFood')}
         >
           <LinearGradient
             style={styles.btnBottomOpen}
@@ -240,6 +240,8 @@ const styles = StyleSheet.create({
     height: windowHeight,
     flex: 1,
     paddingTop: 0,
+    paddingBottom: '7%',
+    paddingTop: '5%',
   },
   containerTitleInfo: {
     flex: 4,
@@ -251,10 +253,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   icUserStyle: {
-    height: '80%',
-    width: '80%',
-    flex: 1,
-    resizeMode: 'contain',
+    height: 45,
+    width: 45,
+    alignSelf: 'center',
+    resizeMode: 'cover',
+    marginRight: '2%',
   },
   containerHeaderTop: {
     flex: 1,
@@ -319,7 +322,7 @@ const styles = StyleSheet.create({
   },
   containerBtnExcDeals: {
     flex: 3,
-    marginBottom: '20%',
+    marginBottom: '5%',
     backgroundColor: 'transparent',
     maxWidth: windowWidth,
     justifyContent: 'center',
