@@ -18,11 +18,12 @@ import queen from '../assets/icons/queen.png';
 import AccountForOwner from '../screens/AccountForOwner';
 import BillScreen from '../screens/BillScreen';
 
+
 const Tab = createBottomTabNavigator();
 
 const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
   return (
-    <View style={{ flex: 1, alignItems: 'center' }}>
+    <View style={{ flex: 1, alignItems: 'center'}}>
       <View style={{ flexDirection: 'row', position: 'absolute', top: 0 }}>
         <View
           style={{
@@ -183,3 +184,4 @@ const Tabs = () => {
 };
 
 export default Tabs;
+

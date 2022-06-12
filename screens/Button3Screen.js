@@ -14,8 +14,10 @@ import React, {useState, useEffect} from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import Colors from "../assets/Colors";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import AddingMenuItemScreen from "./AddingMenuItemScreen";
 
 const maxWidthConst = windowWidth - 10;
+const imgAddItem = require("../assets/icons/AddItem.png");
 const imgUserSource = require("../assets/icons/user.png");
 const imgGoBackSource = require("../assets/icons/back.png");
 const icStar = require('../assets/icons/Star.png');
@@ -99,8 +101,11 @@ const Button3Screen = ({ navigation }) => {
         </TouchableOpacity>
 
         <Text style={styles.txtHeaderViewTab}>{HeaderText}</Text>
-        <TouchableOpacity style={styles.btnUserStyle}>
-          <Image source={imgUserSource} style={styles.imgUserStyle} />
+        <TouchableOpacity style={styles.btnUserStyle} 
+          onPress={() => {
+            navigation.navigate('AddingMenuItemScreen')
+          }}>
+          <Image source={imgAddItem} style={styles.imgUserStyle} />
         </TouchableOpacity>
       </View>
     );

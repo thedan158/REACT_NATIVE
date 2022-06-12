@@ -64,7 +64,7 @@ const ChangePassword = () => {
       return;
     }
     setVisible(true);
-    const myTimeout = setTimeout(navigation.navigate("Login"), 5000);
+    // const myTimeout = setTimeout(navigation.navigate("Login"), 5000);
   };
   return (
     <StaffScreen>
@@ -174,7 +174,7 @@ const ChangePassword = () => {
           </Text>
           <TouchableOpacity
             onPress={() => {
-              navigation.goBack();
+              navigation.navigate('Login');
               setVisible(false);
             }}
             style={styles.button}
