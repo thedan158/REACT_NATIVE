@@ -70,6 +70,7 @@ import CheckOutTableScreen from './screens/CheckOutTableScreen';
 import ListFood from './screens/ListFood';
 import ListFoodDetails from './screens/ListFoodDetails';
 import Analytics from './screens/Analytics';
+import EditResProfile from './screens/EditResProfile';
 
 const Stack = createStackNavigator();
 // animation function
@@ -144,12 +145,35 @@ export default function App() {
           gestureDirection: 'horizontal',
         }}
       >
-        
         <Stack.Screen
           options={{ headerShown: false }}
           name="SplashScreen"
           component={SplashScreen}
         />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="TabForOwner"
+          component={TabForOwner}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+            gestureDirection: 'horizontal',
+            transitionSpec: {
+              open: config,
+              close: closeConfig,
+            },
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          }}
+          name="EditRestaurantProfile"
+          component={EditResProfile}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="ListFood"
+          component={ListFood}
+        />
+
         <Stack.Screen
           options={{ headerShown: false }}
           name="TabForStaff"
@@ -162,17 +186,6 @@ export default function App() {
           component={OTPsignup}
         />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="ListFood"
-          component={ListFood}
-        />
-
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="TabForOwner"
-          component={TabForOwner}
-        />
         <Stack.Screen
           options={{ headerShown: false }}
           name="Analytics"

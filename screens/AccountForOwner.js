@@ -7,6 +7,7 @@ import {
   Image,
   Dimensions,
   Switch,
+  ImageBackground,
 } from 'react-native';
 import React, { useState } from 'react';
 import VKH from '../assets/images/VKH.jpg';
@@ -16,18 +17,24 @@ import { NavigationContainer } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/core';
 import power from '../assets/icons/power.png';
 import setting from '../assets/icons/setting.png';
-import personal from '../assets/icons/personal.png';
+import pen from '../assets/icons/pen.png';
 import info from '../assets/icons/info.png';
+import personal from '../assets/icons/personal.png';
 import vector from '../assets/icons/Vector.png';
+import password from '../assets/icons/password.png';
 import light_on from '../assets/icons/light-on.png';
+import res from '../assets/icons/res.png';
+import logo from '../assets/images/logo_app.png';
 import light_off from '../assets/icons/light-off.png';
 import dark_off from '../assets/icons/dark-off.png';
 import dark_on from '../assets/icons/dark-on.png';
+import background from '../assets/images/background.png';
 import Colors from '../assets/Colors';
+import FlipCard from 'react-native-flip-card';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-const AccountForOwner = () => {
+const AccountForStaff = () => {
   const navigation = useNavigation();
   const [isEnabled, setIsEnabled] = useState(false);
 
@@ -47,45 +54,81 @@ const AccountForOwner = () => {
               style={{ height: 30, width: 30, marginHorizontal: 15 }}
             />
             <Text style={styles.textHeader}>Personal details</Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginLeft: 30,
+              }}
+            >
+              <Image
+                source={isEnabled ? light_off : light_on}
+                style={{ width: 25, height: 25 }}
+              />
+              <Switch
+                value={isEnabled}
+                onValueChange={setIsEnabled}
+                style={{ marginHorizontal: 5 }}
+              />
+              <Image
+                source={isEnabled ? dark_on : dark_off}
+                style={{ width: 25, height: 25 }}
+              />
+            </View>
           </View>
         </View>
         {/* Card Info  */}
         <View style={styles.feature}>
-          <CardInformation
-            name="Tanhao"
-            mail="daotanhao9h@gmail.com"
-            imageSource={VKH}
-            address="Bien Hoa, Dong Nai, Ho Chi Minh City"
-            phone="+84 528679244"
-          />
+          <FlipCard>
+            {/* Face Side */}
+
+            <CardInformation
+              name="Tanhao"
+              mail="daotanhao9h@gmail.com"
+              imageSource={VKH}
+              address="Bien Hoa, Dong Nai, Ho Chi Minh City"
+              phone="+84 528679244"
+            />
+
+            {/* Back Side */}
+
+            <CardInformation
+              name="Restaurant name"
+              mail="Slogan of restaurant"
+              imageSource={logo}
+              address="Bien Hoa, Dong Nai, Ho Chi Minh City"
+              phone="+84 528679244"
+            />
+          </FlipCard>
         </View>
 
         <View style={styles.buttonUser}>
-          <View>
-            <TouchableOpacity
-              style={styles.TouchableOpacity}
-              onPress={() => navigation.navigate('EditOwnerProfile')}
-            />
-
+          <TouchableOpacity
+            style={styles.TouchableOpacity}
+            onPress={() => navigation.navigate('EditOwnerProfile')}
+          >
+            <Image source={personal} style={styles.iconTitle} />
             <Text style={styles.textName}>Edit Your Profile</Text>
             <Image style={styles.icon} source={vector} />
-          </View>
-          <View>
-            <TouchableOpacity
-              style={styles.TouchableOpacity}
-              onPress={() => navigation.navigate('ChangeOwnerPassword')}
-            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.TouchableOpacity}
+            onPress={() => navigation.navigate('EditRestaurantProfile')}
+          >
+            <Image source={res} style={styles.iconTitle} />
+            <Text style={styles.textName}>Edit Restaurant's Profile </Text>
+            <Image style={styles.icon} source={vector} />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.TouchableOpacity}
+            onPress={() => navigation.navigate('ChangeOwnerPassword')}
+          >
+            <Image source={password} style={styles.iconTitle} />
             <Text style={styles.textName}>Change Your Password</Text>
             <Image style={styles.icon} source={vector} />
-          </View>
-          <View>
-            <TouchableOpacity
-              style={styles.TouchableOpacity}
-              onPress={() => navigation.navigate('StaffInformation')}
-            />
-            <Text style={styles.textName}>My Preferences</Text>
-            <Image style={styles.icon} source={vector} />
-          </View>
+          </TouchableOpacity>
         </View>
         <TouchableOpacity
           onPress={() => {
@@ -122,7 +165,7 @@ const AccountForOwner = () => {
   );
 };
 
-export default AccountForOwner;
+export default AccountForStaff;
 
 const styles = StyleSheet.create({
   container: {
@@ -142,6 +185,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     // flex: 3.5,
+
+    height: 170,
   },
   buttonUser: {
     justifyContent: 'flex-start',
@@ -165,7 +210,7 @@ const styles = StyleSheet.create({
     width: 90,
     height: 42,
     borderRadius: 25,
-    backgroundColor: '#FA4A0C',
+    backgroundColor: Colors.secondary,
 
     left: '10%',
     alignItems: 'center',
@@ -244,7 +289,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   buttonText2: {
-    color: '#FA4A0C',
+    color: Colors.secondary,
     fontWeight: '700',
     fontSize: 16,
   },
@@ -270,26 +315,36 @@ const styles = StyleSheet.create({
     margin: 5,
     flexDirection: 'row',
   },
+
   TouchableOpacity: {
     backgroundColor: 'white',
     width: 350,
     height: 50,
-    marginTop: 20,
+    marginTop: '5%',
     borderRadius: 20,
     flexDirection: 'row',
   },
+
   textName: {
     position: 'absolute',
     fontSize: 18,
     fontWeight: 'bold',
-    top: 32,
-    left: 30,
+    top: '25%',
+    left: '15%',
   },
+
   icon: {
     width: 18,
     height: 18,
     position: 'absolute',
     right: 30,
-    top: 35,
+    top: '30%',
+  },
+  iconTitle: {
+    width: 20,
+    height: 20,
+    position: 'absolute',
+    marginLeft: 20,
+    top: '30%',
   },
 });

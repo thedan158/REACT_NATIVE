@@ -22,6 +22,8 @@ import info from '../assets/icons/info.png';
 import personal from '../assets/icons/personal.png';
 import vector from '../assets/icons/Vector.png';
 import password from '../assets/icons/password.png';
+import light_on from '../assets/icons/light-on.png';
+
 import light_off from '../assets/icons/light-off.png';
 import dark_off from '../assets/icons/dark-off.png';
 import dark_on from '../assets/icons/dark-on.png';
@@ -49,6 +51,27 @@ const AccountForStaff = () => {
               style={{ height: 30, width: 30, marginHorizontal: 15 }}
             />
             <Text style={styles.textHeader}>Personal details</Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginLeft: 40,
+              }}
+            >
+              <Image
+                source={isEnabled ? light_off : light_on}
+                style={{ width: 25, height: 25 }}
+              />
+              <Switch
+                value={isEnabled}
+                onValueChange={setIsEnabled}
+                style={{ marginHorizontal: 5 }}
+              />
+              <Image
+                source={isEnabled ? dark_on : dark_off}
+                style={{ width: 25, height: 25 }}
+              />
+            </View>
           </View>
         </View>
         {/* Card Info  */}
@@ -71,21 +94,12 @@ const AccountForStaff = () => {
             <Text style={styles.textName}>Edit Your Profile</Text>
             <Image style={styles.icon} source={vector} />
           </TouchableOpacity>
-
           <TouchableOpacity
             style={styles.TouchableOpacity}
             onPress={() => navigation.navigate('ChangeStaffPassword')}
           >
             <Image source={password} style={styles.iconTitle} />
             <Text style={styles.textName}>Change Your Password</Text>
-            <Image style={styles.icon} source={vector} />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.TouchableOpacity}
-            onPress={() => navigation.navigate('StaffInformation')}
-          >
-            <Text style={styles.textName}>My Preferences</Text>
             <Image style={styles.icon} source={vector} />
           </TouchableOpacity>
         </View>
