@@ -8,6 +8,7 @@ import {
   Dimensions,
   Switch,
   ImageBackground,
+
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import VKH from "../assets/images/VKH.jpg";
@@ -30,6 +31,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { firebaseConfig } from "../firebase";
 import * as firebase from "firebase";
+
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -91,6 +93,27 @@ const AccountForStaff = () => {
               style={{ height: 30, width: 30, marginHorizontal: 15 }}
             />
             <Text style={styles.textHeader}>Personal details</Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginLeft: 40,
+              }}
+            >
+              <Image
+                source={isEnabled ? light_off : light_on}
+                style={{ width: 25, height: 25 }}
+              />
+              <Switch
+                value={isEnabled}
+                onValueChange={setIsEnabled}
+                style={{ marginHorizontal: 5 }}
+              />
+              <Image
+                source={isEnabled ? dark_on : dark_off}
+                style={{ width: 25, height: 25 }}
+              />
+            </View>
           </View>
         </View>
         {/* Card Info  */}
@@ -113,7 +136,6 @@ const AccountForStaff = () => {
             <Text style={styles.textName}>Edit Your Profile</Text>
             <Image style={styles.icon} source={vector} />
           </TouchableOpacity>
-
           <TouchableOpacity
             style={styles.TouchableOpacity}
             onPress={() => navigation.navigate("ChangeStaffPassword")}
@@ -123,13 +145,6 @@ const AccountForStaff = () => {
             <Image style={styles.icon} source={vector} />
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.TouchableOpacity}
-            onPress={() => navigation.navigate("StaffInformation")}
-          >
-            <Text style={styles.textName}>My Preferences</Text>
-            <Image style={styles.icon} source={vector} />
-          </TouchableOpacity>
         </View>
         <TouchableOpacity
           onPress={() => {
