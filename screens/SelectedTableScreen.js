@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import Colors from "../assets/Colors";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 const SearchIconResouce = require("../assets/icons/search.png");
 const FillterIconResouce = require("../assets/icons/fillter.png");
@@ -73,19 +75,17 @@ const DataTable = [
   },
 ];
 
-
-const FlatlistItemFunctions = ({item}) => {
-
-  if(item.isUse === true) {
+const FlatlistItemFunctions = ({ item }) => {
+  if (item.isBusy === true) {
     return (
       <View>
         <TouchableOpacity style={styles.flatlistitemStyleInUse}>
           <View>
             <Image
-              source={item.imgSourceSelected}
+              source={require("../assets/icons/TableOrange.png")}
               style={styles.imgItemFlatlist}
             />
-            <Text style={styles.txtItemFlatlistInUse}>{item.name}</Text>
+            <Text style={styles.txtItemFlatlistInUse}>{item.id}</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -94,29 +94,43 @@ const FlatlistItemFunctions = ({item}) => {
 
   return (
     <View>
-      <TouchableOpacity 
-        disabled={true}
-        style={styles.flatlistitemStyle}>
+      <TouchableOpacity disabled={true} style={styles.flatlistitemStyle}>
         <View>
           <Image
-            source={item.imgSourceEmpty}
+            source={require("../assets/icons/TableGray.png")}
             style={styles.imgItemFlatlist}
           />
-          <Text style={styles.txtItemFlatlist}>{item.name}</Text>
+          <Text style={styles.txtItemFlatlist}>{item.id}</Text>
         </View>
       </TouchableOpacity>
     </View>
   );
-}
+};
 
 const SelectedTable = () => {
   const [search, setSearch] = useState("");
   const [masterData, setMasterData] = useState([]);
-  const [dataFromState, setNewData] = useState(DataTable);
+  const [dataFromState, setNewData] = useState([]);
 
   useEffect(() => {
-    setMasterData(DataTable);
-    console.log("filteredData is all selected");
+    const getData = async () => {
+      const userLoginData = await AsyncStorage.getItem("userLoginData");
+      const user = JSON.parse(userLoginData);
+      console.log("username: " + user.username);
+      const res = await axios.post(
+        `https://foody-uit.herokuapp.com/table/getAllTableOfRestaurant`,
+        {
+          username: user.username,
+        }
+      );
+      const { success, message } = res.data;
+      console.log(message);
+      console.log(success);
+      setNewData(message);
+      setMasterData(dataFromState);
+      console.log("filteredData is all selected");
+    };
+    getData().catch((err) => console.log(err));
   }, []);
 
   const searchFilterFunction = (text) => {
@@ -133,7 +147,6 @@ const SelectedTable = () => {
       setSearch(text);
     }
   };
-
 
   return (
     // Root View
@@ -162,7 +175,12 @@ const SelectedTable = () => {
         <FlatList
           data={dataFromState}
           renderItem={({ item, index }) => {
-            return <FlatlistItemFunctions item={item} index={index}></FlatlistItemFunctions>;
+            return (
+              <FlatlistItemFunctions
+                item={item}
+                index={index}
+              ></FlatlistItemFunctions>
+            );
           }}
           keyExtractor={(item) => item.id}
           nestedScrollEnabled
@@ -253,8 +271,8 @@ const styles = StyleSheet.create({
     width: 70,
     marginTop: 20,
     marginBottom: 5,
-    resizeMode: 'cover',
-    alignSelf: 'center',
+    resizeMode: "cover",
+    alignSelf: "center",
     margin: 0,
   },
   btnSearch: {
@@ -291,5 +309,5 @@ const styles = StyleSheet.create({
     marginRight: 20,
     marginVertical: 20,
     marginLeft: 10,
-  },  
+  },
 });
