@@ -18,9 +18,10 @@ import axios from "axios";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const maxWidthConst = windowWidth - 10;
+const imgAddItem = require("../assets/icons/AddItem.png");
 const imgUserSource = require("../assets/icons/user.png");
 const imgGoBackSource = require("../assets/icons/back.png");
-const icStar = require('../assets/icons/Star.png');
+const icStar = require("../assets/icons/Star.png");
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 const maxWidth40 = windowWidth - 30;
@@ -69,7 +70,6 @@ const DataMenu1 = [
     price: 200,
   },
 ];
-
 
 const MenuScreen = ({ navigation }) => {
   const [dataFromState, setNewData] = useState([]);
@@ -130,8 +130,13 @@ const MenuScreen = ({ navigation }) => {
         </TouchableOpacity>
 
         <Text style={styles.txtHeaderViewTab}>{HeaderText}</Text>
-        <TouchableOpacity style={styles.btnUserStyle}>
-          <Image source={imgUserSource} style={styles.imgUserStyle} />
+        <TouchableOpacity
+          style={styles.btnUserStyle}
+          onPress={() => {
+            navigation.navigate("AddingMenuItemScreen");
+          }}
+        >
+          <Image source={imgAddItem} style={styles.imgUserStyle} />
         </TouchableOpacity>
       </View>
     );
@@ -155,22 +160,23 @@ const MenuScreen = ({ navigation }) => {
   }
 
   function SearchBarViewComponent() {
-    
     return (
       <View style={styles.containerSearchViewComponent}>
-        <View style={{
-          alignSelf: "center",
-          flexDirection: "row",
-          justifyContent: 'flex-end',
-          alignItems: "center",
-          direction: "inherit",
-          flexWrap: "wrap-reverse",
-          flex: 1,
-          alignSelf: 'center',
-          maxWidth: "95%",
-          marginBottom: '2%',
-          paddingHorizontal: '5%',
-        }}>
+        <View
+          style={{
+            alignSelf: "center",
+            flexDirection: "row",
+            justifyContent: "flex-end",
+            alignItems: "center",
+            direction: "inherit",
+            flexWrap: "wrap-reverse",
+            flex: 1,
+            alignSelf: "center",
+            maxWidth: "95%",
+            marginBottom: "2%",
+            paddingHorizontal: "5%",
+          }}
+        >
           <TouchableOpacity style={styles.btnSearchStyle}>
             <Image source={imgSearchSource} style={styles.imgSearchStyle} />
           </TouchableOpacity>
@@ -184,7 +190,6 @@ const MenuScreen = ({ navigation }) => {
             }}
           ></TextInput>
         </View>
-        
       </View>
     );
   }
@@ -213,30 +218,28 @@ const MenuScreen = ({ navigation }) => {
   };
 
   return (
-
-        <LinearGradient
-          style={styles.container}
-          colors={[Colors.ImperialRed, Colors.DarkOrange]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-        >
-          {HeaderViewTab({ HeaderText: "Menu Of the day" })}
-          {InformationViewTab({ TextInFo1: "Have a good day!" })}
-          {SearchBarViewComponent()}
-          <View style={styles.containerDevideLine}></View>
-          <View style={styles.containerInfoItem}>
-            <FlatList
-              data={dataFromState}
-              renderItem={({ item, index }) => {
-                return <FlatListItem item={item} index={index} />;
-              }}
-              keyExtractor={(item) => item.id}
-              showsVerticalScrollIndicator={false}
-              showsHorizontalScrollIndicator={false}
-            />
-
-          </View>
-        </LinearGradient>
+    <LinearGradient
+      style={styles.container}
+      colors={[Colors.ImperialRed, Colors.DarkOrange]}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 0 }}
+    >
+      {HeaderViewTab({ HeaderText: "Menu Of the day" })}
+      {InformationViewTab({ TextInFo1: "Have a good day!" })}
+      {SearchBarViewComponent()}
+      <View style={styles.containerDevideLine}></View>
+      <View style={styles.containerInfoItem}>
+        <FlatList
+          data={dataFromState}
+          renderItem={({ item, index }) => {
+            return <FlatListItem item={item} index={index} />;
+          }}
+          keyExtractor={(item) => item.id}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+        />
+      </View>
+    </LinearGradient>
   );
 };
 
@@ -261,10 +264,10 @@ const styles = StyleSheet.create({
   containerDevideLine: {
     height: 1,
     width: windowWidth - 15,
-    marginTop: '4%',
-    marginBottom: '5%',
-    backgroundColor: '#AFAFAF',
-    alignSelf: 'center',
+    marginTop: "4%",
+    marginBottom: "5%",
+    backgroundColor: "#AFAFAF",
+    alignSelf: "center",
   },
   containerItemFlatList: {
     width: windowWidth - 40,
@@ -300,7 +303,7 @@ const styles = StyleSheet.create({
     maxWidth: "85%",
     alignSelf: "center",
     borderRadius: 15,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -308,7 +311,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    
+
     elevation: 5,
   },
   containerInfoViewTab: {
@@ -323,14 +326,13 @@ const styles = StyleSheet.create({
   containerInfoItem: {
     flex: 1,
   },
-  containerInfoItem:{
+  containerInfoItem: {
     flex: 7,
-
   },
   containerRatingItem: {
-    flexDirection: 'row',
+    flexDirection: "row",
     flex: 2,
-    marginBottom: '3%',
+    marginBottom: "3%",
   },
   txtPriceItemInfo2: {
     color: "#EF5B5B",
@@ -348,7 +350,7 @@ const styles = StyleSheet.create({
     marginBottom: "2%",
   },
   txtRatingItem: {
-    color: '#EF5B5B',
+    color: "#EF5B5B",
     marginHorizontal: 5,
   },
   containerPriceItem: {
@@ -358,7 +360,6 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     flex: 1,
-
   },
   imgSearchStyle: {
     width: 20,

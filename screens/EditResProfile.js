@@ -1,0 +1,358 @@
+import {
+  TouchableOpacity,
+  Dimensions,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Button,
+  Alert,
+  ScrollView,
+} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/core';
+import logo from '../assets/images/logo_app.png';
+import CustomTextInput from '../custom component/CustomTextInput';
+import gallery from '../assets/icons/picture.png';
+import * as ImagePicker from 'expo-image-picker';
+import { Constants } from 'expo-constants';
+import Colors from '../assets/Colors';
+import background from '../assets/images/background.png';
+import back from '../assets/icons/back-green.png';
+import CustomModal from '../custom component/CustomModal';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+const EditResProfile = () => {
+  const [nameOfRes, setNameOfRes] = useState('');
+  const [address, setAddress] = useState('');
+  const [hotline, setHotline] = useState('');
+  const navigation = useNavigation();
+  const [image, setImage] = useState('null');
+  const [visible, setVisible] = React.useState(false);
+
+  const PickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    console.log(result);
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+  // Create random number for restaurant id
+  function randomNumber() {
+    return Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000;
+  }
+
+  return (
+    <ScrollView>
+      <View style={styles.container}>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginTop: 20,
+            width: windowWidth,
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flex: 0.5,
+          }}
+        >
+          <TouchableOpacity
+            style={{
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              flexDirection: 'row',
+              marginLeft: 20,
+            }}
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <Image
+              source={back}
+              style={{
+                height: 20,
+                width: 20,
+              }}
+            />
+          </TouchableOpacity>
+        </View>
+        {/* Pick image  */}
+        <View style={styles.view2}>
+          <TouchableOpacity onPress={PickImage}>
+            <View style={styles.pickLogo}>
+              <ImageBackground
+                style={styles.ImageBackground}
+                source={gallery}
+              />
+
+              {image && (
+                <Image source={{ uri: image }} style={styles.pick}></Image>
+              )}
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={PickImage} style={styles.button1}>
+            <Text style={styles.buttonText}>Choose Your Logo</Text>
+          </TouchableOpacity>
+        </View>
+        {/* Input section  */}
+        <View style={styles.view3}>
+          <View>
+            {/* Full name input */}
+
+            <CustomTextInput
+              blurColor={Colors.primary}
+              value={nameOfRes}
+              onChangeText={(text) => setNameOfRes(text)}
+              placeholder="Name of Restaurant"
+            />
+          </View>
+
+          {/* Address input */}
+          <View>
+            <CustomTextInput
+              blurColor={Colors.primary}
+              value={address}
+              onChangeText={(text) => setAddress(text)}
+              placeholder="Address"
+            />
+          </View>
+          {/* Hotline */}
+          <View>
+            <CustomTextInput
+              blurColor={Colors.primary}
+              value={hotline}
+              onChangeText={(text) => setHotline(text)}
+              placeholder="Hotline"
+              keyboardType="decimal-pad"
+            />
+          </View>
+        </View>
+
+        <View style={styles.view4}>
+          {/* Button */}
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={() => setVisible(true)}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Finish</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Modal  */}
+        <CustomModal visible={visible}>
+          <View style={{ alignItems: 'center' }}>
+            <Image
+              source={require('../assets/icons/save-green.png')}
+              style={{ height: 150, width: 150, marginVertical: 30 }}
+            />
+          </View>
+
+          <Text
+            style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}
+          >
+            Update profile successfully{' '}
+          </Text>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+              setVisible(false);
+            }}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>OK</Text>
+          </TouchableOpacity>
+        </CustomModal>
+      </View>
+    </ScrollView>
+  );
+};
+
+export default EditResProfile;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    width: windowWidth,
+    height: windowHeight,
+    alignItems: 'center',
+  },
+  buttonContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    backgroundColor: Colors.secondary,
+    width: '100%',
+    padding: 15,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 1,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 16,
+  },
+  view1: {
+    flex: 3,
+    margin: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  view2: {
+    flex: 3,
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
+  view3: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    flex: 3,
+  },
+  view4: {
+    flex: 2,
+    justifyContent: 'flex-end',
+    marginBottom: '8%',
+    width: '80%',
+  },
+  button1: {
+    backgroundColor: Colors.secondary,
+    width: '80%',
+    padding: 10,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 1,
+  },
+  textPleaseRegister: {
+    position: 'relative',
+    top: 10,
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+
+  logo: {
+    height: 160,
+    width: 170,
+    position: 'relative',
+    top: 5,
+  },
+
+  textView: {
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    borderBottomLeftRadius: 50,
+    borderBottomRightRadius: 50,
+  },
+
+  loginBox: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+    top: 30,
+    left: 10,
+  },
+
+  ownerText: {
+    color: 'black',
+    fontSize: 16,
+    fontWeight: 'normal',
+  },
+
+  signupBox: {
+    flex: 0.5,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    position: 'relative',
+    right: 15,
+  },
+
+  signupText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+
+  registerText: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    marginTop: 20,
+    justifyContent: 'center',
+  },
+
+  fullNameBox: {
+    width: 300,
+    height: 55,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    borderRadius: 13,
+  },
+
+  fullNameText: {
+    fontSize: 15,
+    marginLeft: 30,
+  },
+
+  passwordBox: {
+    width: 300,
+    height: 55,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 13,
+    marginTop: 25,
+  },
+
+  gallery: {
+    height: 65,
+    width: 65,
+    alignSelf: 'center',
+  },
+
+  textSignupButton: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'white',
+  },
+
+  pickLogo: {
+    width: 140,
+    height: 140,
+    backgroundColor: 'white',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: 'black',
+    borderWidth: 3,
+    borderRadius: 10,
+    borderStyle: 'dashed',
+  },
+  pick: {
+    width: 140,
+    height: 140,
+    borderColor: 'black',
+  },
+
+  ImageBackground: {
+    height: 50,
+    width: 50,
+    position: 'absolute',
+    alignSelf: 'center',
+  },
+});

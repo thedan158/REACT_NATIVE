@@ -13,6 +13,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/core";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { render } from "react-dom";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 // --------------- item data ----------------
 const DATA = [
@@ -60,22 +62,50 @@ const DesertMenuScreen = () => {
   const navigation = useNavigation();
   const btnCloseResource = require("../assets/icons/close.png");
   const btnFillterResource = require("../assets/icons/fillter.png");
-  
-  const [search, setSearch] = useState('');
+
+  const [search, setSearch] = useState("");
   const [masterData, setMasterData] = useState([]);
-  const [dataFromState, setNewData] = useState(DATA);
-  
+  const [dataFromState, setNewData] = useState([]);
+
   useEffect(() => {
-    setMasterData(DATA);
-    console.log('filteredData is all selected');
+    const getData = async () => {
+      const userLoginData = await AsyncStorage.getItem("userLoginData");
+      const user = JSON.parse(userLoginData);
+      console.log("username: " + user.username);
+      const res = await axios.post(
+        `https://foody-uit.herokuapp.com/food/getAllFoodWithType`,
+        {
+          username: user.username,
+          foodType: "Dessert",
+        }
+      );
+      const res2 = await axios.post(
+        `https://foody-uit.herokuapp.com/food/getAllFoodWithType`,
+        {
+          username: user.username,
+          foodType: "Drink",
+        }
+      );
+      const { success, message } = res.data;
+      const success2 = res2.data.success;
+      const message2 = res2.data.message;
+      console.log(message);
+      console.log(message2);
+      for (let i = 0; i < message2.length; i++) {
+        console.log(message2[i]);
+        message.push(message2[i]);
+      }
+      setNewData(message);
+      setMasterData(dataFromState);
+      console.log("filteredData is all selected");
+    };
+    getData().catch((err) => console.log(err));
   }, []);
 
   const searchFilterFunction = (text) => {
     if (text) {
       const newData = masterData.filter(function (item) {
-        const itemData = item.name
-          ? item.name.toLowerCase()
-          : ''.toUpperCase();
+        const itemData = item.name ? item.name.toLowerCase() : "".toUpperCase();
         const textData = text.toLowerCase();
         return itemData.indexOf(textData) > -1;
       });
@@ -88,12 +118,11 @@ const DesertMenuScreen = () => {
   };
 
   const FlatlistItem = ({ item }) => {
-
     function BtnDelPress() {
-      setCounter(counter => counter - 1);
+      setCounter((counter) => counter - 1);
     }
     function BtnAddPress() {
-      setCounter(counter => counter + 1);
+      setCounter((counter) => counter + 1);
     }
 
     const [counter, setCounter] = useState(0);
@@ -101,21 +130,14 @@ const DesertMenuScreen = () => {
       <View style={styles.flatlistItemView}>
         <View>
           {/* Image item section */}
-          <Image
-            style={styles.containerImageItem}
-            source={item.imgSource}
-          />
+          <Image style={styles.containerImageItem} source={item.imgSource} />
         </View>
 
         {/* Item detail section */}
         <View>
           <Text style={styles.txtNameItemFlatlist}>{item.name}</Text>
-          <Text style={styles.txtDetailItemFlatlist}>
-            {item.detail}
-          </Text>
-          <Text style={styles.txtPriceItemFlatlist}>
-            ${item.price}
-          </Text>
+          <Text style={styles.txtDetailItemFlatlist}>{item.detail}</Text>
+          <Text style={styles.txtPriceItemFlatlist}>${item.price}</Text>
         </View>
 
         {/* Btn adjust section */}
@@ -162,11 +184,12 @@ const DesertMenuScreen = () => {
       <ScrollView style={styles.scrollviewStyle}>
         {/* ---------------Search section layout--------------- */}
         <View style={styles.containerSearchView}>
-          <TextInput 
-          style={styles.txtInpSearch}
-          value={search}
-          onChangeText={(text) => searchFilterFunction(text)}
-          placeholder="Search..." />
+          <TextInput
+            style={styles.txtInpSearch}
+            value={search}
+            onChangeText={(text) => searchFilterFunction(text)}
+            placeholder="Search..."
+          />
           <TouchableOpacity style={styles.imaBtnFillter}>
             <Image source={btnFillterResource} />
           </TouchableOpacity>
@@ -269,7 +292,7 @@ const styles = StyleSheet.create({
   },
   txtQuantityItem: {
     fontSize: 16,
-    marginHorizontal: '2%',
+    marginHorizontal: "2%",
   },
   txtTitle: {
     marginLeft: 30,
