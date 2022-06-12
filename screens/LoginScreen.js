@@ -46,8 +46,12 @@ const LoginScreen = () => {
       username: username,
       password: password,
     });
-
     const { success } = res.data;
+    console.log(success)
+    if (!success) {
+      Alert.alert("Wrong username or password");
+      return;
+    }
     const role = res.data.role;
     console.log(role);
     console.log("Correct account " + success);
