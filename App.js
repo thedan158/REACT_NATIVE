@@ -39,7 +39,7 @@ import NewPassword from './screens/NewPassword';
 import RestaurantInformation from './screens/RestaurantInformation';
 import ChangeStaffPassword from './screens/ChangeStaffPassword';
 import ChangeOwnerPassword from './screens/ChangeOwnerPassword';
-import AddingMenuItemScreen from "./screens/AddingMenuItemScreen";
+import AddingMenuItemScreen from './screens/AddingMenuItemScreen';
 import OrderScreen from './screens/OrderScreen';
 import StarterMenuScreen from './screens/StarterMenuScreen';
 import MainCourseMenuScreen from './screens/MainCourseMenuScreen';
@@ -145,7 +145,6 @@ export default function App() {
           gestureDirection: 'horizontal',
         }}
       >
-
         <Stack.Screen
           options={{ headerShown: false }}
           name="SplashScreen"
@@ -170,12 +169,6 @@ export default function App() {
           name="EditRestaurantProfile"
           component={EditResProfile}
         />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="ListFood"
-          component={ListFood}
-        />
-
 
         <Stack.Screen
           options={{ headerShown: false }}
@@ -266,12 +259,7 @@ export default function App() {
           name="RestaurantKitchen"
           component={RestaurantKitchen}
         />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="TabForStaff"
-          component={TabForStaff}
-        />
-        
+
         <Stack.Screen
           options={{ headerShown: false }}
           name="ListFood"
@@ -282,7 +270,7 @@ export default function App() {
           name="EditMenuScreen"
           component={EditMenuScreen}
         />
-        
+
         <Stack.Screen
           options={{ headerShown: false }}
           name="HomeScreen2ndFinal"
@@ -294,13 +282,13 @@ export default function App() {
           name="MenuScreen"
           component={MenuScreen}
         />
-        
+
         <Stack.Screen
           options={{ headerShown: false }}
           name="AddingMenuItemScreen"
           component={AddingMenuItemScreen}
         />
-        
+
         <Stack.Screen
           options={{ headerShown: false }}
           name="Button2Screen"
@@ -318,13 +306,13 @@ export default function App() {
           name="Button4Screen"
           component={Button4Screen}
         />
-        
-         <Stack.Screen
+
+        <Stack.Screen
           options={{ headerShown: false }}
           name="Order"
           component={OrderScreen}
         />
-            
+
         <Stack.Screen
           options={{ headerShown: false }}
           name="AppLoader"
@@ -469,7 +457,6 @@ export default function App() {
           name="RestaurantInformation"
           component={RestaurantInformation}
         />
-
 
         <Stack.Screen
           options={{ headerShown: false }}
