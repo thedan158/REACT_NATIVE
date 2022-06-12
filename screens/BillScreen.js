@@ -80,13 +80,13 @@ const FlatlistItemFunctions = ({ item }) => {
   if (item.isBusy === true) {
     return (
       <View>
-        <TouchableOpacity disabled={true} style={styles.flatlistitemStyle}>
+        <TouchableOpacity style={styles.flatlistitemStyleInUse}>
           <View>
             <Image
-              source={require("../assets/icons/TableGray.png")}
+              source={require("../assets/icons/TableOrange.png")}
               style={styles.imgItemFlatlist}
             />
-            <Text style={styles.txtItemFlatlist}>{item.restaurantID}</Text>
+            <Text style={styles.txtItemFlatlistInUse}>{item.id}</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -95,13 +95,13 @@ const FlatlistItemFunctions = ({ item }) => {
 
   return (
     <View>
-      <TouchableOpacity style={styles.flatlistitemStyleInUse}>
+      <TouchableOpacity disabled={true} style={styles.flatlistitemStyle}>
         <View>
           <Image
-            source={require("../assets/icons/TableOrange.png")}
+            source={require("../assets/icons/TableGray.png")}
             style={styles.imgItemFlatlist}
           />
-          <Text style={styles.txtItemFlatlistInUse}>{item.id}</Text>
+          <Text style={styles.txtItemFlatlist}>{item.id}</Text>
         </View>
       </TouchableOpacity>
     </View>
@@ -137,7 +137,7 @@ const BillScreen = () => {
   const searchFilterFunction = (text) => {
     if (text) {
       const newData = masterData.filter(function (item) {
-        const itemData = item.name ? item.name.toLowerCase() : "".toUpperCase();
+        const itemData = item.id ? item.id.toLowerCase() : "".toUpperCase();
         const textData = text.toLowerCase();
         return itemData.indexOf(textData) > -1;
       });
