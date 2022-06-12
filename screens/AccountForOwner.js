@@ -207,7 +207,7 @@ const AccountForOwner = () => {
   );
 };
 
-export default AccountForStaff;
+export default AccountForOwner;
 
 const styles = StyleSheet.create({
   container: {
