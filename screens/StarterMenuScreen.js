@@ -118,7 +118,7 @@ const StarterMenuScreen = () => {
       <View style={styles.flatlistItemView}>
         <View>
           {/* Image item section */}
-          <Image style={styles.containerImageItem} source={item.imgSource} />
+          <Image style={styles.containerImageItem} source={{uri: item.imagePath}} />
         </View>
 
         {/* Item detail section */}

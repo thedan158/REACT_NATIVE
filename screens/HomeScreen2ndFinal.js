@@ -129,7 +129,7 @@ const HomeScreen2ndFinal = ({ navigation }) => {
         {/* Button 2 */}
         <TouchableOpacity
           style={styles.btnSaleOffOpen}
-          onPress={() => navigation.navigate('Button2Screen')}
+          onPress={() => navigation.navigate('StarterMenuHome')}
         >
           <LinearGradient
             style={styles.btnSaleOffOpen}

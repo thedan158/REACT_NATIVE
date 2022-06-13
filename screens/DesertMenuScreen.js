@@ -8,6 +8,7 @@ import {
   Text,
   View,
   ImageBackground,
+  Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/core";
@@ -15,45 +16,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { render } from "react-dom";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-
-// --------------- item data ----------------
-const DATA = [
-  {
-    id: "1",
-    name: "The Macdonalds",
-    detail: "classic chesse buger",
-    price: "4.99",
-    imgSource: require("../assets/images/crispy-chicken-burger.jpg"),
-  },
-  {
-    id: "2",
-    name: "The Macdonalds",
-    detail: "classic chesse buger",
-    price: "5.99",
-    imgSource: require("../assets/images/crispy-chicken-burger.jpg"),
-  },
-  {
-    id: "3",
-    name: "The Macdonalds",
-    detail: "classic chesse buger",
-    price: "6.99",
-    imgSource: require("../assets/images/crispy-chicken-burger.jpg"),
-  },
-  {
-    id: "4",
-    name: "Sushi",
-    detail: "classic chesse buger",
-    price: "7.99",
-    imgSource: require("../assets/images/crispy-chicken-burger.jpg"),
-  },
-  {
-    id: "5",
-    name: "Cơm rang",
-    detail: "Ngon vl chứ còn cc j nữa",
-    price: "8.99",
-    imgSource: require("../assets/images/1512474034-837-bua-sang-chac-da-voi-com-chien-ca-hoi-mem-toi-bo-duong-_mg_8357-1512473926-width660height440.jpg"),
-  },
-];
 
 const imgBtnOrange = require("../assets/icons/ButtonOrange.png");
 // ------------------Flatlist item Render layout----------------------
@@ -76,27 +38,17 @@ const DesertMenuScreen = () => {
         `https://foody-uit.herokuapp.com/food/getAllFoodWithType`,
         {
           username: user.username,
-          foodType: "Dessert",
-        }
-      );
-      const res2 = await axios.post(
-        `https://foody-uit.herokuapp.com/food/getAllFoodWithType`,
-        {
-          username: user.username,
-          foodType: "Drink",
+          foodType: "Dessert and Drink",
         }
       );
       const { success, message } = res.data;
-      const success2 = res2.data.success;
-      const message2 = res2.data.message;
-      console.log(message);
-      console.log(message2);
-      for (let i = 0; i < message2.length; i++) {
-        console.log(message2[i]);
-        message.push(message2[i]);
+      if (!success) {
+        Alert.alert("Error", message);
+        return;
       }
+      console.log(message);
       setNewData(message);
-      setMasterData(dataFromState);
+      setMasterData(message);
       console.log("filteredData is all selected");
     };
     getData().catch((err) => console.log(err));
@@ -130,7 +82,7 @@ const DesertMenuScreen = () => {
       <View style={styles.flatlistItemView}>
         <View>
           {/* Image item section */}
-          <Image style={styles.containerImageItem} source={item.imgSource} />
+          <Image style={styles.containerImageItem} source={{uri: item.imagePath}} />
         </View>
 
         {/* Item detail section */}
@@ -169,7 +121,7 @@ const DesertMenuScreen = () => {
     <SafeAreaView style={styles.droidSafeArea}>
       {/* --------------------------Header title section (1st section)----------------------------- */}
       <View style={styles.container_header}>
-        <Text style={styles.txtTitle}>Desert</Text>
+        <Text style={styles.txtTitle}>Desert and Drink</Text>
         <TouchableOpacity
           onPress={() => {
             navigation.goBack();

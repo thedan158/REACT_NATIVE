@@ -42,18 +42,24 @@ const LoginScreen = () => {
     };
     console.log(data);
     // Passing configuration object to axios
-    const res = await axios.post(`https://foody-uit.herokuapp.com/auth/login`, {
-      username: username,
-      password: password,
-    });
+    const res = await axios
+      .post(`https://foody-uit.herokuapp.com/auth/login`, {
+        username: username,
+        password: password,
+      })
+      .catch((err) => {
+        console.log(err);
+        Alert.alert("Login failed", "Please check your username and password");
+      });
     const { success } = res.data;
-    console.log(success)
+    console.log(success);
     if (!success) {
       Alert.alert("Wrong username or password");
       return;
     }
     const role = res.data.role;
     console.log(role);
+    await AsyncStorage.setItem("userLoginRole", role);
     console.log("Correct account " + success);
     await AsyncStorage.setItem("userLoginData", JSON.stringify(data));
     if (success) {
