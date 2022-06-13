@@ -13,7 +13,7 @@ import React, { useState, useEffect } from 'react';
 import VKH from '../assets/images/VKH.jpg';
 import CardInformation from '../custom component/CardInformation';
 import ButtonUser from '../custom component/ButtonUser';
-import { NavigationContainer } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/core';
 import power from '../assets/icons/power.png';
 import setting from '../assets/icons/setting.png';
@@ -23,6 +23,7 @@ import personal from '../assets/icons/personal.png';
 import vector from '../assets/icons/Vector.png';
 import password from '../assets/icons/password.png';
 import light_off from '../assets/icons/light-off.png';
+import light_on from '../assets/icons/light-on.png';
 import dark_off from '../assets/icons/dark-off.png';
 import dark_on from '../assets/icons/dark-on.png';
 import background from '../assets/images/background.png';
@@ -47,7 +48,7 @@ const AccountForStaff = () => {
   const [url, setUrl] = useState('');
   const [isEnabled, setIsEnabled] = useState(false);
 
-  useEffect(async () => {
+  useFocusEffect(() => {
     const getData = async () => {
       const user = await AsyncStorage.getItem('userLoginData');
       const userInfo = JSON.parse(user);

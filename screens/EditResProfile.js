@@ -9,31 +9,135 @@ import {
   Button,
   Alert,
   ScrollView,
-} from 'react-native';
-import React, { useState, useEffect } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/core';
-import logo from '../assets/images/logo_app.png';
-import CustomTextInput from '../custom component/CustomTextInput';
-import gallery from '../assets/icons/picture.png';
-import * as ImagePicker from 'expo-image-picker';
-import { Constants } from 'expo-constants';
-import Colors from '../assets/Colors';
-import background from '../assets/images/background.png';
-import back from '../assets/icons/back-green.png';
-import CustomModal from '../custom component/CustomModal';
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+  Platform,
+} from "react-native";
+import React, { useState, useEffect } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/core";
+import logo from "../assets/images/logo_app.png";
+import CustomTextInput from "../custom component/CustomTextInput";
+import gallery from "../assets/icons/picture.png";
+import * as ImagePicker from "expo-image-picker";
+import { Constants } from "expo-constants";
+import Colors from "../assets/Colors";
+import background from "../assets/images/background.png";
+import back from "../assets/icons/back-green.png";
+import CustomModal from "../custom component/CustomModal";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { firebaseConfig } from "../firebase";
+import * as firebase from "firebase";
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 const EditResProfile = () => {
-  const [nameOfRes, setNameOfRes] = useState('');
-  const [address, setAddress] = useState('');
-  const [hotline, setHotline] = useState('');
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+  const [nameOfRes, setNameOfRes] = useState("");
+  const [address, setAddress] = useState("");
+  const [hotline, setHotline] = useState("");
   const navigation = useNavigation();
-  const [image, setImage] = useState('null');
+  const [image, setImage] = useState("null");
   const [visible, setVisible] = React.useState(false);
+  const [url, setUrl] = React.useState("");
 
+  useEffect(async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      alert("Permission denied!");
+    }
+
+    const getData = async () => {
+      const user = await AsyncStorage.getItem("userLoginData");
+      const userInfo = JSON.parse(user);
+      console.log(userInfo.username);
+      const response = await axios.get(
+        `https://foody-uit.herokuapp.com/restaurant/getRestaurant/${userInfo.username}`
+      );
+      const { success } = response.data;
+      const { data } = response.data;
+      console.log(data);
+      console.log(success);
+      if (!success) {
+        Alert.alert("Account not found");
+        return;
+      }
+      setAddress(data.address ? data.address : "");
+      setHotline(data.hotline ? data.hotline : "");
+      setNameOfRes(data.name ? data.name : "");
+      setImage(
+        data.imagePath
+          ? data.imagePath
+          : "https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fgood.png?alt=media&token=de139437-3a20-4eb3-ba56-f6a591779d15"
+      );
+    };
+    getData().catch((err) => console.log(err));
+  }, []);
+  const handleRestaurantUpdate = async () => {
+    //*Get user data from asyncstorage
+    const user = await AsyncStorage.getItem("userLoginData");
+    const userInfo = JSON.parse(user);
+    console.log(userInfo.username);
+
+    //*Create blob from image
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function (e) {
+        console.log(e);
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", image, true);
+      xhr.send(null);
+    });
+    const ref = firebase
+      .storage()
+      .ref()
+      .child(`images/restaurants/${nameOfRes}.jpg`);
+    const snapshot = ref.put(blob);
+    await snapshot.on(
+      firebase.storage.TaskEvent.STATE_CHANGED,
+      () => {
+        console.log("uploading");
+      },
+      (error) => {
+        console.log(error);
+        blob.close();
+        return;
+      },
+      async () => {
+        await ref.getDownloadURL().then(async (url) => {
+          console.log("download url: " + url);
+          setUrl(url);
+          blob.close();
+          console.log(userInfo);
+          console.log("platform: " + Platform.OS);
+          console.log("blob:" + blob);
+          console.log("url:" + url);
+          const res = await axios.post(
+            `https://foody-uit.herokuapp.com/restaurant/updateRestaurant/${userInfo.username}`,
+            {
+              name: nameOfRes,
+              address: address,
+              hotline: hotline,
+              imagePath: url,
+            }
+          );
+          const { success } = res.data;
+          console.log(success);
+          if (!success) {
+            Alert.alert("Update failed");
+            return;
+          }
+          setVisible(true);
+        });
+      }
+    );
+  };
   const PickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -56,19 +160,19 @@ const EditResProfile = () => {
       <View style={styles.container}>
         <View
           style={{
-            flexDirection: 'row',
+            flexDirection: "row",
             marginTop: 20,
             width: windowWidth,
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            alignItems: "center",
+            justifyContent: "space-between",
             flex: 0.5,
           }}
         >
           <TouchableOpacity
             style={{
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              flexDirection: 'row',
+              justifyContent: "flex-start",
+              alignItems: "center",
+              flexDirection: "row",
               marginLeft: 20,
             }}
             onPress={() => {
@@ -99,7 +203,7 @@ const EditResProfile = () => {
             </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={PickImage} style={styles.button1}>
-            <Text style={styles.buttonText}>Choose Your Logo</Text>
+            <Text style={styles.buttonText}>Change Your Logo</Text>
           </TouchableOpacity>
         </View>
         {/* Input section  */}
@@ -140,7 +244,7 @@ const EditResProfile = () => {
           {/* Button */}
           <View style={styles.buttonContainer}>
             <TouchableOpacity
-              onPress={() => setVisible(true)}
+              onPress={handleRestaurantUpdate}
               style={styles.button}
             >
               <Text style={styles.buttonText}>Finish</Text>
@@ -150,17 +254,17 @@ const EditResProfile = () => {
 
         {/* Modal  */}
         <CustomModal visible={visible}>
-          <View style={{ alignItems: 'center' }}>
+          <View style={{ alignItems: "center" }}>
             <Image
-              source={require('../assets/icons/save-green.png')}
+              source={require("../assets/icons/save-green.png")}
               style={{ height: 150, width: 150, marginVertical: 30 }}
             />
           </View>
 
           <Text
-            style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}
+            style={{ marginVertical: 30, fontSize: 20, textAlign: "center" }}
           >
-            Update profile successfully{' '}
+            Update profile successfully{" "}
           </Text>
           <TouchableOpacity
             onPress={() => {
@@ -182,123 +286,123 @@ export default EditResProfile;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     width: windowWidth,
     height: windowHeight,
-    alignItems: 'center',
+    alignItems: "center",
   },
   buttonContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   button: {
     backgroundColor: Colors.secondary,
-    width: '100%',
+    width: "100%",
     padding: 15,
     borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     elevation: 1,
   },
   buttonText: {
-    color: 'white',
-    fontWeight: '700',
+    color: "white",
+    fontWeight: "700",
     fontSize: 16,
   },
   view1: {
     flex: 3,
     margin: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   view2: {
     flex: 3,
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
+    justifyContent: "space-evenly",
+    alignItems: "center",
   },
   view3: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "flex-start",
     flex: 3,
   },
   view4: {
     flex: 2,
-    justifyContent: 'flex-end',
-    marginBottom: '8%',
-    width: '80%',
+    justifyContent: "flex-end",
+    marginBottom: "8%",
+    width: "80%",
   },
   button1: {
     backgroundColor: Colors.secondary,
-    width: '80%',
+    width: "80%",
     padding: 10,
     borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     elevation: 1,
   },
   textPleaseRegister: {
-    position: 'relative',
+    position: "relative",
     top: 10,
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 
   logo: {
     height: 160,
     width: 170,
-    position: 'relative',
+    position: "relative",
     top: 5,
   },
 
   textView: {
-    flexDirection: 'row',
-    backgroundColor: 'white',
+    flexDirection: "row",
+    backgroundColor: "white",
     borderBottomLeftRadius: 50,
     borderBottomRightRadius: 50,
   },
 
   loginBox: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
     top: 30,
     left: 10,
   },
 
   ownerText: {
-    color: 'black',
+    color: "black",
     fontSize: 16,
-    fontWeight: 'normal',
+    fontWeight: "normal",
   },
 
   signupBox: {
     flex: 0.5,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    position: 'relative',
+    alignItems: "center",
+    justifyContent: "flex-start",
+    position: "relative",
     right: 15,
   },
 
   signupText: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 
   registerText: {
-    flexWrap: 'wrap',
-    flexDirection: 'row',
+    flexWrap: "wrap",
+    flexDirection: "row",
     marginTop: 20,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
 
   fullNameBox: {
     width: 300,
     height: 55,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "flex-start",
     borderRadius: 13,
   },
 
@@ -310,9 +414,9 @@ const styles = StyleSheet.create({
   passwordBox: {
     width: 300,
     height: 55,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 13,
     marginTop: 25,
   },
@@ -320,39 +424,39 @@ const styles = StyleSheet.create({
   gallery: {
     height: 65,
     width: 65,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
 
   textSignupButton: {
     fontSize: 16,
     lineHeight: 21,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     letterSpacing: 0.25,
-    color: 'white',
+    color: "white",
   },
 
   pickLogo: {
     width: 140,
     height: 140,
-    backgroundColor: 'white',
-    alignSelf: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: 'black',
+    backgroundColor: "white",
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "black",
     borderWidth: 3,
     borderRadius: 10,
-    borderStyle: 'dashed',
+    borderStyle: "dashed",
   },
   pick: {
     width: 140,
     height: 140,
-    borderColor: 'black',
+    borderColor: "black",
   },
 
   ImageBackground: {
     height: 50,
     width: 50,
-    position: 'absolute',
-    alignSelf: 'center',
+    position: "absolute",
+    alignSelf: "center",
   },
 });

@@ -158,8 +158,9 @@ const EditProfile = () => {
 
   // *Region for OnPress Signup
   const handleSignup = () => {
-    navigation.navigate("AccountForOwner");
+    navigation.navigate("TabForStaff", { screen: "AccountForStaff" });
   };
+
   return (
     <StaffScreen>
       <ScrollView>
@@ -209,7 +210,7 @@ const EditProfile = () => {
               blurColor={Colors.primary}
               value={phoneNumber}
               onChangeText={(text) => setPhoneNumber(text)}
-              placeholder="Hotline"
+              placeholder="Phone Number"
               keyboardType="decimal-pad"
             />
 
