@@ -19,26 +19,20 @@ import Colors from "../assets/Colors";
 import * as ImagePicker from "expo-image-picker";
 import background from "../assets/images/background.png";
 import CustomModal from "../custom component/CustomModal";
-import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import SelectDropdown from "react-native-select-dropdown";
-import { firebaseConfig } from "../firebase";
-import * as firebase from "firebase";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
-const AddingMenuItemScreen = () => {
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-  }
-  const [priceDish, setPriceDish] = useState("");
-  const [nameDish, setNameDish] = useState("");
-  const [foodType, setFoodType] = useState("");
-  const [discount, setDiscount] = useState("");
-  const [image, setImage] = useState("null");
+
+const AddingTable = () => {
+  const [nameTable, setNameTable] = useState("");
+  const [numberPeople, setNumberPeople] = useState("");
+  const [position, setPosition] = useState("");
   const [visible, setVisible] = useState(false);
-  const [url, setUrl] = useState("");
-  const foodTypeContainer = ["Starter", "Dessert and Drink", "Main course"];
+  const [image, setImage] = useState("null");
+  const navigation = useNavigation();
+  const handleSave = () => {
+    setVisible(true);
+  };
   useEffect(async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -47,75 +41,6 @@ const AddingMenuItemScreen = () => {
     }
   }, []);
 
-  const handleSave = async () => {
-    //*Get user data from AsyncStorage
-    const user = await AsyncStorage.getItem("userLoginData");
-    const userData = JSON.parse(user);
-    console.log(userData.username);
-
-    //*Create blob from image
-    const blob = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
-        resolve(xhr.response);
-      };
-      xhr.onerror = function (e) {
-        console.log(e);
-        reject(new TypeError("Network request failed"));
-      };
-      xhr.responseType = "blob";
-      xhr.open("GET", image, true);
-      xhr.send(null);
-    });
-
-    //*Upload blob to firebase
-    const ref = firebase
-      .storage()
-      .ref()
-      .child(
-        `images/${userData.username}_restaurantImage/food/${nameDish}.jpg`
-      );
-    const snapshot = ref.put(blob);
-    await snapshot.on(
-      firebase.storage.TaskEvent.STATE_CHANGED,
-      () => {
-        console.log("uploading");
-      },
-      (error) => {
-        console.log(error);
-        blob.close();
-        return;
-      },
-      async () => {
-        await ref.getDownloadURL().then(async (url) => {
-          console.log("download url: " + url);
-          setUrl(url);
-          blob.close();
-          console.log(userData);
-          console.log("platform: " + Platform.OS);
-          console.log("blob:" + blob);
-          console.log("url:" + url);
-          const res = await axios.post(
-            `https://foody-uit.herokuapp.com/food/addFood/${userData.username}`,
-            {
-              name: nameDish,
-              price: priceDish,
-              foodType: foodType,
-              discount: discount,
-              imagePath: url,
-            }
-          );
-          const { success } = res.data;
-          console.log(success);
-          if (!success) {
-            Alert.alert("Add new food failed");
-            return;
-          }
-          setVisible(true);
-        });
-      }
-    );
-  };
   const PickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -128,7 +53,6 @@ const AddingMenuItemScreen = () => {
       setImage(result.uri);
     }
   };
-  const navigation = useNavigation();
   return (
     <ImageBackground
       source={background}
@@ -191,54 +115,29 @@ const AddingMenuItemScreen = () => {
 
           {/* Input section  */}
           <View style={styles.view3}>
-            {/* Features input */}
-
-            <SelectDropdown
-              buttonStyle={styles.selectFoodType}
-              defaultButtonText="Select Food Type"
-              dropdownStyle={styles.dropdownStyle}
-              data={foodTypeContainer}
-              onSelect={(selectedItem, index) => {
-                console.log(selectedItem, index);
-                setFoodType(selectedItem);
-              }}
-              buttonTextAfterSelection={(selectedItem, index) => {
-                // text represented after item is selected
-                // if data array is an array of objects then return selectedItem.property to render after item is selected
-                return selectedItem;
-              }}
-              rowTextForSelection={(item, index) => {
-                // text represented for each item in dropdown
-                // if data array is an array of objects then return item.property to represent item in dropdown
-                return item;
-              }}
-            />
-            {/* Name dish input */}
-
+            {/* Name Table input */}
             <CustomTextInput
               blurColor={Colors.secondary}
-              value={nameDish}
-              onChangeText={(text) => setNameDish(text)}
-              placeholder="Name Dish"
+              value={nameTable}
+              onChangeText={(text) => setNameTable(text)}
+              placeholder="Name Table"
             />
 
-            {/* Price Dish */}
-
-
+            {/* Number of people in use */}
             <CustomTextInput
               blurColor={Colors.secondary}
-              value={priceDish}
-              onChangeText={(text) => setPriceDish(text)}
-              placeholder="Price Dish"
+              value={numberPeople}
+              onChangeText={(text) => setNumberPeople(text)}
+              placeholder="Number of chair"
               keyboardType="decimal-pad"
             />
 
-            {/* Discount  */}
+            {/* Position table  */}
             <CustomTextInput
               blurColor={Colors.secondary}
-              value={discount}
-              onChangeText={(text) => setDiscount(text)}
-              placeholder="Discount"
+              value={position}
+              onChangeText={(text) => setPosition(text)}
+              placeholder="Position table"
               keyboardType="decimal-pad"
             />
           </View>
@@ -262,11 +161,12 @@ const AddingMenuItemScreen = () => {
             <Text
               style={{ marginVertical: 30, fontSize: 20, textAlign: "center" }}
             >
-              Adding to menu successfully.
+              Adding table successfully.
             </Text>
             <TouchableOpacity
               onPress={() => {
                 setVisible(false);
+                
               }}
               style={styles.button}
             >
@@ -279,7 +179,7 @@ const AddingMenuItemScreen = () => {
   );
 };
 
-export default AddingMenuItemScreen;
+export default AddingTable;
 
 const styles = StyleSheet.create({
   container: {
@@ -299,6 +199,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flex: 5,
+  },
+  ImageBackground: {
+    height: 50,
+    width: 50,
+    borderRadius: 15,
+    position: "absolute",
+    alignSelf: "center",
   },
   view4: {
     flex: 1,
@@ -321,13 +228,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderStyle: "dashed",
   },
-  ImageBackground: {
-    height: 50,
-    width: 50,
-    borderRadius: 15,
-    position: "absolute",
-    alignSelf: "center",
-  },
   pick: {
     width: 140,
     height: 140,
@@ -335,18 +235,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     borderColor: "black",
   },
-  button: {
-    backgroundColor: Colors.secondary,
-    width: "100%",
-    padding: 15,
-    borderRadius: 20,
-    elevation: 1,
-    alignSelf: "center",
-    justifyContent: "center",
-    alignItems: "center",
-  },
   button1: {
-    backgroundColor: Colors.secondary,
+    backgroundColor: Colors.primary,
     width: "60%",
     padding: 10,
     borderRadius: 5,
@@ -359,31 +249,14 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 16,
   },
-  selectFoodType: {
-    paddingHorizontal: 15,
-    marginTop: 15,
-    marginBottom: 17,
-    borderColor: "white",
-    shadowColor: "#000000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 15,
-    width: 300,
-    height: 50,
-    backgroundColor: "#FFFCFB",
+  button: {
+    backgroundColor: Colors.primary,
+    width: "100%",
+    padding: 15,
+    borderRadius: 20,
+    elevation: 1,
+    alignSelf: "center",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 13,
-    borderWidth: 1,
-  },
-  dropdownStyle: {
-    backgroundColor: "#FFFCFB",
-    width: 300,
-    borderBottomLeftRadius: 13,
-    borderBottomRightRadius: 13,
   },
 });

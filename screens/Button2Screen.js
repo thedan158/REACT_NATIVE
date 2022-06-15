@@ -11,7 +11,7 @@ import {
   FlatList,
   Alert,
 } from "react-native";
-
+ 
 import React, { useState, useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import Colors from "../assets/Colors";
@@ -97,6 +97,7 @@ const Button2Screen = ({ navigation }) => {
         </TouchableOpacity>
 
         <Text style={styles.txtHeaderViewTab}>{HeaderText}</Text>
+        
         <TouchableOpacity
           style={styles.btnUserStyle}
           onPress={() => {

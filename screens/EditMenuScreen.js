@@ -3,36 +3,39 @@ import {
   Text,
   View,
   Dimensions,
-  ImageBackground,  
+  ImageBackground,
   Image,
   ScrollView,
   TouchableOpacity,
-} from "react-native";
-import React, { useState, useEffect } from "react";
-import background from "../assets/images/background.png";
-import * as ImagePicker from "expo-image-picker";
-import Colors from "../assets/Colors";
-import back from "../assets/icons/back-green.png";
-import CustomTextInput from "../custom component/CustomTextInput";
-import { useNavigation } from "@react-navigation/core";
-import del from "../assets/icons/delete.png";
+} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import background from '../assets/images/background.png';
+import * as ImagePicker from 'expo-image-picker';
+import Colors from '../assets/Colors';
+import back from '../assets/icons/back-green.png';
+import CustomTextInput from '../custom component/CustomTextInput';
+import { useNavigation } from '@react-navigation/core';
+import del from '../assets/icons/delete.png';
+import CustomModal from '../custom component/CustomModal';
+import gallery from '../assets/icons/picture.png';
 
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const EditMenuScreen = ({ route }) => {
   const { item } = route.params;
   const [priceDish, setPriceDish] = useState(item.price);
   const [nameDish, setNameDish] = useState(item.nameDish);
   const [specialFeatures, setSpecialFeatures] = useState(item.votes);
   const [discount, setDiscount] = useState(item.price);
-  const [image, setImage] = useState("null");
+  const [image, setImage] = useState(item.imagePath);
   const [visible, setVisible] = useState(false);
+  const [visibleDeleted, setVisibleDeleted] = useState(false);
   const navigation = useNavigation();
   useEffect(async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-    if (status !== "granted") {
-      alert("Permission denied!");
+    if (status !== 'granted') {
+      alert('Permission denied!');
     }
   }, []);
 
@@ -61,19 +64,19 @@ const EditMenuScreen = ({ route }) => {
         <View style={styles.container}>
           <View
             style={{
-              flexDirection: "row",
+              flexDirection: 'row',
               marginTop: 20,
               width: windowWidth,
-              alignItems: "center",
-              justifyContent: "space-between",
+              alignItems: 'center',
+              justifyContent: 'space-between',
               flex: 0.5,
             }}
           >
             <TouchableOpacity
               style={{
-                justifyContent: "flex-start",
-                alignItems: "center",
-                flexDirection: "row",
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                flexDirection: 'row',
                 marginLeft: 20,
               }}
               onPress={() => {
@@ -97,7 +100,7 @@ const EditMenuScreen = ({ route }) => {
                 <ImageBackground
                   style={styles.ImageBackground}
                   imageStyle={{ borderRadius: 15 }}
-                  source={item.imgSource}
+                  source={gallery}
                 />
                 {image && (
                   <Image source={{ uri: image }} style={styles.pick}></Image>
@@ -152,7 +155,7 @@ const EditMenuScreen = ({ route }) => {
             {/* Button Delete */}
             <TouchableOpacity
               onPress={() => {
-                setVisible(true);
+                setVisibleDeleted(true);
               }}
               style={styles.buttonDelete}
             >
@@ -162,6 +165,7 @@ const EditMenuScreen = ({ route }) => {
               />
               <Text style={styles.buttonTextDelete}>Delete</Text>
             </TouchableOpacity>
+
             {/* Button Save */}
             <TouchableOpacity
               onPress={() => setVisible(true)}
@@ -170,6 +174,54 @@ const EditMenuScreen = ({ route }) => {
               <Text style={styles.buttonText}>SAVE</Text>
             </TouchableOpacity>
           </View>
+
+          {/* Modal delete */}
+          <CustomModal visible={visibleDeleted}>
+            <View style={{ alignItems: 'center' }}>
+              <Image
+                source={require('../assets/icons/save-green.png')}
+                style={{ height: 150, width: 150, marginVertical: 30 }}
+              />
+            </View>
+
+            <Text
+              style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}
+            >
+              Deleted table successfully.
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setVisibleDeleted(false);
+              }}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>OK</Text>
+            </TouchableOpacity>
+          </CustomModal>
+
+          {/* Modal adding  */}
+          <CustomModal visible={visible}>
+            <View style={{ alignItems: 'center' }}>
+              <Image
+                source={require('../assets/icons/save-green.png')}
+                style={{ height: 150, width: 150, marginVertical: 30 }}
+              />
+            </View>
+
+            <Text
+              style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}
+            >
+              Adding table successfully.
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setVisible(false);
+              }}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>OK</Text>
+            </TouchableOpacity>
+          </CustomModal>
         </View>
       </ScrollView>
     </ImageBackground>
@@ -181,56 +233,56 @@ export default EditMenuScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: "5%",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "column",
+    paddingTop: '5%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
   },
   view3: {
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
     flex: 5,
   },
   view4: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
     marginTop: 10,
-    width: "80%",
-    alignItems: "center",
-    alignContent: "center",
-    alignSelf: "center",
+    width: '80%',
+    alignItems: 'center',
+    alignContent: 'center',
+    alignSelf: 'center',
   },
   ImageBackground: {
     height: 140,
     width: 140,
-    alignSelf: "center",
-    position: "absolute",
-    alignSelf: "center",
+    alignSelf: 'center',
+    position: 'absolute',
+    alignSelf: 'center',
   },
   pick: {
     width: 140,
     height: 140,
     borderRadius: 15,
-    borderColor: "black",
-    alignSelf: "center",
+    borderColor: 'black',
+    alignSelf: 'center',
   },
   containerHeaderTab: {
-    alignItems: "center",
-    justifyContent: "space-around",
-    flexDirection: "row",
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    flexDirection: 'row',
   },
   button1: {
     backgroundColor: Colors.secondary,
-    width: "60%",
+    width: '60%',
     padding: 10,
     borderRadius: 5,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     elevation: 1,
     marginTop: 10,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 1,
@@ -242,14 +294,14 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: Colors.secondary,
-    width: "50%",
+    width: '50%',
     padding: 15,
     borderRadius: 20,
     elevation: 1,
-    alignSelf: "center",
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: "#000",
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 1,
@@ -260,23 +312,23 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   buttonText: {
-    color: "white",
-    fontWeight: "700",
+    color: 'white',
+    fontWeight: '700',
     fontSize: 16,
   },
   buttonDelete: {
-    backgroundColor: "#FFF0F3",
-    width: "50%",
+    backgroundColor: '#FFF0F3',
+    width: '50%',
     padding: 15,
     borderRadius: 15,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     elevation: 5,
-    alignSelf: "center",
+    alignSelf: 'center',
     margin: 5,
-    flexDirection: "row",
+    flexDirection: 'row',
     marginRight: 10,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 1,
@@ -287,8 +339,8 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   buttonTextDelete: {
-    color: "#DA0000",
-    fontWeight: "700",
+    color: '#DA0000',
+    fontWeight: '700',
     fontSize: 16,
   },
 });
