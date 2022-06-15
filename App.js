@@ -144,19 +144,12 @@ export default function App() {
           gestureDirection: 'horizontal',
         }}
       >
-         
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="TabForStaff"
-          component={TabForStaff}
-        />
-
         <Stack.Screen
           options={{ headerShown: false }}
           name="SplashScreen"
           component={SplashScreen}
         />
-       <Stack.Screen
+        <Stack.Screen
           options={{ headerShown: false }}
           name="TabForStaff"
           component={TabForStaff}
@@ -193,11 +186,6 @@ export default function App() {
           component={EditResProfile}
         />
 
-<<<<<<< HEAD
-=======
-        
-
->>>>>>> main
         <Stack.Screen
           options={{ headerShown: false }}
           name="OTPsignup"
@@ -478,7 +466,7 @@ export default function App() {
           name="MainMenu"
           component={MainCourseMenuScreen}
         />
-       
+
         <Stack.Screen
           options={{ headerShown: false }}
           name="DesertMenu"

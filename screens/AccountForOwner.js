@@ -13,6 +13,7 @@ import CardInformation from '../custom component/CardInformation';
 import ButtonUser from '../custom component/ButtonUser';
 import { NavigationContainer } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/core';
+import { useFocusEffect } from '@react-navigation/native';
 import power from '../assets/icons/power.png';
 import setting from '../assets/icons/setting.png';
 import personal from '../assets/icons/personal.png';
