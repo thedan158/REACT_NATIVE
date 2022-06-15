@@ -147,6 +147,11 @@ export default function App() {
           gestureDirection: 'horizontal',
         }}
       >
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="SplashScreen"
+          component={SplashScreen}
+        />
          <Stack.Screen
           options={{ headerShown: false }}
           name="TabForOwner"
@@ -158,11 +163,7 @@ export default function App() {
           component={TabForStaff}
         />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="SplashScreen"
-          component={SplashScreen}
-        />
+        
 
         <Stack.Screen
           options={{
