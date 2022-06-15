@@ -27,6 +27,7 @@ const EditMenuScreen = ({ route }) => {
   const [discount, setDiscount] = useState(item.price);
   const [image, setImage] = useState("null");
   const [visible, setVisible] = useState(false);
+  const [visibleDeleted, setVisibleDeleted] = useState(false);
   const navigation = useNavigation();
   useEffect(async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -152,7 +153,7 @@ const EditMenuScreen = ({ route }) => {
             {/* Button Delete */}
             <TouchableOpacity
               onPress={() => {
-                setVisible(true);
+                setVisibleDeleted(true);
               }}
               style={styles.buttonDelete}
             >
@@ -162,6 +163,8 @@ const EditMenuScreen = ({ route }) => {
               />
               <Text style={styles.buttonTextDelete}>Delete</Text>
             </TouchableOpacity>
+
+
             {/* Button Save */}
             <TouchableOpacity
               onPress={() => setVisible(true)}
@@ -170,6 +173,57 @@ const EditMenuScreen = ({ route }) => {
               <Text style={styles.buttonText}>SAVE</Text>
             </TouchableOpacity>
           </View>
+
+          {/* Modal delete */}
+          <CustomModal visible={visibleDeleted}>
+              <View style={{ alignItems: "center" }}>
+                <Image
+                  source={require("../assets/icons/save-green.png")}
+                  style={{ height: 150, width: 150, marginVertical: 30 }}
+                />
+              </View>
+  
+              <Text
+                style={{ marginVertical: 30, fontSize: 20, textAlign: "center" }}
+              >
+                Deleted table successfully.
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                    setVisibleDeleted(false);
+                  
+                }}
+                style={styles.button}
+              >
+                <Text style={styles.buttonText}>OK</Text>
+              </TouchableOpacity>
+            </CustomModal>
+
+
+            {/* Modal adding  */}
+            <CustomModal visible={visible}>
+              <View style={{ alignItems: "center" }}>
+                <Image
+                  source={require("../assets/icons/save-green.png")}
+                  style={{ height: 150, width: 150, marginVertical: 30 }}
+                />
+              </View>
+  
+              <Text
+                style={{ marginVertical: 30, fontSize: 20, textAlign: "center" }}
+              >
+                Adding table successfully.
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  setVisible(false);
+                  
+                }}
+                style={styles.button}
+              >
+                <Text style={styles.buttonText}>OK</Text>
+              </TouchableOpacity>
+            </CustomModal>
         </View>
       </ScrollView>
     </ImageBackground>

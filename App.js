@@ -70,6 +70,9 @@ import ListFood from './screens/ListFood';
 import ListFoodDetails from './screens/ListFoodDetails';
 import Analytics from './screens/Analytics';
 import EditResProfile from './screens/EditResProfile';
+import AddingTable from './screens/AddingTable';
+import BillScreenForOwner from './screens/BillScreenForOwner';
+import EditTableInfo from './screens/EditTableInfo';
 
 const Stack = createStackNavigator();
 // animation function
@@ -144,7 +147,11 @@ export default function App() {
           gestureDirection: 'horizontal',
         }}
       >
-         
+         <Stack.Screen
+          options={{ headerShown: false }}
+          name="TabForOwner"
+          component={TabForOwner}
+        />
         <Stack.Screen
           options={{ headerShown: false }}
           name="TabForStaff"
@@ -155,11 +162,6 @@ export default function App() {
           options={{ headerShown: false }}
           name="SplashScreen"
           component={SplashScreen}
-        />
-       <Stack.Screen
-          options={{ headerShown: false }}
-          name="TabForOwner"
-          component={TabForOwner}
         />
 
         <Stack.Screen
@@ -308,7 +310,21 @@ export default function App() {
           name="Button4Screen"
           component={Button4Screen}
         />
-
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name = "AddingTable"
+          component={AddingTable}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name = "EditTableInfo"
+          component={EditTableInfo}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name = "BillScreenForOwner"
+          component={BillScreenForOwner}
+        />
         <Stack.Screen
           options={{ headerShown: false }}
           name="Order"

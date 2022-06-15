@@ -11,8 +11,7 @@ import {
 import React, { useState, useEffect } from "react";
 import Colors from "../assets/Colors";
 import ModalTableSelect from "../custom component/ModalTableSelect";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
+const imgAddItem = require("../assets/icons/AddItem.png");
 
 const SearchIconResouce = require("../assets/icons/search.png");
 const FillterIconResouce = require("../assets/icons/fillter.png");
@@ -76,9 +75,7 @@ const DataTable = [
   },
 ];
 
-
-
-const BillScreen = ({navigation}) => {
+const BillScreenForOwner = ({ navigation }) => {
   const [search, setSearch] = useState("");
   const [masterData, setMasterData] = useState([]);
   const [dataFromState, setNewData] = useState([]);
@@ -87,9 +84,10 @@ const BillScreen = ({navigation}) => {
     if (item.isBusy === true) {
       return (
         <View>
-          <TouchableOpacity 
-          onPress={() => navigation.navigate('CheckOutTableScreen', {item})}
-          style={styles.flatlistitemStyleInUse}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("CheckOutTableScreen", { item })}
+            style={styles.flatlistitemStyleInUse}
+          >
             <View>
               <Image
                 source={require("../assets/icons/TableOrange.png")}
@@ -100,42 +98,24 @@ const BillScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
       );
-    } 
-  
+    }
+
     return (
       <View>
-        <TouchableOpacity disabled={true} style={styles.flatlistitemStyle}>
+        <TouchableOpacity 
+        onPress={() => navigation.navigate('EditTableInfo', { item })}
+        style={styles.flatlistitemStyle}>
           <View>
             <Image
               source={require("../assets/icons/TableGray.png")}
               style={styles.imgItemFlatlist}
             />
-            <Text style={styles.txtItemFlatlist}>{item.id}</Text>
+            <Text style={styles.txtItemFlatlist}>Table {item.id}</Text>
           </View>
         </TouchableOpacity>
       </View>
     );
   };
-  useEffect(() => {
-    const getData = async () => {
-      const userLoginData = await AsyncStorage.getItem("userLoginData");
-      const user = JSON.parse(userLoginData);
-      console.log("username: " + user.username);
-      const res = await axios.post(
-        `https://foody-uit.herokuapp.com/table/getAllTableOfRestaurant`,
-        {
-          username: user.username,
-        }
-      );
-      const { success, message } = res.data;
-      console.log(message);
-      console.log(success);
-      setNewData(message);
-      setMasterData(dataFromState);
-      console.log("filteredData is all selected");
-    };
-    getData().catch((err) => console.log(err));
-  }, []);
 
   const searchFilterFunction = (text) => {
     if (text) {
@@ -154,11 +134,9 @@ const BillScreen = ({navigation}) => {
 
   return (
     // Root View
-    <ScrollView
-    showsVerticalScrollIndicator={false}
-    style={styles.container}>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <View style={styles.containerTop}>
-        <Text style={styles.txtHeaderView}>BiLL</Text>
+          <Text style={styles.txtHeaderView}>Bill</Text>
         <View style={styles.containerTemp}>
           <View style={styles.containerSearchLayout}>
             <TouchableOpacity style={styles.btnSearch}>
@@ -172,14 +150,16 @@ const BillScreen = ({navigation}) => {
             />
           </View>
 
-          <TouchableOpacity style={styles.btnImgFillter}>
-            <Image source={FillterIconResouce} style={styles.imgIconFillter} />
+          <TouchableOpacity
+            onPress={() => navigation.navigate('AddingTable')}
+            style={styles.btnImgFillter}>
+            <Image source={imgAddItem} style={styles.imgIconFillter} />
           </TouchableOpacity>
         </View>
       </View>
       <View style={styles.containerBottom}>
         <FlatList
-          data={dataFromState}
+          data={DataTable}
           renderItem={({ item, index }) => {
             return (
               <FlatlistItemFunctions
@@ -197,13 +177,13 @@ const BillScreen = ({navigation}) => {
   );
 };
 
-export default BillScreen;
+export default BillScreenForOwner;
 
 const styles = StyleSheet.create({
   container: {
     marginBottom: "8%",
-    paddingTop: '4%',
-    marginBottom: '15%',
+    paddingTop: "0%",
+    marginBottom: "0%",
   },
   containerTop: {
     backgroundColor: "#FF4B3A",
@@ -213,8 +193,8 @@ const styles = StyleSheet.create({
     margin: 0,
     alignItems: "center",
     alignContent: "center",
-    justifyContent: "center",
-    paddingTop: "3%",
+    justifyContent: "space-around",
+    paddingTop: "0%",
   },
   containerBottom: {
     borderTopLeftRadius: 30,
@@ -237,8 +217,9 @@ const styles = StyleSheet.create({
   txtHeaderView: {
     fontSize: 30,
     fontWeight: "bold",
-    marginTop: -40,
-    marginBottom: 10,
+    marginTop: 0,
+    marginBottom: 0,
+    paddingTop: 20,
   },
   txtItemFlatlist: {
     color: "#A09A99",
@@ -254,7 +235,8 @@ const styles = StyleSheet.create({
   },
   containerTemp: {
     flexDirection: "row",
-    marginBottom: 10,
+    marginBottom: 50,
+    paddingTop: -200,
   },
   containerSearchLayout: {
     width: 280,
@@ -273,6 +255,7 @@ const styles = StyleSheet.create({
     margin: 0,
     height: 16,
     width: 16,
+    resizeMode: 'cover',
   },
   imgIconFillter: {
     height: 50,
@@ -282,12 +265,12 @@ const styles = StyleSheet.create({
   imgItemFlatlist: {
     height: 70,
     width: 70,
-    borderRadius: 20,
     marginTop: 20,
     marginBottom: 5,
     resizeMode: "cover",
     alignSelf: "center",
     margin: 0,
+    borderRadius: 20,
   },
   btnSearch: {
     height: 20,
@@ -324,5 +307,18 @@ const styles = StyleSheet.create({
     marginRight: 20,
     marginVertical: 20,
     marginLeft: 10,
+  },
+  btnUserStyle: {
+    height: 30,
+    width: 30,
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+  },
+  imgUserStyle: {
+    height: 25,
+    width: 25,
+    resizeMode: "cover",
+    alignSelf: "center",
   },
 });
