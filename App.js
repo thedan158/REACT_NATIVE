@@ -43,7 +43,6 @@ import AddingMenuItemScreen from './screens/AddingMenuItemScreen';
 import OrderScreen from './screens/OrderScreen';
 import StarterMenuScreen from './screens/StarterMenuScreen';
 import MainCourseMenuScreen from './screens/MainCourseMenuScreen';
-import DrinkMenuScreen from './screens/DrinkMenuScreen';
 import DesertMenuScreen from './screens/DesertMenuScreen';
 import SelectedTable from './screens/SelectedTableScreen';
 import EditMenuScreen from './screens/EditMenuScreen';
@@ -145,12 +144,19 @@ export default function App() {
           gestureDirection: 'horizontal',
         }}
       >
+         
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="TabForStaff"
+          component={TabForStaff}
+        />
+
         <Stack.Screen
           options={{ headerShown: false }}
           name="SplashScreen"
           component={SplashScreen}
         />
-        <Stack.Screen
+       <Stack.Screen
           options={{ headerShown: false }}
           name="TabForStaff"
           component={TabForStaff}
@@ -187,6 +193,11 @@ export default function App() {
           component={EditResProfile}
         />
 
+<<<<<<< HEAD
+=======
+        
+
+>>>>>>> main
         <Stack.Screen
           options={{ headerShown: false }}
           name="OTPsignup"
@@ -290,7 +301,7 @@ export default function App() {
 
         <Stack.Screen
           options={{ headerShown: false }}
-          name="Button2Screen"
+          name="StarterMenuHome"
           component={Button2Screen}
         />
 
@@ -467,11 +478,7 @@ export default function App() {
           name="MainMenu"
           component={MainCourseMenuScreen}
         />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="DrinkMenu"
-          component={DrinkMenuScreen}
-        />
+       
         <Stack.Screen
           options={{ headerShown: false }}
           name="DesertMenu"

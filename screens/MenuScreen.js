@@ -9,104 +9,64 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   FlatList,
+  Alert,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import Colors from "../assets/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const maxWidthConst = windowWidth - 10;
 const imgAddItem = require("../assets/icons/AddItem.png");
 const imgUserSource = require("../assets/icons/user.png");
 const imgGoBackSource = require("../assets/icons/back.png");
-const icStar = require('../assets/icons/Star.png');
+const icStar = require("../assets/icons/Star.png");
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 const maxWidth40 = windowWidth - 30;
 const imgSearchSource = require("../assets/icons/search.png");
-const DataMenu = [
-  {
-    id: 1,
-    // imgSource: require("../assets/images/pizza.jpg"),
-    nameDish: "Pizza",
-    rating: 4.5,
-    votes: 355,
-    price: 200,
-  },
-  {
-    id: 2,
-    // imgSource: require("../assets/images/pizza.jpg"),
-    nameDish: "Pizza with recommendations",
-    rating: 4.8,
-    votes: 422,
-    price: 253,
-  },
-  {
-    id: 3,
-    // imgSource: require("../assets/images/pizza.jpg"),
-    nameDish: "Saro with recommendations",
-    rating: 4.6,
-    votes: 221,
-    price: 131,
-  },
-  {
-    id: 4,
-    // imgSource: require("../assets/images/sarawak-laksa.jpg"),
-    nameDish: "Sarawak laksa",
-    rating: 4.1,
-    votes: 321,
-    price: 203,
-  },
-];
-const DataMenu1 = [
-  {
-    id: 1,
-    // imgSource: require("../assets/images/pizza.jpg"),
-    nameDish: "Pizza",
-    rating: 4.5,
-    votes: 355,
-    price: 200,
-  },
-];
-
 
 const MenuScreen = ({ navigation }) => {
   const [dataFromState, setNewData] = useState([]);
+  const [search, setSearch] = useState("");
+  const [masterData, setMasterData] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [isAuthorized, setIsAuthorized] = useState(false);
   useEffect(() => {
     const getData = async () => {
       const userLoginData = await AsyncStorage.getItem("userLoginData");
       const user = JSON.parse(userLoginData);
+      const userLoginRole = await AsyncStorage.getItem("userLoginRole");
+      console.log("userrole: " + userLoginRole);
+      if (userLoginRole === "owner" || userLoginRole === "chef") {
+        setIsAuthorized(true);
+      }
       console.log("username: " + user.username);
       const res = await axios.post(
-        `https://foody-uit.herokuapp.com/food/getAllFoodOfRestaurant`,
+        `https://foody-uit.herokuapp.com/food/getAllFoodWithType`,
         {
           username: user.username,
+          foodType: "Main course",
         }
       );
 
       const { success, message } = res.data;
-      console.log(message);
-      console.log(success);
-
+      if (!success) {
+        Alert.alert("Error", message);
+        return;
+      }
       console.log("filteredData is all selected");
       setNewData(message);
+      setMasterData(message);
+      setRefreshing(false);
     };
-
     getData().catch((err) => console.log(err));
-  }, []);
-  const [search, setSearch] = useState("");
-  const [masterData, setMasterData] = useState([]); 
-  useEffect(() => {
-    setMasterData(dataFromState);
-  }, []);
+  }, [refreshing]);
   const searchFilterFunction = (text) => {
     if (text) {
       const newData = masterData.filter(function (item) {
-        const itemData = item.nameDish
-          ? item.nameDish.toLowerCase()
-          : "".toUpperCase();
+        const itemData = item.name ? item.name.toLowerCase() : "".toUpperCase();
         const textData = text.toLowerCase();
         return itemData.indexOf(textData) > -1;
       });
@@ -131,12 +91,15 @@ const MenuScreen = ({ navigation }) => {
         </TouchableOpacity>
 
         <Text style={styles.txtHeaderViewTab}>{HeaderText}</Text>
-        <TouchableOpacity style={styles.btnUserStyle}
-        onPress={() => {
-          navigation.navigate('AddingMenuItemScreen')
-        }}>
-        
-          <Image source={imgAddItem} style={styles.imgUserStyle} />
+        <TouchableOpacity
+          style={styles.btnUserStyle}
+          onPress={() => {
+            navigation.navigate("AddingMenuItemScreen");
+          }}
+        >
+          {isAuthorized && (
+            <Image source={imgAddItem} style={styles.imgUserStyle} />
+          )}
         </TouchableOpacity>
       </View>
     );
@@ -160,22 +123,23 @@ const MenuScreen = ({ navigation }) => {
   }
 
   function SearchBarViewComponent() {
-    
     return (
       <View style={styles.containerSearchViewComponent}>
-        <View style={{
-          alignSelf: "center",
-          flexDirection: "row",
-          justifyContent: 'flex-end',
-          alignItems: "center",
-          direction: "inherit",
-          flexWrap: "wrap-reverse",
-          flex: 1,
-          alignSelf: 'center',
-          maxWidth: "95%",
-          marginBottom: '2%',
-          paddingHorizontal: '5%',
-        }}>
+        <View
+          style={{
+            alignSelf: "center",
+            flexDirection: "row",
+            justifyContent: "flex-end",
+            alignItems: "center",
+            direction: "inherit",
+            flexWrap: "wrap-reverse",
+            flex: 1,
+            alignSelf: "center",
+            maxWidth: "95%",
+            marginBottom: "2%",
+            paddingHorizontal: "5%",
+          }}
+        >
           <TouchableOpacity style={styles.btnSearchStyle}>
             <Image source={imgSearchSource} style={styles.imgSearchStyle} />
           </TouchableOpacity>
@@ -189,7 +153,6 @@ const MenuScreen = ({ navigation }) => {
             }}
           ></TextInput>
         </View>
-        
       </View>
     );
   }
@@ -200,48 +163,44 @@ const MenuScreen = ({ navigation }) => {
         <View style={styles.containerImageItem}>
           {/* <Image source={item.imgSource} style={styles.imgSourceItem} /> */}
           <Image
-            source={require("../assets/images/sarawak-laksa.jpg")}
+            source={{ uri: item.imagePath }}
             style={styles.imgSourceItem}
           />
         </View>
 
         <View style={styles.containerInfoItem}>
           <Text style={styles.txtNameDishItem}>{item.name}</Text>
-          <View style={styles.containerRatingItem}>
-            <Text style={styles.txtPriceItemInfo2}>${item.price}</Text>
-          </View>
-
-          <View style={styles.containerPriceItem}></View>
+          <Text style={styles.txtPriceItemInfo2}>${item.price}</Text>
         </View>
       </View>
     );
   };
 
   return (
-
-        <LinearGradient
-          style={styles.container}
-          colors={[Colors.ImperialRed, Colors.DarkOrange]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-        >
-          {HeaderViewTab({ HeaderText: "Menu Of the day" })}
-          {InformationViewTab({ TextInFo1: "Have a good day!" })}
-          {SearchBarViewComponent()}
-          <View style={styles.containerDevideLine}></View>
-          <View style={styles.containerInfoItem}>
-            <FlatList
-              data={dataFromState}
-              renderItem={({ item, index }) => {
-                return <FlatListItem item={item} index={index} />;
-              }}
-              keyExtractor={(item) => item.id}
-              showsVerticalScrollIndicator={false}
-              showsHorizontalScrollIndicator={false}
-            />
-
-          </View>
-        </LinearGradient>
+    <LinearGradient
+      style={styles.container}
+      colors={[Colors.ImperialRed, Colors.DarkOrange]}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 0 }}
+    >
+      {HeaderViewTab({ HeaderText: "Menu Of the day" })}
+      {InformationViewTab({ TextInFo1: "Have a good day!" })}
+      {SearchBarViewComponent()}
+      <View style={styles.containerDevideLine}></View>
+      <View style={styles.containerInfoItem1}>
+        <FlatList
+          refreshing={refreshing}
+          data={dataFromState}
+          renderItem={({ item, index }) => {
+            return <FlatListItem item={item} index={index} />;
+          }}
+          keyExtractor={(item) => item.id}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          onRefresh={() => setRefreshing(true)}
+        />
+      </View>
+    </LinearGradient>
   );
 };
 
@@ -266,10 +225,10 @@ const styles = StyleSheet.create({
   containerDevideLine: {
     height: 1,
     width: windowWidth - 15,
-    marginTop: '4%',
-    marginBottom: '5%',
-    backgroundColor: '#AFAFAF',
-    alignSelf: 'center',
+    marginTop: "4%",
+    marginBottom: "5%",
+    backgroundColor: "#AFAFAF",
+    alignSelf: "center",
   },
   containerItemFlatList: {
     width: windowWidth - 40,
@@ -305,7 +264,7 @@ const styles = StyleSheet.create({
     maxWidth: "85%",
     alignSelf: "center",
     borderRadius: 15,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -313,7 +272,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    
+
     elevation: 5,
   },
   containerInfoViewTab: {
@@ -327,19 +286,20 @@ const styles = StyleSheet.create({
   },
   containerInfoItem: {
     flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    alignContent: "center",
+    paddingHorizontal: "5%",
   },
-  containerInfoItem:{
+  containerInfoItem1: {
     flex: 7,
+  },
 
-  },
-  containerRatingItem: {
-    flexDirection: 'row',
-    flex: 2,
-    marginBottom: '3%',
-  },
   txtPriceItemInfo2: {
     color: "#EF5B5B",
-    marginRight: "55%",
+    fontSize: 25,
+    fontWeight: "bold",
   },
   txtHeaderViewTab: {
     color: "#fff",
@@ -353,7 +313,7 @@ const styles = StyleSheet.create({
     marginBottom: "2%",
   },
   txtRatingItem: {
-    color: '#EF5B5B',
+    color: "#EF5B5B",
     marginHorizontal: 5,
   },
   containerPriceItem: {
@@ -363,7 +323,6 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     flex: 1,
-
   },
   imgSearchStyle: {
     width: 20,

@@ -6,9 +6,9 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
-} from 'react-native';
-import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/core';
+} from "react-native";
+import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/core";
 
 const CustomTextInput = ({
   onChangeText,
@@ -17,7 +17,7 @@ const CustomTextInput = ({
   style,
   value,
   label,
-  error = '',
+  error = "",
   blurColor,
   paddingVertical,
   ...props
@@ -25,23 +25,23 @@ const CustomTextInput = ({
   const [focused, setFocused] = React.useState(false);
   const getFlexDirection = () => {
     if (icon && iconPosition) {
-      if (iconPosition === 'left') {
-        return 'row';
-      } else if (iconPosition === 'right') {
-        return 'row-reverse';
+      if (iconPosition === "left") {
+        return "row";
+      } else if (iconPosition === "right") {
+        return "row-reverse";
       }
     }
   };
 
   const getBorderColor = () => {
     if (error) {
-      return 'red';
+      return "red";
     }
 
     if (focused) {
       return blurColor;
     } else {
-      return 'white';
+      return "white";
     }
   };
   return (
@@ -51,7 +51,7 @@ const CustomTextInput = ({
       <View
         style={[
           styles.wrapper,
-          { alignItems: icon ? 'center' : 'baseline' },
+          { alignItems: icon ? "center" : "baseline" },
           { borderColor: getBorderColor(), flexDirection: getFlexDirection() },
         ]}
       >
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     marginTop: 15,
 
-    shadowColor: '#000000',
+    shadowColor: "#000000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -95,20 +95,20 @@ const styles = StyleSheet.create({
 
     width: 300,
     height: 50,
-    backgroundColor: '#FFFCFB',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
+    backgroundColor: "#FFFCFB",
+    justifyContent: "center",
+    alignItems: "flex-start",
     borderRadius: 13,
     borderWidth: 1,
   },
 
   textInput: {
     flex: 1,
-    width: '100%',
+    width: "100%",
   },
 
   error: {
-    color: 'red',
+    color: "red",
     paddingTop: 4,
     fontSize: 12,
   },

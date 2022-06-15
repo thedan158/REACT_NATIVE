@@ -12,7 +12,7 @@ import {
 import React, { useState, useEffect } from 'react';
 import CardInformation from '../custom component/CardInformation';
 import ButtonUser from '../custom component/ButtonUser';
-import { NavigationContainer } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/core';
 import power from '../assets/icons/power.png';
 import info from '../assets/icons/info.png';
@@ -42,7 +42,7 @@ const AccountForStaff = () => {
   const [url, setUrl] = useState('');
   const [isEnabled, setIsEnabled] = useState(false);
 
-  useEffect(async () => {
+  useFocusEffect(() => {
     const getData = async () => {
       const user = await AsyncStorage.getItem('userLoginData');
       const userInfo = JSON.parse(user);
@@ -113,7 +113,7 @@ const AccountForStaff = () => {
           {/* Change password  */}
           <TouchableOpacity
             style={styles.TouchableOpacity}
-            onPress={() => navigation.navigate('ChangeStaffPassword')}
+            onPress={() => navigation.navigate('ListFood')}
           >
             <Image source={password} style={styles.iconTitle} />
             <Text style={styles.textName}>Change Your Password</Text>

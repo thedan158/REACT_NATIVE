@@ -7,11 +7,12 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
-
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import Colors from "../assets/Colors";
 import ModalTableSelect from "../custom component/ModalTableSelect";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 const SearchIconResouce = require("../assets/icons/search.png");
 const FillterIconResouce = require("../assets/icons/fillter.png");
@@ -22,106 +23,124 @@ const DataTable = [
     name: "Table 1",
     imgSourceSelected: require("../assets/icons/TableOrange.png"),
     imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: true,
+    isBusy: true,
   },
   {
     id: 2,
     name: "Table 2",
     imgSourceSelected: require("../assets/icons/TableOrange.png"),
     imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: false,
+    isBusy: false,
   },
   {
     id: 3,
     name: "Table 3",
     imgSourceSelected: require("../assets/icons/TableOrange.png"),
     imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: true,
+    isBusy: true,
   },
   {
     id: 4,
     name: "Table 4",
     imgSourceSelected: require("../assets/icons/TableOrange.png"),
     imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: true,
+    isBusy: false,
   },
   {
     id: 5,
     name: "Table 5",
     imgSourceSelected: require("../assets/icons/TableOrange.png"),
     imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: true,
+    isBusy: true,
   },
   {
     id: 6,
     name: "Table 6",
     imgSourceSelected: require("../assets/icons/TableOrange.png"),
     imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: true,
+    isBusy: true,
   },
   {
     id: 7,
     name: "Table 7",
     imgSourceSelected: require("../assets/icons/TableOrange.png"),
     imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: true,
+    isBusy: true,
   },
   {
     id: 8,
     name: "Table 8",
     imgSourceSelected: require("../assets/icons/TableOrange.png"),
     imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: false,
+    isBusy: false,
   },
 ];
 
-const FlatlistItemFunctions = ({ item }) => {
-  if (item.isUse === true) {
+
+
+const BillScreen = ({navigation}) => {
+  const [search, setSearch] = useState("");
+  const [masterData, setMasterData] = useState([]);
+  const [dataFromState, setNewData] = useState([]);
+
+  const FlatlistItemFunctions = ({ item }) => {
+    if (item.isBusy === true) {
+      return (
+        <View>
+          <TouchableOpacity 
+          onPress={() => navigation.navigate('CheckOutTableScreen', {item})}
+          style={styles.flatlistitemStyleInUse}>
+            <View>
+              <Image
+                source={require("../assets/icons/TableOrange.png")}
+                style={styles.imgItemFlatlist}
+              />
+              <Text style={styles.txtItemFlatlistInUse}>{item.id}</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+  
     return (
       <View>
         <TouchableOpacity disabled={true} style={styles.flatlistitemStyle}>
           <View>
             <Image
-              source={item.imgSourceEmpty}
+              source={require("../assets/icons/TableGray.png")}
               style={styles.imgItemFlatlist}
             />
-            <Text style={styles.txtItemFlatlist}>{item.name}</Text>
+            <Text style={styles.txtItemFlatlist}>{item.id}</Text>
           </View>
         </TouchableOpacity>
       </View>
     );
-  }
-
-
-  return (
-    <View>
-      <TouchableOpacity style={styles.flatlistitemStyleInUse}>
-        <View>
-          <Image
-            source={item.imgSourceSelected}
-            style={styles.imgItemFlatlist}
-          />
-          <Text style={styles.txtItemFlatlistInUse}>{item.name}</Text>
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
-};
-
-const BillScreen = () => {
-  const [search, setSearch] = useState("");
-  const [masterData, setMasterData] = useState([]);
-  const [dataFromState, setNewData] = useState(DataTable);
-
+  };
   useEffect(() => {
-    setMasterData(DataTable);
-    console.log("filteredData is all selected");
+    const getData = async () => {
+      const userLoginData = await AsyncStorage.getItem("userLoginData");
+      const user = JSON.parse(userLoginData);
+      console.log("username: " + user.username);
+      const res = await axios.post(
+        `https://foody-uit.herokuapp.com/table/getAllTableOfRestaurant`,
+        {
+          username: user.username,
+        }
+      );
+      const { success, message } = res.data;
+      console.log(message);
+      console.log(success);
+      setNewData(message);
+      setMasterData(dataFromState);
+      console.log("filteredData is all selected");
+    };
+    getData().catch((err) => console.log(err));
   }, []);
 
   const searchFilterFunction = (text) => {
     if (text) {
       const newData = masterData.filter(function (item) {
-        const itemData = item.name ? item.name.toLowerCase() : "".toUpperCase();
+        const itemData = item.id ? item.id.toLowerCase() : "".toUpperCase();
         const textData = text.toLowerCase();
         return itemData.indexOf(textData) > -1;
       });
@@ -133,10 +152,11 @@ const BillScreen = () => {
     }
   };
 
-
   return (
     // Root View
-    <ScrollView style={styles.container}>
+    <ScrollView
+    showsVerticalScrollIndicator={false}
+    style={styles.container}>
       <View style={styles.containerTop}>
         <Text style={styles.txtHeaderView}>BiLL</Text>
         <View style={styles.containerTemp}>
@@ -145,12 +165,10 @@ const BillScreen = () => {
               <Image source={SearchIconResouce} style={styles.imgIconSearch} />
             </TouchableOpacity>
             <TextInput
-
               value={search}
               onChangeText={(text) => searchFilterFunction(text)}
               style={styles.txtSearchBar}
               placeholder={"Search Table..."}
-
             />
           </View>
 
@@ -161,7 +179,6 @@ const BillScreen = () => {
       </View>
       <View style={styles.containerBottom}>
         <FlatList
-
           data={dataFromState}
           renderItem={({ item, index }) => {
             return (
@@ -170,7 +187,6 @@ const BillScreen = () => {
                 index={index}
               ></FlatlistItemFunctions>
             );
-
           }}
           keyExtractor={(item) => item.id}
           nestedScrollEnabled
@@ -185,7 +201,9 @@ export default BillScreen;
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: '8%',
+    marginBottom: "8%",
+    paddingTop: '4%',
+    marginBottom: '15%',
   },
   containerTop: {
     backgroundColor: "#FF4B3A",
@@ -196,7 +214,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignContent: "center",
     justifyContent: "center",
-    paddingTop: '3%',
+    paddingTop: "3%",
   },
   containerBottom: {
     borderTopLeftRadius: 30,
@@ -206,13 +224,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
-    
+
     marginTop: -50,
     paddingTop: 20,
     paddingLeft: 10,
   },
   txtSearchBar: {
-
     color: "#000",
     maxWidth: 200,
     width: 200,
@@ -224,7 +241,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   txtItemFlatlist: {
-
     color: "#A09A99",
     marginBottom: 10,
     alignSelf: "center",

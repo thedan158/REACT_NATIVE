@@ -36,6 +36,7 @@ const AccountForOwner = () => {
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
   }
+  //*Set up variable for user info
   const [fullname, setFullname] = useState('');
   const [address, setAddress] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -43,10 +44,15 @@ const AccountForOwner = () => {
   const navigation = useNavigation();
   const [image, setImage] = useState('null');
   const [visible, setVisible] = React.useState(false);
-  const [url, setUrl] = useState('');
   const [isEnabled, setIsEnabled] = useState(false);
 
-  useEffect(async () => {
+  //*Set up variable for restaurant info
+  const [restaurantName, setRestaurantName] = useState('');
+  const [restaurantAddress, setRestaurantAddress] = useState('');
+  const [restaurantHotline, setRestaurantHotline] = useState('');
+  const [restaurantImage, setRestaurantImage] = useState('');
+
+  useFocusEffect(() => {
     const getData = async () => {
       const user = await AsyncStorage.getItem('userLoginData');
       const userInfo = JSON.parse(user);
@@ -69,6 +75,27 @@ const AccountForOwner = () => {
       setImage(
         data.imagePath
           ? data.imagePath
+          : 'https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fgood.png?alt=media&token=de139437-3a20-4eb3-ba56-f6a591779d15'
+      );
+      const restaurantRes = await axios.get(
+        `https://foody-uit.herokuapp.com/restaurant/getRestaurant/${userInfo.username}`
+      );
+      const restaurantSuccess = restaurantRes.data.success;
+      const restaurantData = restaurantRes.data.data;
+      if (!restaurantSuccess) {
+        Alert.alert('Restaurant not found');
+        return;
+      }
+      setRestaurantAddress(
+        restaurantData.address ? restaurantData.address : ''
+      );
+      setRestaurantName(restaurantData.name ? restaurantData.name : '');
+      setRestaurantHotline(
+        restaurantData.hotline ? restaurantData.hotline : ''
+      );
+      setRestaurantImage(
+        restaurantData.imagePath
+          ? restaurantData.imagePath
           : 'https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fgood.png?alt=media&token=de139437-3a20-4eb3-ba56-f6a591779d15'
       );
     };
@@ -109,11 +136,10 @@ const AccountForOwner = () => {
             {/* Back Side */}
 
             <CardInformation
-              name="Restaurant name"
-              mail="Slogan of restaurant"
-              imageSource={logo}
-              address="Bien Hoa, Dong Nai, Ho Chi Minh City"
-              phone="+84 528679244"
+              name={restaurantName}
+              imageSource={{ uri: restaurantImage }}
+              address={restaurantAddress}
+              phone={restaurantHotline}
             />
           </FlipCard>
         </View>

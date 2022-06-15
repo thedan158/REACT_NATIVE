@@ -8,50 +8,14 @@ import {
   Text,
   View,
   ImageBackground,
+  Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/core";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { render } from "react-dom";
-
-// --------------- item data ----------------
-const DATA = [
-  {
-    id: "1",
-    name: "The Macdonalds",
-    detail: "classic chesse buger",
-    price: "4.99",
-    imgSource: require("../assets/images/crispy-chicken-burger.jpg"),
-  },
-  {
-    id: "2",
-    name: "The Macdonalds",
-    detail: "classic chesse buger",
-    price: "5.99",
-    imgSource: require("../assets/images/crispy-chicken-burger.jpg"),
-  },
-  {
-    id: "3",
-    name: "The Macdonalds",
-    detail: "classic chesse buger",
-    price: "6.99",
-    imgSource: require("../assets/images/crispy-chicken-burger.jpg"),
-  },
-  {
-    id: "4",
-    name: "Sushi",
-    detail: "classic chesse buger",
-    price: "7.99",
-    imgSource: require("../assets/images/crispy-chicken-burger.jpg"),
-  },
-  {
-    id: "5",
-    name: "Cơm rang",
-    detail: "Ngon vl chứ còn cc j nữa",
-    price: "8.99",
-    imgSource: require("../assets/images/1512474034-837-bua-sang-chac-da-voi-com-chien-ca-hoi-mem-toi-bo-duong-_mg_8357-1512473926-width660height440.jpg"),
-  },
-];
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 const imgBtnOrange = require("../assets/icons/ButtonOrange.png");
 // ------------------Flatlist item Render layout----------------------
@@ -60,22 +24,40 @@ const DesertMenuScreen = () => {
   const navigation = useNavigation();
   const btnCloseResource = require("../assets/icons/close.png");
   const btnFillterResource = require("../assets/icons/fillter.png");
-  
-  const [search, setSearch] = useState('');
+
+  const [search, setSearch] = useState("");
   const [masterData, setMasterData] = useState([]);
-  const [dataFromState, setNewData] = useState(DATA);
-  
+  const [dataFromState, setNewData] = useState([]);
+
   useEffect(() => {
-    setMasterData(DATA);
-    console.log('filteredData is all selected');
+    const getData = async () => {
+      const userLoginData = await AsyncStorage.getItem("userLoginData");
+      const user = JSON.parse(userLoginData);
+      console.log("username: " + user.username);
+      const res = await axios.post(
+        `https://foody-uit.herokuapp.com/food/getAllFoodWithType`,
+        {
+          username: user.username,
+          foodType: "Dessert and Drink",
+        }
+      );
+      const { success, message } = res.data;
+      if (!success) {
+        Alert.alert("Error", message);
+        return;
+      }
+      console.log(message);
+      setNewData(message);
+      setMasterData(message);
+      console.log("filteredData is all selected");
+    };
+    getData().catch((err) => console.log(err));
   }, []);
 
   const searchFilterFunction = (text) => {
     if (text) {
       const newData = masterData.filter(function (item) {
-        const itemData = item.name
-          ? item.name.toLowerCase()
-          : ''.toUpperCase();
+        const itemData = item.name ? item.name.toLowerCase() : "".toUpperCase();
         const textData = text.toLowerCase();
         return itemData.indexOf(textData) > -1;
       });
@@ -88,12 +70,11 @@ const DesertMenuScreen = () => {
   };
 
   const FlatlistItem = ({ item }) => {
-
     function BtnDelPress() {
-      setCounter(counter => counter - 1);
+      setCounter((counter) => counter - 1);
     }
     function BtnAddPress() {
-      setCounter(counter => counter + 1);
+      setCounter((counter) => counter + 1);
     }
 
     const [counter, setCounter] = useState(0);
@@ -101,21 +82,14 @@ const DesertMenuScreen = () => {
       <View style={styles.flatlistItemView}>
         <View>
           {/* Image item section */}
-          <Image
-            style={styles.containerImageItem}
-            source={item.imgSource}
-          />
+          <Image style={styles.containerImageItem} source={{uri: item.imagePath}} />
         </View>
 
         {/* Item detail section */}
         <View>
           <Text style={styles.txtNameItemFlatlist}>{item.name}</Text>
-          <Text style={styles.txtDetailItemFlatlist}>
-            {item.detail}
-          </Text>
-          <Text style={styles.txtPriceItemFlatlist}>
-            ${item.price}
-          </Text>
+          <Text style={styles.txtDetailItemFlatlist}>{item.detail}</Text>
+          <Text style={styles.txtPriceItemFlatlist}>${item.price}</Text>
         </View>
 
         {/* Btn adjust section */}
@@ -147,7 +121,7 @@ const DesertMenuScreen = () => {
     <SafeAreaView style={styles.droidSafeArea}>
       {/* --------------------------Header title section (1st section)----------------------------- */}
       <View style={styles.container_header}>
-        <Text style={styles.txtTitle}>Desert</Text>
+        <Text style={styles.txtTitle}>Desert and Drink</Text>
         <TouchableOpacity
           onPress={() => {
             navigation.goBack();
@@ -162,11 +136,12 @@ const DesertMenuScreen = () => {
       <ScrollView style={styles.scrollviewStyle}>
         {/* ---------------Search section layout--------------- */}
         <View style={styles.containerSearchView}>
-          <TextInput 
-          style={styles.txtInpSearch}
-          value={search}
-          onChangeText={(text) => searchFilterFunction(text)}
-          placeholder="Search..." />
+          <TextInput
+            style={styles.txtInpSearch}
+            value={search}
+            onChangeText={(text) => searchFilterFunction(text)}
+            placeholder="Search..."
+          />
           <TouchableOpacity style={styles.imaBtnFillter}>
             <Image source={btnFillterResource} />
           </TouchableOpacity>
@@ -269,7 +244,7 @@ const styles = StyleSheet.create({
   },
   txtQuantityItem: {
     fontSize: 16,
-    marginHorizontal: '2%',
+    marginHorizontal: "2%",
   },
   txtTitle: {
     marginLeft: 30,
