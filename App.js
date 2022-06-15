@@ -152,18 +152,28 @@ export default function App() {
           name="SplashScreen"
           component={SplashScreen}
         />
-         <Stack.Screen
-          options={{ headerShown: false }}
-          name="TabForOwner"
-          component={TabForOwner}
-        />
         <Stack.Screen
           options={{ headerShown: false }}
           name="TabForStaff"
           component={TabForStaff}
         />
-
-        
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="TabForOwner"
+          component={TabForOwner}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="AccountForStaff"
+          component={AccountForStaff}
+        />
+        <Stack.Screen
+          name="RestaurantManagement"
+          options={{ headerShown: false }}
+          component={RestaurantManagement}
+        />
 
         <Stack.Screen
           options={{
@@ -179,8 +189,6 @@ export default function App() {
           component={EditResProfile}
         />
 
-        
-
         <Stack.Screen
           options={{ headerShown: false }}
           name="OTPsignup"
@@ -193,13 +201,6 @@ export default function App() {
           component={Analytics}
         />
 
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="AccountForStaff"
-          component={AccountForStaff}
-        />
         <Stack.Screen
           options={{ headerShown: false }}
           name="Login"
@@ -230,11 +231,6 @@ export default function App() {
           name="StaffInformation"
           component={StaffInformation}
           options={{ ...customTransition, headerShown: false }}
-        />
-        <Stack.Screen
-          name="RestaurantManagement"
-          options={{ headerShown: false }}
-          component={RestaurantManagement}
         />
 
         <Stack.Screen
@@ -313,17 +309,17 @@ export default function App() {
         />
         <Stack.Screen
           options={{ headerShown: false }}
-          name = "AddingTable"
+          name="AddingTable"
           component={AddingTable}
         />
         <Stack.Screen
           options={{ headerShown: false }}
-          name = "EditTableInfo"
+          name="EditTableInfo"
           component={EditTableInfo}
         />
         <Stack.Screen
           options={{ headerShown: false }}
-          name = "BillScreenForOwner"
+          name="BillScreenForOwner"
           component={BillScreenForOwner}
         />
         <Stack.Screen
@@ -487,7 +483,7 @@ export default function App() {
           name="MainMenu"
           component={MainCourseMenuScreen}
         />
-       
+
         <Stack.Screen
           options={{ headerShown: false }}
           name="DesertMenu"
