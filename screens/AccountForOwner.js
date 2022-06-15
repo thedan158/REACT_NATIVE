@@ -9,7 +9,6 @@ import {
   Switch,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import VKH from '../assets/images/VKH.jpg';
 import CardInformation from '../custom component/CardInformation';
 import ButtonUser from '../custom component/ButtonUser';
 import { NavigationContainer } from '@react-navigation/native';
@@ -21,10 +20,6 @@ import info from '../assets/icons/info.png';
 import vector from '../assets/icons/Vector.png';
 import res from '../assets/icons/res.png';
 import logo from '../assets/images/logo_app.png';
-import light_on from '../assets/icons/light-on.png';
-import light_off from '../assets/icons/light-off.png';
-import dark_off from '../assets/icons/dark-off.png';
-import dark_on from '../assets/icons/dark-on.png';
 import Colors from '../assets/Colors';
 import FlipCard from 'react-native-flip-card';
 import axios from 'axios';
@@ -32,6 +27,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { firebaseConfig } from '../firebase';
 import * as firebase from 'firebase';
 import password from '../assets/icons/password.png';
+import policy from '../assets/icons/policy.png';
+import ModalPrivacy from '../custom component/ModalPrivacy';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -94,27 +91,6 @@ const AccountForOwner = () => {
               style={{ height: 30, width: 30, marginHorizontal: 15 }}
             />
             <Text style={styles.textHeader}>Personal details</Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginLeft: 30,
-              }}
-            >
-              <Image
-                source={isEnabled ? light_off : light_on}
-                style={{ width: 25, height: 25 }}
-              />
-              <Switch
-                value={isEnabled}
-                onValueChange={setIsEnabled}
-                style={{ marginHorizontal: 5 }}
-              />
-              <Image
-                source={isEnabled ? dark_on : dark_off}
-                style={{ width: 25, height: 25 }}
-              />
-            </View>
           </View>
         </View>
         {/* Card Info  */}
@@ -170,6 +146,16 @@ const AccountForOwner = () => {
 
             <Image style={styles.icon} source={vector} />
           </TouchableOpacity>
+
+          {/* Policy and privacy  */}
+          <TouchableOpacity
+            style={styles.TouchableOpacity}
+            onPress={() => setVisible(true)}
+          >
+            <Image source={policy} style={styles.iconTitle} />
+            <Text style={styles.textName}>Policy and privacy</Text>
+            <Image style={styles.icon} source={vector} />
+          </TouchableOpacity>
         </View>
         <TouchableOpacity
           onPress={() => {
@@ -201,6 +187,35 @@ const AccountForOwner = () => {
             <Text style={styles.buttonText1}>Log out</Text>
           </TouchableOpacity>
         </View>
+
+        {/* Modal PaP */}
+        <ModalPrivacy visible={visible}>
+          <View>
+            <View style={{ marginBottom: '10%' }}>
+              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+                Policy and privacy
+              </Text>
+            </View>
+            <ScrollView
+              style={{
+                marginLeft: '5%',
+                height: '80%',
+                marginBottom: '7%',
+              }}
+            >
+              <Text style={styles.details}></Text>
+            </ScrollView>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+              <TouchableOpacity
+                style={styles.button3}
+                onPress={() => setVisible(false)}
+              >
+                <Text style={styles.buttonText1}>Agree</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ModalPrivacy>
       </View>
     </ScrollView>
   );
@@ -356,7 +371,17 @@ const styles = StyleSheet.create({
     margin: 5,
     flexDirection: 'row',
   },
-
+  button3: {
+    backgroundColor: Colors.secondary,
+    width: '35%',
+    padding: 15,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 1,
+    margin: 5,
+    flexDirection: 'row',
+  },
   TouchableOpacity: {
     backgroundColor: 'white',
     width: 350,

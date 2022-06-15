@@ -8,8 +8,10 @@ import {
   TextInput,
   ScrollView,
   KeyboardAvoidingView,
+  FlatList,
+  Dimensions,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import pencil from '../assets/icons/pencil.png';
 import { useNavigation } from '@react-navigation/core';
 import search from '../assets/icons/search.png';
@@ -27,6 +29,10 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import cashier from '../assets/icons/cashier.png';
 import waiter from '../assets/icons/waiter.png';
 import chef from '../assets/icons/chef.png';
+import vector from '../assets/icons/Vector.png';
+import waiterData from '../assets/data/WaiterData';
+import chefData from '../assets/data/ChefData';
+const windowWidth = Dimensions.get('window').width;
 
 const ModalPopup = ({ visible, children }) => {
   const [showModal, setShowModal] = React.useState(visible);
@@ -41,8 +47,44 @@ const ModalPopup = ({ visible, children }) => {
 
 const StaffManagement = () => {
   const Tab = createMaterialTopTabNavigator();
-
   const navigation = useNavigation();
+  console.log(waiterData);
+
+  // flat list view
+
+  const FlatListItem = ({ item }) => {
+    console.log(item);
+    return (
+      <TouchableOpacity
+        style={styles.TouchableOpacity}
+        onPress={() => navigation.navigate('EditStaffProfile')}
+      >
+        <TouchableOpacity
+          style={{ position: 'absolute', left: '-25%' }}
+          onPress={() => navigation.navigate('EditStaffProfile')}
+        >
+          <Image
+            style={{
+              width: 45,
+              height: 45,
+              borderRadius: 100,
+            }}
+            source={item.avatar}
+          />
+        </TouchableOpacity>
+
+        <View
+          style={{
+            justifyContent: 'center',
+
+            width: '65%',
+          }}
+        >
+          <Text style={styles.textName}>{item.name}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -60,8 +102,8 @@ const StaffManagement = () => {
       </View>
 
       {/* List staffs  */}
-      
 
+      {/* List waiter  */}
       <View
         style={{ justifyContent: 'center', alignItems: 'center', margin: 10 }}
       >
@@ -72,20 +114,21 @@ const StaffManagement = () => {
             marginLeft: '5%',
           }}
         >
-          <Image
-            source={waiter}
-            style={{
-              width: 20,
-              height: 20,
-              alignSelf: 'flex-start',
-              margin: 10,
-            }}
-          />
+          <Image source={waiter} style={styles.iconHeader} />
           <Text style={styles.textWaiter}>Waiters</Text>
         </View>
-        <ButtonUser name={'Huy'} />
+        <FlatList
+          data={waiterData}
+          renderItem={({ item, index }) => {
+            return <FlatListItem item={item} index={index} />;
+          }}
+          keyExtractor={(item) => item.id}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+        />
       </View>
 
+      {/* List chef  */}
       <View
         style={{ justifyContent: 'center', alignItems: 'center', margin: 10 }}
       >
@@ -96,21 +139,18 @@ const StaffManagement = () => {
             marginLeft: '5%',
           }}
         >
-          <Image
-            source={chef}
-            style={{
-              width: 20,
-              height: 20,
-              alignSelf: 'flex-start',
-              margin: 10,
-            }}
-          />
+          <Image source={chef} style={styles.iconHeader} />
           <Text style={styles.textWaiter}>Chefs</Text>
         </View>
-        <ButtonUser name={'Huy'} />
-        <ButtonUser name={'Hoang'} />
-        <ButtonUser name={'Hoang'} />
-        <ButtonUser name={'Hoang'} />
+        <FlatList
+          data={chefData}
+          renderItem={({ item, index }) => {
+            return <FlatListItem item={item} index={index} />;
+          }}
+          keyExtractor={(item) => item.id}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+        />
       </View>
     </ScrollView>
   );
@@ -122,6 +162,47 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f8f9fa',
+  },
+
+  iconHeader: {
+    width: 20,
+    height: 20,
+    alignSelf: 'flex-start',
+    margin: 10,
+  },
+
+  containerItemFlatList: {
+    width: windowWidth - 40,
+    height: '100%',
+    paddingHorizontal: '5%',
+    backgroundColor: '#FFFFFF',
+    paddingTop: 0,
+    marginVertical: '2%',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    borderRadius: 15,
+    paddingBottom: '1.5%',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+
+    elevation: 4,
+    flex: 1,
+  },
+  icon: {
+    width: 18,
+    height: 18,
+    position: 'absolute',
+    right: 30,
+    top: '30%',
+  },
+  textName: {
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   view1: {
     flexDirection: 'row',
@@ -188,7 +269,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textWaiter: {
-    fontSize: 16,
+    fontSize: 20,
 
     position: 'relative',
 
@@ -241,5 +322,15 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '700',
     fontSize: 16,
+  },
+  TouchableOpacity: {
+    backgroundColor: 'transparent',
+    width: windowWidth * 0.7,
+    height: 80,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    marginLeft: 80,
+    borderBottomColor: '#e0e0e0',
   },
 });

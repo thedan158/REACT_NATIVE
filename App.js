@@ -152,8 +152,25 @@ export default function App() {
         />
         <Stack.Screen
           options={{ headerShown: false }}
+          name="TabForStaff"
+          component={TabForStaff}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
           name="TabForOwner"
           component={TabForOwner}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="AccountForStaff"
+          component={AccountForStaff}
+        />
+        <Stack.Screen
+          name="RestaurantManagement"
+          options={{ headerShown: false }}
+          component={RestaurantManagement}
         />
 
         <Stack.Screen
@@ -172,12 +189,6 @@ export default function App() {
 
         <Stack.Screen
           options={{ headerShown: false }}
-          name="TabForStaff"
-          component={TabForStaff}
-        />
-
-        <Stack.Screen
-          options={{ headerShown: false }}
           name="OTPsignup"
           component={OTPsignup}
         />
@@ -188,13 +199,6 @@ export default function App() {
           component={Analytics}
         />
 
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="AccountForStaff"
-          component={AccountForStaff}
-        />
         <Stack.Screen
           options={{ headerShown: false }}
           name="Login"
@@ -225,11 +229,6 @@ export default function App() {
           name="StaffInformation"
           component={StaffInformation}
           options={{ ...customTransition, headerShown: false }}
-        />
-        <Stack.Screen
-          name="RestaurantManagement"
-          options={{ headerShown: false }}
-          component={RestaurantManagement}
         />
 
         <Stack.Screen

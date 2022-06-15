@@ -22,6 +22,7 @@ import Colors from '../assets/Colors';
 import background from '../assets/images/background.png';
 import back from '../assets/icons/back-green.png';
 import CustomModal from '../custom component/CustomModal';
+import LoadingOwner from '../custom component/LoadingOwner';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -33,7 +34,16 @@ const EditResProfile = () => {
   const navigation = useNavigation();
   const [image, setImage] = useState('null');
   const [visible, setVisible] = React.useState(false);
+  const [visibleLoad, setVisibleLoad] = React.useState(false);
 
+  // function close LoadingOwner and open CustomModal when timePassed is true
+  const loadingAndPopup = () => {
+    setVisibleLoad(true);
+    setTimeout(() => {
+      setVisibleLoad(false);
+      setVisible(true);
+    }, 2000);
+  };
   const PickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -139,15 +149,13 @@ const EditResProfile = () => {
         <View style={styles.view4}>
           {/* Button */}
           <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              onPress={() => setVisible(true)}
-              style={styles.button}
-            >
-              <Text style={styles.buttonText}>Finish</Text>
+            <TouchableOpacity onPress={loadingAndPopup} style={styles.button}>
+              <Text style={styles.buttonText}>Save</Text>
             </TouchableOpacity>
           </View>
         </View>
-
+        {/* Modal loading  */}
+        <LoadingOwner visible={visibleLoad}></LoadingOwner>
         {/* Modal  */}
         <CustomModal visible={visible}>
           <View style={{ alignItems: 'center' }}>

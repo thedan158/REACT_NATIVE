@@ -9,46 +9,58 @@ import {
   Button,
   Alert,
   ScrollView,
-} from "react-native";
-import React, { useState, useEffect } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/core";
-import CustomTextInput from "../custom component/CustomTextInput";
-import gallery from "../assets/icons/picture.png";
-import * as ImagePicker from "expo-image-picker";
-import { Constants } from "expo-constants";
-import Colors from "../assets/Colors";
-import background from "../assets/images/background.png";
-import StaffScreen from "../custom component/StaffScreen";
-import CustomModal from "../custom component/CustomModal";
-import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { firebaseConfig } from "../firebase";
-import * as firebase from "firebase";
+} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/core';
+import CustomTextInput from '../custom component/CustomTextInput';
+import gallery from '../assets/icons/picture.png';
+import * as ImagePicker from 'expo-image-picker';
+import { Constants } from 'expo-constants';
+import Colors from '../assets/Colors';
+import background from '../assets/images/background.png';
+import StaffScreen from '../custom component/StaffScreen';
+import CustomModal from '../custom component/CustomModal';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { firebaseConfig } from '../firebase';
+import * as firebase from 'firebase';
+import LoadingStaff from '../custom component/LoadingStaff';
 
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const EditProfile = () => {
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
   }
-  const [fullname, setFullname] = useState("");
-  const [address, setAddress] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
+  const [fullname, setFullname] = useState('');
+  const [address, setAddress] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [email, setEmail] = useState('');
   const navigation = useNavigation();
-  const [image, setImage] = useState("null");
+  const [image, setImage] = useState('null');
   const [visible, setVisible] = React.useState(false);
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState('');
+
+  const [visibleLoad, setVisibleLoad] = React.useState(false);
+
+  // function close LoadingStaff and open CustomModal when timePassed is true
+  const loadingAndPopup = () => {
+    setVisibleLoad(true);
+    setTimeout(() => {
+      setVisibleLoad(false);
+      setVisible(true);
+    }, 2000);
+  };
 
   useEffect(async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-    if (status !== "granted") {
-      alert("Permission denied!");
+    if (status !== 'granted') {
+      alert('Permission denied!');
     }
     const getData = async () => {
-      const user = await AsyncStorage.getItem("userLoginData");
+      const user = await AsyncStorage.getItem('userLoginData');
       const userInfo = JSON.parse(user);
       console.log(userInfo.username);
       const response = await axios.get(
@@ -59,17 +71,17 @@ const EditProfile = () => {
       console.log(data);
       console.log(success);
       if (!success) {
-        Alert.alert("Account not found");
+        Alert.alert('Account not found');
         return;
       }
-      setAddress(data.address ? data.address : "");
-      setEmail(data.email ? data.email : "");
-      setFullname(data.fullname ? data.fullname : "");
-      setPhoneNumber(data.phoneNumber ? data.phoneNumber : "");
+      setAddress(data.address ? data.address : '');
+      setEmail(data.email ? data.email : '');
+      setFullname(data.fullname ? data.fullname : '');
+      setPhoneNumber(data.phoneNumber ? data.phoneNumber : '');
       setImage(
         data.imagePath
           ? data.imagePath
-          : "https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fgood.png?alt=media&token=de139437-3a20-4eb3-ba56-f6a591779d15"
+          : 'https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fgood.png?alt=media&token=de139437-3a20-4eb3-ba56-f6a591779d15'
       );
     };
     getData().catch((err) => console.log(err));
@@ -90,7 +102,7 @@ const EditProfile = () => {
   // *Region for save profile
   const handleUpdateProfile = async () => {
     //*Get user data from AsyncStorage
-    const user = await AsyncStorage.getItem("userLoginData");
+    const user = await AsyncStorage.getItem('userLoginData');
     const userData = JSON.parse(user);
 
     //*Create blob from image
@@ -101,10 +113,10 @@ const EditProfile = () => {
       };
       xhr.onerror = function (e) {
         console.log(e);
-        reject(new TypeError("Network request failed"));
+        reject(new TypeError('Network request failed'));
       };
-      xhr.responseType = "blob";
-      xhr.open("GET", image, true);
+      xhr.responseType = 'blob';
+      xhr.open('GET', image, true);
       xhr.send(null);
     });
 
@@ -117,7 +129,7 @@ const EditProfile = () => {
     await snapshot.on(
       firebase.storage.TaskEvent.STATE_CHANGED,
       () => {
-        console.log("uploading");
+        console.log('uploading');
       },
       (error) => {
         console.log(error);
@@ -126,13 +138,13 @@ const EditProfile = () => {
       },
       async () => {
         await ref.getDownloadURL().then(async (url) => {
-          console.log("download url: " + url);
+          console.log('download url: ' + url);
           setUrl(url);
           blob.close();
           console.log(userData);
-          console.log("platform: " + Platform.OS);
-          console.log("blob:" + blob);
-          console.log("url:" + url);
+          console.log('platform: ' + Platform.OS);
+          console.log('blob:' + blob);
+          console.log('url:' + url);
           const res = await axios.post(
             `https://foody-uit.herokuapp.com/profile/update/${userData.username}`,
             {
@@ -146,10 +158,10 @@ const EditProfile = () => {
           const { success } = res.data;
           console.log(success);
           if (!success) {
-            Alert.alert("Update failed");
+            Alert.alert('Update failed');
             return;
           }
-          setVisible(true);
+          loadingAndPopup();
         });
       }
     );
@@ -158,7 +170,7 @@ const EditProfile = () => {
 
   // *Region for OnPress Signup
   const handleSignup = () => {
-    navigation.navigate("AccountForOwner");
+    navigation.navigate('AccountForOwner');
   };
   return (
     <StaffScreen>
@@ -230,32 +242,34 @@ const EditProfile = () => {
               <Text style={styles.buttonText}>Save</Text>
             </TouchableOpacity>
           </View>
-
-          {/* Modal  */}
-          <CustomModal visible={visible}>
-            <View style={{ alignItems: "center" }}>
-              <Image
-                source={require("../assets/icons/save-orange.png")}
-                style={{ height: 150, width: 150, marginVertical: 30 }}
-              />
-            </View>
-
-            <Text
-              style={{ marginVertical: 30, fontSize: 20, textAlign: "center" }}
-            >
-              Update profile successfully
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                handleSignup();
-                setVisible(false);
-              }}
-              style={styles.button}
-            >
-              <Text style={styles.buttonText}>OK</Text>
-            </TouchableOpacity>
-          </CustomModal>
         </View>
+        {/* Modal loading */}
+        <LoadingStaff visible={visibleLoad}></LoadingStaff>
+
+        {/* Modal popup */}
+        <CustomModal visible={visible}>
+          <View style={{ alignItems: 'center' }}>
+            <Image
+              source={require('../assets/icons/save-orange.png')}
+              style={{ height: 150, width: 150, marginVertical: 30 }}
+            />
+          </View>
+
+          <Text
+            style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}
+          >
+            Update profile successfully
+          </Text>
+          <TouchableOpacity
+            onPress={() => {
+              handleSignup();
+              setVisible(false);
+            }}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>OK</Text>
+          </TouchableOpacity>
+        </CustomModal>
       </ScrollView>
     </StaffScreen>
   );
@@ -268,118 +282,118 @@ const styles = StyleSheet.create({
     flex: 1,
     width: windowWidth,
     height: windowHeight,
-    alignItems: "center",
+    alignItems: 'center',
   },
   buttonContainer: {
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   button: {
-    backgroundColor: "#FA4A0C",
-    width: "100%",
+    backgroundColor: '#FA4A0C',
+    width: '100%',
     padding: 15,
     borderRadius: 20,
     elevation: 1,
-    alignItems: "center",
+    alignItems: 'center',
   },
   button1: {
-    backgroundColor: "#FA4A0C",
-    width: "60%",
+    backgroundColor: '#FA4A0C',
+    width: '60%',
     padding: 10,
     borderRadius: 5,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     elevation: 1,
   },
   buttonText: {
-    color: "white",
-    fontWeight: "700",
+    color: 'white',
+    fontWeight: '700',
     fontSize: 16,
   },
 
   view2: {
     flex: 3,
-    justifyContent: "space-evenly",
-    alignItems: "center",
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
   },
   view3: {
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
     flex: 5,
   },
   view4: {
     flex: 2,
-    justifyContent: "flex-start",
+    justifyContent: 'flex-start',
     marginTop: 10,
-    width: "80%",
-    alignItems: "center",
+    width: '80%',
+    alignItems: 'center',
   },
 
   textView: {
-    flexDirection: "row",
-    backgroundColor: "white",
+    flexDirection: 'row',
+    backgroundColor: 'white',
     borderBottomLeftRadius: 50,
     borderBottomRightRadius: 50,
   },
 
   loginBox: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    position: "relative",
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
     top: 30,
     left: 10,
   },
 
   loginText: {
-    color: "#FA4A0C",
-    fontWeight: "700",
+    color: '#FA4A0C',
+    fontWeight: '700',
     fontSize: 16,
-    textAlign: "center",
-    position: "absolute",
-    alignSelf: "center",
+    textAlign: 'center',
+    position: 'absolute',
+    alignSelf: 'center',
   },
 
   ownerText: {
-    color: "black",
+    color: 'black',
     fontSize: 16,
-    fontWeight: "normal",
+    fontWeight: 'normal',
   },
 
   signupBox: {
     flex: 0.5,
-    alignItems: "center",
-    justifyContent: "flex-start",
-    position: "relative",
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    position: 'relative',
     right: 15,
   },
 
   rectangle: {
     width: 130,
     height: 3,
-    backgroundColor: "#FA4A0C",
-    position: "relative",
+    backgroundColor: '#FA4A0C',
+    position: 'relative',
     bottom: -9,
   },
 
   signupText: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 
   registerText: {
-    flexWrap: "wrap",
-    flexDirection: "row",
+    flexWrap: 'wrap',
+    flexDirection: 'row',
     marginTop: 20,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
 
   fullNameBox: {
     width: 300,
     height: 55,
-    backgroundColor: "white",
-    justifyContent: "center",
-    alignItems: "flex-start",
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
     borderRadius: 13,
   },
 
@@ -391,9 +405,9 @@ const styles = StyleSheet.create({
   passwordBox: {
     width: 300,
     height: 55,
-    backgroundColor: "white",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 13,
     marginTop: 25,
   },
@@ -401,39 +415,39 @@ const styles = StyleSheet.create({
   gallery: {
     height: 65,
     width: 65,
-    alignSelf: "center",
+    alignSelf: 'center',
   },
 
   textSignupButton: {
     fontSize: 16,
     lineHeight: 21,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     letterSpacing: 0.25,
-    color: "white",
+    color: 'white',
   },
 
   pickLogo: {
     width: 140,
     height: 140,
-    backgroundColor: "white",
-    alignSelf: "center",
-    justifyContent: "center",
-    alignItems: "center",
-    borderColor: "black",
+    backgroundColor: 'white',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: 'black',
     borderWidth: 3,
     borderRadius: 10,
-    borderStyle: "dashed",
+    borderStyle: 'dashed',
   },
   pick: {
     width: 140,
     height: 140,
-    borderColor: "black",
+    borderColor: 'black',
   },
 
   ImageBackground: {
     height: 50,
     width: 50,
-    position: "absolute",
-    alignSelf: "center",
+    position: 'absolute',
+    alignSelf: 'center',
   },
 });

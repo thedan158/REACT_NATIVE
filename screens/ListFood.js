@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 import Constants from 'expo-constants';
 const { width, height } = Dimensions.get('window');
-import { getFoods } from '../assets/FoodData';
+import { getFoods } from '../assets/data/FoodData';
 import Rating from '../custom component/Rating';
 import MaskedView from '@react-native-community/masked-view';
 import Svg, { Rect } from 'react-native-svg';
