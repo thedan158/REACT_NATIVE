@@ -144,12 +144,19 @@ export default function App() {
           gestureDirection: 'horizontal',
         }}
       >
+         
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="TabForStaff"
+          component={TabForStaff}
+        />
+
         <Stack.Screen
           options={{ headerShown: false }}
           name="SplashScreen"
           component={SplashScreen}
         />
-        <Stack.Screen
+       <Stack.Screen
           options={{ headerShown: false }}
           name="TabForOwner"
           component={TabForOwner}
@@ -169,11 +176,7 @@ export default function App() {
           component={EditResProfile}
         />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="TabForStaff"
-          component={TabForStaff}
-        />
+        
 
         <Stack.Screen
           options={{ headerShown: false }}

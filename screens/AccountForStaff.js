@@ -22,6 +22,7 @@ import info from '../assets/icons/info.png';
 import personal from '../assets/icons/personal.png';
 import vector from '../assets/icons/Vector.png';
 import password from '../assets/icons/password.png';
+import light_on from '../assets/icons/light-on.png';
 import light_off from '../assets/icons/light-off.png';
 import light_on from '../assets/icons/light-on.png';
 import dark_off from '../assets/icons/dark-off.png';
@@ -137,7 +138,7 @@ const AccountForStaff = () => {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.TouchableOpacity}
-            onPress={() => navigation.navigate('ChangeStaffPassword')}
+            onPress={() => navigation.navigate('ListFood')}
           >
             <Image source={password} style={styles.iconTitle} />
             <Text style={styles.textName}>Change Your Password</Text>

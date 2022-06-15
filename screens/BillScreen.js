@@ -23,96 +23,99 @@ const DataTable = [
     name: "Table 1",
     imgSourceSelected: require("../assets/icons/TableOrange.png"),
     imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: true,
+    isBusy: true,
   },
   {
     id: 2,
     name: "Table 2",
     imgSourceSelected: require("../assets/icons/TableOrange.png"),
     imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: false,
+    isBusy: false,
   },
   {
     id: 3,
     name: "Table 3",
     imgSourceSelected: require("../assets/icons/TableOrange.png"),
     imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: true,
+    isBusy: true,
   },
   {
     id: 4,
     name: "Table 4",
     imgSourceSelected: require("../assets/icons/TableOrange.png"),
     imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: true,
+    isBusy: false,
   },
   {
     id: 5,
     name: "Table 5",
     imgSourceSelected: require("../assets/icons/TableOrange.png"),
     imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: true,
+    isBusy: true,
   },
   {
     id: 6,
     name: "Table 6",
     imgSourceSelected: require("../assets/icons/TableOrange.png"),
     imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: true,
+    isBusy: true,
   },
   {
     id: 7,
     name: "Table 7",
     imgSourceSelected: require("../assets/icons/TableOrange.png"),
     imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: true,
+    isBusy: true,
   },
-  // {
-  //   id: 8,
-  //   name: "Table 8",
-  //   imgSourceSelected: require("../assets/icons/TableOrange.png"),
-  //   imgSourceEmpty: require("../assets/icons/TableGray.png"),
-  //   isUse: false,
-  // },
+  {
+    id: 8,
+    name: "Table 8",
+    imgSourceSelected: require("../assets/icons/TableOrange.png"),
+    imgSourceEmpty: require("../assets/icons/TableGray.png"),
+    isBusy: false,
+  },
 ];
 
-const FlatlistItemFunctions = ({ item }) => {
-  if (item.isBusy === true) {
-    return (
-      <View>
-        <TouchableOpacity style={styles.flatlistitemStyleInUse}>
-          <View>
-            <Image
-              source={require("../assets/icons/TableOrange.png")}
-              style={styles.imgItemFlatlist}
-            />
-            <Text style={styles.txtItemFlatlistInUse}>{item.id}</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
-  }
 
-  return (
-    <View>
-      <TouchableOpacity disabled={true} style={styles.flatlistitemStyle}>
-        <View>
-          <Image
-            source={require("../assets/icons/TableGray.png")}
-            style={styles.imgItemFlatlist}
-          />
-          <Text style={styles.txtItemFlatlist}>{item.id}</Text>
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
-};
 
-const BillScreen = () => {
+const BillScreen = ({navigation}) => {
   const [search, setSearch] = useState("");
   const [masterData, setMasterData] = useState([]);
   const [dataFromState, setNewData] = useState([]);
 
+  const FlatlistItemFunctions = ({ item }) => {
+    if (item.isBusy === true) {
+      return (
+        <View>
+          <TouchableOpacity 
+          onPress={() => navigation.navigate('CheckOutTableScreen', {item})}
+          style={styles.flatlistitemStyleInUse}>
+            <View>
+              <Image
+                source={require("../assets/icons/TableOrange.png")}
+                style={styles.imgItemFlatlist}
+              />
+              <Text style={styles.txtItemFlatlistInUse}>{item.id}</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+  
+    return (
+      <View>
+        <TouchableOpacity disabled={true} style={styles.flatlistitemStyle}>
+          <View>
+            <Image
+              source={require("../assets/icons/TableGray.png")}
+              style={styles.imgItemFlatlist}
+            />
+            <Text style={styles.txtItemFlatlist}>{item.id}</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
+  };
   useEffect(() => {
     const getData = async () => {
       const userLoginData = await AsyncStorage.getItem("userLoginData");
@@ -151,7 +154,9 @@ const BillScreen = () => {
 
   return (
     // Root View
-    <ScrollView style={styles.container}>
+    <ScrollView
+    showsVerticalScrollIndicator={false}
+    style={styles.container}>
       <View style={styles.containerTop}>
         <Text style={styles.txtHeaderView}>BiLL</Text>
         <View style={styles.containerTemp}>
@@ -197,6 +202,8 @@ export default BillScreen;
 const styles = StyleSheet.create({
   container: {
     marginBottom: "8%",
+    paddingTop: '4%',
+    marginBottom: '15%',
   },
   containerTop: {
     backgroundColor: "#FF4B3A",

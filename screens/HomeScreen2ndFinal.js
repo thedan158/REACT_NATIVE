@@ -10,7 +10,7 @@ import {
 import React from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../assets/Colors';
-
+import { useNavigation } from "@react-navigation/core";
 const imgDesertDish = require('../assets/images/DessertDish.png')
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -21,7 +21,9 @@ const imgBackgroundSource3 = {
   uri: 'https://www.pngall.com/wp-content/uploads/2/Meal-PNG-Pic.png',
 };
 
-const HomeScreen2ndFinal = ({ navigation }) => {
+
+const HomeScreen2ndFinal = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.containerHeaderTop}>

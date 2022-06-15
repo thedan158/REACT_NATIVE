@@ -331,7 +331,6 @@ const styles = StyleSheet.create({
     height: 140,
     borderColor: "black",
   },
-
   button: {
     backgroundColor: Colors.secondary,
     width: "100%",

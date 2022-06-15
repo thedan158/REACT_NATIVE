@@ -11,11 +11,14 @@ import {
   FlatList,
   Alert,
 } from "react-native";
+
 import React, { useState, useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import Colors from "../assets/Colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import back from "../assets/icons/back-green.png";
+
 
 const maxWidthConst = windowWidth - 10;
 const imgAddItem = require("../assets/icons/AddItem.png");
@@ -27,6 +30,7 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 const maxWidth40 = windowWidth - 30;
 const imgSearchSource = require("../assets/icons/search.png");
+
 
 const Button2Screen = ({ navigation }) => {
   const [search, setSearch] = useState("");
@@ -159,24 +163,34 @@ const Button2Screen = ({ navigation }) => {
     );
   }
 
+  
+
   const FlatListItem = ({ item }) => {
+
+    function HandleItemPress () {
+      
+  
+    }
+
     return (
-      <View style={styles.containerItemFlatList}>
-        <View style={styles.containerImageItem}>
-          <Image
-            source={{ uri: item.imagePath }}
-            style={styles.imgSourceItem}
-          />
+      <TouchableOpacity onPress={()=>navigation.navigate('EditMenuScreen', {item} )}
+      >
+        <View style={styles.containerItemFlatList}>
+          <View style={styles.containerImageItem}>
+            <Image source={{ uri: item.imagePath }} style={styles.imgSourceItem} />
+          </View>
+
+          <View style={styles.containerInfoItem}>
+            <Text style={styles.txtNameDishItem}>{item.name}</Text>
+            <View style={styles.containerRatingItem}>
+              <Text style={styles.txtPriceItemInfo2}>${item.price}</Text>
+              <Image source={icStar} style={styles.imgStarItem} />
+            </View>
+
+            <View style={styles.containerPriceItem}></View>
+          </View>
         </View>
-
-        <View style={styles.containerInfoItem}>
-          <Text style={styles.txtNameDishItem}>{item.name}</Text>
-
-          <Text style={styles.txtPriceItemInfo2}>${item.price}</Text>
-        </View>
-
-        <View style={styles.containerPriceItem}></View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
