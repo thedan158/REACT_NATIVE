@@ -36,7 +36,7 @@ const AddingTable = () => {
     const user = JSON.parse(userLoginData);
     console.log("username: " + user.username);
     const res = await axios.post(
-      `https://f1f2-14-161-13-207.ap.ngrok.io/table/createTable`,
+      `https://foody-uit.herokuapp.com/table/createTable`,
       {
         username: user.username,
         name: nameTable,

@@ -40,7 +40,7 @@ const EditTableInfo = ({ route }) => {
   };
   const handleSave = async (id) => {
     const res1 = await axios.put(
-      `https://f1f2-14-161-13-207.ap.ngrok.io/table/updateTable/${id}`,
+      `https://foody-uit.herokuapp.com/table/updateTable/${id}`,
       {
         name: nameTable,
       }
