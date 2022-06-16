@@ -76,20 +76,19 @@ const DataTable = [
   },
 ];
 
-
-
-const BillScreen = ({navigation}) => {
+const BillScreen = ({ navigation }) => {
   const [search, setSearch] = useState("");
   const [masterData, setMasterData] = useState([]);
   const [dataFromState, setNewData] = useState([]);
-
+  const [refreshing, setRefreshing] = useState(false);
   const FlatlistItemFunctions = ({ item }) => {
     if (item.isBusy === true) {
       return (
         <View>
-          <TouchableOpacity 
-          onPress={() => navigation.navigate('CheckOutTableScreen', {item})}
-          style={styles.flatlistitemStyleInUse}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("CheckOutTableScreen", { item })}
+            style={styles.flatlistitemStyleInUse}
+          >
             <View>
               <Image
                 source={require("../assets/icons/TableOrange.png")}
@@ -100,8 +99,8 @@ const BillScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
       );
-    } 
-  
+    }
+
     return (
       <View>
         <TouchableOpacity disabled={true} style={styles.flatlistitemStyle}>
@@ -132,10 +131,11 @@ const BillScreen = ({navigation}) => {
       console.log(success);
       setNewData(message);
       setMasterData(dataFromState);
+      setRefreshing(false);
       console.log("filteredData is all selected");
     };
     getData().catch((err) => console.log(err));
-  }, []);
+  }, [refreshing]);
 
   const searchFilterFunction = (text) => {
     if (text) {
@@ -154,9 +154,7 @@ const BillScreen = ({navigation}) => {
 
   return (
     // Root View
-    <ScrollView
-    showsVerticalScrollIndicator={false}
-    style={styles.container}>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <View style={styles.containerTop}>
         <Text style={styles.txtHeaderView}>BiLL</Text>
         <View style={styles.containerTemp}>
@@ -179,6 +177,7 @@ const BillScreen = ({navigation}) => {
       </View>
       <View style={styles.containerBottom}>
         <FlatList
+          refreshing={refreshing}
           data={dataFromState}
           renderItem={({ item, index }) => {
             return (
@@ -191,6 +190,7 @@ const BillScreen = ({navigation}) => {
           keyExtractor={(item) => item.id}
           nestedScrollEnabled
           numColumns={2}
+          onRefresh={() => setRefreshing(true)}
         />
       </View>
     </ScrollView>
@@ -202,8 +202,8 @@ export default BillScreen;
 const styles = StyleSheet.create({
   container: {
     marginBottom: "8%",
-    paddingTop: '4%',
-    marginBottom: '15%',
+    paddingTop: "4%",
+    marginBottom: "15%",
   },
   containerTop: {
     backgroundColor: "#FF4B3A",
