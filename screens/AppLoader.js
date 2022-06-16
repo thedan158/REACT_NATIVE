@@ -43,7 +43,7 @@ const AppLoader = ({ navigation }) => {
             width: 300,
             height: 150,
           }}
-          source={require('../assets/json/loading-text.json')}
+          source={require('../assets/json/loading-edit.json')}
           loop={true}
           autoPlay
         />

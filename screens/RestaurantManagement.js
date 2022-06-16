@@ -7,6 +7,7 @@ import Analytics from './Analytics';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import TabBar from 'react-native-underline-tabbar';
 import { NavigationContainer } from '@react-navigation/native';
+import ListFood from './ListFood';
 
 const RestaurantManagement = () => {
   const Tab = createMaterialTopTabNavigator();
@@ -46,7 +47,7 @@ const RestaurantManagement = () => {
         style={{ backgroundColor: 'transparent' }}
       >
         <Tab.Screen component={StaffManagement} name="Staffs" />
-        <Tab.Screen component={Analytics} name="Analytics" />
+        <Tab.Screen component={ListFood} name="Analytics" />
       </Tab.Navigator>
     </View>
   );

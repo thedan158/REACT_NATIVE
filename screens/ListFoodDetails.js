@@ -5,6 +5,7 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  Modal,
 } from 'react-native';
 import React from 'react';
 import * as Animatable from 'react-native-animatable';
@@ -27,10 +28,33 @@ const toBottom = {
   1: { opacity: 1, translateX: 320, translateY: 5 },
 };
 
-const ListFoodDetails = ({ navigation, route }) => {
+const ListFoodDetails = ({ route, visible }) => {
+  const [showModal, setShowModal] = React.useState(visible);
+  const scaleValue = React.useRef(new Animated.Value(0)).current;
+  React.useEffect(() => {
+    toggleModal();
+  }, [visible]);
+  const toggleModal = () => {
+    if (visible) {
+      setShowModal(true);
+      Animated.spring(scaleValue, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      setTimeout(() => setShowModal(false), 200);
+      Animated.timing(scaleValue, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }
+  };
   const { item } = route.params;
   return (
-    <View
+    <Modal
+      visible={showModal}
       style={{
         flex: 1,
         justifyContent: 'flex-start',
@@ -38,7 +62,6 @@ const ListFoodDetails = ({ navigation, route }) => {
         backgroundColor: 'white',
       }}
     >
-      <View></View>
       {/* Image  */}
       <View style={{ flex: 5 }}>
         <SharedElement id={item.key}>
@@ -65,7 +88,7 @@ const ListFoodDetails = ({ navigation, route }) => {
           }}
         >
           {/* Back button */}
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={setShowModal(false)}>
             <Animatable.Image
               useNativeDriver
               animation={toBottom}
@@ -159,7 +182,7 @@ const ListFoodDetails = ({ navigation, route }) => {
           </Animatable.View>
         </Animatable.View>
       </View>
-    </View>
+    </Modal>
   );
 };
 
