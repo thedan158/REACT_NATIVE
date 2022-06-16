@@ -76,55 +76,54 @@ const DataTable = [
   },
 ];
 
-const FlatlistItemFunctions = ({ item }) => {
-  if (item.isBusy === true) {
+const SelectedTable = () => {
+  const FlatlistItemFunctions = ({ item }) => {
+    if (item.isBusy === true) {
+      return (
+        <View>
+          <TouchableOpacity
+            onPress={() => {
+              handleOnPressTable(item.id);
+            }}
+            style={styles.flatlistitemStyleInUse}
+          >
+            <View>
+              <Image
+                source={require("../assets/icons/TableOrange.png")}
+                style={styles.imgItemFlatlist}
+              />
+              <Text style={styles.txtItemFlatlistInUse}>{item.id}</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+
     return (
       <View>
-        <TouchableOpacity
-          onPress={() => {
-            handleOnPressTable(item.id);
-          }}
-          style={styles.flatlistitemStyleInUse}
-        >
+        <TouchableOpacity disabled={true} style={styles.flatlistitemStyle}>
           <View>
             <Image
-              source={require("../assets/icons/TableOrange.png")}
+              source={require("../assets/icons/TableGray.png")}
               style={styles.imgItemFlatlist}
             />
-            <Text style={styles.txtItemFlatlistInUse}>{item.id}</Text>
+            <Text style={styles.txtItemFlatlist}>{item.id}</Text>
           </View>
         </TouchableOpacity>
       </View>
     );
-  }
-
-  return (
-    <View>
-      <TouchableOpacity disabled={true} style={styles.flatlistitemStyle}>
-        <View>
-          <Image
-            source={require("../assets/icons/TableGray.png")}
-            style={styles.imgItemFlatlist}
-          />
-          <Text style={styles.txtItemFlatlist}>{item.id}</Text>
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
-};
-
-const SelectedTable = () => {
+  };
   const [search, setSearch] = useState("");
   const [masterData, setMasterData] = useState([]);
   const [dataFromState, setNewData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const navigation = useNavigation();
 
-  //    const handleOnPressTable = async (id) => {
-  //   const navigation = useNavigation();
-  //   console.log(id);
-  //   await AsyncStorage.setItem("tableID", id);
-  //   navigation.goBack();
-  // };
+  const handleOnPressTable = async (id) => {
+    await AsyncStorage.setItem("tableID", id);
+    console.log("id sent: " + id);
+    navigation.goBack();
+  };
   useEffect(() => {
     const getData = async () => {
       const userLoginData = await AsyncStorage.getItem("userLoginData");
