@@ -9,7 +9,6 @@ export default function Rating({ rating }) {
 
   return (
     <View style={styles.rating}>
-      <Text style={styles.ratingNumber}>{rating}</Text>
       {r.map((type, index) => {
         return <AntDesign key={index} name={type} size={12} color="tomato" />;
       })}

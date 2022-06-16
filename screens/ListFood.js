@@ -14,6 +14,7 @@ import {
   Animated,
   TouchableOpacity,
   Platform,
+  ScrollView,
 } from 'react-native';
 import Constants from 'expo-constants';
 const { width, height } = Dimensions.get('window');
@@ -89,7 +90,7 @@ const Backdrop = ({ foods, scrollX }) => {
   );
 };
 
-export default function App() {
+const ListFood = () => {
   const navigation = useNavigation();
   const [foods, setFoods] = React.useState([]);
   const scrollX = React.useRef(new Animated.Value(0)).current;
@@ -113,7 +114,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Backdrop foods={foods} scrollX={scrollX} />
-      <StatusBar hidden />
+
       <Animated.FlatList
         showsHorizontalScrollIndicator={false}
         data={foods}
@@ -160,17 +161,11 @@ export default function App() {
                 }}
               >
                 {/* Image  */}
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.push('ListFoodDetails', { item });
-                  }}
-                  style={styles.posterImage}
-                >
+                <View style={styles.posterImage}>
                   <SharedElement id={item.key}>
                     <Image source={item.poster} style={styles.posterImage} />
                   </SharedElement>
-                </TouchableOpacity>
-
+                </View>
                 {/* Title and subTitle  */}
 
                 <Text style={{ fontSize: 24 }} numberOfLines={1}>
@@ -187,11 +182,13 @@ export default function App() {
       />
     </View>
   );
-}
+};
+
+export default ListFood;
 
 const styles = StyleSheet.create({
   loadingContainer: {
-    flex: 1,
+    // flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
