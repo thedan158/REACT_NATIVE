@@ -19,7 +19,8 @@ import Colors from "../assets/Colors";
 import * as ImagePicker from "expo-image-picker";
 import background from "../assets/images/background.png";
 import CustomModal from "../custom component/CustomModal";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
@@ -30,8 +31,24 @@ const AddingTable = () => {
   const [visible, setVisible] = useState(false);
   const [image, setImage] = useState("null");
   const navigation = useNavigation();
-  const handleSave = () => {
-    setVisible(true);
+  const handleSave = async () => {
+    const userLoginData = await AsyncStorage.getItem("userLoginData");
+    const user = JSON.parse(userLoginData);
+    console.log("username: " + user.username);
+    const res = await axios.post(
+      `https://f1f2-14-161-13-207.ap.ngrok.io/table/createTable`,
+      {
+        username: user.username,
+        name: nameTable,
+      }
+    );
+    const { success, message } = res.data;
+    console.log(message);
+    console.log(success);
+    if (success) {
+      setVisible(true);
+      navigation.goBack();
+    }
   };
   useEffect(async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -166,7 +183,6 @@ const AddingTable = () => {
             <TouchableOpacity
               onPress={() => {
                 setVisible(false);
-                
               }}
               style={styles.button}
             >

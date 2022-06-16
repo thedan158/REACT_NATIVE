@@ -12,6 +12,7 @@ import React, { useState, useEffect } from "react";
 import Colors from "../assets/Colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { useNavigation } from "@react-navigation/core";
 
 const SearchIconResouce = require("../assets/icons/search.png");
 const FillterIconResouce = require("../assets/icons/fillter.png");
@@ -79,7 +80,12 @@ const FlatlistItemFunctions = ({ item }) => {
   if (item.isBusy === true) {
     return (
       <View>
-        <TouchableOpacity style={styles.flatlistitemStyleInUse}>
+        <TouchableOpacity
+          onPress={() => {
+            handleOnPressTable(item.id);
+          }}
+          style={styles.flatlistitemStyleInUse}
+        >
           <View>
             <Image
               source={require("../assets/icons/TableOrange.png")}
@@ -111,7 +117,14 @@ const SelectedTable = () => {
   const [search, setSearch] = useState("");
   const [masterData, setMasterData] = useState([]);
   const [dataFromState, setNewData] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
+  //    const handleOnPressTable = async (id) => {
+  //   const navigation = useNavigation();
+  //   console.log(id);
+  //   await AsyncStorage.setItem("tableID", id);
+  //   navigation.goBack();
+  // };
   useEffect(() => {
     const getData = async () => {
       const userLoginData = await AsyncStorage.getItem("userLoginData");
@@ -128,10 +141,11 @@ const SelectedTable = () => {
       console.log(success);
       setNewData(message);
       setMasterData(dataFromState);
+      setRefreshing(false);
       console.log("filteredData is all selected");
     };
     getData().catch((err) => console.log(err));
-  }, []);
+  }, [refreshing]);
 
   const searchFilterFunction = (text) => {
     if (text) {
@@ -173,6 +187,7 @@ const SelectedTable = () => {
       </View>
       <View style={styles.containerBottom}>
         <FlatList
+          refreshing={refreshing}
           data={dataFromState}
           renderItem={({ item, index }) => {
             return (
@@ -185,6 +200,7 @@ const SelectedTable = () => {
           keyExtractor={(item) => item.id}
           nestedScrollEnabled
           numColumns={2}
+          onRefresh={() => setRefreshing(true)}
         />
       </View>
     </ScrollView>
