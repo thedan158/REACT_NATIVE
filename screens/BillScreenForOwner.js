@@ -12,6 +12,9 @@ import React, { useState, useEffect } from "react";
 import Colors from "../assets/Colors";
 import ModalTableSelect from "../custom component/ModalTableSelect";
 const imgAddItem = require("../assets/icons/AddItem.png");
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import MessageQueue from "react-native/Libraries/BatchedBridge/MessageQueue";
 
 const SearchIconResouce = require("../assets/icons/search.png");
 const FillterIconResouce = require("../assets/icons/fillter.png");
@@ -79,6 +82,7 @@ const BillScreenForOwner = ({ navigation }) => {
   const [search, setSearch] = useState("");
   const [masterData, setMasterData] = useState([]);
   const [dataFromState, setNewData] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   const FlatlistItemFunctions = ({ item }) => {
     if (item.isBusy === true) {
@@ -102,9 +106,10 @@ const BillScreenForOwner = ({ navigation }) => {
 
     return (
       <View>
-        <TouchableOpacity 
-        onPress={() => navigation.navigate('EditTableInfo', { item })}
-        style={styles.flatlistitemStyle}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("EditTableInfo", { item })}
+          style={styles.flatlistitemStyle}
+        >
           <View>
             <Image
               source={require("../assets/icons/TableGray.png")}
@@ -116,7 +121,27 @@ const BillScreenForOwner = ({ navigation }) => {
       </View>
     );
   };
-
+  useEffect(() => {
+    const getData = async () => {
+      const userLoginData = await AsyncStorage.getItem("userLoginData");
+      const user = JSON.parse(userLoginData);
+      console.log("username: " + user.username);
+      const res = await axios.post(
+        `https://foody-uit.herokuapp.com/table/getAllTableOfRestaurant`,
+        {
+          username: user.username,
+        }
+      );
+      const { success, message } = res.data;
+      console.log(message);
+      console.log(success);
+      setNewData(message);
+      setMasterData(dataFromState);
+      setRefreshing(false);
+      console.log("filteredData is all selected");
+    };
+    getData().catch((err) => console.log(err));
+  }, [refreshing]);
   const searchFilterFunction = (text) => {
     if (text) {
       const newData = masterData.filter(function (item) {
@@ -136,7 +161,7 @@ const BillScreenForOwner = ({ navigation }) => {
     // Root View
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <View style={styles.containerTop}>
-          <Text style={styles.txtHeaderView}>Bill</Text>
+        <Text style={styles.txtHeaderView}>Bill</Text>
         <View style={styles.containerTemp}>
           <View style={styles.containerSearchLayout}>
             <TouchableOpacity style={styles.btnSearch}>
@@ -151,15 +176,17 @@ const BillScreenForOwner = ({ navigation }) => {
           </View>
 
           <TouchableOpacity
-            onPress={() => navigation.navigate('AddingTable')}
-            style={styles.btnImgFillter}>
+            onPress={() => navigation.navigate("AddingTable")}
+            style={styles.btnImgFillter}
+          >
             <Image source={imgAddItem} style={styles.imgIconFillter} />
           </TouchableOpacity>
         </View>
       </View>
       <View style={styles.containerBottom}>
         <FlatList
-          data={DataTable}
+          refreshing={refreshing}
+          data={dataFromState}
           renderItem={({ item, index }) => {
             return (
               <FlatlistItemFunctions
@@ -171,6 +198,7 @@ const BillScreenForOwner = ({ navigation }) => {
           keyExtractor={(item) => item.id}
           nestedScrollEnabled
           numColumns={2}
+          onRefresh={() => setRefreshing(true)}
         />
       </View>
     </ScrollView>
@@ -255,7 +283,7 @@ const styles = StyleSheet.create({
     margin: 0,
     height: 16,
     width: 16,
-    resizeMode: 'cover',
+    resizeMode: "cover",
   },
   imgIconFillter: {
     height: 50,
