@@ -139,9 +139,15 @@ const BillScreenForOwner = ({ navigation }) => {
       const { success, message } = res.data;
       console.log(message);
       console.log(success);
-      setNewData(message);
-      setMasterData(dataFromState);
-      setRefreshing(false);
+      if (success) {
+        setNewData(message);
+        setMasterData(dataFromState);
+        setRefreshing(false);
+      } else {
+        setNewData([]);
+        setMasterData([]);
+        setRefreshing(false);
+      }
       console.log("filteredData is all selected");
     };
     getData().catch((err) => console.log(err));
