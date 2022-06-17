@@ -403,12 +403,12 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   imgBackgroundMenuInfostyle: {
-    height: '110%',
-    width: '110%',
+    height: '105%',
+    width: '100%',
     flex: 1,
     zIndex: 1,
     marginRight: 0,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
   },
   txtHome: {
     fontSize: 30,
