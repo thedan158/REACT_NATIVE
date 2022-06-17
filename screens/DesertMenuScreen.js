@@ -53,12 +53,22 @@ const DesertMenuScreen = () => {
             tableID: id,
           }
         );
-
+        const res2 = await axios.put(
+          `https://foody-uit.herokuapp.com/table/updateBusyTable`,
+          {
+            id: id,
+            isBusy: true,
+          }
+        );
         var success1 = res1.data.success;
         var message1 = res1.data.message;
+        var success2 = res2.data.success;
+        var message2 = res2.data.message;
       }
       console.log(message1);
       console.log(success1);
+      console.log(message2);
+      console.log(success2);
       const res = await axios.post(
         `https://foody-uit.herokuapp.com/orderInfo/createOrderInfo`,
         {

@@ -75,30 +75,51 @@ const StarterMenuScreen = () => {
       }
       const id = await AsyncStorage.getItem("tableID");
       console.log("id", id);
-      const resGetCurrentOrder = await axios.post(
+      var resGetCurrentOrder = await axios.post(
         `https://foody-uit.herokuapp.com/order/getCurrentOrderID`,
         {
           tableID: id,
         }
       );
-      const successGetCurrentOrder = resGetCurrentOrder.data.success;
-      const orderID = resGetCurrentOrder.data.message;
+      var successGetCurrentOrder = resGetCurrentOrder.data.success;
+      var orderID = resGetCurrentOrder.data.message;
       console.log("Current order: " + successGetCurrentOrder);
       console.log("Current orderID: " + orderID);
 
-      if (!successGetCurrentOrder) {
+      while (!successGetCurrentOrder) {
         const res1 = await axios.post(
           `https://foody-uit.herokuapp.com/order/createOrder`,
           {
             tableID: id,
           }
         );
-
+        const res2 = await axios.put(
+          `https://foody-uit.herokuapp.com/table/updateBusyTable`,
+          {
+            id: id,
+            isBusy: true,
+          }
+        );
         var success1 = res1.data.success;
         var message1 = res1.data.message;
+        var success2 = res2.data.success;
+        var message2 = res2.data.message;
+        resGetCurrentOrder = await axios.post(
+          `https://foody-uit.herokuapp.com/order/getCurrentOrderID`,
+          {
+            tableID: id,
+          }
+        );
+        successGetCurrentOrder = resGetCurrentOrder.data.success;
+        orderID = resGetCurrentOrder.data.message;
+        console.log("update busy: " + message2);
+        console.log("Current order: " + successGetCurrentOrder);
+        console.log("Current orderID: " + orderID);
+        console.log(message1);
+        console.log(success1);
+        console.log(success2);
       }
-      console.log(message1);
-      console.log(success1);
+
       const res = await axios.post(
         `https://foody-uit.herokuapp.com/orderInfo/createOrderInfo`,
         {
