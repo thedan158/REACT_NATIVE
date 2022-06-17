@@ -61,11 +61,8 @@ const StaffManagement = () => {
       const userLoginData = await AsyncStorage.getItem("userLoginData");
       const user = JSON.parse(userLoginData);
       console.log("username: " + user.username);
-      const res = await axios.post(
-        `https://foody-uit.herokuapp.com/auth/getAllUser`,
-        {
-          username: "thedanchef1",
-        }
+      const res = await axios.get(
+        `https://foody-uit.herokuapp.com/auth/getAllUser/${user.username}`
       );
       const { success, message } = res.data;
       console.log(message);
@@ -110,7 +107,11 @@ const StaffManagement = () => {
               height: 45,
               borderRadius: 100,
             }}
-            source={item.avatar}
+            source={{
+              uri:
+                item.imagePath ||
+                "https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fgood.png?alt=media&token=de139437-3a20-4eb3-ba56-f6a591779d15",
+            }}
           />
         </TouchableOpacity>
 
