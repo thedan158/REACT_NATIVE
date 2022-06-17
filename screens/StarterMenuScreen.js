@@ -67,7 +67,73 @@ const StarterMenuScreen = () => {
   const [search, setSearch] = useState("");
   const [masterData, setMasterData] = useState([]);
   const [dataFromState, setNewData] = useState([]);
+  const handleApply = () => {
+    const createOrUpdateOrderInfo = async () => {
+      const data = [];
+      for (let i = 0; i < dataFromState.length; i++) {
+        if (dataFromState[i].quantity > 0) data.push(dataFromState[i]);
+      }
+      const id = await AsyncStorage.getItem("tableID");
+      console.log("id", id);
+      var resGetCurrentOrder = await axios.post(
+        `https://foody-uit.herokuapp.com/order/getCurrentOrderID`,
+        {
+          tableID: id,
+        }
+      );
+      var successGetCurrentOrder = resGetCurrentOrder.data.success;
+      var orderID = resGetCurrentOrder.data.message;
+      console.log("Current order: " + successGetCurrentOrder);
+      console.log("Current orderID: " + orderID);
 
+      while (!successGetCurrentOrder) {
+        const res1 = await axios.post(
+          `https://foody-uit.herokuapp.com/order/createOrder`,
+          {
+            tableID: id,
+          }
+        );
+        const res2 = await axios.put(
+          `https://foody-uit.herokuapp.com/table/updateBusyTable`,
+          {
+            id: id,
+            isBusy: true,
+          }
+        );
+        var success1 = res1.data.success;
+        var message1 = res1.data.message;
+        var success2 = res2.data.success;
+        var message2 = res2.data.message;
+        resGetCurrentOrder = await axios.post(
+          `https://foody-uit.herokuapp.com/order/getCurrentOrderID`,
+          {
+            tableID: id,
+          }
+        );
+        successGetCurrentOrder = resGetCurrentOrder.data.success;
+        orderID = resGetCurrentOrder.data.message;
+        console.log("update busy: " + message2);
+        console.log("Current order: " + successGetCurrentOrder);
+        console.log("Current orderID: " + orderID);
+        console.log(message1);
+        console.log(success1);
+        console.log(success2);
+      }
+
+      const res = await axios.post(
+        `https://foody-uit.herokuapp.com/orderInfo/createOrderInfo`,
+        {
+          foodInfo: data,
+          orderID: orderID,
+        }
+      );
+      const { success, message } = res.data;
+      console.log(message);
+      console.log(success);
+      navigation.goBack();
+    };
+    createOrUpdateOrderInfo().catch((err) => console.log(err));
+  };
   useEffect(() => {
     const getData = async () => {
       const userLoginData = await AsyncStorage.getItem("userLoginData");
@@ -107,10 +173,14 @@ const StarterMenuScreen = () => {
 
   const FlatlistItem = ({ item }) => {
     function BtnDelPress() {
-      setCounter((counter) => counter - 1);
+      if (item.quantity > 0) {
+        setCounter((counter) => counter - 1);
+        item.quantity = counter - 1;
+      }
     }
     function BtnAddPress() {
       setCounter((counter) => counter + 1);
+      item.quantity = counter + 1;
     }
 
     const [counter, setCounter] = useState(0);
@@ -118,7 +188,10 @@ const StarterMenuScreen = () => {
       <View style={styles.flatlistItemView}>
         <View>
           {/* Image item section */}
-          <Image style={styles.containerImageItem} source={{uri: item.imagePath}} />
+          <Image
+            style={styles.containerImageItem}
+            source={{ uri: item.imagePath }}
+          />
         </View>
 
         {/* Item detail section */}
@@ -193,7 +266,7 @@ const StarterMenuScreen = () => {
           keyExtractor={(item) => item.id}
         />
         {/* ---------------Btn Apply item in flatlist--------- */}
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleApply}>
           <View style={styles.containerBtnApply}>
             <Text style={styles.txtBtnApply}>Apply</Text>
           </View>

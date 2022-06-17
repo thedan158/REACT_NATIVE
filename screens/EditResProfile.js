@@ -51,7 +51,7 @@ const EditResProfile = () => {
     setTimeout(() => {
       setVisibleLoad(false);
       setVisible(true);
-    }, 2000);
+    }, 5000);
   };
 
   useEffect(async () => {
@@ -87,6 +87,7 @@ const EditResProfile = () => {
     getData().catch((err) => console.log(err));
   }, []);
   const handleRestaurantUpdate = async () => {
+    loadingAndPopup();
     //*Get user data from asyncstorage
     const user = await AsyncStorage.getItem('userLoginData');
     const userInfo = JSON.parse(user);
@@ -145,7 +146,6 @@ const EditResProfile = () => {
             Alert.alert('Update failed');
             return;
           }
-          loadingAndPopup();
         });
       }
     );

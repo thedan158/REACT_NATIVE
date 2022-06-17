@@ -51,7 +51,7 @@ const EditProfile = () => {
     setTimeout(() => {
       setVisibleLoad(false);
       setVisible(true);
-    }, 2000);
+    }, 5000);
   };
   const navigation = useNavigation();
 
@@ -103,6 +103,7 @@ const EditProfile = () => {
     }
   };
   const handleUpdateProfile = async () => {
+    loadingAndPopup();
     //*Get user data from AsyncStorage
     const user = await AsyncStorage.getItem('userLoginData');
     const userData = JSON.parse(user);
