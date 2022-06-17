@@ -18,66 +18,6 @@ import MessageQueue from "react-native/Libraries/BatchedBridge/MessageQueue";
 
 const SearchIconResouce = require("../assets/icons/search.png");
 const FillterIconResouce = require("../assets/icons/fillter.png");
-
-const DataTable = [
-  {
-    id: 1,
-    name: "Table 1",
-    imgSourceSelected: require("../assets/icons/TableOrange.png"),
-    imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isBusy: true,
-  },
-  {
-    id: 2,
-    name: "Table 2",
-    imgSourceSelected: require("../assets/icons/TableOrange.png"),
-    imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isBusy: false,
-  },
-  {
-    id: 3,
-    name: "Table 3",
-    imgSourceSelected: require("../assets/icons/TableOrange.png"),
-    imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isBusy: true,
-  },
-  {
-    id: 4,
-    name: "Table 4",
-    imgSourceSelected: require("../assets/icons/TableOrange.png"),
-    imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isBusy: false,
-  },
-  {
-    id: 5,
-    name: "Table 5",
-    imgSourceSelected: require("../assets/icons/TableOrange.png"),
-    imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isBusy: true,
-  },
-  {
-    id: 6,
-    name: "Table 6",
-    imgSourceSelected: require("../assets/icons/TableOrange.png"),
-    imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isBusy: true,
-  },
-  {
-    id: 7,
-    name: "Table 7",
-    imgSourceSelected: require("../assets/icons/TableOrange.png"),
-    imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isBusy: true,
-  },
-  {
-    id: 8,
-    name: "Table 8",
-    imgSourceSelected: require("../assets/icons/TableOrange.png"),
-    imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isBusy: false,
-  },
-];
-
 const BillScreenForOwner = ({ navigation }) => {
   const [search, setSearch] = useState("");
   const [masterData, setMasterData] = useState([]);
