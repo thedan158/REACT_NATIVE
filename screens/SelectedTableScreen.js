@@ -101,7 +101,12 @@ const SelectedTable = () => {
 
     return (
       <View>
-        <TouchableOpacity disabled={true} style={styles.flatlistitemStyle}>
+        <TouchableOpacity
+          onPress={() => {
+            handleOnPressTable(item.id);
+          }}
+          style={styles.flatlistitemStyle}
+        >
           <View>
             <Image
               source={require("../assets/icons/TableGray.png")}

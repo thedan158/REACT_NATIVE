@@ -141,6 +141,7 @@ const CheckOutTableScreen = ({ route, discount, navigation }) => {
         `https://foody-uit.herokuapp.com/table/updateBusyTable`,
         {
           id: id,
+          isBusy: false,
         }
       );
       const success = res.data.success;
