@@ -116,7 +116,7 @@ const CheckOutTableScreen = ({ route, discount, navigation }) => {
     console.log(id);
 
     const res = await axios.post(
-      `https://724f-14-161-13-207.ap.ngrok.io/order/getCurrentOrderID`,
+      `https://foody-uit.herokuapp.com/order/getCurrentOrderID`,
       {
         tableID: id,
       }
@@ -124,15 +124,30 @@ const CheckOutTableScreen = ({ route, discount, navigation }) => {
     const orderID = res.data.message;
     if (orderID) {
       const res = await axios.post(
-        `https://724f-14-161-13-207.ap.ngrok.io/bill/createBill`,
+        `https://foody-uit.herokuapp.com/bill/createBill`,
         {
           orderID: orderID,
           total: totalBill,
           status: "pay",
         }
       );
+      const res1 = await axios.put(
+        `https://foody-uit.herokuapp.com/order/updateOrder`,
+        {
+          id: orderID,
+        }
+      );
+      const res2 = await axios.put(
+        `https://foody-uit.herokuapp.com/table/updateBusyTable`,
+        {
+          id: id,
+        }
+      );
       const success = res.data.success;
-      if (success) {
+      const success1 = res1.data.success;
+      const success2 = res2.data.success;
+
+      if (success && success1 && success2) {
         setVisible(true);
       }
     }
@@ -188,8 +203,13 @@ const CheckOutTableScreen = ({ route, discount, navigation }) => {
     }
     return _totalBill;
   }
-  discount = 50;
-  let tempTotal = getTotalBill(dataFromState) * (discount / 100);
+  var tempTotal;
+  discount = 0;
+  if (discount > 0) {
+    tempTotal = getTotalBill(dataFromState) * (discount / 100);
+  } else {
+    tempTotal = getTotalBill(dataFromState);
+  }
   let finalDiscount = discount.toString() + "%";
 
   function displayListItemBill(ListData) {
