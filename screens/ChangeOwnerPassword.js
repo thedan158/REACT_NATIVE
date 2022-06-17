@@ -77,149 +77,153 @@ const ChangePassword = () => {
     loadingAndPopup();
   };
   return (
-    <View style={styles.container}>
-      <View
-        style={{
-          flexDirection: 'row',
-          marginTop: 20,
-          width: windowWidth,
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <TouchableOpacity
+    <ScrollView>
+      <View style={styles.container}>
+        <View
           style={{
-            justifyContent: 'flex-start',
-            alignItems: 'center',
             flexDirection: 'row',
-            marginLeft: 20,
-          }}
-          onPress={() => {
-            navigation.goBack();
+            marginTop: 20,
+            width: windowWidth,
+            alignItems: 'center',
+            justifyContent: 'space-between',
           }}
         >
-          <Image
-            source={back}
-            style={{
-              height: 20,
-              width: 20,
-            }}
-          />
-        </TouchableOpacity>
-      </View>
-      {/* Logo and title  */}
-      <View style={styles.view1}>
-        <View>
-          <Image style={styles.logo} source={logo}></Image>
-        </View>
-        <View>
-          <Text style={styles.textPleaseRegister}>Reset new password</Text>
-        </View>
-      </View>
-
-      {/* Input section  */}
-      <View style={styles.view2}>
-        <View>
-          <CustomTextInput
-            blurColor={Colors.secondary}
-            label="Old Password"
-            placeholder="Old Password"
-            value={oldPassword}
-            onChangeText={(text) => setOldPassword(text)}
-            secureTextEntry={isSecureEntry}
-            icon={
-              <TouchableOpacity
-                onPress={() => {
-                  setIsSecureEntry((prev) => !prev);
-                }}
-              >
-                <Image
-                  source={isSecureEntry ? hidden : eye}
-                  style={{ width: 25, height: 25 }}
-                ></Image>
-              </TouchableOpacity>
-            }
-            iconPosition="right"
-          />
-          <CustomTextInput
-            blurColor={Colors.secondary}
-            label="Password"
-            placeholder="Password"
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-            secureTextEntry={isSecureEntry}
-            icon={
-              <TouchableOpacity
-                onPress={() => {
-                  setIsSecureEntry((prev) => !prev);
-                }}
-              >
-                <Image
-                  source={isSecureEntry ? hidden : eye}
-                  style={{ width: 25, height: 25 }}
-                ></Image>
-              </TouchableOpacity>
-            }
-            iconPosition="right"
-          />
-          <CustomTextInput
-            blurColor={Colors.secondary}
-            label="Confirm password"
-            placeholder="Confirm password"
-            value={confirmPassword}
-            onChangeText={(text) => setConfirmPassword(text)}
-            secureTextEntry={isSecureEntryConfirm}
-            icon={
-              <TouchableOpacity
-                onPress={() => {
-                  setIsSecureEntryConfirm((prev) => !prev);
-                }}
-              >
-                <Image
-                  source={isSecureEntryConfirm ? hidden : eye}
-                  style={{ width: 25, height: 25 }}
-                ></Image>
-              </TouchableOpacity>
-            }
-            iconPosition="right"
-          />
-        </View>
-
-        {/* Button reset password  */}
-        <View style={styles.buttonContainer}>
           <TouchableOpacity
-            onPress={handleChangePassword}
-            style={styles.button}
+            style={{
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              flexDirection: 'row',
+              marginLeft: 20,
+            }}
+            onPress={() => {
+              navigation.goBack();
+            }}
           >
-            <Text style={styles.buttonText}>Reset password</Text>
+            <Image
+              source={back}
+              style={{
+                height: 20,
+                width: 20,
+              }}
+            />
           </TouchableOpacity>
         </View>
-      </View>
-      {/* Modal loading  */}
-      <LoadingOwner visible={visibleLoad}></LoadingOwner>
-      {/* Modal  */}
-      <CustomModal visible={visible}>
-        <View style={{ alignItems: 'center' }}>
-          <Image
-            source={require('../assets/icons/password-green.png')}
-            style={{ height: 150, width: 150, marginVertical: 30 }}
-          />
+        {/* Logo and title  */}
+        <View style={styles.view1}>
+          <View>
+            <Image style={styles.logo} source={logo}></Image>
+          </View>
+          <View>
+            <Text style={styles.textPleaseRegister}>Reset new password</Text>
+          </View>
         </View>
 
-        <Text style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}>
-          Your password has been reset successfully
-        </Text>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Login');
-            setVisible(false);
-          }}
-          style={styles.button}
-        >
-          <Text style={styles.buttonText}>OK</Text>
-        </TouchableOpacity>
-      </CustomModal>
-    </View>
+        {/* Input section  */}
+        <View style={styles.view2}>
+          <View>
+            <CustomTextInput
+              blurColor={Colors.secondary}
+              label="Old Password"
+              placeholder="Old Password"
+              value={oldPassword}
+              onChangeText={(text) => setOldPassword(text)}
+              secureTextEntry={isSecureEntry}
+              icon={
+                <TouchableOpacity
+                  onPress={() => {
+                    setIsSecureEntry((prev) => !prev);
+                  }}
+                >
+                  <Image
+                    source={isSecureEntry ? hidden : eye}
+                    style={{ width: 25, height: 25 }}
+                  ></Image>
+                </TouchableOpacity>
+              }
+              iconPosition="right"
+            />
+            <CustomTextInput
+              blurColor={Colors.secondary}
+              label="Password"
+              placeholder="Password"
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+              secureTextEntry={isSecureEntry}
+              icon={
+                <TouchableOpacity
+                  onPress={() => {
+                    setIsSecureEntry((prev) => !prev);
+                  }}
+                >
+                  <Image
+                    source={isSecureEntry ? hidden : eye}
+                    style={{ width: 25, height: 25 }}
+                  ></Image>
+                </TouchableOpacity>
+              }
+              iconPosition="right"
+            />
+            <CustomTextInput
+              blurColor={Colors.secondary}
+              label="Confirm password"
+              placeholder="Confirm password"
+              value={confirmPassword}
+              onChangeText={(text) => setConfirmPassword(text)}
+              secureTextEntry={isSecureEntryConfirm}
+              icon={
+                <TouchableOpacity
+                  onPress={() => {
+                    setIsSecureEntryConfirm((prev) => !prev);
+                  }}
+                >
+                  <Image
+                    source={isSecureEntryConfirm ? hidden : eye}
+                    style={{ width: 25, height: 25 }}
+                  ></Image>
+                </TouchableOpacity>
+              }
+              iconPosition="right"
+            />
+          </View>
+
+          {/* Button reset password  */}
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={handleChangePassword}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Reset password</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        {/* Modal loading  */}
+        <LoadingOwner visible={visibleLoad}></LoadingOwner>
+        {/* Modal  */}
+        <CustomModal visible={visible}>
+          <View style={{ alignItems: 'center' }}>
+            <Image
+              source={require('../assets/icons/password-green.png')}
+              style={{ height: 150, width: 150, marginVertical: 30 }}
+            />
+          </View>
+
+          <Text
+            style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}
+          >
+            Your password has been reset successfully
+          </Text>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Login');
+              setVisible(false);
+            }}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>OK</Text>
+          </TouchableOpacity>
+        </CustomModal>
+      </View>
+    </ScrollView>
   );
 };
 

@@ -47,7 +47,7 @@ const RestaurantManagement = () => {
         style={{ backgroundColor: 'transparent' }}
       >
         <Tab.Screen component={StaffManagement} name="Staffs" />
-        <Tab.Screen component={ListFood} name="Analytics" />
+        <Tab.Screen component={Analytics} name="Analytics" />
       </Tab.Navigator>
     </View>
   );

@@ -152,6 +152,12 @@ export default function App() {
           name="SplashScreen"
           component={SplashScreen}
         />
+
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="TabForStaff"
+          component={TabForStaff}
+        />
         <Stack.Screen
           options={{ headerShown: false }}
           name="TabForOwner"
@@ -162,12 +168,6 @@ export default function App() {
           options={{ headerShown: false }}
           name="HomeScreen2ndFinal"
           component={HomeScreen2ndFinal}
-        />
-
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="TabForStaff"
-          component={TabForStaff}
         />
 
         <Stack.Screen
