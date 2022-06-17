@@ -11,12 +11,15 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import React, { Component } from 'react';
+import React, { useState, useEffect, Component } from 'react';
 import AppLoading from 'expo-app-loading';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 import { useNavigation } from '@react-navigation/core';
 import { SafeAreaView } from 'react-navigation';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 import Constants from 'expo-constants';
 import table from '../assets/icons/table.png';
 
@@ -59,6 +62,63 @@ class FlatlistItem extends Component {
 }
 
 const OrderScreen = () => {
+  const [search, setSearch] = useState("");
+  const [masterData, setMasterData] = useState([]);
+  const [dataStarter, setNewStarter] = useState([]);
+  const [dataMainCourse, setNewMainCourse] = useState([]);
+  const [dataDrink, setNewDrink] = useState([]);
+
+  const [refreshing, setRefreshing] = useState(false);
+  var STARTER = [],
+    MAINCOURSE = [],
+    DESSERT = [];
+  useEffect(() => {
+    const getData = async () => {
+      (STARTER = []), (MAINCOURSE = []), (DESSERT = []);
+      const id = await AsyncStorage.getItem("tableID");
+      console.log("oke");
+      console.log(id);
+      if (id) {
+        const resOrderID = await axios.post(
+          `https://foody-uit.herokuapp.com/order/getCurrentOrderID`,
+          {
+            tableID: id,
+          }
+        );
+        const orderID = resOrderID.data.message;
+        const res = await axios.post(
+          `https://foody-uit.herokuapp.com/orderInfo/getOrderInfo`,
+          {
+            orderID: orderID,
+          }
+        );
+        const { success, message } = res.data;
+        console.log(message);
+        console.log("success " + success);
+        if (success) {
+          for (let i = 0; i < message.length; i++) {
+            if (message[i].foodType == "Starter") {
+              STARTER.push(message[i]);
+            } else if (message[i].foodType == "Main course") {
+              MAINCOURSE.push(message[i]);
+            } else {
+              DESSERT.push(message[i]);
+            }
+          }
+          setNewStarter(STARTER);
+          setNewMainCourse(MAINCOURSE);
+          setNewDrink(DESSERT);
+        } else {
+          console.log("None");
+          setNewStarter([]);
+          setNewMainCourse([]);
+          setNewDrink([]);
+        }
+      }
+    };
+    getData().catch((err) => console.log(err));
+  }, [refreshing]);
+
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
 
@@ -87,21 +147,26 @@ const OrderScreen = () => {
   }
   return (
     //   Root view
-    <SafeAreaView style={styles.droidSafeArea}>
+    <KeyboardAwareScrollView
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+      style={styles.droidSafeArea}
+    >
       <View style={styles.container}>
         {/* ------------------------------------first view section-------------------------- */}
         <View style={styles.container_top}>
           {/* ---------------top header view Layout-------------- */}
-          <Text style={styles.textHeader}>LE RESTUARANT</Text>
+          <Text style={styles.textHeader}>Order</Text>
           <Text style={styles.textHeaderBottom}>Order meal</Text>
         </View>
 
         {/* ----------------------------second view section---------------------------------- */}
-        <ScrollView 
+        <ScrollView
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
-          style={styles.container_bottom} 
-          nestedScrollEnabled>
+          style={styles.container_bottom}
+          nestedScrollEnabled
+        >
           <View>
             {/* --------------btnSelectTable section view---------- */}
             <View style={styles.btnContainerViewStyle}>
@@ -112,7 +177,8 @@ const OrderScreen = () => {
                   width: deviceWidth,
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  marginBottom: 20,
+                  marginBottom: 30,
+                  marginTop: 10,
                 }}
               >
                 <View
@@ -164,7 +230,9 @@ const OrderScreen = () => {
                 </View>
               </View>
               <FlatList
-                data={DATA}
+                refreshing={refreshing}
+                onRefresh={() => setRefreshing(true)}
+                data={dataStarter}
                 renderItem={({ item, index }) => {
                   return (
                     <FlatlistItem item={item} index={index}></FlatlistItem>
@@ -196,7 +264,9 @@ const OrderScreen = () => {
                 </View>
               </View>
               <FlatList
-                data={DATA}
+                refreshing={refreshing}
+                onRefresh={() => setRefreshing(true)}
+                data={dataMainCourse}
                 renderItem={({ item, index }) => {
                   return (
                     <FlatlistItem item={item} index={index}></FlatlistItem>
@@ -226,7 +296,9 @@ const OrderScreen = () => {
                 </View>
               </View>
               <FlatList
-                data={DATA}
+                refreshing={refreshing}
+                onRefresh={() => setRefreshing(true)}
+                data={dataDrink}
                 renderItem={({ item, index }) => {
                   return (
                     <FlatlistItem item={item} index={index}></FlatlistItem>
@@ -290,7 +362,7 @@ const OrderScreen = () => {
           </View>
         </ScrollView>
       </View>
-    </SafeAreaView>
+    </KeyboardAwareScrollView>
   );
 };
 
@@ -310,7 +382,6 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     justifyContent: 'center',
-    marginBottom: 50,
     height: deviceHeight,
   },
   container_bottom: {
@@ -318,12 +389,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     borderRadius: 20,
     paddingTop: 15,
-    marginBottom:'13%'
+    marginTop: '0%',
+    marginBottom: '13%',
   },
   rectangleGreydevideView: {
     backgroundColor: '#EFEFEF',
     width: deviceWidth,
-    height: 5, 
+    height: 5,
     marginBottom: 10,
     marginTop: 25,
   },
@@ -365,7 +437,7 @@ const styles = StyleSheet.create({
     top: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 55,
+    marginBottom: 50,
   },
   viewMENU: {
     top: 5,
@@ -409,7 +481,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FF6838',
-    marginBottom: 30,
     marginTop: 20,
   },
   btnMenuMainCourse: {
@@ -542,12 +613,11 @@ const styles = StyleSheet.create({
     marginTop: 0,
   },
   textHeader: {
-    color: '#000',
-    fontFamily: 'Inter_900Black',
-    left: 0,
-    top: 0,
-    fontSize: 25,
-    marginBottom: 20,
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: 'black',
+    alignSelf: 'center',
+    marginBottom: '3%',
   },
   IconHeader: {
     right: 0,
@@ -572,8 +642,6 @@ const styles = StyleSheet.create({
   },
   droidSafeArea: {
     flex: 1,
-    paddingTop: Platform.OS === 'Android' ? StatusBar.currentHeight : 0,
-    marginBottom: 50,
   },
   imgBottomTab: {
     height: 40,

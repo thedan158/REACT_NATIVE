@@ -1,10 +1,10 @@
 const foodData = [
   {
-    backdrop_path: require('../assets/images/crispy-chicken-burger.jpg'),
+    backdrop_path: require('../images/crispy-chicken-burger.jpg'),
     vote_average: 3,
     original_title: 'Burger',
     overview: ' Het nuoc cham luon',
-    poster_path: require('../assets/images/crispy-chicken-burger.jpg'),
+    poster_path: require('../images/crispy-chicken-burger.jpg'),
     cost: '5.57',
     cooking_time: '15',
     description:
@@ -12,11 +12,11 @@ const foodData = [
     id: 1,
   },
   {
-    backdrop_path: require('../assets/images/pizza.jpg'),
+    backdrop_path: require('../images/pizza.jpg'),
     vote_average: 5,
     original_title: 'Pizza',
     overview: 'Dkm lai cha ngon vcl ra di',
-    poster_path: require('../assets/images/pizza.jpg'),
+    poster_path: require('../images/pizza.jpg'),
     cost: '7.18',
     cooking_time: '45',
     description:
@@ -24,11 +24,11 @@ const foodData = [
     id: 2,
   },
   {
-    backdrop_path: require('../assets/images/sushi.jpg'),
+    backdrop_path: require('../images/sushi.jpg'),
     vote_average: 4.6,
     original_title: 'Sushi',
     overview: 'Dkm lai cha ngon vcl ra di',
-    poster_path: require('../assets/images/sushi.jpg'),
+    poster_path: require('../images/sushi.jpg'),
     cost: '9.50',
     cooking_time: '30',
     description:

@@ -70,6 +70,9 @@ import ListFood from './screens/ListFood';
 import ListFoodDetails from './screens/ListFoodDetails';
 import Analytics from './screens/Analytics';
 import EditResProfile from './screens/EditResProfile';
+import AddingTable from './screens/AddingTable';
+import BillScreenForOwner from './screens/BillScreenForOwner';
+import EditTableInfo from './screens/EditTableInfo';
 
 const Stack = createStackNavigator();
 // animation function
@@ -149,10 +152,35 @@ export default function App() {
           name="SplashScreen"
           component={SplashScreen}
         />
+
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="TabForStaff"
+          component={TabForStaff}
+        />
         <Stack.Screen
           options={{ headerShown: false }}
           name="TabForOwner"
           component={TabForOwner}
+        />
+
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="HomeScreen2ndFinal"
+          component={HomeScreen2ndFinal}
+        />
+
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="AccountForStaff"
+          component={AccountForStaff}
+        />
+        <Stack.Screen
+          name="RestaurantManagement"
+          options={{ headerShown: false }}
+          component={RestaurantManagement}
         />
 
         <Stack.Screen
@@ -171,12 +199,6 @@ export default function App() {
 
         <Stack.Screen
           options={{ headerShown: false }}
-          name="TabForStaff"
-          component={TabForStaff}
-        />
-
-        <Stack.Screen
-          options={{ headerShown: false }}
           name="OTPsignup"
           component={OTPsignup}
         />
@@ -187,13 +209,6 @@ export default function App() {
           component={Analytics}
         />
 
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="AccountForStaff"
-          component={AccountForStaff}
-        />
         <Stack.Screen
           options={{ headerShown: false }}
           name="Login"
@@ -224,11 +239,6 @@ export default function App() {
           name="StaffInformation"
           component={StaffInformation}
           options={{ ...customTransition, headerShown: false }}
-        />
-        <Stack.Screen
-          name="RestaurantManagement"
-          options={{ headerShown: false }}
-          component={RestaurantManagement}
         />
 
         <Stack.Screen
@@ -261,19 +271,8 @@ export default function App() {
 
         <Stack.Screen
           options={{ headerShown: false }}
-          name="ListFood"
-          component={ListFood}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
           name="EditMenuScreen"
           component={EditMenuScreen}
-        />
-
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="HomeScreen2ndFinal"
-          component={HomeScreen2ndFinal}
         />
 
         <Stack.Screen
@@ -305,7 +304,21 @@ export default function App() {
           name="Button4Screen"
           component={Button4Screen}
         />
-
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="AddingTable"
+          component={AddingTable}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="EditTableInfo"
+          component={EditTableInfo}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="BillScreenForOwner"
+          component={BillScreenForOwner}
+        />
         <Stack.Screen
           options={{ headerShown: false }}
           name="Order"
@@ -467,7 +480,7 @@ export default function App() {
           name="MainMenu"
           component={MainCourseMenuScreen}
         />
-       
+
         <Stack.Screen
           options={{ headerShown: false }}
           name="DesertMenu"

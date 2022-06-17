@@ -10,27 +10,21 @@ import {
   ImageBackground,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import VKH from '../assets/images/VKH.jpg';
 import CardInformation from '../custom component/CardInformation';
 import ButtonUser from '../custom component/ButtonUser';
 import { useFocusEffect } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/core';
 import power from '../assets/icons/power.png';
-import setting from '../assets/icons/setting.png';
-import pen from '../assets/icons/pen.png';
 import info from '../assets/icons/info.png';
 import personal from '../assets/icons/personal.png';
 import vector from '../assets/icons/Vector.png';
 import password from '../assets/icons/password.png';
-import light_off from '../assets/icons/light-off.png';
-import light_on from '../assets/icons/light-on.png';
-import dark_off from '../assets/icons/dark-off.png';
-import dark_on from '../assets/icons/dark-on.png';
-import background from '../assets/images/background.png';
+import policy from '../assets/icons/policy.png';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { firebaseConfig } from '../firebase';
 import * as firebase from 'firebase';
+import ModalPrivacy from '../custom component/ModalPrivacy';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -83,36 +77,11 @@ const AccountForStaff = () => {
         <View style={styles.containerHeader}>
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
+              marginLeft: 20,
+              marginTop: '1%',
             }}
           >
-            <Image
-              source={personal}
-              style={{ height: 30, width: 30, marginHorizontal: 15 }}
-            />
             <Text style={styles.textHeader}>Personal details</Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginLeft: 40,
-              }}
-            >
-              <Image
-                source={isEnabled ? light_off : light_on}
-                style={{ width: 25, height: 25 }}
-              />
-              <Switch
-                value={isEnabled}
-                onValueChange={setIsEnabled}
-                style={{ marginHorizontal: 5 }}
-              />
-              <Image
-                source={isEnabled ? dark_on : dark_off}
-                style={{ width: 25, height: 25 }}
-              />
-            </View>
           </View>
         </View>
         {/* Card Info  */}
@@ -127,6 +96,7 @@ const AccountForStaff = () => {
         </View>
 
         <View style={styles.buttonUser}>
+          {/* Edit profile  */}
           <TouchableOpacity
             style={styles.TouchableOpacity}
             onPress={() => navigation.navigate('EditStaffProfile')}
@@ -135,12 +105,24 @@ const AccountForStaff = () => {
             <Text style={styles.textName}>Edit Your Profile</Text>
             <Image style={styles.icon} source={vector} />
           </TouchableOpacity>
+
+          {/* Change password  */}
           <TouchableOpacity
             style={styles.TouchableOpacity}
             onPress={() => navigation.navigate('ChangeStaffPassword')}
           >
             <Image source={password} style={styles.iconTitle} />
             <Text style={styles.textName}>Change Your Password</Text>
+            <Image style={styles.icon} source={vector} />
+          </TouchableOpacity>
+
+          {/* Policy and privacy  */}
+          <TouchableOpacity
+            style={styles.TouchableOpacity}
+            onPress={() => setVisible(true)}
+          >
+            <Image source={policy} style={styles.iconTitle} />
+            <Text style={styles.textName}>Policy and privacy</Text>
             <Image style={styles.icon} source={vector} />
           </TouchableOpacity>
         </View>
@@ -175,6 +157,35 @@ const AccountForStaff = () => {
           </TouchableOpacity>
         </View>
       </View>
+
+      {/* Modal PaP */}
+      <ModalPrivacy visible={visible}>
+        <View>
+          <View style={{ marginBottom: '10%' }}>
+            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+              Policy and privacy
+            </Text>
+          </View>
+          <ScrollView
+            style={{
+              marginLeft: '5%',
+              height: '80%',
+              marginBottom: '7%',
+            }}
+          >
+            <Text style={styles.details}></Text>
+          </ScrollView>
+
+          <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+            <TouchableOpacity
+              style={styles.button3}
+              onPress={() => setVisible(false)}
+            >
+              <Text style={styles.buttonText1}>Agree</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ModalPrivacy>
     </ScrollView>
   );
 };
@@ -230,10 +241,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   textHeader: {
-    width: 147,
-
     fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 30,
     // lineHeight: 27,
   },
   editText: {
@@ -279,9 +288,9 @@ const styles = StyleSheet.create({
   },
   details: {
     fontWeight: '400',
-    fontSize: 13,
+    fontSize: 14,
     lineHeight: 18,
-    color: '#898888',
+    color: '#232323',
   },
   line: {
     width: 170,
@@ -327,7 +336,17 @@ const styles = StyleSheet.create({
     margin: 5,
     flexDirection: 'row',
   },
-
+  button3: {
+    backgroundColor: '#FA4A0C',
+    width: '35%',
+    padding: 15,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 1,
+    margin: 5,
+    flexDirection: 'row',
+  },
   TouchableOpacity: {
     backgroundColor: 'white',
     width: 350,

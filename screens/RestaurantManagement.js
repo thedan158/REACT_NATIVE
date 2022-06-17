@@ -7,6 +7,7 @@ import Analytics from './Analytics';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import TabBar from 'react-native-underline-tabbar';
 import { NavigationContainer } from '@react-navigation/native';
+import ListFood from './ListFood';
 
 const RestaurantManagement = () => {
   const Tab = createMaterialTopTabNavigator();

@@ -159,20 +159,24 @@ const MenuScreen = ({ navigation }) => {
 
   const FlatListItem = ({ item }) => {
     return (
-      <View style={styles.containerItemFlatList}>
-        <View style={styles.containerImageItem}>
-          {/* <Image source={item.imgSource} style={styles.imgSourceItem} /> */}
-          <Image
-            source={{ uri: item.imagePath }}
-            style={styles.imgSourceItem}
-          />
-        </View>
+      <TouchableOpacity onPress={()=>navigation.navigate('EditMenuScreen', {item} )}
+      >
+        <View style={styles.containerItemFlatList}>
+          <View style={styles.containerImageItem}>
+            <Image source={{ uri: item.imagePath }} style={styles.imgSourceItem} />
+          </View>
 
-        <View style={styles.containerInfoItem}>
-          <Text style={styles.txtNameDishItem}>{item.name}</Text>
-          <Text style={styles.txtPriceItemInfo2}>${item.price}</Text>
+          <View style={styles.containerInfoItem}>
+            <Text style={styles.txtNameDishItem}>{item.name}</Text>
+            <View style={styles.containerRatingItem}>
+              <Text style={styles.txtPriceItemInfo2}>${item.price}</Text>
+              <Image source={icStar} style={styles.imgStarItem} />
+            </View>
+
+            <View style={styles.containerPriceItem}></View>
+          </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 

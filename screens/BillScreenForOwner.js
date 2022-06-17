@@ -10,9 +10,11 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import Colors from "../assets/Colors";
+import ModalTableSelect from "../custom component/ModalTableSelect";
+const imgAddItem = require("../assets/icons/AddItem.png");
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { useNavigation } from "@react-navigation/core";
+import MessageQueue from "react-native/Libraries/BatchedBridge/MessageQueue";
 
 const SearchIconResouce = require("../assets/icons/search.png");
 const FillterIconResouce = require("../assets/icons/fillter.png");
@@ -23,67 +25,74 @@ const DataTable = [
     name: "Table 1",
     imgSourceSelected: require("../assets/icons/TableOrange.png"),
     imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: true,
+    isBusy: true,
   },
   {
     id: 2,
     name: "Table 2",
     imgSourceSelected: require("../assets/icons/TableOrange.png"),
     imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: false,
+    isBusy: false,
   },
   {
     id: 3,
     name: "Table 3",
     imgSourceSelected: require("../assets/icons/TableOrange.png"),
     imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: true,
+    isBusy: true,
   },
   {
     id: 4,
     name: "Table 4",
     imgSourceSelected: require("../assets/icons/TableOrange.png"),
     imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: true,
+    isBusy: false,
   },
   {
     id: 5,
     name: "Table 5",
     imgSourceSelected: require("../assets/icons/TableOrange.png"),
     imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: true,
+    isBusy: true,
   },
   {
     id: 6,
     name: "Table 6",
     imgSourceSelected: require("../assets/icons/TableOrange.png"),
     imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: true,
+    isBusy: true,
   },
   {
     id: 7,
     name: "Table 7",
     imgSourceSelected: require("../assets/icons/TableOrange.png"),
     imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: true,
+    isBusy: true,
   },
   {
     id: 8,
     name: "Table 8",
     imgSourceSelected: require("../assets/icons/TableOrange.png"),
     imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: false,
+    isBusy: false,
   },
 ];
 
-const SelectedTable = () => {
+const BillScreenForOwner = ({ navigation }) => {
+  const [search, setSearch] = useState("");
+  const [masterData, setMasterData] = useState([]);
+  const [dataFromState, setNewData] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+
   const FlatlistItemFunctions = ({ item }) => {
     if (item.isBusy === true) {
       return (
         <View>
           <TouchableOpacity
-            onPress={() => {
-              handleOnPressTable(item.id);
+            onPress={async () => {
+              await AsyncStorage.setItem("tableIDBill", item.id);
+              console.log("id sent: " + item.id);
+              navigation.navigate("CheckOutTableScreen", { item });
             }}
             style={styles.flatlistitemStyleInUse}
           >
@@ -92,7 +101,7 @@ const SelectedTable = () => {
                 source={require("../assets/icons/TableOrange.png")}
                 style={styles.imgItemFlatlist}
               />
-              <Text style={styles.txtItemFlatlistInUse}>{item.id}</Text>
+              <Text style={styles.txtItemFlatlistInUse}>Table {item.id}</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -101,28 +110,20 @@ const SelectedTable = () => {
 
     return (
       <View>
-        <TouchableOpacity disabled={true} style={styles.flatlistitemStyle}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("EditTableInfo", { item })}
+          style={styles.flatlistitemStyle}
+        >
           <View>
             <Image
               source={require("../assets/icons/TableGray.png")}
               style={styles.imgItemFlatlist}
             />
-            <Text style={styles.txtItemFlatlist}>{item.id}</Text>
+            <Text style={styles.txtItemFlatlist}>Table {item.id}</Text>
           </View>
         </TouchableOpacity>
       </View>
     );
-  };
-  const [search, setSearch] = useState("");
-  const [masterData, setMasterData] = useState([]);
-  const [dataFromState, setNewData] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
-  const navigation = useNavigation();
-
-  const handleOnPressTable = async (id) => {
-    await AsyncStorage.setItem("tableID", id);
-    console.log("id sent: " + id);
-    navigation.goBack();
   };
   useEffect(() => {
     const getData = async () => {
@@ -145,11 +146,10 @@ const SelectedTable = () => {
     };
     getData().catch((err) => console.log(err));
   }, [refreshing]);
-
   const searchFilterFunction = (text) => {
     if (text) {
       const newData = masterData.filter(function (item) {
-        const itemData = item.name ? item.name.toLowerCase() : "".toUpperCase();
+        const itemData = item.id ? item.id.toLowerCase() : "".toUpperCase();
         const textData = text.toLowerCase();
         return itemData.indexOf(textData) > -1;
       });
@@ -163,9 +163,9 @@ const SelectedTable = () => {
 
   return (
     // Root View
-    <ScrollView style={styles.container}>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <View style={styles.containerTop}>
-        <Text style={styles.txtHeaderView}>SELECT TABLE</Text>
+        <Text style={styles.txtHeaderView}>Bill</Text>
         <View style={styles.containerTemp}>
           <View style={styles.containerSearchLayout}>
             <TouchableOpacity style={styles.btnSearch}>
@@ -179,8 +179,11 @@ const SelectedTable = () => {
             />
           </View>
 
-          <TouchableOpacity style={styles.btnImgFillter}>
-            <Image source={FillterIconResouce} style={styles.imgIconFillter} />
+          <TouchableOpacity
+            onPress={() => navigation.navigate("AddingTable")}
+            style={styles.btnImgFillter}
+          >
+            <Image source={imgAddItem} style={styles.imgIconFillter} />
           </TouchableOpacity>
         </View>
       </View>
@@ -206,11 +209,12 @@ const SelectedTable = () => {
   );
 };
 
-export default SelectedTable;
+export default BillScreenForOwner;
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 0,
+    marginBottom: "0%",
+    paddingTop: "0%",
   },
   containerTop: {
     backgroundColor: "#FF4B3A",
@@ -220,27 +224,33 @@ const styles = StyleSheet.create({
     margin: 0,
     alignItems: "center",
     alignContent: "center",
-    justifyContent: "center",
+    justifyContent: "space-around",
+    paddingTop: "0%",
   },
   containerBottom: {
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
+
     borderColor: "#808080",
     backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: -50,
+
+    marginTop: -40,
     paddingTop: 20,
     paddingLeft: 10,
   },
   txtSearchBar: {
-    color: "#000000",
+    color: "#000",
+    maxWidth: 200,
+    width: 200,
   },
   txtHeaderView: {
     fontSize: 30,
     fontWeight: "bold",
-    marginTop: -30,
-    marginBottom: 10,
+    marginTop: 0,
+    marginBottom: 0,
+    paddingTop: 20,
   },
   txtItemFlatlist: {
     color: "#A09A99",
@@ -256,7 +266,8 @@ const styles = StyleSheet.create({
   },
   containerTemp: {
     flexDirection: "row",
-    marginBottom: 10,
+    marginBottom: 50,
+    paddingTop: -200,
   },
   containerSearchLayout: {
     width: 280,
@@ -275,6 +286,7 @@ const styles = StyleSheet.create({
     margin: 0,
     height: 16,
     width: 16,
+    resizeMode: "cover",
   },
   imgIconFillter: {
     height: 50,
@@ -289,6 +301,7 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     alignSelf: "center",
     margin: 0,
+    borderRadius: 20,
   },
   btnSearch: {
     height: 20,
@@ -304,6 +317,7 @@ const styles = StyleSheet.create({
     height: 130,
     width: 130,
     borderRadius: 20,
+
     justifyContent: "center",
     borderColor: "grey",
     borderWidth: 2,
@@ -324,5 +338,18 @@ const styles = StyleSheet.create({
     marginRight: 20,
     marginVertical: 20,
     marginLeft: 10,
+  },
+  btnUserStyle: {
+    height: 30,
+    width: 30,
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+  },
+  imgUserStyle: {
+    height: 25,
+    width: 25,
+    resizeMode: "cover",
+    alignSelf: "center",
   },
 });

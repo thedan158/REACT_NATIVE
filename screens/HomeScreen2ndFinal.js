@@ -10,8 +10,9 @@ import {
 import React from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../assets/Colors';
-
-const imgDesertDish = require('../assets/images/DessertDish.png')
+import { useNavigation } from '@react-navigation/core';
+import ModalListFood from '../custom component/ModalListFood';
+const imgDesertDish = require('../assets/images/DessertDish.png');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const imgBackgroundSource = require('../assets/images/Dishs1-nonCut.png');
@@ -21,7 +22,9 @@ const imgBackgroundSource3 = {
   uri: 'https://www.pngall.com/wp-content/uploads/2/Meal-PNG-Pic.png',
 };
 
-const HomeScreen2ndFinal = ({ navigation }) => {
+const HomeScreen2ndFinal = () => {
+  const navigation = useNavigation();
+  const [visible, setVisible] = React.useState(false);
   return (
     <View style={styles.container}>
       <View style={styles.containerHeaderTop}>
@@ -142,24 +145,27 @@ const HomeScreen2ndFinal = ({ navigation }) => {
                 STARTER
               </Text>
               <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>
-                DISH 
+                DISH
               </Text>
               <View style={{ flexDirection: 'row' }}>
                 <Text style={{ color: '#fff' }}>Guarantee </Text>
-                
               </View>
               <Text
-                  style={{
-                    color: '#fee38d',
-                    fontWeight: 'bold',
-                    fontSize: 15,
-
-                  }}
-                >
-                  100% FRESH
-                </Text>
+                style={{
+                  color: '#fee38d',
+                  fontWeight: 'bold',
+                  fontSize: 15,
+                }}
+              >
+                100% FRESH
+              </Text>
             </View>
-            <Image source={{uri: 'http://assets.stickpng.com/images/5ea1507fe0ebe6000479458d.png'}} style={styles.imgSaleOff} />
+            <Image
+              source={{
+                uri: 'http://assets.stickpng.com/images/5ea1507fe0ebe6000479458d.png',
+              }}
+              style={styles.imgSaleOff}
+            />
           </LinearGradient>
         </TouchableOpacity>
 
@@ -178,9 +184,7 @@ const HomeScreen2ndFinal = ({ navigation }) => {
               <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>
                 DESERT and DRINK
               </Text>
-              <Text style={{ color: '#fff'}}>
-                Guarantee
-              </Text>
+              <Text style={{ color: '#fff' }}>Guarantee</Text>
               <Text
                 style={{
                   color: '#000',
@@ -205,7 +209,7 @@ const HomeScreen2ndFinal = ({ navigation }) => {
         {/* Button 4 */}
         <TouchableOpacity
           style={styles.btnBottomOpen}
-          onPress={() => navigation.navigate('ListFood')}
+          onPress={() => setVisible(true)}
         >
           <LinearGradient
             style={styles.btnBottomOpen}
@@ -228,6 +232,15 @@ const HomeScreen2ndFinal = ({ navigation }) => {
           </LinearGradient>
         </TouchableOpacity>
       </View>
+
+      <ModalListFood visible={visible}>
+        <TouchableOpacity
+          style={styles.closeButton}
+          onPress={() => setVisible(false)}
+        >
+          <Text style={styles.closeButtonText}>Close</Text>
+        </TouchableOpacity>
+      </ModalListFood>
     </View>
   );
 };
@@ -242,6 +255,29 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     paddingBottom: '7%',
     paddingTop: '5%',
+  },
+  closeButton: {
+    // alignSelf: 'center',
+    // backgroundColor: 'black',
+    // padding: 10,
+    // borderRadius: 20,
+    // elevation: 20,
+    // bottom: '100%',
+
+    backgroundColor: 'black',
+    width: '30%',
+    padding: 12,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 20,
+    alignSelf: 'center',
+    bottom: '100%',
+  },
+  closeButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   containerTitleInfo: {
     flex: 4,

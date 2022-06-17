@@ -224,6 +224,7 @@ const AddingMenuItemScreen = () => {
 
             {/* Price Dish */}
 
+
             <CustomTextInput
               blurColor={Colors.secondary}
               value={priceDish}
@@ -323,15 +324,17 @@ const styles = StyleSheet.create({
   ImageBackground: {
     height: 50,
     width: 50,
+    borderRadius: 15,
     position: "absolute",
     alignSelf: "center",
   },
   pick: {
     width: 140,
     height: 140,
+    borderRadius: 15,
+    alignSelf: "center",
     borderColor: "black",
   },
-
   button: {
     backgroundColor: Colors.secondary,
     width: "100%",
