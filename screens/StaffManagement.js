@@ -14,6 +14,7 @@ import {
 import React, { useState, useEffect } from "react";
 import pencil from "../assets/icons/pencil.png";
 import { useNavigation } from "@react-navigation/core";
+import useFocusEffect from "@react-navigation/native";
 import search from "../assets/icons/search.png";
 import ButtonUser from "../custom component/ButtonUser";
 import add from "../assets/icons/add.png";
@@ -161,6 +162,7 @@ const StaffManagement = () => {
         </View>
         <FlatList
           data={WaiterData}
+          
           renderItem={({ item, index }) => {
             return <FlatListItem item={item} index={index} />;
           }}
@@ -186,12 +188,15 @@ const StaffManagement = () => {
         </View>
         <FlatList
           data={ChefData}
+          
           renderItem={({ item, index }) => {
             return <FlatListItem item={item} index={index} />;
           }}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
+          refreshing={refreshing}
+          onRefresh={() => {setRefreshing(true)}}
         />
       </View>
     </ScrollView>
