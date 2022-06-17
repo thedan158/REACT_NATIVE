@@ -24,7 +24,6 @@ import eye from '../assets/icons/eye-green.png';
 import HomeScreen from './HomeScreen';
 import Analytics from './Analytics';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import cashier from '../assets/icons/cashier.png';
 import waiter from '../assets/icons/waiter.png';
 import chef from '../assets/icons/chef.png';
 
