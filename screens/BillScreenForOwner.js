@@ -213,9 +213,8 @@ export default BillScreenForOwner;
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: "8%",
-    paddingTop: "0%",
     marginBottom: "0%",
+    paddingTop: "0%",
   },
   containerTop: {
     backgroundColor: "#FF4B3A",
@@ -237,7 +236,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
 
-    marginTop: -50,
+    marginTop: -40,
     paddingTop: 20,
     paddingLeft: 10,
   },

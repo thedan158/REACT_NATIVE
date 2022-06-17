@@ -77,14 +77,10 @@ const AccountForStaff = () => {
         <View style={styles.containerHeader}>
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
+              marginLeft: 20,
+              marginTop: '1%',
             }}
           >
-            <Image
-              source={personal}
-              style={{ height: 30, width: 30, marginHorizontal: 15 }}
-            />
             <Text style={styles.textHeader}>Personal details</Text>
           </View>
         </View>
@@ -113,7 +109,7 @@ const AccountForStaff = () => {
           {/* Change password  */}
           <TouchableOpacity
             style={styles.TouchableOpacity}
-            onPress={() => navigation.navigate('ListFood')}
+            onPress={() => navigation.navigate('ChangeStaffPassword')}
           >
             <Image source={password} style={styles.iconTitle} />
             <Text style={styles.textName}>Change Your Password</Text>
@@ -245,10 +241,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   textHeader: {
-    width: 147,
-
     fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 30,
     // lineHeight: 27,
   },
   editText: {
