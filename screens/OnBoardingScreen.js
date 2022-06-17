@@ -20,7 +20,7 @@ const slides = [
   {
     id: '1',
     image: require('../assets/images/boarding1.png'),
-    title: 'Save Food with our new feature',
+    title: 'Create restaurant with your own menu',
     subtitle: 'Anh Dan bi khung`, Anh Dan bi khung`Anh Dan bi khung` ',
   },
   {

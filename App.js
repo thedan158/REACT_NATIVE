@@ -152,6 +152,11 @@ export default function App() {
           name="SplashScreen"
           component={SplashScreen}
         />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="RestaurantInformation"
+          component={RestaurantInformation}
+        />
 
         <Stack.Screen
           options={{ headerShown: false }}
@@ -462,12 +467,6 @@ export default function App() {
           options={{ headerShown: false }}
           name="RePasswordSuccess"
           component={RePasswordSuccess}
-        />
-
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="RestaurantInformation"
-          component={RestaurantInformation}
         />
 
         <Stack.Screen
