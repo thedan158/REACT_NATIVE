@@ -89,7 +89,11 @@ const BillScreenForOwner = ({ navigation }) => {
       return (
         <View>
           <TouchableOpacity
-            onPress={() => navigation.navigate("CheckOutTableScreen", { item })}
+            onPress={async () => {
+              await AsyncStorage.setItem("tableIDBill", item.id);
+              console.log("id sent: " + item.id);
+              navigation.navigate("CheckOutTableScreen", { item });
+            }}
             style={styles.flatlistitemStyleInUse}
           >
             <View>

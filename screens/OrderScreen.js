@@ -62,18 +62,62 @@ class FlatlistItem extends Component {
 }
 
 const OrderScreen = () => {
-  // const [search, setSearch] = useState("");
-  // const [masterData, setMasterData] = useState([]);
-  // const [dataFromState, setNewData] = useState([]);
-  // const [refreshing, setRefreshing] = useState(false);
+  const [search, setSearch] = useState("");
+  const [masterData, setMasterData] = useState([]);
+  const [dataStarter, setNewStarter] = useState([]);
+  const [dataMainCourse, setNewMainCourse] = useState([]);
+  const [dataDrink, setNewDrink] = useState([]);
+
+  const [refreshing, setRefreshing] = useState(false);
+  var STARTER = [],
+    MAINCOURSE = [],
+    DESSERT = [];
   useEffect(() => {
     const getData = async () => {
-      const id = await AsyncStorage.getItem('tableID');
-      console.log('oke');
+      (STARTER = []), (MAINCOURSE = []), (DESSERT = []);
+      const id = await AsyncStorage.getItem("tableID");
+      console.log("oke");
       console.log(id);
+      if (id) {
+        const resOrderID = await axios.post(
+          `https://foody-uit.herokuapp.com/order/getCurrentOrderID`,
+          {
+            tableID: id,
+          }
+        );
+        const orderID = resOrderID.data.message;
+        const res = await axios.post(
+          `https://foody-uit.herokuapp.com/orderInfo/getOrderInfo`,
+          {
+            orderID: orderID,
+          }
+        );
+        const { success, message } = res.data;
+        console.log(message);
+        console.log("success " + success);
+        if (success) {
+          for (let i = 0; i < message.length; i++) {
+            if (message[i].foodType == "Starter") {
+              STARTER.push(message[i]);
+            } else if (message[i].foodType == "Main course") {
+              MAINCOURSE.push(message[i]);
+            } else {
+              DESSERT.push(message[i]);
+            }
+          }
+          setNewStarter(STARTER);
+          setNewMainCourse(MAINCOURSE);
+          setNewDrink(DESSERT);
+        } else {
+          console.log("None");
+          setNewStarter([]);
+          setNewMainCourse([]);
+          setNewDrink([]);
+        }
+      }
     };
     getData().catch((err) => console.log(err));
-  });
+  }, [refreshing]);
 
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
@@ -186,7 +230,9 @@ const OrderScreen = () => {
                 </View>
               </View>
               <FlatList
-                data={DATA}
+                refreshing={refreshing}
+                onRefresh={() => setRefreshing(true)}
+                data={dataStarter}
                 renderItem={({ item, index }) => {
                   return (
                     <FlatlistItem item={item} index={index}></FlatlistItem>
@@ -218,7 +264,9 @@ const OrderScreen = () => {
                 </View>
               </View>
               <FlatList
-                data={DATA}
+                refreshing={refreshing}
+                onRefresh={() => setRefreshing(true)}
+                data={dataMainCourse}
                 renderItem={({ item, index }) => {
                   return (
                     <FlatlistItem item={item} index={index}></FlatlistItem>
@@ -248,7 +296,9 @@ const OrderScreen = () => {
                 </View>
               </View>
               <FlatList
-                data={DATA}
+                refreshing={refreshing}
+                onRefresh={() => setRefreshing(true)}
+                data={dataDrink}
                 renderItem={({ item, index }) => {
                   return (
                     <FlatlistItem item={item} index={index}></FlatlistItem>
