@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import React, { useState, useEffect, Component } from "react";
 import AppLoading from "expo-app-loading";
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import { useFonts, Inter_900Black } from "@expo-google-fonts/inter";
 import { useNavigation } from "@react-navigation/core";
 import { SafeAreaView } from "react-navigation";
@@ -102,7 +103,10 @@ const OrderScreen = () => {
   }
   return (
     //   Root view
-    <SafeAreaView style={styles.droidSafeArea}>
+    <KeyboardAwareScrollView 
+    showsVerticalScrollIndicator={false}
+    showsHorizontalScrollIndicator={false}
+    style={styles.droidSafeArea}>
       <View style={styles.container}>
         {/* ------------------------------------first view section-------------------------- */}
         <View style={styles.container_top}>
@@ -128,7 +132,8 @@ const OrderScreen = () => {
                   width: deviceWidth,
                   justifyContent: "space-between",
                   alignItems: "center",
-                  marginBottom: 20,
+                  marginBottom: 30,
+                  marginTop: 10,
                 }}
               >
                 <View
@@ -306,7 +311,7 @@ const OrderScreen = () => {
           </View>
         </ScrollView>
       </View>
-    </SafeAreaView>
+    </KeyboardAwareScrollView>
   );
 };
 
@@ -326,7 +331,6 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     justifyContent: "center",
-    marginBottom: 50,
     height: deviceHeight,
   },
   container_bottom: {
@@ -334,6 +338,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     borderRadius: 20,
     paddingTop: 15,
+    marginTop: "0%",
     marginBottom: "13%",
   },
   rectangleGreydevideView: {
@@ -381,7 +386,7 @@ const styles = StyleSheet.create({
     top: 10,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 55,
+    marginBottom: 50,
   },
   viewMENU: {
     top: 5,
@@ -425,7 +430,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FF6838",
-    marginBottom: 30,
     marginTop: 20,
   },
   btnMenuMainCourse: {
@@ -588,8 +592,7 @@ const styles = StyleSheet.create({
   },
   droidSafeArea: {
     flex: 1,
-    paddingTop: Platform.OS === "Android" ? StatusBar.currentHeight : 0,
-    marginBottom: 50,
+    
   },
   imgBottomTab: {
     height: 40,
