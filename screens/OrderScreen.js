@@ -10,6 +10,7 @@ import {
   View,
   Image,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import React, { useState, useEffect, Component } from 'react';
 import AppLoading from 'expo-app-loading';
@@ -22,6 +23,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import Constants from 'expo-constants';
 import table from '../assets/icons/table.png';
+import reload from '../assets/icons/reloading.png';
 
 const statusBarHeight = Constants.statusBarHeight;
 const deviceWidth = Dimensions.get('window').width;
@@ -67,6 +69,7 @@ const OrderScreen = () => {
   const [dataStarter, setNewStarter] = useState([]);
   const [dataMainCourse, setNewMainCourse] = useState([]);
   const [dataDrink, setNewDrink] = useState([]);
+  const [selected, setIsSelected] = useState('Select Table');
 
   const [refreshing, setRefreshing] = useState(false);
   var STARTER = [],
@@ -78,6 +81,9 @@ const OrderScreen = () => {
       const id = await AsyncStorage.getItem('tableID');
       console.log('oke');
       console.log(id);
+      if (!id) {
+        setIsSelected('Select your table');
+      }
       if (id) {
         const resOrderID = await axios.post(
           `https://foody-uit.herokuapp.com/order/getCurrentOrderID`,
@@ -109,11 +115,15 @@ const OrderScreen = () => {
           setNewStarter(STARTER);
           setNewMainCourse(MAINCOURSE);
           setNewDrink(DESSERT);
+
+          setRefreshing(false);
         } else {
           console.log('None');
           setNewStarter([]);
           setNewMainCourse([]);
           setNewDrink([]);
+
+          setRefreshing(false);
         }
       }
     };
@@ -157,8 +167,18 @@ const OrderScreen = () => {
         {/* ------------------------------------first view section-------------------------- */}
         <View style={styles.container_top}>
           {/* ---------------top header view Layout-------------- */}
-          <Text style={styles.textHeader}>ORDER</Text>
-          <Text style={styles.textHeaderBottom}>ORDER MEAL</Text>
+          <Text style={styles.textHeader}>Order</Text>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+          >
+            <Text style={styles.textHeaderBottom}>ORDER MEAL</Text>
+            <TouchableOpacity onPress={() => setRefreshing(true)}>
+              <Image
+                source={reload}
+                style={{ height: 30, width: 30, alignSelf: 'center' }}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* ----------------------------second view section---------------------------------- */}
@@ -197,7 +217,7 @@ const OrderScreen = () => {
                       borderRadius: 20,
                     }}
                   >
-                    <Text style={styles.btnTextstyle}>Select table</Text>
+                    <Text style={styles.btnTextstyle}>{selected}</Text>
                   </View>
                 </View>
 
@@ -232,7 +252,6 @@ const OrderScreen = () => {
               </View>
               <FlatList
                 refreshing={refreshing}
-                onRefresh={() => setRefreshing(true)}
                 data={dataStarter}
                 renderItem={({ item, index }) => {
                   return (
@@ -355,7 +374,12 @@ const OrderScreen = () => {
 
           {/* ------------order button view section------------ */}
           <View style={styles.container_layout_column3}>
-            <TouchableOpacity style={styles.btnOrder}>
+            <TouchableOpacity
+              onPress={() => {
+                Alert.alert('Order Successfully !');
+              }}
+              style={styles.btnOrder}
+            >
               <View>
                 <Text style={styles.txtOrder}>Order</Text>
               </View>

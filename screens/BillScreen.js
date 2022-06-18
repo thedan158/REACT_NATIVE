@@ -211,8 +211,8 @@ export default BillScreen;
 const styles = StyleSheet.create({
   container: {
     marginBottom: '8%',
-    paddingTop: '0%',
     backgroundColor: '#fff',
+    paddingTop: '0%',
   },
   containerTop: {
     backgroundColor: '#FF4B3A',

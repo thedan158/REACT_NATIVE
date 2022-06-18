@@ -76,7 +76,7 @@ const AddingTable = () => {
         <View
           style={{
             flexDirection: 'row',
-            marginTop: 20,
+
             width: windowWidth,
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -106,21 +106,12 @@ const AddingTable = () => {
 
         {/* Pick image  */}
         <View style={styles.view2}>
-          <TouchableOpacity onPress={PickImage}>
-            <View style={styles.pickLogo}>
-              <ImageBackground
-                style={styles.ImageBackground}
-                source={gallery}
-              />
+          <ImageBackground
+            style={styles.ImageBackground}
+            source={require('../assets/images/logo_app.png')}
+          />
 
-              {image && (
-                <Image source={{ uri: image }} style={styles.pick}></Image>
-              )}
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={PickImage} style={styles.button1}>
-            <Text style={styles.buttonText}>Select Your Image</Text>
-          </TouchableOpacity>
+          {image && <Image source={{ uri: image }} style={styles.pick}></Image>}
         </View>
 
         {/* Input section  */}
@@ -131,24 +122,6 @@ const AddingTable = () => {
             value={nameTable}
             onChangeText={(text) => setNameTable(text)}
             placeholder="Name Table"
-          />
-
-          {/* Number of people in use */}
-          <CustomTextInput
-            blurColor={Colors.secondary}
-            value={numberPeople}
-            onChangeText={(text) => setNumberPeople(text)}
-            placeholder="Number of chair"
-            keyboardType="decimal-pad"
-          />
-
-          {/* Position table  */}
-          <CustomTextInput
-            blurColor={Colors.secondary}
-            value={position}
-            onChangeText={(text) => setPosition(text)}
-            placeholder="Position table"
-            keyboardType="decimal-pad"
           />
         </View>
 
@@ -194,29 +167,28 @@ const styles = StyleSheet.create({
     flex: 1,
     height: windowHeight,
     width: windowWidth,
-    paddingTop: '2%',
+
     backgroundColor: 'white',
   },
   view2: {
-    flex: 3,
     justifyContent: 'space-evenly',
     alignItems: 'center',
+    marginVertical: 50,
   },
   view3: {
+    marginVertical: 50,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 5,
   },
   ImageBackground: {
-    height: 50,
-    width: 50,
+    height: 200,
+    width: 200,
     borderRadius: 15,
     position: 'absolute',
     alignSelf: 'center',
   },
   view4: {
-    flex: 1,
     justifyContent: 'center',
     marginTop: 10,
     width: '80%',

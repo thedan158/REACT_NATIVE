@@ -126,21 +126,6 @@ const AccountForStaff = () => {
             <Image style={styles.icon} source={vector} />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Login');
-          }}
-          style={styles.about}
-        >
-          <Image
-            source={info}
-            style={{
-              height: 20,
-              width: 20,
-            }}
-          />
-          <Text style={{ marginHorizontal: 10 }}>About</Text>
-        </TouchableOpacity>
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity
@@ -300,6 +285,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     flexDirection: 'column',
+    marginVertical: 30,
   },
   btnEdit: {
     width: 90,
