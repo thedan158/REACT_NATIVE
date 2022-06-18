@@ -82,6 +82,7 @@ const SelectedTable = () => {
       return (
         <View>
           <TouchableOpacity
+            disabled={true}
             onPress={() => {
               handleOnPressTable(item.id);
             }}
@@ -92,7 +93,7 @@ const SelectedTable = () => {
                 source={require("../assets/icons/TableOrange.png")}
                 style={styles.imgItemFlatlist}
               />
-              <Text style={styles.txtItemFlatlistInUse}>{item.id}</Text>
+              <Text style={styles.txtItemFlatlistInUse}>{item.name}</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -112,7 +113,7 @@ const SelectedTable = () => {
               source={require("../assets/icons/TableGray.png")}
               style={styles.imgItemFlatlist}
             />
-            <Text style={styles.txtItemFlatlist}>{item.id}</Text>
+            <Text style={styles.txtItemFlatlist}>{item.name}</Text>
           </View>
         </TouchableOpacity>
       </View>

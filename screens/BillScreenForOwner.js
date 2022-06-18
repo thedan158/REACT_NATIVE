@@ -41,7 +41,7 @@ const BillScreenForOwner = ({ navigation }) => {
                 source={require("../assets/icons/TableOrange.png")}
                 style={styles.imgItemFlatlist}
               />
-              <Text style={styles.txtItemFlatlistInUse}>Table {item.id}</Text>
+              <Text style={styles.txtItemFlatlistInUse}>{item.name}</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -59,7 +59,7 @@ const BillScreenForOwner = ({ navigation }) => {
               source={require("../assets/icons/TableGray.png")}
               style={styles.imgItemFlatlist}
             />
-            <Text style={styles.txtItemFlatlist}>Table {item.id}</Text>
+            <Text style={styles.txtItemFlatlist}>{item.name}</Text>
           </View>
         </TouchableOpacity>
       </View>
