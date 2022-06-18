@@ -52,7 +52,11 @@ const AccountForOwner = () => {
   const [restaurantAddress, setRestaurantAddress] = useState('');
   const [restaurantHotline, setRestaurantHotline] = useState('');
   const [restaurantImage, setRestaurantImage] = useState('');
-
+  const handleLogout = async () => {
+    await AsyncStorage.removeItem('userLoginData');
+    await AsyncStorage.removeItem('tableID');
+    navigation.navigate('Login');
+  };
   useFocusEffect(() => {
     const getData = async () => {
       const user = await AsyncStorage.getItem('userLoginData');
@@ -180,29 +184,9 @@ const AccountForOwner = () => {
             <Image style={styles.icon} source={vector} />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Login');
-          }}
-          style={styles.about}
-        >
-          <Image
-            source={info}
-            style={{
-              height: 20,
-              width: 20,
-            }}
-          />
-          <Text style={{ marginHorizontal: 10 }}>About</Text>
-        </TouchableOpacity>
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('Login');
-            }}
-            style={styles.button1}
-          >
+          <TouchableOpacity onPress={handleLogout} style={styles.button1}>
             <Image
               source={power}
               style={{ height: 15, width: 15, marginHorizontal: 10 }}
@@ -359,6 +343,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     flexDirection: 'column',
+    marginVertical: 30,
   },
   btnEdit: {
     width: 90,

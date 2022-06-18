@@ -7,19 +7,19 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
-} from "react-native";
-import React, { useState, useEffect } from "react";
-import Colors from "../assets/Colors";
-import ModalTableSelect from "../custom component/ModalTableSelect";
-const imgAddItem = require("../assets/icons/AddItem.png");
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
-import MessageQueue from "react-native/Libraries/BatchedBridge/MessageQueue";
+} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import Colors from '../assets/Colors';
+import ModalTableSelect from '../custom component/ModalTableSelect';
+const imgAddItem = require('../assets/icons/AddItem.png');
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import MessageQueue from 'react-native/Libraries/BatchedBridge/MessageQueue';
 
-const SearchIconResouce = require("../assets/icons/search.png");
-const FillterIconResouce = require("../assets/icons/fillter.png");
+const SearchIconResouce = require('../assets/icons/search.png');
+const FillterIconResouce = require('../assets/icons/fillter.png');
 const BillScreenForOwner = ({ navigation }) => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [masterData, setMasterData] = useState([]);
   const [dataFromState, setNewData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
@@ -30,15 +30,15 @@ const BillScreenForOwner = ({ navigation }) => {
         <View>
           <TouchableOpacity
             onPress={async () => {
-              await AsyncStorage.setItem("tableIDBill", item.id);
-              console.log("id sent: " + item.id);
-              navigation.navigate("CheckOutTableScreen", { item });
+              await AsyncStorage.setItem('tableIDBill', item.id);
+              console.log('id sent: ' + item.id);
+              navigation.navigate('CheckOutTableScreen', { item });
             }}
             style={styles.flatlistitemStyleInUse}
           >
             <View>
               <Image
-                source={require("../assets/icons/TableOrange.png")}
+                source={require('../assets/icons/TableOrange.png')}
                 style={styles.imgItemFlatlist}
               />
               <Text style={styles.txtItemFlatlistInUse}>{item.name}</Text>
@@ -51,12 +51,12 @@ const BillScreenForOwner = ({ navigation }) => {
     return (
       <View>
         <TouchableOpacity
-          onPress={() => navigation.navigate("EditTableInfo", { item })}
+          onPress={() => navigation.navigate('EditTableInfo', { item })}
           style={styles.flatlistitemStyle}
         >
           <View>
             <Image
-              source={require("../assets/icons/TableGray.png")}
+              source={require('../assets/icons/TableGray.png')}
               style={styles.imgItemFlatlist}
             />
             <Text style={styles.txtItemFlatlist}>{item.name}</Text>
@@ -67,9 +67,9 @@ const BillScreenForOwner = ({ navigation }) => {
   };
   useEffect(() => {
     const getData = async () => {
-      const userLoginData = await AsyncStorage.getItem("userLoginData");
+      const userLoginData = await AsyncStorage.getItem('userLoginData');
       const user = JSON.parse(userLoginData);
-      console.log("username: " + user.username);
+      console.log('username: ' + user.username);
       const res = await axios.post(
         `https://foody-uit.herokuapp.com/table/getAllTableOfRestaurant`,
         {
@@ -88,14 +88,14 @@ const BillScreenForOwner = ({ navigation }) => {
         setMasterData([]);
         setRefreshing(false);
       }
-      console.log("filteredData is all selected");
+      console.log('filteredData is all selected');
     };
     getData().catch((err) => console.log(err));
   }, [refreshing]);
   const searchFilterFunction = (text) => {
     if (text) {
       const newData = masterData.filter(function (item) {
-        const itemData = item.id ? item.id.toLowerCase() : "".toUpperCase();
+        const itemData = item.id ? item.id.toLowerCase() : ''.toUpperCase();
         const textData = text.toLowerCase();
         return itemData.indexOf(textData) > -1;
       });
@@ -121,12 +121,12 @@ const BillScreenForOwner = ({ navigation }) => {
               value={search}
               onChangeText={(text) => searchFilterFunction(text)}
               style={styles.txtSearchBar}
-              placeholder={"Search Table..."}
+              placeholder={'Search Table...'}
             />
           </View>
 
           <TouchableOpacity
-            onPress={() => navigation.navigate("AddingTable")}
+            onPress={() => navigation.navigate('AddingTable')}
             style={styles.btnImgFillter}
           >
             <Image source={imgAddItem} style={styles.imgIconFillter} />
@@ -159,59 +159,60 @@ export default BillScreenForOwner;
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: "0%",
-    paddingTop: "0%",
+    marginBottom: '0%',
+    paddingTop: '0%',
+    backgroundColor: '#fff',
   },
   containerTop: {
-    backgroundColor: "#FF4B3A",
+    backgroundColor: '#FF4B3A',
     height: 180,
-    flexDirection: "column",
+    flexDirection: 'column',
     flex: 1,
     margin: 0,
-    alignItems: "center",
-    alignContent: "center",
-    justifyContent: "space-around",
-    paddingTop: "0%",
+    alignItems: 'center',
+    alignContent: 'center',
+    justifyContent: 'space-around',
+    paddingTop: '0%',
   },
   containerBottom: {
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
 
-    borderColor: "#808080",
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    alignItems: "center",
+    borderColor: '#808080',
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
 
     marginTop: -40,
     paddingTop: 20,
     paddingLeft: 10,
   },
   txtSearchBar: {
-    color: "#000",
+    color: '#000',
     maxWidth: 200,
     width: 200,
   },
   txtHeaderView: {
     fontSize: 30,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginTop: 0,
     marginBottom: 0,
     paddingTop: 20,
   },
   txtItemFlatlist: {
-    color: "#A09A99",
+    color: '#A09A99',
     marginBottom: 10,
-    alignSelf: "center",
+    alignSelf: 'center',
     fontSize: 20,
   },
   txtItemFlatlistInUse: {
     color: Colors.primary,
     marginBottom: 10,
-    alignSelf: "center",
+    alignSelf: 'center',
     fontSize: 20,
   },
   containerTemp: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginBottom: 50,
     paddingTop: -200,
   },
@@ -221,18 +222,18 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginRight: 10,
     borderWidth: 1,
-    borderColor: "#A09A99",
-    backgroundColor: "#fff",
-    flexDirection: "row",
-    alignItems: "center",
-    alignContent: "center",
+    borderColor: '#A09A99',
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignContent: 'center',
     padding: 0,
   },
   imgIconSearch: {
     margin: 0,
     height: 16,
     width: 16,
-    resizeMode: "cover",
+    resizeMode: 'cover',
   },
   imgIconFillter: {
     height: 50,
@@ -244,8 +245,8 @@ const styles = StyleSheet.create({
     width: 70,
     marginTop: 20,
     marginBottom: 5,
-    resizeMode: "cover",
-    alignSelf: "center",
+    resizeMode: 'cover',
+    alignSelf: 'center',
     margin: 0,
     borderRadius: 20,
   },
@@ -264,10 +265,10 @@ const styles = StyleSheet.create({
     width: 130,
     borderRadius: 20,
 
-    justifyContent: "center",
-    borderColor: "grey",
+    justifyContent: 'center',
+    borderColor: 'grey',
     borderWidth: 2,
-    alignItems: "center",
+    alignItems: 'center',
     marginRight: 20,
     marginVertical: 20,
     marginLeft: 10,
@@ -276,11 +277,11 @@ const styles = StyleSheet.create({
     height: 130,
     width: 130,
     borderRadius: 20,
-    justifyContent: "center",
+    justifyContent: 'center',
     borderColor: Colors.primary,
     borderWidth: 2,
-    alignContent: "center",
-    alignItems: "center",
+    alignContent: 'center',
+    alignItems: 'center',
     marginRight: 20,
     marginVertical: 20,
     marginLeft: 10,
@@ -288,14 +289,14 @@ const styles = StyleSheet.create({
   btnUserStyle: {
     height: 30,
     width: 30,
-    justifyContent: "center",
-    alignContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
   },
   imgUserStyle: {
     height: 25,
     width: 25,
-    resizeMode: "cover",
-    alignSelf: "center",
+    resizeMode: 'cover',
+    alignSelf: 'center',
   },
 });

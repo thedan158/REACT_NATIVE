@@ -10,40 +10,42 @@ import {
   View,
   Image,
   TouchableOpacity,
-} from "react-native";
-import React, { useState, useEffect, Component } from "react";
-import AppLoading from "expo-app-loading";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useFonts, Inter_900Black } from "@expo-google-fonts/inter";
-import { useNavigation } from "@react-navigation/core";
-import { SafeAreaView } from "react-navigation";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
-import Constants from "expo-constants";
-import table from "../assets/icons/table.png";
+  Alert,
+} from 'react-native';
+import React, { useState, useEffect, Component } from 'react';
+import AppLoading from 'expo-app-loading';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
+import { useNavigation } from '@react-navigation/core';
+import { SafeAreaView } from 'react-navigation';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import Constants from 'expo-constants';
+import table from '../assets/icons/table.png';
+import reload from '../assets/icons/reloading.png';
 
 const statusBarHeight = Constants.statusBarHeight;
-const deviceWidth = Dimensions.get("window").width;
-const deviceHeight = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get('window').width;
+const deviceHeight = Dimensions.get('window').height;
 
 // TODO fix the Scrollview with flatlist
 
 const DATA = [
   {
-    id: "1",
-    name: "Rồng 7 Món",
-    quantity: "1",
+    id: '1',
+    name: 'Rồng 7 Món',
+    quantity: '1',
   },
   {
-    id: "2",
-    name: "Choáng váng thần dược",
-    quantity: "2",
+    id: '2',
+    name: 'Choáng váng thần dược',
+    quantity: '2',
   },
   {
-    id: "3",
-    name: "Ốc Luộc",
-    quantity: "1",
+    id: '3',
+    name: 'Ốc Luộc',
+    quantity: '1',
   },
 ];
 
@@ -62,11 +64,12 @@ class FlatlistItem extends Component {
 }
 
 const OrderScreen = () => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [masterData, setMasterData] = useState([]);
   const [dataStarter, setNewStarter] = useState([]);
   const [dataMainCourse, setNewMainCourse] = useState([]);
   const [dataDrink, setNewDrink] = useState([]);
+  const [selected, setIsSelected] = useState('Select Table');
 
   const [refreshing, setRefreshing] = useState(false);
   var STARTER = [],
@@ -75,9 +78,12 @@ const OrderScreen = () => {
   useEffect(() => {
     const getData = async () => {
       (STARTER = []), (MAINCOURSE = []), (DESSERT = []);
-      const id = await AsyncStorage.getItem("tableID");
-      console.log("oke");
+      const id = await AsyncStorage.getItem('tableID');
+      console.log('oke');
       console.log(id);
+      if (!id) {
+        setIsSelected('Select your table');
+      }
       if (id) {
         const resOrderID = await axios.post(
           `https://foody-uit.herokuapp.com/order/getCurrentOrderID`,
@@ -86,7 +92,7 @@ const OrderScreen = () => {
           }
         );
         const orderID = resOrderID.data.message;
-        console.log("orderID: " + orderID);
+        console.log('orderID: ' + orderID);
         const res = await axios.post(
           `https://foody-uit.herokuapp.com/orderInfo/getOrderInfo`,
           {
@@ -95,12 +101,12 @@ const OrderScreen = () => {
         );
         const { success, message } = res.data;
         console.log(message);
-        console.log("success " + success);
+        console.log('success ' + success);
         if (success) {
           for (let i = 0; i < message.length; i++) {
-            if (message[i].foodType == "Starter") {
+            if (message[i].foodType == 'Starter') {
               STARTER.push(message[i]);
-            } else if (message[i].foodType == "Main course") {
+            } else if (message[i].foodType == 'Main course') {
               MAINCOURSE.push(message[i]);
             } else {
               DESSERT.push(message[i]);
@@ -109,11 +115,15 @@ const OrderScreen = () => {
           setNewStarter(STARTER);
           setNewMainCourse(MAINCOURSE);
           setNewDrink(DESSERT);
+
+          setRefreshing(false);
         } else {
-          console.log("None");
+          console.log('None');
           setNewStarter([]);
           setNewMainCourse([]);
           setNewDrink([]);
+
+          setRefreshing(false);
         }
       }
     };
@@ -124,22 +134,22 @@ const OrderScreen = () => {
   const insets = useSafeAreaInsets();
 
   const handleStarterMenu = () => {
-    navigation.navigate("StarterMenu");
+    navigation.navigate('StarterMenu');
   };
   const handleMainMenu = () => {
-    navigation.navigate("MainMenu");
+    navigation.navigate('MainMenu');
   };
   const handleDrinkMenu = () => {
-    navigation.navigate("DrinkMenu");
+    navigation.navigate('DrinkMenu');
   };
   const handleDesertMenu = () => {
-    navigation.navigate("DesertMenu");
+    navigation.navigate('DesertMenu');
   };
   const handleSelectedTable = () => {
-    navigation.navigate("SelectedTable");
+    navigation.navigate('SelectedTable');
   };
 
-  let arrowResource = require("../assets/icons/Vector.png");
+  let arrowResource = require('../assets/icons/Vector.png');
   let [fontsLoaded] = useFonts({
     Inter_900Black,
   });
@@ -158,7 +168,17 @@ const OrderScreen = () => {
         <View style={styles.container_top}>
           {/* ---------------top header view Layout-------------- */}
           <Text style={styles.textHeader}>Order</Text>
-          <Text style={styles.textHeaderBottom}>Order meal</Text>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+          >
+            <Text style={styles.textHeaderBottom}>ORDER MEAL</Text>
+            <TouchableOpacity onPress={() => setRefreshing(true)}>
+              <Image
+                source={reload}
+                style={{ height: 30, width: 30, alignSelf: 'center' }}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* ----------------------------second view section---------------------------------- */}
@@ -173,11 +193,11 @@ const OrderScreen = () => {
             <View style={styles.btnContainerViewStyle}>
               <View
                 style={{
-                  flexDirection: "row",
+                  flexDirection: 'row',
                   flex: 1,
                   width: deviceWidth,
-                  justifyContent: "space-between",
-                  alignItems: "center",
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
                   marginBottom: 30,
                   marginTop: 10,
                 }}
@@ -189,15 +209,15 @@ const OrderScreen = () => {
                 >
                   <View
                     style={{
-                      backgroundColor: "#F3F3F3",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      width: "95%",
-                      height: "140%",
+                      backgroundColor: '#F3F3F3',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      width: '95%',
+                      height: '140%',
                       borderRadius: 20,
                     }}
                   >
-                    <Text style={styles.btnTextstyle}>Select table</Text>
+                    <Text style={styles.btnTextstyle}>{selected}</Text>
                   </View>
                 </View>
 
@@ -215,7 +235,7 @@ const OrderScreen = () => {
 
             <View style={styles.container_layout_column}>
               <View style={styles.container_layout_row1}>
-                <Text style={styles.textHeaderBottom}>STARTER: </Text>
+                <Text style={styles.textHeaderBottom}>Starter: </Text>
                 <View style={styles}>
                   <TouchableOpacity
                     style={styles.btnMenuStarter}
@@ -232,7 +252,6 @@ const OrderScreen = () => {
               </View>
               <FlatList
                 refreshing={refreshing}
-                onRefresh={() => setRefreshing(true)}
                 data={dataStarter}
                 renderItem={({ item, index }) => {
                   return (
@@ -249,7 +268,7 @@ const OrderScreen = () => {
             {/* --------------View Main Course Order-----------  */}
             <View style={styles.container_layout_column}>
               <View style={styles.container_layout_row1}>
-                <Text style={styles.textHeaderBottom}>MAIN COURSE: </Text>
+                <Text style={styles.textHeaderBottom}>Main course: </Text>
                 <View style={styles}>
                   <TouchableOpacity
                     style={styles.btnMenuMainCourse}
@@ -281,7 +300,7 @@ const OrderScreen = () => {
             {/* -----------------View Desert Order-------------- */}
             <View style={styles.container_layout_column}>
               <View style={styles.container_layout_row1}>
-                <Text style={styles.textHeaderBottom}>DESERT - DRINK: </Text>
+                <Text style={styles.textHeaderBottom}>Desert - Drink: </Text>
                 <View style={styles}>
                   <TouchableOpacity
                     style={styles.btnMenuDesert}
@@ -355,7 +374,12 @@ const OrderScreen = () => {
 
           {/* ------------order button view section------------ */}
           <View style={styles.container_layout_column3}>
-            <TouchableOpacity style={styles.btnOrder}>
+            <TouchableOpacity
+              onPress={() => {
+                Alert.alert('Order Successfully !');
+              }}
+              style={styles.btnOrder}
+            >
               <View>
                 <Text style={styles.txtOrder}>Order</Text>
               </View>
@@ -372,42 +396,42 @@ export default OrderScreen;
 const styles = StyleSheet.create({
   container_top: {
     height: 100,
-    justifyContent: "center",
-    alignContent: "center",
-    marginTop: "7%",
+    justifyContent: 'center',
+    alignContent: 'center',
+    marginTop: '7%',
   },
   container: {
-    backgroundColor: "#FFF",
+    backgroundColor: '#FFF',
     paddingTop: 0,
     paddingBottom: 0,
     paddingLeft: 20,
     paddingRight: 20,
-    justifyContent: "center",
+    justifyContent: 'center',
     height: deviceHeight,
   },
   container_bottom: {
     top: 0,
-    flexDirection: "column",
+    flexDirection: 'column',
     borderRadius: 20,
     paddingTop: 15,
-    marginTop: "0%",
-    marginBottom: "13%",
+    marginTop: '0%',
+    marginBottom: '13%',
   },
   rectangleGreydevideView: {
-    backgroundColor: "#EFEFEF",
+    backgroundColor: '#EFEFEF',
     width: deviceWidth,
     height: 5,
     marginBottom: 10,
     marginTop: 25,
   },
   container_layout_row: {
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   container_bottomTabs: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginHorizontal: 0,
-    backgroundColor: "#8000",
+    backgroundColor: '#8000',
     height: 60,
     marginLeft: 0,
     paddingLeft: 0,
@@ -417,27 +441,27 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   container_layout_row1: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     left: 0,
   },
   container_layout_row2: {
-    flexDirection: "row",
+    flexDirection: 'row',
     height: 50,
   },
   container_layout_column: {
-    flexDirection: "column",
+    flexDirection: 'column',
   },
   container_layout_column2: {
-    flexDirection: "column",
+    flexDirection: 'column',
     top: 10,
     bottom: 30,
   },
   container_layout_column3: {
-    flexDirection: "column",
+    flexDirection: 'column',
     top: 10,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: 50,
   },
   viewMENU: {
@@ -445,19 +469,19 @@ const styles = StyleSheet.create({
   },
   viewtest: {
     flex: 7,
-    backgroundColor: "#F3F3F3",
-    justifyContent: "center",
-    alignContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
+    backgroundColor: '#F3F3F3',
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
     borderRadius: 20,
     left: 10,
     right: 0,
   },
   btnContainerViewStyle: {
-    flexDirection: "column",
+    flexDirection: 'column',
     top: 5,
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
   btnImagestyle: {
     height: 20,
@@ -465,13 +489,13 @@ const styles = StyleSheet.create({
     left: 70,
   },
   btnBottomTabs: {
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
   },
   flatlistitemStyle: {
     flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
     top: 1,
   },
   flatlistStyle: {},
@@ -479,126 +503,126 @@ const styles = StyleSheet.create({
     width: 310,
     height: 60,
     borderRadius: 30,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#FF6838",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FF6838',
     marginTop: 20,
   },
   btnMenuMainCourse: {
     height: 54,
 
     borderRadius: 30,
-    backgroundColor: "#fff",
-    borderColor: "#000",
-    alignContent: "center",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: '#fff',
+    borderColor: '#000',
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   btnMenuDesert: {
     height: 54,
 
     borderRadius: 30,
-    backgroundColor: "#fff",
-    borderColor: "#000",
-    alignContent: "center",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: '#fff',
+    borderColor: '#000',
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   btnMenuDrink: {
     height: 54,
 
     borderRadius: 30,
-    backgroundColor: "#fff",
-    borderColor: "#000",
-    alignContent: "center",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: '#fff',
+    borderColor: '#000',
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   btnTest: {
     width: 310,
     height: 60,
 
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   btnMenuStarter: {
     height: 54,
 
     borderRadius: 30,
-    backgroundColor: "#fff",
-    borderColor: "#000",
-    alignContent: "center",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: '#fff',
+    borderColor: '#000',
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   btnTextstyle: {
     fontSize: 18,
 
     // width: 175,
     // height: 27,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   lineStyle: {
     width: 350,
-    backgroundColor: "#000000",
+    backgroundColor: '#000000',
     height: 0.6,
     marginTop: 20,
     marginBottom: 20,
   },
   lineStyle2: {
     width: 350,
-    backgroundColor: "#000000",
+    backgroundColor: '#000000',
     height: 0.6,
     marginTop: 20,
     marginBottom: 10,
   },
   textMENU: {
     height: 20,
-    alignSelf: "center",
+    alignSelf: 'center',
     marginTop: 0,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     fontSize: 12,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     margin: 2,
     top: 0,
   },
   txtOrder: {
-    color: "#F6F6F9",
-    fontWeight: "bold",
+    color: '#F6F6F9',
+    fontWeight: 'bold',
     fontSize: 18,
   },
   lineStyle1: {
     width: 18,
     height: 1,
     margin: 2,
-    alignContent: "center",
-    justifyContent: "center",
-    alignItems: "center",
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
     left: 7,
-    backgroundColor: "#000",
+    backgroundColor: '#000',
   },
   marginFlatlistText: {
     margin: 5,
   },
   textHeaderTab: {
-    color: "#ff6838",
+    color: '#ff6838',
     top: -40,
     fontSize: 25,
     bottom: 0,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   textHeaderBottomMessage: {
     fontSize: 18,
-    fontWeight: "bold",
-    color: "#ff6838",
-    alignItems: "center",
-    justifyContent: "center",
-    alignSelf: "center",
+    fontWeight: 'bold',
+    color: '#ff6838',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
   textHeaderBottom: {
-    fontSize: 25,
-    fontWeight: "bold",
-    color: "#ff6838",
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#ff6838',
   },
   txtinput: {
     width: 115,
@@ -615,10 +639,10 @@ const styles = StyleSheet.create({
   },
   textHeader: {
     fontSize: 30,
-    fontWeight: "bold",
-    color: "black",
-    alignSelf: "center",
-    marginBottom: "3%",
+    fontWeight: 'bold',
+    color: 'black',
+    alignSelf: 'center',
+    marginBottom: '3%',
   },
   IconHeader: {
     right: 0,
@@ -631,15 +655,15 @@ const styles = StyleSheet.create({
     top: -10,
     bottom: 100,
     borderRadius: 20,
-    backgroundColor: "#F3F3F6",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#F3F3F6',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   appButtonText: {
     width: 175,
     height: 30,
-    color: "#000",
+    color: '#000',
   },
   droidSafeArea: {
     flex: 1,

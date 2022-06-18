@@ -7,77 +7,77 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
-} from "react-native";
-import React, { useState, useEffect } from "react";
-import Colors from "../assets/Colors";
-import ModalTableSelect from "../custom component/ModalTableSelect";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
+} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import Colors from '../assets/Colors';
+import ModalTableSelect from '../custom component/ModalTableSelect';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
-const SearchIconResouce = require("../assets/icons/search.png");
-const FillterIconResouce = require("../assets/icons/fillter.png");
+const SearchIconResouce = require('../assets/icons/search.png');
+const FillterIconResouce = require('../assets/icons/fillter.png');
 
 const DataTable = [
   {
     id: 1,
-    name: "Table 1",
-    imgSourceSelected: require("../assets/icons/TableOrange.png"),
-    imgSourceEmpty: require("../assets/icons/TableGray.png"),
+    name: 'Table 1',
+    imgSourceSelected: require('../assets/icons/TableOrange.png'),
+    imgSourceEmpty: require('../assets/icons/TableGray.png'),
     isBusy: true,
   },
   {
     id: 2,
-    name: "Table 2",
-    imgSourceSelected: require("../assets/icons/TableOrange.png"),
-    imgSourceEmpty: require("../assets/icons/TableGray.png"),
+    name: 'Table 2',
+    imgSourceSelected: require('../assets/icons/TableOrange.png'),
+    imgSourceEmpty: require('../assets/icons/TableGray.png'),
     isBusy: false,
   },
   {
     id: 3,
-    name: "Table 3",
-    imgSourceSelected: require("../assets/icons/TableOrange.png"),
-    imgSourceEmpty: require("../assets/icons/TableGray.png"),
+    name: 'Table 3',
+    imgSourceSelected: require('../assets/icons/TableOrange.png'),
+    imgSourceEmpty: require('../assets/icons/TableGray.png'),
     isBusy: true,
   },
   {
     id: 4,
-    name: "Table 4",
-    imgSourceSelected: require("../assets/icons/TableOrange.png"),
-    imgSourceEmpty: require("../assets/icons/TableGray.png"),
+    name: 'Table 4',
+    imgSourceSelected: require('../assets/icons/TableOrange.png'),
+    imgSourceEmpty: require('../assets/icons/TableGray.png'),
     isBusy: false,
   },
   {
     id: 5,
-    name: "Table 5",
-    imgSourceSelected: require("../assets/icons/TableOrange.png"),
-    imgSourceEmpty: require("../assets/icons/TableGray.png"),
+    name: 'Table 5',
+    imgSourceSelected: require('../assets/icons/TableOrange.png'),
+    imgSourceEmpty: require('../assets/icons/TableGray.png'),
     isBusy: true,
   },
   {
     id: 6,
-    name: "Table 6",
-    imgSourceSelected: require("../assets/icons/TableOrange.png"),
-    imgSourceEmpty: require("../assets/icons/TableGray.png"),
+    name: 'Table 6',
+    imgSourceSelected: require('../assets/icons/TableOrange.png'),
+    imgSourceEmpty: require('../assets/icons/TableGray.png'),
     isBusy: true,
   },
   {
     id: 7,
-    name: "Table 7",
-    imgSourceSelected: require("../assets/icons/TableOrange.png"),
-    imgSourceEmpty: require("../assets/icons/TableGray.png"),
+    name: 'Table 7',
+    imgSourceSelected: require('../assets/icons/TableOrange.png'),
+    imgSourceEmpty: require('../assets/icons/TableGray.png'),
     isBusy: true,
   },
   {
     id: 8,
-    name: "Table 8",
-    imgSourceSelected: require("../assets/icons/TableOrange.png"),
-    imgSourceEmpty: require("../assets/icons/TableGray.png"),
+    name: 'Table 8',
+    imgSourceSelected: require('../assets/icons/TableOrange.png'),
+    imgSourceEmpty: require('../assets/icons/TableGray.png'),
     isBusy: false,
   },
 ];
 
 const BillScreen = ({ navigation }) => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [masterData, setMasterData] = useState([]);
   const [dataFromState, setNewData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
@@ -87,15 +87,15 @@ const BillScreen = ({ navigation }) => {
         <View>
           <TouchableOpacity
             onPress={async () => {
-              await AsyncStorage.setItem("tableIDBill", item.id);
-              console.log("id sent: " + item.id);
-              navigation.navigate("CheckOutTableScreen", { item });
+              await AsyncStorage.setItem('tableIDBill', item.id);
+              console.log('id sent: ' + item.id);
+              navigation.navigate('CheckOutTableScreen', { item });
             }}
             style={styles.flatlistitemStyleInUse}
           >
             <View>
               <Image
-                source={require("../assets/icons/TableOrange.png")}
+                source={require('../assets/icons/TableOrange.png')}
                 style={styles.imgItemFlatlist}
               />
               <Text style={styles.txtItemFlatlistInUse}>{item.name}</Text>
@@ -110,7 +110,7 @@ const BillScreen = ({ navigation }) => {
         <TouchableOpacity disabled={true} style={styles.flatlistitemStyle}>
           <View>
             <Image
-              source={require("../assets/icons/TableGray.png")}
+              source={require('../assets/icons/TableGray.png')}
               style={styles.imgItemFlatlist}
             />
             <Text style={styles.txtItemFlatlist}>{item.name}</Text>
@@ -121,9 +121,9 @@ const BillScreen = ({ navigation }) => {
   };
   useEffect(() => {
     const getData = async () => {
-      const userLoginData = await AsyncStorage.getItem("userLoginData");
+      const userLoginData = await AsyncStorage.getItem('userLoginData');
       const user = JSON.parse(userLoginData);
-      console.log("username: " + user.username);
+      console.log('username: ' + user.username);
       const res = await axios.post(
         `https://foody-uit.herokuapp.com/table/getAllTableOfRestaurant`,
         {
@@ -142,14 +142,14 @@ const BillScreen = ({ navigation }) => {
         setMasterData([]);
         setRefreshing(false);
       }
-      console.log("filteredData is all selected");
+      console.log('filteredData is all selected');
     };
     getData().catch((err) => console.log(err));
   }, [refreshing]);
   const searchFilterFunction = (text) => {
     if (text) {
       const newData = masterData.filter(function (item) {
-        const itemData = item.id ? item.id.toLowerCase() : "".toUpperCase();
+        const itemData = item.id ? item.id.toLowerCase() : ''.toUpperCase();
         const textData = text.toLowerCase();
         return itemData.indexOf(textData) > -1;
       });
@@ -175,7 +175,7 @@ const BillScreen = ({ navigation }) => {
               value={search}
               onChangeText={(text) => searchFilterFunction(text)}
               style={styles.txtSearchBar}
-              placeholder={"Search Table..."}
+              placeholder={'Search Table...'}
             />
           </View>
 
@@ -210,58 +210,59 @@ export default BillScreen;
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: "8%",
-    paddingTop: "0%",
+    marginBottom: '8%',
+    backgroundColor: '#fff',
+    paddingTop: '0%',
   },
   containerTop: {
-    backgroundColor: "#FF4B3A",
+    backgroundColor: '#FF4B3A',
     height: 180,
-    flexDirection: "column",
+    flexDirection: 'column',
     flex: 1,
     margin: 0,
-    alignItems: "center",
-    alignContent: "center",
-    justifyContent: "center",
-    paddingTop: "3%",
+    alignItems: 'center',
+    alignContent: 'center',
+    justifyContent: 'center',
+    paddingTop: '3%',
   },
   containerBottom: {
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
 
-    borderColor: "#808080",
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    alignItems: "center",
+    borderColor: '#808080',
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
 
     marginTop: -50,
     paddingTop: 20,
     paddingLeft: 10,
   },
   txtSearchBar: {
-    color: "#000",
+    color: '#000',
     maxWidth: 200,
     width: 200,
   },
   txtHeaderView: {
     fontSize: 30,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginTop: -40,
     marginBottom: 10,
   },
   txtItemFlatlist: {
-    color: "#A09A99",
+    color: '#A09A99',
     marginBottom: 10,
-    alignSelf: "center",
+    alignSelf: 'center',
     fontSize: 20,
   },
   txtItemFlatlistInUse: {
     color: Colors.primary,
     marginBottom: 10,
-    alignSelf: "center",
+    alignSelf: 'center',
     fontSize: 20,
   },
   containerTemp: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginBottom: 10,
   },
   containerSearchLayout: {
@@ -270,11 +271,11 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginRight: 10,
     borderWidth: 1,
-    borderColor: "#A09A99",
-    backgroundColor: "#fff",
-    flexDirection: "row",
-    alignItems: "center",
-    alignContent: "center",
+    borderColor: '#A09A99',
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignContent: 'center',
     padding: 0,
   },
   imgIconSearch: {
@@ -293,8 +294,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginTop: 20,
     marginBottom: 5,
-    resizeMode: "cover",
-    alignSelf: "center",
+    resizeMode: 'cover',
+    alignSelf: 'center',
     margin: 0,
   },
   btnSearch: {
@@ -312,10 +313,10 @@ const styles = StyleSheet.create({
     width: 130,
     borderRadius: 20,
 
-    justifyContent: "center",
-    borderColor: "grey",
+    justifyContent: 'center',
+    borderColor: 'grey',
     borderWidth: 2,
-    alignItems: "center",
+    alignItems: 'center',
     marginRight: 20,
     marginVertical: 20,
     marginLeft: 10,
@@ -324,11 +325,11 @@ const styles = StyleSheet.create({
     height: 130,
     width: 130,
     borderRadius: 20,
-    justifyContent: "center",
+    justifyContent: 'center',
     borderColor: Colors.primary,
     borderWidth: 2,
-    alignContent: "center",
-    alignItems: "center",
+    alignContent: 'center',
+    alignItems: 'center',
     marginRight: 20,
     marginVertical: 20,
     marginLeft: 10,
