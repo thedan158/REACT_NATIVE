@@ -24,7 +24,7 @@ const windowHeight = Dimensions.get('window').height;
 const EditMenuScreen = ({ route }) => {
   const { item } = route.params;
   const [priceDish, setPriceDish] = useState(item.price);
-  const [nameDish, setNameDish] = useState(item.nameDish);
+  const [nameDish, setNameDish] = useState(item.name);
   const [specialFeatures, setSpecialFeatures] = useState(item.votes);
   const [discount, setDiscount] = useState(item.price);
   const [image, setImage] = useState(item.imagePath);
