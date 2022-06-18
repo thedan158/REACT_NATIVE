@@ -154,6 +154,12 @@ export default function App() {
         />
         <Stack.Screen
           options={{ headerShown: false }}
+          name="OnBoardingScreen"
+          component={OnBoardingScreen}
+        />
+
+        <Stack.Screen
+          options={{ headerShown: false }}
           name="RestaurantInformation"
           component={RestaurantInformation}
         />
@@ -246,11 +252,6 @@ export default function App() {
           options={{ ...customTransition, headerShown: false }}
         />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="OnBoardingScreen"
-          component={OnBoardingScreen}
-        />
         <Stack.Screen
           options={{ headerShown: false }}
           name="AcceptedOrder"
