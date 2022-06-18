@@ -164,7 +164,6 @@ const EditProfile = () => {
             Alert.alert('Update failed');
             return;
           }
-          loadingAndPopup();
         });
       }
     );

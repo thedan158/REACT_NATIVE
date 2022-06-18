@@ -310,7 +310,7 @@ const CheckOutTableScreen = ({ route, discount, navigation }) => {
             }}
             style={styles.button}
           >
-            <Text style={styles.buttonText}>OK</Text>
+            <Text style={styles.buttonText}>OK!</Text>
           </TouchableOpacity>
         </CustomModal>
       </ImageBackground>
