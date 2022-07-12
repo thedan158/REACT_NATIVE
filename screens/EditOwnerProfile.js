@@ -14,18 +14,19 @@ import {
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/core';
-import CustomTextInput from '../custom component/CustomTextInput';
+import InputText from '../custom component/InputText';
 import gallery from '../assets/icons/picture.png';
 import * as ImagePicker from 'expo-image-picker';
 import { Constants } from 'expo-constants';
 import Colors from '../assets/Colors';
 import background from '../assets/images/background.png';
-import StaffScreen from '../custom component/StaffScreen';
+import OwnerScreen from '../custom component/OwnerScreen';
 import CustomModal from '../custom component/CustomModal';
 import back from '../assets/icons/back-green.png';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoadingOwner from '../custom component/LoadingOwner';
+import { useSelector } from 'react-redux';
 
 import { firebaseConfig } from '../firebase';
 import * as firebase from 'firebase';
@@ -44,6 +45,7 @@ const EditProfile = () => {
   const [visible, setVisible] = React.useState(false);
   const [url, setUrl] = React.useState('');
   const [visibleLoad, setVisibleLoad] = React.useState(false);
+  const theme = useSelector((state) => state.themeReducer.theme);
 
   // function close LoadingOwner and open CustomModal when timePassed is true
   const loadingAndPopup = () => {
@@ -174,130 +176,110 @@ const EditProfile = () => {
     navigation.goBack();
   };
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <View
-          style={{
-            flexDirection: 'row',
-            marginTop: 20,
-            width: windowWidth,
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flex: 0.5,
-          }}
-        >
-          <TouchableOpacity
-            style={{
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              flexDirection: 'row',
-              marginLeft: 20,
-            }}
-            onPress={() => {
-              navigation.goBack();
-            }}
-          >
-            <Image
-              source={back}
-              style={{
-                height: 20,
-                width: 20,
-              }}
+    <OwnerScreen>
+      <ScrollView>
+        <View style={styles.container}>
+          {/* Pick image  */}
+          <View style={styles.view2}>
+            <TouchableOpacity onPress={PickImage}>
+              <View style={styles.pickLogo}>
+                <ImageBackground
+                  style={styles.ImageBackground}
+                  source={gallery}
+                />
+
+                {image && (
+                  <Image source={{ uri: image }} style={styles.pick}></Image>
+                )}
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={PickImage} style={styles.button1}>
+              <Text style={styles.buttonText}>Change Your Avatar</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Input section  */}
+          <View style={styles.view3}>
+            {/* Full name input */}
+
+            <InputText
+              blurColor={Colors.secondary}
+              value={fullname}
+              onChangeText={(text) => setFullname(text)}
+              placeholder="Full Name"
             />
-          </TouchableOpacity>
-        </View>
-        {/* Pick image  */}
-        <View style={styles.view2}>
-          <TouchableOpacity onPress={PickImage}>
-            <View style={styles.pickLogo}>
-              <ImageBackground
-                style={styles.ImageBackground}
-                source={gallery}
-              />
 
-              {image && (
-                <Image source={{ uri: image }} style={styles.pick}></Image>
-              )}
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={PickImage} style={styles.button1}>
-            <Text style={styles.buttonText}>Change Your Avatar</Text>
-          </TouchableOpacity>
-        </View>
+            {/* Address input */}
 
-        {/* Input section  */}
-        <View style={styles.view3}>
-          {/* Full name input */}
+            <InputText
+              blurColor={Colors.secondary}
+              value={address}
+              onChangeText={(text) => setAddress(text)}
+              placeholder="Address"
+            />
 
-          <CustomTextInput
-            blurColor={Colors.secondary}
-            value={fullname}
-            onChangeText={(text) => setFullname(text)}
-            placeholder="Full Name"
-          />
+            {/* Hotline */}
 
-          {/* Address input */}
+            <InputText
+              blurColor={Colors.secondary}
+              value={phoneNumber}
+              onChangeText={(text) => setPhoneNumber(text)}
+              placeholder="Phone number"
+              keyboardType="decimal-pad"
+            />
 
-          <CustomTextInput
-            blurColor={Colors.secondary}
-            value={address}
-            onChangeText={(text) => setAddress(text)}
-            placeholder="Address"
-          />
-
-          {/* Hotline */}
-
-          <CustomTextInput
-            blurColor={Colors.secondary}
-            value={phoneNumber}
-            onChangeText={(text) => setPhoneNumber(text)}
-            placeholder="Phone number"
-            keyboardType="decimal-pad"
-          />
-
-          <CustomTextInput
-            blurColor={Colors.secondary}
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-            placeholder="Email"
-          />
-        </View>
-
-        <View style={styles.view4}>
-          {/* Button */}
-          <TouchableOpacity onPress={handleUpdateProfile} style={styles.button}>
-            <Text style={styles.buttonText}>Save</Text>
-          </TouchableOpacity>
-        </View>
-        {/* Modal loading  */}
-        <LoadingOwner visible={visibleLoad}></LoadingOwner>
-
-        {/* Modal  popup*/}
-        <CustomModal visible={visible}>
-          <View style={{ alignItems: 'center' }}>
-            <Image
-              source={require('../assets/icons/save-green.png')}
-              style={{ height: 150, width: 150, marginVertical: 30 }}
+            <InputText
+              blurColor={Colors.secondary}
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+              placeholder="Email"
             />
           </View>
 
-          <Text
-            style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}
-          >
-            Update profile successfully{' '}
-          </Text>
-          <TouchableOpacity
-            onPress={() => {
-              handleSignup();
-              setVisible(false);
-            }}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>OK</Text>
-          </TouchableOpacity>
-        </CustomModal>
-      </View>
-    </ScrollView>
+          <View style={styles.view4}>
+            {/* Button */}
+            <TouchableOpacity
+              onPress={handleUpdateProfile}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Save</Text>
+            </TouchableOpacity>
+          </View>
+          {/* Modal loading  */}
+          <LoadingOwner visible={visibleLoad}></LoadingOwner>
+
+          {/* Modal  popup*/}
+          <CustomModal visible={visible}>
+            <View style={{ alignItems: 'center' }}>
+              <Image
+                source={require('../assets/icons/save-green.png')}
+                style={{ height: 150, width: 150, marginVertical: 30 }}
+              />
+            </View>
+
+            <Text
+              style={{
+                marginVertical: 30,
+                fontSize: 20,
+                textAlign: 'center',
+                color: theme.PRIMARY_TEXT_COLOR,
+              }}
+            >
+              Update profile successfully{' '}
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                handleSignup();
+                setVisible(false);
+              }}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>OK</Text>
+            </TouchableOpacity>
+          </CustomModal>
+        </View>
+      </ScrollView>
+    </OwnerScreen>
   );
 };
 
@@ -308,7 +290,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: windowWidth,
     height: windowHeight,
-    backgroundColor: 'white',
     alignItems: 'center',
   },
   buttonContainer: {
@@ -349,7 +330,7 @@ const styles = StyleSheet.create({
     flex: 5,
   },
   view4: {
-    flex: 1,
+    flex: 2,
     justifyContent: 'flex-start',
     marginTop: 10,
     width: '80%',
@@ -409,6 +390,7 @@ const styles = StyleSheet.create({
   },
 
   registerText: {
+    flexWrap: 'wrap',
     flexDirection: 'row',
     marginTop: 20,
     justifyContent: 'center',

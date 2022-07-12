@@ -19,6 +19,11 @@ import {
   CardStyleInterpolators,
 } from '@react-navigation/stack';
 
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import thunk from 'redux-thunk';
+import themeReducer from './redux/themeReducer';
+
 import back from './assets/icons/search.png';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -73,6 +78,11 @@ import EditResProfile from './screens/EditResProfile';
 import AddingTable from './screens/AddingTable';
 import BillScreenForOwner from './screens/BillScreenForOwner';
 import EditTableInfo from './screens/EditTableInfo';
+
+const store = createStore(
+  combineReducers({ themeReducer }),
+  applyMiddleware(thunk)
+);
 
 const Stack = createStackNavigator();
 // animation function
@@ -140,359 +150,361 @@ LogBox.ignoreAllLogs();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          gestureEnabled: true,
-          gestureDirection: 'horizontal',
-        }}
-      >
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="SplashScreen"
-          component={SplashScreen}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="OnBoardingScreen"
-          component={OnBoardingScreen}
-        />
-
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="RestaurantInformation"
-          component={RestaurantInformation}
-        />
-
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="TabForStaff"
-          component={TabForStaff}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="TabForOwner"
-          component={TabForOwner}
-        />
-
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="HomeScreen2ndFinal"
-          component={HomeScreen2ndFinal}
-        />
-
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="AccountForStaff"
-          component={AccountForStaff}
-        />
-        <Stack.Screen
-          name="RestaurantManagement"
-          options={{ headerShown: false }}
-          component={RestaurantManagement}
-        />
-
-        <Stack.Screen
-          options={{
-            headerShown: false,
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            gestureEnabled: true,
             gestureDirection: 'horizontal',
-            transitionSpec: {
-              open: config,
-              close: closeConfig,
-            },
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           }}
-          name="EditRestaurantProfile"
-          component={EditResProfile}
-        />
+        >
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="SplashScreen"
+            component={SplashScreen}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="AccountForOwner"
+            component={AccountForOwner}
+          />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="OTPsignup"
-          component={OTPsignup}
-        />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="OnBoardingScreen"
+            component={OnBoardingScreen}
+          />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="Analytics"
-          component={Analytics}
-        />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="RestaurantInformation"
+            component={RestaurantInformation}
+          />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="Login"
-          component={LoginScreen}
-        />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="TabForStaff"
+            component={TabForStaff}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="TabForOwner"
+            component={TabForOwner}
+          />
 
-        <Stack.Screen
-          name="ListFoodDetails"
-          component={ListFoodDetails}
-          options={{
-            headerShown: false,
-            gestureDirection: 'vertical',
-            transitionSpec: {
-              open: config,
-              close: closeConfig,
-            },
-            cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
-          }}
-        />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="HomeScreen2ndFinal"
+            component={HomeScreen2ndFinal}
+          />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="CheckOutTableScreen"
-          component={CheckOutTableScreen}
-        />
+          <Stack.Screen
+            options={{
+              headerShown: false,
+            }}
+            name="AccountForStaff"
+            component={AccountForStaff}
+          />
+          <Stack.Screen
+            name="RestaurantManagement"
+            options={{ headerShown: false }}
+            component={RestaurantManagement}
+          />
 
-        <Stack.Screen
-          name="StaffInformation"
-          component={StaffInformation}
-          options={{ ...customTransition, headerShown: false }}
-        />
+          <Stack.Screen
+            options={{
+              headerShown: false,
+              gestureDirection: 'horizontal',
+              transitionSpec: {
+                open: config,
+                close: closeConfig,
+              },
+              cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            }}
+            name="EditRestaurantProfile"
+            component={EditResProfile}
+          />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="AcceptedOrder"
-          component={AcceptedOrder}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="CompletedOrder"
-          component={CompletedOrder}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="OrderDetails"
-          component={OrderDetails}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="RestaurantKitchen"
-          component={RestaurantKitchen}
-        />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="OTPsignup"
+            component={OTPsignup}
+          />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="EditMenuScreen"
-          component={EditMenuScreen}
-        />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="Analytics"
+            component={Analytics}
+          />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="MenuScreen"
-          component={MenuScreen}
-        />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="Login"
+            component={LoginScreen}
+          />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="AddingMenuItemScreen"
-          component={AddingMenuItemScreen}
-        />
+          <Stack.Screen
+            name="ListFoodDetails"
+            component={ListFoodDetails}
+            options={{
+              headerShown: false,
+              gestureDirection: 'vertical',
+              transitionSpec: {
+                open: config,
+                close: closeConfig,
+              },
+              cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
+            }}
+          />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="StarterMenuHome"
-          component={Button2Screen}
-        />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="CheckOutTableScreen"
+            component={CheckOutTableScreen}
+          />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="Button3Screen"
-          component={Button3Screen}
-        />
+          <Stack.Screen
+            name="StaffInformation"
+            component={StaffInformation}
+            options={{ ...customTransition, headerShown: false }}
+          />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="Button4Screen"
-          component={Button4Screen}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="AddingTable"
-          component={AddingTable}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="EditTableInfo"
-          component={EditTableInfo}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="BillScreenForOwner"
-          component={BillScreenForOwner}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="Order"
-          component={OrderScreen}
-        />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="AcceptedOrder"
+            component={AcceptedOrder}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="CompletedOrder"
+            component={CompletedOrder}
+          />
+          <Stack.Screen
+            options={{
+              headerShown: false,
+            }}
+            name="OrderDetails"
+            component={OrderDetails}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="RestaurantKitchen"
+            component={RestaurantKitchen}
+          />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="AppLoader"
-          component={AppLoader}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="AppLoaderOwner"
-          component={AppLoaderOwner}
-        />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="EditMenuScreen"
+            component={EditMenuScreen}
+          />
 
-        <Stack.Screen
-          options={{
-            headerShown: false,
-            gestureDirection: 'horizontal',
-            transitionSpec: {
-              open: config,
-              close: closeConfig,
-            },
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          }}
-          name="EditStaffProfile"
-          component={EditStaffProfile}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-            gestureDirection: 'horizontal',
-            transitionSpec: {
-              open: config,
-              close: closeConfig,
-            },
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          }}
-          name="EditOwnerProfile"
-          component={EditOwnerProfile}
-        />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="MenuScreen"
+            component={MenuScreen}
+          />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="AccountForOwner"
-          component={AccountForOwner}
-        />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="AddingMenuItemScreen"
+            component={AddingMenuItemScreen}
+          />
 
-        <Stack.Screen
-          name="ChangeStaffPassword"
-          options={{
-            headerShown: false,
-            gestureDirection: 'horizontal',
-            transitionSpec: {
-              open: config,
-              close: closeConfig,
-            },
-            cardStyleInterpolator:
-              CardStyleInterpolators.forModalPresentationIOS,
-          }}
-          component={ChangeStaffPassword}
-        />
-        <Stack.Screen
-          name="ChangeOwnerPassword"
-          options={{
-            headerShown: false,
-            gestureDirection: 'horizontal',
-            transitionSpec: {
-              open: config,
-              close: closeConfig,
-            },
-            cardStyleInterpolator:
-              CardStyleInterpolators.forModalPresentationIOS,
-          }}
-          component={ChangeOwnerPassword}
-        />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="StarterMenuHome"
+            component={Button2Screen}
+          />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="Signup"
-          component={SignupScreen}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="TabForChef"
-          component={TabForChef}
-        />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="Button3Screen"
+            component={Button3Screen}
+          />
 
-        <Stack.Screen
-          name="CreateStaffAccount"
-          component={CreateStaffAccount}
-          options={{
-            headerShown: false,
-            gestureDirection: 'horizontal',
-            transitionSpec: {
-              open: config,
-              close: closeConfig,
-            },
-            cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
-          }}
-        />
-        <Stack.Screen
-          name="PermissionManager"
-          component={PermissionManager}
-          options={{
-            headerShown: false,
-            gestureDirection: 'vertical',
-            transitionSpec: {
-              open: config,
-              close: closeConfig,
-            },
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          }}
-        />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="Button4Screen"
+            component={Button4Screen}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="AddingTable"
+            component={AddingTable}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="EditTableInfo"
+            component={EditTableInfo}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="BillScreenForOwner"
+            component={BillScreenForOwner}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="Order"
+            component={OrderScreen}
+          />
 
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ headerShown: false }}
-        />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="AppLoader"
+            component={AppLoader}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="AppLoaderOwner"
+            component={AppLoaderOwner}
+          />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="ForgotPassword"
-          component={ForgotPassword}
-        />
+          <Stack.Screen
+            options={{
+              headerShown: false,
+              gestureDirection: 'horizontal',
+              transitionSpec: {
+                open: config,
+                close: closeConfig,
+              },
+              cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            }}
+            name="EditStaffProfile"
+            component={EditStaffProfile}
+          />
+          <Stack.Screen
+            options={{
+              headerShown: false,
+              gestureDirection: 'horizontal',
+              transitionSpec: {
+                open: config,
+                close: closeConfig,
+              },
+              cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            }}
+            name="EditOwnerProfile"
+            component={EditOwnerProfile}
+          />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="OTPforgotpass"
-          component={OTPforgotpass}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="NewPassword"
-          component={NewPassword}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="RePasswordSuccess"
-          component={RePasswordSuccess}
-        />
+          <Stack.Screen
+            name="ChangeStaffPassword"
+            options={{
+              headerShown: false,
+              gestureDirection: 'horizontal',
+              transitionSpec: {
+                open: config,
+                close: closeConfig,
+              },
+              cardStyleInterpolator:
+                CardStyleInterpolators.forModalPresentationIOS,
+            }}
+            component={ChangeStaffPassword}
+          />
+          <Stack.Screen
+            name="ChangeOwnerPassword"
+            options={{
+              headerShown: false,
+              gestureDirection: 'horizontal',
+              transitionSpec: {
+                open: config,
+                close: closeConfig,
+              },
+              cardStyleInterpolator:
+                CardStyleInterpolators.forModalPresentationIOS,
+            }}
+            component={ChangeOwnerPassword}
+          />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="StarterMenu"
-          component={StarterMenuScreen}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="MainMenu"
-          component={MainCourseMenuScreen}
-        />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="Signup"
+            component={SignupScreen}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="TabForChef"
+            component={TabForChef}
+          />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="DesertMenu"
-          component={DesertMenuScreen}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="SelectedTable"
-          component={SelectedTable}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+          <Stack.Screen
+            name="CreateStaffAccount"
+            component={CreateStaffAccount}
+            options={{
+              headerShown: false,
+              gestureDirection: 'horizontal',
+              transitionSpec: {
+                open: config,
+                close: closeConfig,
+              },
+              cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+            }}
+          />
+          <Stack.Screen
+            name="PermissionManager"
+            component={PermissionManager}
+            options={{
+              headerShown: false,
+              gestureDirection: 'vertical',
+              transitionSpec: {
+                open: config,
+                close: closeConfig,
+              },
+              cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            }}
+          />
+
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="ForgotPassword"
+            component={ForgotPassword}
+          />
+
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="OTPforgotpass"
+            component={OTPforgotpass}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="NewPassword"
+            component={NewPassword}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="RePasswordSuccess"
+            component={RePasswordSuccess}
+          />
+
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="StarterMenu"
+            component={StarterMenuScreen}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="MainMenu"
+            component={MainCourseMenuScreen}
+          />
+
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="DesertMenu"
+            component={DesertMenuScreen}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="SelectedTable"
+            component={SelectedTable}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

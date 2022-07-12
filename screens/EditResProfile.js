@@ -15,7 +15,7 @@ import React, { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/core';
 import logo from '../assets/images/logo_app.png';
-import CustomTextInput from '../custom component/CustomTextInput';
+import InputText from '../custom component/InputText';
 import gallery from '../assets/icons/picture.png';
 import * as ImagePicker from 'expo-image-picker';
 import { Constants } from 'expo-constants';
@@ -28,6 +28,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { firebaseConfig } from '../firebase';
 import * as firebase from 'firebase';
 import LoadingOwner from '../custom component/LoadingOwner';
+import OwnerScreen from '../custom component/OwnerScreen';
+import { useSelector } from 'react-redux';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -44,6 +46,7 @@ const EditResProfile = () => {
   const [visible, setVisible] = React.useState(false);
   const [url, setUrl] = React.useState('');
   const [visibleLoad, setVisibleLoad] = React.useState(false);
+  const theme = useSelector((state) => state.themeReducer.theme);
 
   // function close LoadingOwner and open CustomModal when timePassed is true
   const loadingAndPopup = () => {
@@ -168,129 +171,106 @@ const EditResProfile = () => {
   }
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <View
-          style={{
-            flexDirection: 'row',
-            marginTop: 20,
-            width: windowWidth,
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flex: 0.5,
-          }}
-        >
-          <TouchableOpacity
-            style={{
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              flexDirection: 'row',
-              marginLeft: 20,
-            }}
-            onPress={() => {
-              navigation.goBack();
-            }}
-          >
-            <Image
-              source={back}
-              style={{
-                height: 20,
-                width: 20,
-              }}
-            />
-          </TouchableOpacity>
-        </View>
-        {/* Pick image  */}
-        <View style={styles.view2}>
-          <TouchableOpacity onPress={PickImage}>
-            <View style={styles.pickLogo}>
-              <ImageBackground
-                style={styles.ImageBackground}
-                source={gallery}
-              />
+    <OwnerScreen>
+      <ScrollView>
+        <View style={styles.container}>
+          {/* Pick image  */}
+          <View style={styles.view2}>
+            <TouchableOpacity onPress={PickImage}>
+              <View style={styles.pickLogo}>
+                <ImageBackground
+                  style={styles.ImageBackground}
+                  source={gallery}
+                />
 
-              {image && (
-                <Image source={{ uri: image }} style={styles.pick}></Image>
-              )}
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={PickImage} style={styles.button1}>
-            <Text style={styles.buttonText}>Change Your Logo</Text>
-          </TouchableOpacity>
-        </View>
-        {/* Input section  */}
-        <View style={styles.view3}>
-          <View>
-            {/* Full name input */}
-
-            <CustomTextInput
-              blurColor={Colors.primary}
-              value={nameOfRes}
-              onChangeText={(text) => setNameOfRes(text)}
-              placeholder="Name of Restaurant"
-            />
-          </View>
-
-          {/* Address input */}
-          <View>
-            <CustomTextInput
-              blurColor={Colors.primary}
-              value={address}
-              onChangeText={(text) => setAddress(text)}
-              placeholder="Address"
-            />
-          </View>
-          {/* Hotline */}
-          <View>
-            <CustomTextInput
-              blurColor={Colors.primary}
-              value={hotline}
-              onChangeText={(text) => setHotline(text)}
-              placeholder="Hotline"
-              keyboardType="decimal-pad"
-            />
-          </View>
-        </View>
-
-        <View style={styles.view4}>
-          {/* Button */}
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              onPress={handleRestaurantUpdate}
-              style={styles.button}
-            >
-              <Text style={styles.buttonText}>Save</Text>
+                {image && (
+                  <Image source={{ uri: image }} style={styles.pick}></Image>
+                )}
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={PickImage} style={styles.button1}>
+              <Text style={styles.buttonText}>Change Your Logo</Text>
             </TouchableOpacity>
           </View>
-        </View>
-        {/* Modal loading  */}
-        <LoadingOwner visible={visibleLoad}></LoadingOwner>
-        {/* Modal  */}
-        <CustomModal visible={visible}>
-          <View style={{ alignItems: 'center' }}>
-            <Image
-              source={require('../assets/icons/save-green.png')}
-              style={{ height: 150, width: 150, marginVertical: 30 }}
-            />
+          {/* Input section  */}
+          <View style={styles.view3}>
+            <View>
+              {/* Full name input */}
+
+              <InputText
+                blurColor={Colors.primary}
+                value={nameOfRes}
+                onChangeText={(text) => setNameOfRes(text)}
+                placeholder="Name of Restaurant"
+              />
+            </View>
+
+            {/* Address input */}
+            <View>
+              <InputText
+                blurColor={Colors.primary}
+                value={address}
+                onChangeText={(text) => setAddress(text)}
+                placeholder="Address"
+              />
+            </View>
+            {/* Hotline */}
+            <View>
+              <InputText
+                blurColor={Colors.primary}
+                value={hotline}
+                onChangeText={(text) => setHotline(text)}
+                placeholder="Hotline"
+                keyboardType="decimal-pad"
+              />
+            </View>
           </View>
 
-          <Text
-            style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}
-          >
-            Update profile successfully{' '}
-          </Text>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.goBack();
-              setVisible(false);
-            }}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>OK</Text>
-          </TouchableOpacity>
-        </CustomModal>
-      </View>
-    </ScrollView>
+          <View style={styles.view4}>
+            {/* Button */}
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                onPress={handleRestaurantUpdate}
+                style={styles.button}
+              >
+                <Text style={styles.buttonText}>Save</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          {/* Modal loading  */}
+          <LoadingOwner visible={visibleLoad}></LoadingOwner>
+          {/* Modal  */}
+          <CustomModal visible={visible}>
+            <View style={{ alignItems: 'center' }}>
+              <Image
+                source={require('../assets/icons/save-green.png')}
+                style={{ height: 150, width: 150, marginVertical: 30 }}
+              />
+            </View>
+
+            <Text
+              style={{
+                marginVertical: 30,
+                fontSize: 20,
+                textAlign: 'center',
+                color: theme.PRIMARY_TEXT_COLOR,
+              }}
+            >
+              Update profile successfully{' '}
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+                setVisible(false);
+              }}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>OK</Text>
+            </TouchableOpacity>
+          </CustomModal>
+        </View>
+      </ScrollView>
+    </OwnerScreen>
   );
 };
 
@@ -299,7 +279,6 @@ export default EditResProfile;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
     width: windowWidth,
     height: windowHeight,
     alignItems: 'center',
@@ -317,17 +296,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 1,
   },
+  button1: {
+    backgroundColor: Colors.secondary,
+    width: '60%',
+    padding: 10,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 1,
+  },
   buttonText: {
     color: 'white',
     fontWeight: '700',
     fontSize: 16,
   },
-  view1: {
-    flex: 3,
-    margin: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+
   view2: {
     flex: 3,
     justifyContent: 'space-evenly',
@@ -336,36 +319,14 @@ const styles = StyleSheet.create({
   view3: {
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'flex-start',
-    flex: 3,
+    justifyContent: 'center',
+    flex: 5,
   },
   view4: {
     flex: 2,
-    justifyContent: 'flex-end',
-    marginBottom: '8%',
+    justifyContent: 'flex-start',
+    marginTop: 10,
     width: '80%',
-  },
-  button1: {
-    backgroundColor: Colors.secondary,
-    width: '80%',
-    padding: 10,
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    elevation: 1,
-  },
-  textPleaseRegister: {
-    position: 'relative',
-    top: 10,
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-
-  logo: {
-    height: 160,
-    width: 170,
-    position: 'relative',
-    top: 5,
   },
 
   textView: {
@@ -384,6 +345,15 @@ const styles = StyleSheet.create({
     left: 10,
   },
 
+  loginText: {
+    color: Colors.secondary,
+    fontWeight: '700',
+    fontSize: 16,
+    textAlign: 'center',
+    position: 'absolute',
+    alignSelf: 'center',
+  },
+
   ownerText: {
     color: 'black',
     fontSize: 16,
@@ -396,6 +366,14 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     position: 'relative',
     right: 15,
+  },
+
+  rectangle: {
+    width: 130,
+    height: 3,
+    backgroundColor: Colors.secondary,
+    position: 'relative',
+    bottom: -9,
   },
 
   signupText: {

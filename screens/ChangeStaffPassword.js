@@ -14,7 +14,7 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import logo from '../assets/images/logo_app.png';
-import CustomTextInput from '../custom component/CustomTextInput';
+import InputText from '../custom component/InputText';
 import eye from '../assets/icons/eye.png';
 import hidden from '../assets/icons/close-eye.png';
 import Colors from '../assets/Colors';
@@ -24,6 +24,7 @@ import CustomModal from '../custom component/CustomModal';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoadingStaff from '../custom component/LoadingStaff';
+import { useSelector } from 'react-redux';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -37,6 +38,7 @@ const ChangePassword = () => {
   const [isSecureEntryConfirm, setIsSecureEntryConfirm] = useState(true);
   const [visible, setVisible] = React.useState(false);
   const [visibleLoad, setVisibleLoad] = React.useState(false);
+  const theme = useSelector((state) => state.themeReducer.theme);
 
   // function close LoadingStaff and open CustomModal when timePassed is true
   const loadingAndPopup = () => {
@@ -69,7 +71,7 @@ const ChangePassword = () => {
     if (!success) {
       Alert.alert(
         'Error',
-        'Failed to changed password, please ensure your infomation is correct'
+        'Failed to changed password, please ensure your information is correct'
       );
       return;
     }
@@ -86,14 +88,21 @@ const ChangePassword = () => {
               <Image style={styles.logo} source={logo}></Image>
             </View>
             <View>
-              <Text style={styles.textPleaseRegister}>Reset new password</Text>
+              <Text
+                style={[
+                  styles.textPleaseRegister,
+                  { color: theme.PRIMARY_TEXT_COLOR },
+                ]}
+              >
+                Reset new password
+              </Text>
             </View>
           </View>
 
           {/* Input section  */}
           <View style={styles.view2}>
             <View>
-              <CustomTextInput
+              <InputText
                 blurColor={Colors.primary}
                 label="Old Password"
                 placeholder="Old Password"
@@ -114,7 +123,7 @@ const ChangePassword = () => {
                 }
                 iconPosition="right"
               />
-              <CustomTextInput
+              <InputText
                 blurColor={Colors.primary}
                 label="Password"
                 placeholder="Password"
@@ -135,7 +144,7 @@ const ChangePassword = () => {
                 }
                 iconPosition="right"
               />
-              <CustomTextInput
+              <InputText
                 blurColor={Colors.primary}
                 label="Confirm password"
                 placeholder="Confirm password"

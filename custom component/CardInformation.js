@@ -8,35 +8,59 @@ import {
 } from 'react-native';
 import React from 'react';
 
+import styled, { ThemeProvider } from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+import { switchTheme } from '../redux/themeActions';
+import { lightTheme, darkTheme } from '../assets/Theme';
+import { useNavigation } from '@react-navigation/core';
+
 const CardInformation = ({ name, mail, phone, address, imageSource }) => {
+  const theme = useSelector((state) => state.themeReducer.theme);
+
   return (
-    <View style={styles.card}>
-      <View style={styles.avatar}>
-        <Image source={imageSource} style={styles.image} />
+    <Container>
+      <View style={styles.card}>
+        <View style={styles.avatar}>
+          <Image source={imageSource} style={styles.image} />
+        </View>
+        <View style={styles.information}>
+          <Content style={styles.textName}>{name}</Content>
+          <Content style={styles.details}>{mail}</Content>
+          <View style={styles.line} />
+          <Content style={styles.details}>{phone}</Content>
+          <View style={styles.line} />
+          <Content style={styles.details}>{address}</Content>
+        </View>
       </View>
-      <View style={styles.information}>
-        <Text style={styles.textName}>{name}</Text>
-        <Text style={styles.details}>{mail}</Text>
-        <View style={styles.line} />
-        <Text style={styles.details}>{phone}</Text>
-        <View style={styles.line} />
-        <Text style={styles.details}>{address}</Text>
-      </View>
-    </View>
+    </Container>
   );
 };
 
 export default CardInformation;
+const Container = styled.View`
+  width: 95%;
+  background-color: ${(props) => props.theme.PRIMARY_BUTTON_COLOR};
+  border-radius: 20px;
+  shadow-color: ${(props) => props.theme.PRIMARY_SHADOW_COLOR};
+  shadow-offset: 0px 2px;
+  shadow-opacity: 0.5;
+  shadow-radius: 3px;
+  elevation: 10;
+`;
+const Content = styled.Text`
+  font-size: 18px;
+  color: ${(props) => props.theme.PRIMARY_TEXT_COLOR};
+  font-weight: bold;
+`;
 
 const styles = StyleSheet.create({
   card: {
-    width: '95%',
     height: 170,
-    backgroundColor: 'black',
-    marginHorizontal: 15,
 
+    marginHorizontal: 15,
+    width: '100%',
     borderRadius: 20,
-    backgroundColor: 'white',
+
     alignSelf: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -45,7 +69,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.18,
     shadowRadius: 1.0,
-    elevation: 1,
+
     flexDirection: 'row',
   },
   avatar: {

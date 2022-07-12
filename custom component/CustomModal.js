@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View, Modal, Animated } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, Modal, Animated } from 'react-native';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
-
-const CustomModal = ({visible, children}) => {
-    const [showModal, setShowModal] = React.useState(visible);
-    const scaleValue = React.useRef(new Animated.Value(0)).current;
+const CustomModal = ({ visible, children }) => {
+  const theme = useSelector((state) => state.themeReducer.theme);
+  const [showModal, setShowModal] = React.useState(visible);
+  const scaleValue = React.useRef(new Animated.Value(0)).current;
   React.useEffect(() => {
     toggleModal();
   }, [visible]);
@@ -29,30 +30,34 @@ const CustomModal = ({visible, children}) => {
     <Modal transparent visible={showModal}>
       <View style={styles.modalBackground}>
         <Animated.View
-          style={[styles.modalContainer, {transform: [{scale: scaleValue}]}]}>
+          style={[
+            styles.modalContainer,
+            { backgroundColor: theme.PRIMARY_BUTTON_COLOR },
+            { transform: [{ scale: scaleValue }] },
+          ]}
+        >
           {children}
         </Animated.View>
       </View>
     </Modal>
-  )
-}
+  );
+};
 
-export default CustomModal
+export default CustomModal;
 
 const styles = StyleSheet.create({
-    modalBackground:{
-        flex:1,
-        backgroundColor:'rgba(0,0,0,0.3)',
-        justifyContent:'center',
-        alignItems:'center'
-    },
-    modalContainer:{
-        
-        width:'80%',
-        backgroundColor:'white',
-        paddingHorizontal:20,
-        paddingVertical:30,
-        borderRadius:20,
-        elevation:20
-    },
-})
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContainer: {
+    width: '80%',
+
+    paddingHorizontal: 20,
+    paddingVertical: 30,
+    borderRadius: 20,
+    elevation: 20,
+  },
+});
