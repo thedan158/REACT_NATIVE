@@ -3,7 +3,6 @@ import { View, Image, TouchableOpacity } from 'react-native';
 import {
   createBottomTabNavigator,
   BottomTabBar,
-
 } from '@react-navigation/bottom-tabs';
 import { Path } from 'react-native-svg';
 import Svg from 'react-native-svg';
@@ -19,10 +18,12 @@ import cash from '../assets/icons/cash.png';
 import HomeScreen2ndFinal from '../screens/HomeScreen2ndFinal';
 import BillScreen from '../screens/BillScreen';
 import Colors from '../assets/Colors';
+import { useSelector } from 'react-redux';
 
 const Tab = createBottomTabNavigator();
 
 const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
+  const theme = useSelector((state) => state.themeReducer.theme);
   var isSelected = accessibilityState.selected;
 
   if (isSelected) {
@@ -62,23 +63,23 @@ const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
           <View
             style={{
               flex: 1,
-              backgroundColor: 'white',
-              borderTopWidth: 0.6,
-              borderTopColor: '#ced4da',
+              backgroundColor: theme.mode === 'light' ? 'white' : '#3D3C3F',
+              borderTopWidth: 0.2,
+              borderTopColor: theme.mode === 'light' ? '#F3F3F3' : '#3D3C3F',
             }}
           ></View>
           <Svg width={69} height={57} viewBox="0 0 75 61">
             <Path
               d="M75.2 0v61H0V0c4.1 0 7.4 3.1 7.9 7.1C10 21.7 22.5 33 37.7 33c15.2 0 27.7-11.3 29.7-25.9.5-4 3.9-7.1 7.9-7.1h-.1z"
-              fill={'white'}
+              fill={theme.mode === 'light' ? 'white' : '#3D3C3F'}
             />
           </Svg>
           <View
             style={{
               flex: 1,
-              backgroundColor: 'white',
-              borderTopWidth: 0.6,
-              borderTopColor: '#ced4da',
+              backgroundColor: theme.mode === 'light' ? 'white' : '#3D3C3F',
+              borderTopWidth: 0.2,
+              borderTopColor: theme.mode === 'light' ? '#F3F3F3' : '#3D3C3F',
             }}
           ></View>
         </View>
@@ -91,7 +92,7 @@ const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
             width: 50,
             height: 50,
             borderRadius: 25,
-            backgroundColor: 'white',
+            backgroundColor: theme.mode === 'light' ? 'white' : '#3D3C3F',
 
             shadowColor: '#000',
             shadowOffset: {
@@ -115,9 +116,9 @@ const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
         style={{
           flex: 1,
           height: 50,
-          backgroundColor: 'white',
-          borderTopWidth: 0.6,
-          borderTopColor: '#ced4da',
+          backgroundColor: theme.mode === 'light' ? 'white' : '#3D3C3F',
+          borderTopWidth: 0.2,
+          borderTopColor: theme.mode === 'light' ? '#F3F3F3' : '#3D3C3F',
         }}
         activeOpacity={1}
         onPress={onPress}

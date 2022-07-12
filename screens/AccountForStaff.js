@@ -6,25 +6,30 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
-  Switch,
-  ImageBackground,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import CardInformation from '../custom component/CardInformation';
-import ButtonUser from '../custom component/ButtonUser';
 import { useFocusEffect } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/core';
 import power from '../assets/icons/power.png';
-import info from '../assets/icons/info.png';
-import personal from '../assets/icons/personal.png';
-import vector from '../assets/icons/Vector.png';
-import password from '../assets/icons/password.png';
-import policy from '../assets/icons/policy.png';
+import personal_light from '../assets/icons/personal_light.png';
+import personal_dark from '../assets/icons/personal_dark.png';
+import password_light from '../assets/icons/password_light.png';
+import password_dark from '../assets/icons/password_dark.png';
+import light_on from '../assets/icons/light-on.png';
+import dark_on from '../assets/icons/dark-on.png';
+import policy_light from '../assets/icons/policy_light.png';
+import policy_dark from '../assets/icons/policy_dark.png';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { firebaseConfig } from '../firebase';
 import * as firebase from 'firebase';
 import ModalPrivacy from '../custom component/ModalPrivacy';
+
+import styled, { ThemeProvider } from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+import { switchTheme } from '../redux/themeActions';
+import { lightTheme, darkTheme } from '../assets/Theme';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -41,6 +46,9 @@ const AccountForStaff = () => {
   const [visible, setVisible] = React.useState(false);
   const [url, setUrl] = useState('');
   const [isEnabled, setIsEnabled] = useState(false);
+
+  const theme = useSelector((state) => state.themeReducer.theme);
+  const dispatch = useDispatch();
 
   useFocusEffect(() => {
     const getData = async () => {
@@ -71,17 +79,29 @@ const AccountForStaff = () => {
     getData().catch((err) => console.log(err));
   }, []);
   return (
-    <ScrollView>
-      <View style={styles.container}>
+    <ThemeProvider theme={theme}>
+      <Container>
         {/* Header  */}
         <View style={styles.containerHeader}>
           <View
             style={{
               marginLeft: 20,
               marginTop: '1%',
+              flex: 8,
             }}
           >
-            <Text style={styles.textHeader}>Personal details</Text>
+            <Content style={styles.textHeader}>Personal details</Content>
+          </View>
+          <View style={{ flex: 2, marginRight: '5%' }}>
+            {theme.mode === 'light' ? (
+              <Switch onPress={() => dispatch(switchTheme(darkTheme))}>
+                <Image source={light_on} style={{ width: 25, height: 25 }} />
+              </Switch>
+            ) : (
+              <Switch onPress={() => dispatch(switchTheme(lightTheme))}>
+                <Image source={dark_on} style={{ width: 25, height: 25 }} />
+              </Switch>
+            )}
           </View>
         </View>
         {/* Card Info  */}
@@ -97,34 +117,31 @@ const AccountForStaff = () => {
 
         <View style={styles.buttonUser}>
           {/* Edit profile  */}
-          <TouchableOpacity
-            style={styles.TouchableOpacity}
-            onPress={() => navigation.navigate('EditStaffProfile')}
-          >
-            <Image source={personal} style={styles.iconTitle} />
-            <Text style={styles.textName}>Edit Your Profile</Text>
-            <Image style={styles.icon} source={vector} />
-          </TouchableOpacity>
+          <Button onPress={() => navigation.navigate('EditStaffProfile')}>
+            <Image
+              source={theme.mode === 'light' ? personal_light : personal_dark}
+              style={styles.iconTitle}
+            />
+            <Content>Edit Your Profile</Content>
+          </Button>
 
           {/* Change password  */}
-          <TouchableOpacity
-            style={styles.TouchableOpacity}
-            onPress={() => navigation.navigate('ChangeStaffPassword')}
-          >
-            <Image source={password} style={styles.iconTitle} />
-            <Text style={styles.textName}>Change Your Password</Text>
-            <Image style={styles.icon} source={vector} />
-          </TouchableOpacity>
+          <Button onPress={() => navigation.navigate('ChangeStaffPassword')}>
+            <Image
+              source={theme.mode === 'light' ? password_light : password_dark}
+              style={styles.iconTitle}
+            />
+            <Content>Change Your Password</Content>
+          </Button>
 
           {/* Policy and privacy  */}
-          <TouchableOpacity
-            style={styles.TouchableOpacity}
-            onPress={() => setVisible(true)}
-          >
-            <Image source={policy} style={styles.iconTitle} />
-            <Text style={styles.textName}>Policy and privacy</Text>
-            <Image style={styles.icon} source={vector} />
-          </TouchableOpacity>
+          <Button onPress={() => setVisible(true)}>
+            <Image
+              source={theme.mode === 'light' ? policy_light : policy_dark}
+              style={styles.iconTitle}
+            />
+            <Content>Policy and privacy</Content>
+          </Button>
         </View>
 
         <View style={styles.buttonContainer}>
@@ -141,113 +158,55 @@ const AccountForStaff = () => {
             <Text style={styles.buttonText1}>Log out</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </Container>
 
       {/* Modal PaP */}
       <ModalPrivacy visible={visible}>
-        <View>
-          <View style={{ marginBottom: '10%' }}>
-            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
-              Policy and privacy
-            </Text>
-          </View>
-          <ScrollView
-            style={{
-              marginLeft: '5%',
-              height: '80%',
-              marginBottom: '7%',
-            }}
-          >
-            <Text style={styles.details}>
-              Privacy Policy Software Animals built the Foody app as a Free app.
-              This SERVICE is provided by Software Animals at no cost and is
-              intended for use as is. This page is used to inform visitors
-              regarding my policies with the collection, use, and disclosure of
-              Personal Information if anyone decided to use my Service. If you
-              choose to use my Service, then you agree to the collection and use
-              of information in relation to this policy. The Personal
-              Information that I collect is used for providing and improving the
-              Service. I will not use or share your information with anyone
-              except as described in this Privacy Policy. The terms used in this
-              Privacy Policy have the same meanings as in our Terms and
-              Conditions, which are accessible at Foody unless otherwise defined
-              in this Privacy Policy. Information Collection and Use For a
-              better experience, while using our Service, I may require you to
-              provide us with certain personally identifiable information,
-              including but not limited to images. The information that I
-              request will be retained on your device and is not collected by me
-              in any way. The app does use third-party services that may collect
-              information used to identify you. Link to the privacy policy of
-              third-party service providers used by the app Google Play Services
-              Google Analytics for Firebase Firebase Crashlytics Expo Log Data I
-              want to inform you that whenever you use my Service, in a case of
-              an error in the app I collect data and information (through
-              third-party products) on your phone called Log Data. This Log Data
-              may include information such as your device Internet Protocol
-              (“IP”) address, device name, operating system version, the
-              configuration of the app when utilizing my Service, the time and
-              date of your use of the Service, and other statistics. Cookies
-              Cookies are files with a small amount of data that are commonly
-              used as anonymous unique identifiers. These are sent to your
-              browser from the websites that you visit and are stored on your
-              device's internal memory. This Service does not use these
-              “cookies” explicitly. However, the app may use third-party code
-              and libraries that use “cookies” to collect information and
-              improve their services. You have the option to either accept or
-              refuse these cookies and know when a cookie is being sent to your
-              device. If you choose to refuse our cookies, you may not be able
-              to use some portions of this Service. Service Providers I may
-              employ third-party companies and individuals due to the following
-              reasons: To facilitate our Service; To provide the Service on our
-              behalf; To perform Service-related services; or To assist us in
-              analyzing how our Service is used. I want to inform users of this
-              Service that these third parties have access to their Personal
-              Information. The reason is to perform the tasks assigned to them
-              on our behalf. However, they are obligated not to disclose or use
-              the information for any other purpose. Security I value your trust
-              in providing us your Personal Information, thus we are striving to
-              use commercially acceptable means of protecting it. But remember
-              that no method of transmission over the internet, or method of
-              electronic storage is 100% secure and reliable, and I cannot
-              guarantee its absolute security. Links to Other Sites This Service
-              may contain links to other sites. If you click on a third-party
-              link, you will be directed to that site. Note that these external
-              sites are not operated by me. Therefore, I strongly advise you to
-              review the Privacy Policy of these websites. I have no control
-              over and assume no responsibility for the content, privacy
-              policies, or practices of any third-party sites or services.
-              Children’s Privacy These Services do not address anyone under the
-              age of 13. I do not knowingly collect personally identifiable
-              information from children under 13 years of age. In the case I
-              discover that a child under 13 has provided me with personal
-              information, I immediately delete this from our servers. If you
-              are a parent or guardian and you are aware that your child has
-              provided us with personal information, please contact me so that I
-              will be able to do the necessary actions. Changes to This Privacy
-              Policy I may update our Privacy Policy from time to time. Thus,
-              you are advised to review this page periodically for any changes.
-              I will notify you of any changes by posting the new Privacy Policy
-              on this page. This policy is effective as of 2022-06-17 Contact Us
-              If you have any questions or suggestions about my Privacy Policy,
-              do not hesitate to contact me at thedan671@gmail.com.
-            </Text>
-          </ScrollView>
-
-          <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-            <TouchableOpacity
-              style={styles.button3}
-              onPress={() => setVisible(false)}
-            >
-              <Text style={styles.buttonText1}>Agree</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        <TouchableOpacity
+          style={styles.button3}
+          onPress={() => setVisible(false)}
+        >
+          <Text style={styles.buttonText1}>Agree</Text>
+        </TouchableOpacity>
       </ModalPrivacy>
-    </ScrollView>
+    </ThemeProvider>
   );
 };
 
 export default AccountForStaff;
+
+const Content = styled.Text`
+  font-size: 18px;
+  color: ${(props) => props.theme.PRIMARY_TEXT_COLOR};
+  font-weight: bold;
+`;
+const Button = styled.TouchableOpacity`
+  margin-top: 5%;
+  background-color: ${(props) => props.theme.PRIMARY_BUTTON_COLOR};
+  align-items: center;
+  height: 55px;
+  width: 85%;
+  border-radius: 20px;
+  flex-direction: row;
+
+  shadow-color: ${(props) => props.theme.PRIMARY_SHADOW_COLOR};
+  shadow-offset: 0px 0px;
+  shadow-opacity: 0.2;
+  shadow-radius: 10px;
+  elevation: 1;
+`;
+const Container = styled.View`
+  flex: 1;
+  background-color: ${(props) => props.theme.PRIMARY_BACKGROUND_ACCOUNT_COLOR};
+`;
+const Switch = styled.TouchableOpacity`
+  align-items: center;
+  height: 50px;
+  width: 50px;
+  justify-content: center;
+  border-radius: 10px;
+  background-color: ${(props) => props.theme.PRIMARY_BUTTON_COLOR}; ;
+`;
 
 const styles = StyleSheet.create({
   container: {
@@ -258,7 +217,7 @@ const styles = StyleSheet.create({
   containerHeader: {
     flexDirection: 'row',
     // flex: 1,
-    alignItems: 'flex-end',
+    alignItems: 'center',
     justifyContent: 'flex-start',
     marginVertical: '7%',
     marginLeft: '5%',
@@ -272,7 +231,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     // flex: 4,
-    // marginTop: '-7%',
+    marginTop: '5%',
   },
   about: {
     flexDirection: 'row',
@@ -300,7 +259,7 @@ const styles = StyleSheet.create({
   },
   textHeader: {
     fontWeight: 'bold',
-    fontSize: 30,
+    fontSize: 25,
     // lineHeight: 27,
   },
   editText: {
@@ -348,7 +307,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 14,
     lineHeight: 18,
-    color: '#232323',
   },
   line: {
     width: 170,
@@ -395,7 +353,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   button3: {
-    backgroundColor: '#FA4A0C',
     width: '35%',
     padding: 15,
     borderRadius: 25,
@@ -404,6 +361,7 @@ const styles = StyleSheet.create({
     elevation: 1,
     margin: 5,
     flexDirection: 'row',
+    backgroundColor: '#FA4A0C',
   },
   TouchableOpacity: {
     backgroundColor: 'white',
@@ -432,8 +390,6 @@ const styles = StyleSheet.create({
   iconTitle: {
     width: 20,
     height: 20,
-    position: 'absolute',
-    marginLeft: 20,
-    top: '30%',
+    marginHorizontal: 15,
   },
 });

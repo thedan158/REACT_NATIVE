@@ -1,16 +1,8 @@
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
-import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/core';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
-const CustomTextInput = ({
+const InputText = ({
   onChangeText,
   iconPosition,
   icon,
@@ -22,6 +14,7 @@ const CustomTextInput = ({
   paddingVertical,
   ...props
 }) => {
+  const theme = useSelector((state) => state.themeReducer.theme);
   const [focused, setFocused] = React.useState(false);
   const getFlexDirection = () => {
     if (icon && iconPosition) {
@@ -41,24 +34,28 @@ const CustomTextInput = ({
     if (focused) {
       return blurColor;
     } else {
-      return 'white';
+      return theme.PRIMARY_BACKGROUND_ACCOUNT_COLOR;
     }
   };
   return (
     <View style={{ paddingVertical: paddingVertical }}>
-      {label && <Text>{label}</Text>}
+      {label && (
+        <Text style={{ color: theme.PRIMARY_TEXT_COLOR }}>{label}</Text>
+      )}
 
       <View
         style={[
           styles.wrapper,
           { alignItems: icon ? 'center' : 'baseline' },
           { borderColor: getBorderColor(), flexDirection: getFlexDirection() },
+          { backgroundColor: theme.mode === 'light' ? '#FFFCFB' : '#313133' },
         ]}
       >
         <View>{icon && icon}</View>
 
         <TextInput
-          style={[styles.textInput, style]}
+          style={[styles.textInput, style, { color: theme.PRIMARY_TEXT_COLOR }]}
+          placeholderTextColor="#8E8E8E"
           onChangeText={onChangeText}
           value={value}
           onFocus={() => {
@@ -76,7 +73,7 @@ const CustomTextInput = ({
   );
 };
 
-export default CustomTextInput;
+export default InputText;
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -95,7 +92,7 @@ const styles = StyleSheet.create({
 
     width: 300,
     height: 50,
-    backgroundColor: '#FFFCFB',
+
     justifyContent: 'center',
     alignItems: 'flex-start',
     borderRadius: 13,
