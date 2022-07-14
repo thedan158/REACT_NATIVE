@@ -16,13 +16,20 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import MessageQueue from 'react-native/Libraries/BatchedBridge/MessageQueue';
 
-const SearchIconResouce = require('../assets/icons/search.png');
-const FillterIconResouce = require('../assets/icons/fillter.png');
+import styled, { ThemeProvider } from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+import themeReducer from '../redux/themeReducer';
+
+const SearchIconResouce = require('../assets/icons/SearchGray.png');
+
+
 const BillScreenForOwner = ({ navigation }) => {
   const [search, setSearch] = useState('');
   const [masterData, setMasterData] = useState([]);
   const [dataFromState, setNewData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+
+  const theme = useSelector((state) => state.themeReducer.theme);
 
   const FlatlistItemFunctions = ({ item }) => {
     if (item.isBusy === true) {
@@ -109,53 +116,91 @@ const BillScreenForOwner = ({ navigation }) => {
 
   return (
     // Root View
-    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-      <View style={styles.containerTop}>
-        <Text style={styles.txtHeaderView}>Bill</Text>
-        <View style={styles.containerTemp}>
-          <View style={styles.containerSearchLayout}>
-            <TouchableOpacity style={styles.btnSearch}>
-              <Image source={SearchIconResouce} style={styles.imgIconSearch} />
-            </TouchableOpacity>
-            <TextInput
-              value={search}
-              onChangeText={(text) => searchFilterFunction(text)}
-              style={styles.txtSearchBar}
-              placeholder={'Search Table...'}
-            />
-          </View>
+    <ThemeProvider theme={theme}>
+      <ContainerScrollView>
+        <View style={styles.containerTop}>
+          <Text style={styles.txtHeaderView}>Bill</Text>
+          <View style={styles.containerTemp}>
+            <ContainerSearch>
+              <TouchableOpacity style={styles.btnSearch}>
+                <Image source={SearchIconResouce} style={styles.imgIconSearch} />
+              </TouchableOpacity>
+                <TextInput
+                    value={search}
+                    onChangeText={(text) => searchFilterFunction(text)}
+                    style={styles.txtSearchBar}
+                    placeholder={'Search Table...'}
+                    placeholderTextColor = '#8A8A8A'
+                  />
+              
+            </ContainerSearch>
 
-          <TouchableOpacity
-            onPress={() => navigation.navigate('AddingTable')}
-            style={styles.btnImgFillter}
-          >
-            <Image source={imgAddItem} style={styles.imgIconFillter} />
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('AddingTable')}
+              style={styles.btnImgFillter}
+            >
+              <Image source={imgAddItem} style={styles.imgIconFillter} />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-      <View style={styles.containerBottom}>
-        <FlatList
-          refreshing={refreshing}
-          data={dataFromState}
-          renderItem={({ item, index }) => {
-            return (
-              <FlatlistItemFunctions
-                item={item}
-                index={index}
-              ></FlatlistItemFunctions>
-            );
-          }}
-          keyExtractor={(item) => item.id}
-          nestedScrollEnabled
-          numColumns={2}
-          onRefresh={() => setRefreshing(true)}
-        />
-      </View>
-    </ScrollView>
+        <ContainerBottom>
+          <FlatList
+            refreshing={refreshing}
+            data={dataFromState}
+            renderItem={({ item, index }) => {
+              return (
+                <FlatlistItemFunctions
+                  item={item}
+                  index={index}
+                ></FlatlistItemFunctions>
+              );
+            }}
+            keyExtractor={(item) => item.id}
+            nestedScrollEnabled
+            numColumns={2}
+            onRefresh={() => setRefreshing(true)}
+          />
+        </ContainerBottom>
+      </ContainerScrollView>
+    </ThemeProvider>
   );
 };
 
 export default BillScreenForOwner;
+
+const ContainerScrollView = styled.ScrollView`
+  padding-bottom: 5%;
+  padding-top: 0%;
+  background-color: ${(props) => props.theme.PRIMARY_BACKGROUND_ACCOUNT_COLOR};
+  flex: 1;
+`
+const ContainerBottom = styled.View`
+  border-topLeftRadius: 30;
+  border-topRightRadius: 30;
+
+  background-color: ${(props) => props.theme.PRIMARY_BACKGROUND_ACCOUNT_COLOR};
+  justify-content: center;
+  align-items: center;
+
+  margin-top: -40;
+  padding-top: 20;
+  padding-left: 10;
+`
+
+const ContainerSearch = styled.View`
+  width: 280;
+  height: 50;
+  border-radius: 15;
+  margin-right: 10;
+  border-width: 1;
+  border-color: #A09A99;
+  background-color: ${(props) => props.theme.PRIMARY_BACKGROUND_ACCOUNT_COLOR};
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  padding: 0;
+
+`
 
 const styles = StyleSheet.create({
   container: {
@@ -188,7 +233,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   txtSearchBar: {
-    color: '#000',
+    color: '#8A8A8A',
     maxWidth: 200,
     width: 200,
   },
