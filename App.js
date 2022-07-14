@@ -168,8 +168,7 @@ export default function App() {
             name="TabForStaff"
             component={TabForStaff}
           />
-          
-          
+
           <Stack.Screen
             options={{ headerShown: false }}
             name="SplashScreen"
@@ -192,8 +191,6 @@ export default function App() {
             name="RestaurantInformation"
             component={RestaurantInformation}
           />
-
-          
 
           <Stack.Screen
             options={{ headerShown: false }}
