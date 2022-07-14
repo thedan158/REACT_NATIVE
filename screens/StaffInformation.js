@@ -12,9 +12,10 @@ import phone from '../assets/icons/phone.png';
 import cake from '../assets/icons/cake.png';
 import address from '../assets/icons/address.png';
 
-const example = () => {
+const StaffInformation = ({ route }) => {
   const navigation = useNavigation();
   const [visible, setVisible] = React.useState(false);
+  const { item } = route.params;
   return (
     <View style={styles.container}>
       {/* Profile  */}
@@ -27,7 +28,7 @@ const example = () => {
           />
           <Text style={styles.title}>Name</Text>
         </View>
-        <Text style={styles.information}>Vu Khanh Hoang</Text>
+        <Text style={styles.information}>{item.fullname}</Text>
 
         {/* Number  */}
         <View style={{ flexDirection: 'row' }}>
@@ -37,7 +38,7 @@ const example = () => {
           />
           <Text style={styles.title}>Contact number</Text>
         </View>
-        <Text style={styles.information}>052 867 9244</Text>
+        <Text style={styles.information}>{item.phoneNumber}</Text>
 
         {/* Birthday  */}
         <View style={{ flexDirection: 'row' }}>
@@ -57,10 +58,7 @@ const example = () => {
           />
           <Text style={styles.title}>Address</Text>
         </View>
-        <Text style={styles.information}>
-          No. 10, Street No. 16, Linh Trung Ward, Thu Duc District, Ho Chi Minh
-          City
-        </Text>
+        <Text style={styles.information}>{item.address}</Text>
       </View>
 
       {/* Wave view  */}
@@ -102,7 +100,9 @@ const example = () => {
 
       {/* Avatar  */}
       <View style={styles.circle}>
-        <Image source={VKH} style={styles.avatar} />
+        {item.imagePath && (
+          <Image source={{ uri: item.imagePath }} style={styles.avatar}></Image>
+        )}
       </View>
 
       {/* Button section  */}
@@ -157,7 +157,7 @@ const example = () => {
   );
 };
 
-export default example;
+export default StaffInformation;
 
 const styles = StyleSheet.create({
   container: {

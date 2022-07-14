@@ -11,6 +11,7 @@ import { useState } from 'react';
 import Collapsible from 'react-native-collapsible';
 import { ScrollView } from 'react-native-gesture-handler';
 import question from '../assets/icons/question.png';
+import { useSelector } from 'react-redux';
 
 export class CustomCollapsible extends Component {
   state = {
@@ -23,21 +24,25 @@ export class CustomCollapsible extends Component {
   };
 
   render() {
-    const { title, subTitle } = this.props;
+    const { title, subTitle, textColor } = this.props;
 
     return (
       <View style={styles.collapsing}>
         <TouchableOpacity onPress={this.toggleExpanded}>
           <View style={styles.header}>
-            <Text style={styles.headerText}>{title}</Text>
+            <Text style={[styles.headerText, { color: textColor }]}>
+              {title}
+            </Text>
             <Image style={styles.question} source={question} />
             <View style={styles.switchBox}>
               <Switch
+                trackColor={{ false: '#767577', true: '#325435' }}
                 style={styles.switch}
                 value={this.state.switchValue}
                 onValueChange={(switchValue) => this.setState({ switchValue })}
-                onChange={()=>this.props.childtoParent(this.state.switchValue)}
-              
+                onChange={() =>
+                  this.props.childtoParent(this.state.switchValue)
+                }
               />
             </View>
           </View>
@@ -45,7 +50,7 @@ export class CustomCollapsible extends Component {
 
         <Collapsible collapsed={this.state.collapsed} align="center">
           <View style={styles.content}>
-            <Text>{subTitle}</Text>
+            <Text style={{ color: '#767676' }}>{subTitle}</Text>
           </View>
         </Collapsible>
       </View>
@@ -83,6 +88,9 @@ const styles = StyleSheet.create({
   },
   switch: {
     position: 'relative',
-    left: 200,
+  },
+  switchBox: {
+    position: 'absolute',
+    right: '5%',
   },
 });

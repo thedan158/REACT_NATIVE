@@ -4,17 +4,12 @@ import {
   View,
   Image,
   TouchableOpacity,
-  Button,
-  ImageBackground,
   Dimensions,
   ScrollView,
   Animated,
   FlatList,
 } from 'react-native';
 import React, { useRef } from 'react';
-import CustomModal from '../custom component/CustomModal';
-import { useNavigation } from '@react-navigation/core';
-import image from '../assets/images/background.png';
 import Colors from '../assets/Colors';
 import {
   VictoryBar,
@@ -25,6 +20,8 @@ import {
   VictoryPie,
 } from 'victory-native';
 import income from '../assets/icons/income.png';
+import { useSelector } from 'react-redux';
+import styled, { ThemeProvider } from 'styled-components';
 
 const windowWidth = Dimensions.get('screen').width;
 
@@ -62,6 +59,7 @@ const Analytics = () => {
 
   const [showMoreToggle, setShowMoreToggle] = React.useState(false);
   const [selectedCategory, setSelectedCategory] = React.useState(null);
+  const theme = useSelector((state) => state.themeReducer.theme);
 
   function renderCategoryList() {
     const renderItem = ({ item }) => (
@@ -124,63 +122,85 @@ const Analytics = () => {
   }
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.headerText}>
-        <Image
-          source={income}
-          style={{ height: 30, width: 30, marginHorizontal: 10 }}
-        />
-        <Text style={styles.title}>Incomes</Text>
-      </View>
-      <View style={styles.chartContainer}>
-        <VictoryChart
-          // domainPadding will add space to each side of VictoryBar to
-          // prevent it from overlapping the axis
-          domainPadding={0}
-          width={windowWidth * 1.04}
+    <ThemeProvider theme={theme}>
+      <ScrollView
+        style={[
+          styles.container,
+          { backgroundColor: theme.PRIMARY_BACKGROUND_COLOR },
+        ]}
+      >
+        <View style={styles.headerText}>
+          <Image
+            source={income}
+            style={{ height: 30, width: 30, marginHorizontal: 10 }}
+          />
+          <Text style={styles.title}>Incomes</Text>
+        </View>
+        <View
+          style={[
+            styles.chartContainer,
+            { backgroundColor: theme.PRIMARY_BUTTON_COLOR },
+          ]}
         >
-          <VictoryAxis
-            // tickValues specifies both the number of ticks and where
-            // they are placed on the axis
-            tickValues={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
-            tickFormat={[
-              'Jan',
-              'Feb',
-              'Mar',
-              'Apr',
-              'May',
-              'Jun',
-              'Jul',
-              'Aug',
-              'Sep',
-              'Oct',
-              'Nov',
-              'Dec',
-            ]}
-          />
-          <VictoryAxis
-            dependentAxis
-            // tickFormat specifies how ticks should be displayed
-            tickFormat={(x) => `$${x / 1000}k`}
-          />
-          <VictoryBar
-            data={data}
-            x="quarter"
-            y="earnings"
-            style={{
-              data: {
-                fill: ({ datum }) =>
-                  datum.quarter % 2 === 0 ? Colors.secondary : '#036666',
-              },
-            }}
-            animate={{ duration: 1000, onLoad: { duration: 500 } }}
-            barWidth={16}
-            alignment="start"
-          />
-        </VictoryChart>
-      </View>
+          <VictoryChart
+            // domainPadding will add space to each side of VictoryBar to
+            // prevent it from overlapping the axis
+            domainPadding={0}
+            width={windowWidth * 1.04}
+          >
+            <VictoryAxis
+              // tickValues specifies both the number of ticks and where
+              // they are placed on the axis
+              style={{
+                tickLabels: {
+                  fill: theme.PRIMARY_TEXT_COLOR,
+                },
+              }}
+              tickValues={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
+              tickFormat={[
+                'Jan',
+                'Feb',
+                'Mar',
+                'Apr',
+                'May',
+                'Jun',
+                'Jul',
+                'Aug',
+                'Sep',
+                'Oct',
+                'Nov',
+                'Dec',
+              ]}
+            />
+            <VictoryAxis
+              dependentAxis
+              // tickFormat specifies how ticks should be displayed
+              tickFormat={(x) => `$${x / 1000}k`}
+              // color of axis values
+              style={{
+                tickLabels: {
+                  fill: theme.PRIMARY_TEXT_COLOR,
+                },
+              }}
+            />
+            <VictoryBar
+              data={data}
+              x="quarter"
+              y="earnings"
+              style={{
+                data: {
+                  fill: ({ datum }) =>
+                    datum.quarter % 2 === 0 ? Colors.secondary : '#036666',
+                },
+              }}
+              animate={{ duration: 1000, onLoad: { duration: 500 } }}
+              barWidth={16}
+              alignment="start"
+            />
+          </VictoryChart>
+        </View>
 
-      {/* <View style={styles.chartContainer}>
+        {/* <View style={styles.chartContainer}>
         <VictoryPie
           startAngle={120}
           endAngle={480}
@@ -219,7 +239,8 @@ const Analytics = () => {
       </View>
 
       <View>{renderCategoryList()}</View> */}
-    </ScrollView>
+      </ScrollView>
+    </ThemeProvider>
   );
 };
 
@@ -236,7 +257,7 @@ const styles = StyleSheet.create({
     marginBottom: '10%',
     height: 300,
     width: windowWidth * 0.95,
-    backgroundColor: 'white',
+
     justifyContent: 'center',
     borderRadius: 10,
 

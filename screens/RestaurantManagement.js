@@ -1,21 +1,24 @@
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import HomeScreen from './HomeScreen';
 import StaffManagement from './StaffManagement';
 import Analytics from './Analytics';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import TabBar from 'react-native-underline-tabbar';
-import { NavigationContainer } from '@react-navigation/native';
-import ListFood from './ListFood';
+import { useSelector } from 'react-redux';
+import Colors from '../assets/Colors';
 
 const RestaurantManagement = () => {
   const Tab = createMaterialTopTabNavigator();
+  const theme = useSelector((state) => state.themeReducer.theme);
 
   return (
     <View style={{ flex: 1 }}>
       {/* Title  */}
-      <View style={styles.viewText}>
+      <View
+        style={[
+          styles.viewText,
+          { backgroundColor: theme.mode === 'light' ? 'white' : '#1D1D1D' },
+        ]}
+      >
         <Text style={styles.text}>Your Restaurant</Text>
       </View>
 
@@ -24,16 +27,16 @@ const RestaurantManagement = () => {
         screenOptions={{
           tabBarLabelStyle: { fontSize: 14, fontWeight: 'bold' },
           tabBarStyle: {
-            backgroundColor: 'white',
+            backgroundColor: theme.mode === 'light' ? 'white' : '#1D1D1D',
             borderBottomLeftRadius: 30,
             borderBottomRightRadius: 30,
           },
-          tabBarPressColor: 'white',
-          tabBarActiveTintColor: 'green',
-          tabBarInactiveTintColor: 'black',
+          tabBarPressColor: theme.mode === 'light' ? 'white' : '#1D1D1D',
+          tabBarActiveTintColor: Colors.secondary,
+          tabBarInactiveTintColor: theme.PRIMARY_TEXT_COLOR,
           tabBarIndicatorStyle: {
             height: 4,
-            backgroundColor: 'green',
+            backgroundColor: Colors.secondary,
             borderRadius: 40,
             width: 110,
             marginLeft: 43,
@@ -44,7 +47,7 @@ const RestaurantManagement = () => {
           },
           tabBarShowLabel: 'true',
         }}
-        style={{ backgroundColor: 'transparent' }}
+        style={{ backgroundColor: theme.PRIMARY_BACKGROUND_COLOR }}
       >
         <Tab.Screen component={StaffManagement} name="Staffs" />
         <Tab.Screen component={Analytics} name="Analytics" />
@@ -65,7 +68,6 @@ const styles = StyleSheet.create({
     color: '#4FA987',
   },
   viewText: {
-    backgroundColor: 'white',
     height: 130,
     alignContent: 'center',
   },
