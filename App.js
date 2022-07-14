@@ -160,6 +160,18 @@ export default function App() {
         >
           <Stack.Screen
             options={{ headerShown: false }}
+            name="TabForOwner"
+            component={TabForOwner}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="TabForStaff"
+            component={TabForStaff}
+          />
+          
+          
+          <Stack.Screen
+            options={{ headerShown: false }}
             name="SplashScreen"
             component={SplashScreen}
           />
@@ -181,16 +193,7 @@ export default function App() {
             component={RestaurantInformation}
           />
 
-          <Stack.Screen
-            options={{ headerShown: false }}
-            name="TabForStaff"
-            component={TabForStaff}
-          />
-          <Stack.Screen
-            options={{ headerShown: false }}
-            name="TabForOwner"
-            component={TabForOwner}
-          />
+          
 
           <Stack.Screen
             options={{ headerShown: false }}

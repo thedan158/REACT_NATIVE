@@ -12,6 +12,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../assets/Colors';
 import { useNavigation } from '@react-navigation/core';
 import ModalListFood from '../custom component/ModalListFood';
+import UserDarkTheme from '../assets/icons/userBlack.png';
+import UserLightTheme from '../assets/icons/userWhite.png';
+
+import styled, { ThemeProvider } from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+
+
 const imgDesertDish = require('../assets/images/DessertDish.png');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -25,227 +32,274 @@ const imgBackgroundSource3 = {
 const HomeScreen2ndFinal = () => {
   const navigation = useNavigation();
   const [visible, setVisible] = React.useState(false);
+
+  const theme = useSelector((state) => state.themeReducer.theme);
+  const dispatch = useDispatch();
+
   return (
-    <View style={styles.container}>
-      <View style={styles.containerHeaderTop}>
-        {/* <Image source={{ uri: 'https://icons-for-free.com/download-icon-HOME-131994911289288683_512.png' }}
-                    style={styles.icHomeStyle} /> */}
-        <View style={styles.containerTitleInfo}>
-          <Text style={styles.txtHome}>Home</Text>
-        </View>
-        <Image
-          source={{
-            uri: 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png',
-          }}
-          style={styles.icUserStyle}
-        />
-      </View>
-      <View style={styles.containerBtnMenuInfo}>
-        {/* Button Menu Open */}
-        <TouchableOpacity
-          style={styles.btnMenuOpen}
-          onPress={() => navigation.navigate('MenuScreen')}
-        >
-          <LinearGradient
-            colors={[Colors.ImperialRed, Colors.DarkOrange]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={styles.btnMenuOpen}
+
+    <ThemeProvider theme={theme}>
+
+      <Container>
+        <View style={styles.containerHeaderTop}>
+          {/* <Image source={{ uri: 'https://icons-for-free.com/download-icon-HOME-131994911289288683_512.png' }}
+                      style={styles.icHomeStyle} /> */}
+          <View style={styles.containerTitleInfo}>
+            <Content_Header>Home</Content_Header>
+          </View>
+          <View 
+            style={{
+              marginRight: '3%',
+              alignSelf: 'center',
+            }}
           >
-            <View style={styles.containerMenuInfo}>
-              <View style={styles.containerTxtInfo}>
-                {/* Header Tag Info View */}
-                <View style={styles.containerHeaderInfoTxt}>
-                  <Text style={styles.txtMenu}>MAIN</Text>
-                  <View
-                    style={{
-                      alignContent: 'center',
-                      justifyContent: 'center',
-                      alignSelf: 'center',
-                      marginBottom: 5,
-                    }}
-                  >
-                    <Text
-                      style={{ color: '#fff', fontSize: 18, marginBottom: -2 }}
+            {theme.mode === "light" ? (
+              <Image
+              source={UserLightTheme}
+              style={styles.icUserStyle}
+            />
+            ) : (
+              <Image
+              source={UserDarkTheme}
+              style={styles.icUserStyle}
+            />
+            )}
+          </View>
+        </View>
+        <View style={styles.containerBtnMenuInfo}>
+          {/* Button Menu Open */}
+          <TouchableOpacity
+            style={styles.btnMenuOpen}
+            onPress={() => navigation.navigate('MenuScreen')}
+          >
+            <LinearGradient
+              colors={[Colors.ImperialRed, Colors.DarkOrange]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.btnMenuOpen}
+            >
+              <View style={styles.containerMenuInfo}>
+                <View style={styles.containerTxtInfo}>
+                  {/* Header Tag Info View */}
+                  <View style={styles.containerHeaderInfoTxt}>
+                    <Text style={styles.txtMenu}>MAIN</Text>
+                    <View
+                      style={{
+                        alignContent: 'center',
+                        justifyContent: 'center',
+                        alignSelf: 'center',
+                        marginBottom: 5,
+                      }}
                     >
-                      OF
-                    </Text>
+                      <Text
+                        style={{ color: '#fff', fontSize: 18, marginBottom: -2 }}
+                      >
+                        OF
+                      </Text>
+                      <Text
+                        style={{
+                          color: '#fff',
+                          marginVertical: -7,
+                          fontSize: 12,
+                        }}
+                      >
+                        THE
+                      </Text>
+                    </View>
                     <Text
                       style={{
                         color: '#fff',
-                        marginVertical: -7,
-                        fontSize: 12,
+                        fontSize: 30,
+                        marginLeft: 0,
+                        fontWeight: 'bold',
                       }}
                     >
-                      THE
+                      MEAL
                     </Text>
                   </View>
-                  <Text
+                  {/* Detail info for Menu Section */}
+                  <View style={styles.containerHeaderDetailMenuInfoTxt}>
+                    <Text
+                      style={{ color: '#fff', fontSize: 15, fontWeight: 'bold' }}
+                    >
+                      100% FRESH FOOD
+                    </Text>
+                    <Text style={{ color: '#fff' }}>
+                      so you can order in a smile
+                    </Text>
+                  </View>
+                  <Image
+                    source={imgBackgroundSource}
                     style={{
-                      color: '#fff',
-                      fontSize: 30,
-                      marginLeft: 0,
-                      fontWeight: 'bold',
+                      flex: 1.5,
+                      zIndex: 1,
+                      width: '150%',
+                      height: '100%',
+                      right: '0%',
+                      left: '0%',
+                      top: '5%',
+                      resizeMode: 'contain',
                     }}
-                  >
-                    MEAL
-                  </Text>
+                  />
+                  <View></View>
+                  <Image />
                 </View>
-                {/* Detail info for Menu Section */}
-                <View style={styles.containerHeaderDetailMenuInfoTxt}>
-                  <Text
-                    style={{ color: '#fff', fontSize: 15, fontWeight: 'bold' }}
-                  >
-                    100% FRESH FOOD
-                  </Text>
-                  <Text style={{ color: '#fff' }}>
-                    so you can order in a smile
-                  </Text>
+                <View style={styles.imgBackgroundMenuInfo}>
+                  <ImageBackground
+                    source={imgBackgroundSource3}
+                    style={styles.imgBackgroundMenuInfostyle}
+                  />
                 </View>
-                <Image
-                  source={imgBackgroundSource}
-                  style={{
-                    flex: 1.5,
-                    zIndex: 1,
-                    width: '150%',
-                    height: '100%',
-                    right: '0%',
-                    left: '0%',
-                    top: '5%',
-                    resizeMode: 'contain',
-                  }}
-                />
-                <View></View>
-                <Image />
               </View>
-              <View style={styles.imgBackgroundMenuInfo}>
-                <ImageBackground
-                  source={imgBackgroundSource3}
-                  style={styles.imgBackgroundMenuInfostyle}
-                />
-              </View>
-            </View>
-          </LinearGradient>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.containerBtnDealInfo}>
-        {/* Button 2 */}
-        <TouchableOpacity
-          style={styles.btnSaleOffOpen}
-          onPress={() => navigation.navigate('StarterMenuHome')}
-        >
-          <LinearGradient
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.containerBtnDealInfo}>
+          {/* Button 2 */}
+          <TouchableOpacity
             style={styles.btnSaleOffOpen}
-            colors={[Colors.FrenchRaspberry, Colors.ParadisePink]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
+            onPress={() => navigation.navigate('StarterMenuHome')}
           >
-            <View style={styles.ContainnerTextSaleOff}>
-              <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>
-                STARTER
-              </Text>
-              <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>
-                DISH
-              </Text>
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={{ color: '#fff' }}>Guarantee </Text>
+            <LinearGradient
+              style={styles.btnSaleOffOpen}
+              colors={[Colors.FrenchRaspberry, Colors.ParadisePink]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+            >
+              <View style={styles.ContainnerTextSaleOff}>
+                <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>
+                  STARTER
+                </Text>
+                <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>
+                  DISH
+                </Text>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={{ color: '#fff' }}>Guarantee </Text>
+                </View>
+                <Text
+                  style={{
+                    color: '#fee38d',
+                    fontWeight: 'bold',
+                    fontSize: 15,
+                  }}
+                >
+                  100% FRESH
+                </Text>
               </View>
-              <Text
-                style={{
-                  color: '#fee38d',
-                  fontWeight: 'bold',
-                  fontSize: 15,
+              <Image
+                source={{
+                  uri: 'http://assets.stickpng.com/images/5ea1507fe0ebe6000479458d.png',
                 }}
-              >
-                100% FRESH
-              </Text>
-            </View>
-            <Image
-              source={{
-                uri: 'http://assets.stickpng.com/images/5ea1507fe0ebe6000479458d.png',
-              }}
-              style={styles.imgSaleOff}
-            />
-          </LinearGradient>
-        </TouchableOpacity>
+                style={styles.imgSaleOff}
+              />
+            </LinearGradient>
+          </TouchableOpacity>
 
-        {/* Button 3 */}
-        <TouchableOpacity
-          style={styles.btnTryNewDishOpen}
-          onPress={() => navigation.navigate('Button3Screen')}
-        >
-          <LinearGradient
+          {/* Button 3 */}
+          <TouchableOpacity
             style={styles.btnTryNewDishOpen}
-            colors={['#f12711', '#f5af19']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
+            onPress={() => navigation.navigate('Button3Screen')}
           >
-            <View style={styles.ContainnerTextSaleOff}>
-              <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>
-                DESERT and DRINK
-              </Text>
-              <Text style={{ color: '#fff' }}>Guarantee</Text>
-              <Text
-                style={{
-                  color: '#000',
-                  textDecorationLine: 'underline',
-                  fontWeight: 'bold',
-                }}
-              >
-                100% Worth Try
-              </Text>
-            </View>
-            <Image source={imgDesertDish} style={styles.imgTryNew} />
-          </LinearGradient>
-        </TouchableOpacity>
-      </View>
+            <LinearGradient
+              style={styles.btnTryNewDishOpen}
+              colors={['#f12711', '#f5af19']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+            >
+              <View style={styles.ContainnerTextSaleOff}>
+                <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>
+                  DESERT and DRINK
+                </Text>
+                <Text style={{ color: '#fff' }}>Guarantee</Text>
+                <Text
+                  style={{
+                    color: '#000',
+                    textDecorationLine: 'underline',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  100% Worth Try
+                </Text>
+              </View>
+              <Image source={imgDesertDish} style={styles.imgTryNew} />
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
 
-      {/* Devide line */}
-      <View style={styles.containerDevideLine}></View>
-      <View style={styles.containerExcDealsHeader}>
-        <Text style={styles.txtExclDealerText}>Exclusive Deal Of The DaY</Text>
-      </View>
-      <View style={styles.containerBtnExcDeals}>
-        {/* Button 4 */}
-        <TouchableOpacity
-          style={styles.btnBottomOpen}
-          onPress={() => setVisible(true)}
-        >
-          <LinearGradient
+        {/* Devide line */}
+        <View style={styles.containerDevideLine}></View>
+        <View style={styles.containerExcDealsHeader}>
+          <Content>Exclusive Deal Of The DaY</Content>
+        </View>
+        <View style={styles.containerBtnExcDeals}>
+          {/* Button 4 */}
+          <TouchableOpacity
             style={styles.btnBottomOpen}
-            colors={['#FB6A70', '#FCA384']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
+            onPress={() => setVisible(true)}
           >
-            <View style={styles.containerExcDealInfo}>
-              <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>
-                Exclusive Deal
-              </Text>
-              <Text style={{}}>
-                Saving your money and giving you the best meal is or priority
-              </Text>
-              <Text style={{}}></Text>
-              <Text></Text>
-              <Text style={{}}>Get them now!!!</Text>
-            </View>
-            <Image source={imgBackgroundSource2} style={styles.imgExcDeal} />
-          </LinearGradient>
-        </TouchableOpacity>
-      </View>
+            <LinearGradient
+              style={styles.btnBottomOpen}
+              colors={['#FB6A70', '#FCA384']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+            >
+              <View style={styles.containerExcDealInfo}>
+                <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>
+                  Exclusive Deal
+                </Text>
+                <Text style={{}}>
+                  Saving your money and giving you the best meal is our priority
+                </Text>
+                <Text style={{}}></Text>
+                <Text></Text>
+                <Text style={{}}>Get them now!!!</Text>
+              </View>
+              <Image source={imgBackgroundSource2} style={styles.imgExcDeal} />
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
 
-      <ModalListFood visible={visible}>
-        <TouchableOpacity
-          style={styles.closeButton}
-          onPress={() => setVisible(false)}
-        >
-          <Text style={styles.closeButtonText}>Close</Text>
-        </TouchableOpacity>
-      </ModalListFood>
-    </View>
+        <ModalListFood visible={visible}>
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={() => setVisible(false)}
+          >
+            <Text style={styles.closeButtonText}>Close</Text>
+          </TouchableOpacity>
+        </ModalListFood>
+      </Container>
+    </ThemeProvider>
   );
 };
 
 export default HomeScreen2ndFinal;
+
+const Container = styled.View`
+  width: ${windowWidth};
+  height: ${windowHeight};
+  flex: 1;
+  padding-top: 0;
+  padding-bottom: 7%;
+  padding-top: 5%;
+  background-color: ${(props) => props.theme.PRIMARY_BACKGROUND_ACCOUNT_COLOR};
+`;
+
+const Content_Header = styled.Text`
+  font-size: 30;
+  font-weight: bold;
+  align-self: center;
+  align-items: center;
+  color: ${(props) => props.theme.PRIMARY_TEXT_COLOR};
+
+`;
+const Content = styled.Text`
+  flex: 1;
+  marginLeft: 5%;
+  font-size: 20;
+  font-weight: bold;
+  color: ${(props) => props.theme.PRIMARY_TEXT_COLOR};
+
+`
 
 const styles = StyleSheet.create({
   container: {
@@ -289,8 +343,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   icUserStyle: {
-    height: 45,
-    width: 45,
+    height: 40,
+    width: 40,
+    paddingRight: 10,
+    marginRight: '0%',
     alignSelf: 'center',
     resizeMode: 'cover',
     marginRight: '2%',
@@ -409,12 +465,6 @@ const styles = StyleSheet.create({
     zIndex: 1,
     marginRight: 0,
     resizeMode: 'cover',
-  },
-  txtHome: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    alignSelf: 'center',
-    alignItems: 'center',
   },
   txtExclDealerText: {
     flex: 1,
