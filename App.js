@@ -160,20 +160,26 @@ export default function App() {
         >
           <Stack.Screen
             options={{ headerShown: false }}
+            name="SplashScreen"
+            component={SplashScreen}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
             name="TabForOwner"
             component={TabForOwner}
           />
+          <Stack.Screen
+            name="StaffInformation"
+            component={StaffInformation}
+            options={{ ...customTransition, headerShown: false }}
+          />
+
           <Stack.Screen
             options={{ headerShown: false }}
             name="TabForStaff"
             component={TabForStaff}
           />
 
-          <Stack.Screen
-            options={{ headerShown: false }}
-            name="SplashScreen"
-            component={SplashScreen}
-          />
           <Stack.Screen
             options={{ headerShown: false }}
             name="AccountForOwner"
@@ -261,12 +267,6 @@ export default function App() {
             options={{ headerShown: false }}
             name="CheckOutTableScreen"
             component={CheckOutTableScreen}
-          />
-
-          <Stack.Screen
-            name="StaffInformation"
-            component={StaffInformation}
-            options={{ ...customTransition, headerShown: false }}
           />
 
           <Stack.Screen

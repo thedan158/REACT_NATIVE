@@ -118,105 +118,110 @@ const AccountForOwner = () => {
   return (
     <ThemeProvider theme={theme}>
       <Container>
-        {/* Header  */}
-        <View style={styles.containerHeader}>
-          <View
-            style={{
-              marginLeft: 20,
-              marginTop: '1%',
-              flex: 8,
-            }}
-          >
-            <Content style={styles.textHeader}>Personal details</Content>
+        <ScrollView>
+          {/* Header  */}
+
+          <View style={styles.containerHeader}>
+            <View
+              style={{
+                marginLeft: 20,
+                marginTop: '1%',
+                flex: 8,
+              }}
+            >
+              <Content style={styles.textHeader}>Personal details</Content>
+            </View>
+            <View style={{ flex: 2, marginRight: '5%' }}>
+              {theme.mode === 'light' ? (
+                <Switch onPress={() => dispatch(switchTheme(darkTheme))}>
+                  <Image source={light_on} style={{ width: 25, height: 25 }} />
+                </Switch>
+              ) : (
+                <Switch onPress={() => dispatch(switchTheme(lightTheme))}>
+                  <Image source={dark_on} style={{ width: 25, height: 25 }} />
+                </Switch>
+              )}
+            </View>
           </View>
-          <View style={{ flex: 2, marginRight: '5%' }}>
-            {theme.mode === 'light' ? (
-              <Switch onPress={() => dispatch(switchTheme(darkTheme))}>
-                <Image source={light_on} style={{ width: 25, height: 25 }} />
-              </Switch>
-            ) : (
-              <Switch onPress={() => dispatch(switchTheme(lightTheme))}>
-                <Image source={dark_on} style={{ width: 25, height: 25 }} />
-              </Switch>
-            )}
+          {/* Card Info  */}
+          <View style={styles.feature}>
+            <FlipCard style={styles.feature}>
+              {/* Face Side */}
+
+              <CardInformation
+                name={fullname}
+                mail={email}
+                imageSource={{ uri: image }}
+                address={address}
+                phone={phoneNumber}
+              />
+
+              {/* Back Side */}
+
+              <CardInformation
+                name={restaurantName}
+                imageSource={{ uri: restaurantImage }}
+                address={restaurantAddress}
+                phone={restaurantHotline}
+              />
+            </FlipCard>
           </View>
-        </View>
-        {/* Card Info  */}
-        <View style={styles.feature}>
-          <FlipCard>
-            {/* Face Side */}
 
-            <CardInformation
-              name={fullname}
-              mail={email}
-              imageSource={{ uri: image }}
-              address={address}
-              phone={phoneNumber}
-            />
+          <View style={styles.buttonUser}>
+            {/* Edit profile  */}
+            <Button onPress={() => navigation.navigate('EditOwnerProfile')}>
+              <Image
+                source={theme.mode === 'light' ? personal_light : personal_dark}
+                style={styles.iconTitle}
+              />
+              <Content>Edit Your Profile</Content>
+            </Button>
 
-            {/* Back Side */}
+            {/* Edit restaurant  */}
+            <Button
+              onPress={() => navigation.navigate('EditRestaurantProfile')}
+            >
+              <Image
+                source={theme.mode === 'light' ? res_light : res_dark}
+                style={styles.iconTitle}
+              />
+              <Content>Edit Restaurant's Profile </Content>
+            </Button>
 
-            <CardInformation
-              name={restaurantName}
-              imageSource={{ uri: restaurantImage }}
-              address={restaurantAddress}
-              phone={restaurantHotline}
-            />
-          </FlipCard>
-        </View>
+            {/* Change password  */}
+            <Button onPress={() => navigation.navigate('ChangeOwnerPassword')}>
+              <Image
+                source={theme.mode === 'light' ? password_light : password_dark}
+                style={styles.iconTitle}
+              />
+              <Content>Change Your Password</Content>
+            </Button>
 
-        <View style={styles.buttonUser}>
-          {/* Edit profile  */}
-          <Button onPress={() => navigation.navigate('EditOwnerProfile')}>
-            <Image
-              source={theme.mode === 'light' ? personal_light : personal_dark}
-              style={styles.iconTitle}
-            />
-            <Content>Edit Your Profile</Content>
-          </Button>
+            {/* Policy and privacy  */}
+            <Button onPress={() => setVisible(true)}>
+              <Image
+                source={theme.mode === 'light' ? policy_light : policy_dark}
+                style={styles.iconTitle}
+              />
+              <Content>Policy and privacy</Content>
+            </Button>
+          </View>
 
-          {/* Edit restaurant  */}
-          <Button onPress={() => navigation.navigate('EditRestaurantProfile')}>
-            <Image
-              source={theme.mode === 'light' ? res_light : res_dark}
-              style={styles.iconTitle}
-            />
-            <Content>Edit Restaurant's Profile </Content>
-          </Button>
-
-          {/* Change password  */}
-          <Button onPress={() => navigation.navigate('ChangeOwnerPassword')}>
-            <Image
-              source={theme.mode === 'light' ? password_light : password_dark}
-              style={styles.iconTitle}
-            />
-            <Content>Change Your Password</Content>
-          </Button>
-
-          {/* Policy and privacy  */}
-          <Button onPress={() => setVisible(true)}>
-            <Image
-              source={theme.mode === 'light' ? policy_light : policy_dark}
-              style={styles.iconTitle}
-            />
-            <Content>Policy and privacy</Content>
-          </Button>
-        </View>
-
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('Login');
-            }}
-            style={styles.button1}
-          >
-            <Image
-              source={power}
-              style={{ height: 15, width: 15, marginHorizontal: 10 }}
-            />
-            <Text style={styles.buttonText1}>Log out</Text>
-          </TouchableOpacity>
-        </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Login');
+              }}
+              style={styles.button1}
+            >
+              <Image
+                source={power}
+                style={{ height: 15, width: 15, marginHorizontal: 10 }}
+              />
+              <Text style={styles.buttonText1}>Log out</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </Container>
 
       {/* Modal PaP */}
@@ -284,7 +289,6 @@ const styles = StyleSheet.create({
   feature: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: '22%',
   },
   buttonUser: {
     justifyContent: 'flex-start',

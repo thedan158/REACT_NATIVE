@@ -15,7 +15,7 @@ import Colors from '../assets/Colors';
 import back from '../assets/icons/back-green.png';
 import CustomTextInput from '../custom component/CustomTextInput';
 import { useNavigation } from '@react-navigation/core';
-import del from '../assets/icons/delete.png';
+import del_light from '../assets/icons/delete_light.png';
 import CustomModal from '../custom component/CustomModal';
 import gallery from '../assets/icons/picture.png';
 
@@ -160,7 +160,7 @@ const EditMenuScreen = ({ route }) => {
               style={styles.buttonDelete}
             >
               <Image
-                source={del}
+                source={del_light}
                 style={{ height: 15, width: 15, marginHorizontal: 10 }}
               />
               <Text style={styles.buttonTextDelete}>Delete</Text>
