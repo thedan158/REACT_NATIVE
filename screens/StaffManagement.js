@@ -95,7 +95,7 @@ const StaffManagement = () => {
       >
         <TouchableOpacity
           style={{ position: 'absolute', left: '-25%' }}
-          onPress={() => navigation.navigate('EditStaffProfile')}
+          onPress={() => navigation.navigate('StaffInformation', { item })}
         >
           <Image
             style={{

@@ -19,7 +19,7 @@ import Colors from '../assets/Colors';
 import * as ImagePicker from 'expo-image-picker';
 import background from '../assets/images/background.png';
 import CustomModal from '../custom component/CustomModal';
-import del from '../assets/icons/delete.png';
+import del from '../assets/icons/delete_light.png';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
