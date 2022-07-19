@@ -10,22 +10,22 @@ import {
   KeyboardAvoidingView,
   FlatList,
   Dimensions,
-} from 'react-native';
-import React, { useState, useEffect } from 'react';
-import { useNavigation } from '@react-navigation/core';
-import add from '../assets/icons/add.png';
-import Colors from '../assets/Colors';
-import { useSelector } from 'react-redux';
-import styled, { ThemeProvider } from 'styled-components';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import waiter_light from '../assets/icons/waiter_light.png';
-import waiter_dark from '../assets/icons/waiter_dark.png';
-import chef_light from '../assets/icons/chef_light.png';
-import chef_dark from '../assets/icons/chef_dark.png';
+} from "react-native";
+import React, { useState, useEffect } from "react";
+import { useNavigation, useIsFocused } from "@react-navigation/core";
+import add from "../assets/icons/add.png";
+import Colors from "../assets/Colors";
+import { useSelector } from "react-redux";
+import styled, { ThemeProvider } from "styled-components";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import waiter_light from "../assets/icons/waiter_light.png";
+import waiter_dark from "../assets/icons/waiter_dark.png";
+import chef_light from "../assets/icons/chef_light.png";
+import chef_dark from "../assets/icons/chef_dark.png";
 
-const windowWidth = Dimensions.get('window').width;
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
+const windowWidth = Dimensions.get("window").width;
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 const ModalPopup = ({ visible, children }) => {
   const [showModal, setShowModal] = React.useState(visible);
@@ -40,10 +40,11 @@ const ModalPopup = ({ visible, children }) => {
 var CHEF = [],
   WAITER = [];
 const StaffManagement = () => {
+  const isFocus = useIsFocused();
   const [masterData, setMasterData] = useState([]);
   const [WaiterData, setWaiterData] = useState([]);
   const [ChefData, setChefData] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
+
   const Tab = createMaterialTopTabNavigator();
   const navigation = useNavigation();
   const theme = useSelector((state) => state.themeReducer.theme);
@@ -51,9 +52,9 @@ const StaffManagement = () => {
   useEffect(() => {
     const getData = async () => {
       (CHEF = []), (WAITER = []);
-      const userLoginData = await AsyncStorage.getItem('userLoginData');
+      const userLoginData = await AsyncStorage.getItem("userLoginData");
       const user = JSON.parse(userLoginData);
-      console.log('username: ' + user.username);
+      console.log("username: " + user.username);
       const res = await axios.get(
         `https://foody-uit.herokuapp.com/auth/getAllUser/${user.username}`
       );
@@ -62,25 +63,25 @@ const StaffManagement = () => {
       console.log(success);
       if (success) {
         for (let i = 0; i < message.length; i++) {
-          if (message[i].role == 'chef') {
+          if (message[i].role == "chef") {
             CHEF.push(message[i]);
-          } else if (message[i].role == 'waiter') {
+          } else if (message[i].role == "waiter") {
             WAITER.push(message[i]);
           }
         }
         setWaiterData(WAITER);
         setChefData(CHEF);
-        setRefreshing(false);
-        console.log('filteredData is all selected');
+
+        console.log("filteredData is all selected");
       } else {
         setWaiterData([]);
         setChefData([]);
-        setRefreshing(false);
-        console.log('filteredData is all selected');
+
+        console.log("filteredData is all selected");
       }
     };
     getData().catch((err) => console.log(err));
-  }, [refreshing]);
+  }, [isFocus]);
   // flat list view
 
   const FlatListItem = ({ item }) => {
@@ -89,13 +90,13 @@ const StaffManagement = () => {
       <TouchableOpacity
         style={[
           styles.TouchableOpacity,
-          { borderBottomColor: theme.mode === 'light' ? '#e0e0e0' : '#3D3C3F' },
+          { borderBottomColor: theme.mode === "light" ? "#e0e0e0" : "#3D3C3F" },
         ]}
-        onPress={() => navigation.navigate('StaffInformation', { item })}
+        onPress={() => navigation.navigate("StaffInformation", { item })}
       >
         <TouchableOpacity
-          style={{ position: 'absolute', left: '-25%' }}
-          onPress={() => navigation.navigate('StaffInformation', { item })}
+          style={{ position: "absolute", left: "-25%" }}
+          onPress={() => navigation.navigate("StaffInformation", { item })}
         >
           <Image
             style={{
@@ -106,16 +107,16 @@ const StaffManagement = () => {
             source={{
               uri:
                 item.imagePath ||
-                'https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fgood.png?alt=media&token=de139437-3a20-4eb3-ba56-f6a591779d15',
+                "https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fgood.png?alt=media&token=de139437-3a20-4eb3-ba56-f6a591779d15",
             }}
           />
         </TouchableOpacity>
 
         <View
           style={{
-            justifyContent: 'center',
+            justifyContent: "center",
 
-            width: '65%',
+            width: "65%",
           }}
         >
           <Content style={styles.textName}>{item.username}</Content>
@@ -139,7 +140,7 @@ const StaffManagement = () => {
 
           {/* add and create account for new staff  */}
           <TouchableOpacity
-            onPress={() => navigation.navigate('CreateStaffAccount')}
+            onPress={() => navigation.navigate("CreateStaffAccount")}
           >
             <Image source={add} style={styles.add} />
           </TouchableOpacity>
@@ -149,17 +150,17 @@ const StaffManagement = () => {
 
         {/* List waiter  */}
         <View
-          style={{ justifyContent: 'center', alignItems: 'center', margin: 10 }}
+          style={{ justifyContent: "center", alignItems: "center", margin: 10 }}
         >
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginLeft: '5%',
+              flexDirection: "row",
+              alignItems: "center",
+              marginLeft: "5%",
             }}
           >
             <Image
-              source={theme.mode === 'light' ? waiter_light : waiter_dark}
+              source={theme.mode === "light" ? waiter_light : waiter_dark}
               style={styles.iconHeader}
             />
             <Content style={styles.textWaiter}>Waiters</Content>
@@ -177,17 +178,17 @@ const StaffManagement = () => {
 
         {/* List chef  */}
         <View
-          style={{ justifyContent: 'center', alignItems: 'center', margin: 10 }}
+          style={{ justifyContent: "center", alignItems: "center", margin: 10 }}
         >
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginLeft: '5%',
+              flexDirection: "row",
+              alignItems: "center",
+              marginLeft: "5%",
             }}
           >
             <Image
-              source={theme.mode === 'light' ? chef_light : chef_dark}
+              source={theme.mode === "light" ? chef_light : chef_dark}
               style={styles.iconHeader}
             />
             <Content style={styles.textWaiter}>Chefs</Content>
@@ -200,10 +201,6 @@ const StaffManagement = () => {
             keyExtractor={(item) => item.id}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
-            refreshing={refreshing}
-            onRefresh={() => {
-              setRefreshing(true);
-            }}
           />
         </View>
       </ScrollView>
@@ -225,22 +222,22 @@ const styles = StyleSheet.create({
   iconHeader: {
     width: 20,
     height: 20,
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     margin: 10,
   },
 
   containerItemFlatList: {
     width: windowWidth - 40,
-    height: '100%',
-    paddingHorizontal: '5%',
-    backgroundColor: '#FFFFFF',
+    height: "100%",
+    paddingHorizontal: "5%",
+    backgroundColor: "#FFFFFF",
     paddingTop: 0,
-    marginVertical: '2%',
-    alignSelf: 'center',
-    justifyContent: 'center',
+    marginVertical: "2%",
+    alignSelf: "center",
+    justifyContent: "center",
     borderRadius: 15,
-    paddingBottom: '1.5%',
-    shadowColor: '#000',
+    paddingBottom: "1.5%",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -254,45 +251,45 @@ const styles = StyleSheet.create({
   icon: {
     width: 18,
     height: 18,
-    position: 'absolute',
+    position: "absolute",
     right: 30,
-    top: '30%',
+    top: "30%",
   },
   textName: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   view1: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: Colors.secondary,
-    textAlign: 'left',
+    textAlign: "left",
     marginLeft: 20,
     marginTop: 30,
   },
   editText: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: Colors.secondary,
-    textAlignVertical: 'center',
+    textAlignVertical: "center",
     marginTop: 30,
     left: -10,
   },
   editBox: {
-    flexDirection: 'row',
-    position: 'relative',
+    flexDirection: "row",
+    position: "relative",
     left: 160,
   },
   pencil: {
     height: 18,
     width: 18,
     left: 0,
-    alignSelf: 'center',
+    alignSelf: "center",
     marginTop: 30,
   },
   containerSearchLayout: {
@@ -301,11 +298,11 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginRight: 10,
     borderWidth: 1,
-    borderColor: '#FFF',
-    backgroundColor: '#F3F3F3',
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignContent: 'center',
+    borderColor: "#FFF",
+    backgroundColor: "#F3F3F3",
+    flexDirection: "row",
+    alignItems: "center",
+    alignContent: "center",
     padding: 0,
     marginTop: 20,
   },
@@ -321,17 +318,17 @@ const styles = StyleSheet.create({
     width: 16,
   },
   containerTemp: {
-    flexDirection: 'column',
+    flexDirection: "column",
 
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   textWaiter: {
     fontSize: 20,
 
-    position: 'relative',
+    position: "relative",
 
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   add: {
     marginTop: 30,
@@ -339,54 +336,54 @@ const styles = StyleSheet.create({
   },
   modalBackground: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "rgba(0,0,0,0.3)",
+    justifyContent: "center",
+    alignItems: "center",
   },
   modalContainer: {
     height: 600,
-    width: '90%',
-    backgroundColor: 'white',
+    width: "90%",
+    backgroundColor: "white",
     paddingHorizontal: 20,
     paddingVertical: 30,
     borderRadius: 20,
     elevation: 20,
   },
   header: {
-    width: '100%',
+    width: "100%",
     height: 20,
-    alignItems: 'flex-end',
-    justifyContent: 'center',
+    alignItems: "flex-end",
+    justifyContent: "center",
   },
   modalTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: Colors.secondary,
-    textAlignVertical: 'center',
+    textAlignVertical: "center",
     marginTop: 40,
-    textAlign: 'center',
+    textAlign: "center",
   },
   button: {
     backgroundColor: Colors.secondary,
-    width: '100%',
+    width: "100%",
     padding: 15,
     borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     elevation: 1,
     marginTop: 50,
   },
   buttonText: {
-    color: 'white',
-    fontWeight: '700',
+    color: "white",
+    fontWeight: "700",
     fontSize: 16,
   },
   TouchableOpacity: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     width: windowWidth * 0.7,
     height: 80,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     borderBottomWidth: 1,
     marginLeft: 80,
     // borderBottomColor: '#e0e0e0',
