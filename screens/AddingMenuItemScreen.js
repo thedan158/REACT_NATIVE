@@ -267,6 +267,7 @@ const AddingMenuItemScreen = () => {
             <TouchableOpacity
               onPress={() => {
                 setVisible(false);
+                navigation.goBack();
               }}
               style={styles.button}
             >

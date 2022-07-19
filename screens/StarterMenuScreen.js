@@ -16,44 +16,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { render } from 'react-dom';
 
-// --------------- item data ----------------
-const DATA = [
-  {
-    id: '1',
-    name: 'The Macdonalds',
-    detail: 'classic chesse buger',
-    price: '4.99',
-    imgSource: require('../assets/images/crispy-chicken-burger.jpg'),
-  },
-  {
-    id: '2',
-    name: 'The Macdonalds',
-    detail: 'classic chesse buger',
-    price: '5.99',
-    imgSource: require('../assets/images/crispy-chicken-burger.jpg'),
-  },
-  {
-    id: '3',
-    name: 'The Macdonalds',
-    detail: 'classic chesse buger',
-    price: '6.99',
-    imgSource: require('../assets/images/crispy-chicken-burger.jpg'),
-  },
-  {
-    id: '4',
-    name: 'Sushi',
-    detail: 'classic chesse buger',
-    price: '7.99',
-    imgSource: require('../assets/images/crispy-chicken-burger.jpg'),
-  },
-  {
-    id: '5',
-    name: 'Cơm rang',
-    detail: 'Ngon vl chứ còn cc j nữa',
-    price: '8.99',
-    imgSource: require('../assets/images/1512474034-837-bua-sang-chac-da-voi-com-chien-ca-hoi-mem-toi-bo-duong-_mg_8357-1512473926-width660height440.jpg'),
-  },
-];
 
 const imgBtnOrange = require('../assets/icons/ButtonOrange.png');
 // ------------------Flatlist item Render layout----------------------

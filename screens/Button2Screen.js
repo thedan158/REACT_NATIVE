@@ -18,6 +18,7 @@ import Colors from "../assets/Colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import back from "../assets/icons/back-green.png";
+import { useIsFocused } from "@react-navigation/core";
 
 
 const maxWidthConst = windowWidth - 10;
@@ -33,6 +34,7 @@ const imgSearchSource = require("../assets/icons/search.png");
 
 
 const Button2Screen = ({ navigation }) => {
+  const isFocus = useIsFocused();
   const [search, setSearch] = useState("");
   const [masterData, setMasterData] = useState([]);
   const [dataFromState, setNewData] = useState([]);
@@ -67,7 +69,7 @@ const Button2Screen = ({ navigation }) => {
       setRefreshing(false);
     };
     getData().catch((err) => console.log(err));
-  }, []);
+  }, [isFocus]);
 
   const searchFilterFunction = (text) => {
     if (text) {

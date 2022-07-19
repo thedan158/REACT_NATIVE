@@ -17,75 +17,14 @@ import { useNavigation } from "@react-navigation/core";
 const SearchIconResouce = require("../assets/icons/search.png");
 const FillterIconResouce = require("../assets/icons/fillter.png");
 
-const DataTable = [
-  {
-    id: 1,
-    name: "Table 1",
-    imgSourceSelected: require("../assets/icons/TableOrange.png"),
-    imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: true,
-  },
-  {
-    id: 2,
-    name: "Table 2",
-    imgSourceSelected: require("../assets/icons/TableOrange.png"),
-    imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: false,
-  },
-  {
-    id: 3,
-    name: "Table 3",
-    imgSourceSelected: require("../assets/icons/TableOrange.png"),
-    imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: true,
-  },
-  {
-    id: 4,
-    name: "Table 4",
-    imgSourceSelected: require("../assets/icons/TableOrange.png"),
-    imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: true,
-  },
-  {
-    id: 5,
-    name: "Table 5",
-    imgSourceSelected: require("../assets/icons/TableOrange.png"),
-    imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: true,
-  },
-  {
-    id: 6,
-    name: "Table 6",
-    imgSourceSelected: require("../assets/icons/TableOrange.png"),
-    imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: true,
-  },
-  {
-    id: 7,
-    name: "Table 7",
-    imgSourceSelected: require("../assets/icons/TableOrange.png"),
-    imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: true,
-  },
-  {
-    id: 8,
-    name: "Table 8",
-    imgSourceSelected: require("../assets/icons/TableOrange.png"),
-    imgSourceEmpty: require("../assets/icons/TableGray.png"),
-    isUse: false,
-  },
-];
-
-const SelectedTable = () => {
+const SelectedTable = ({ navigation }) => {
   const FlatlistItemFunctions = ({ item }) => {
     if (item.isBusy === true) {
       return (
         <View>
           <TouchableOpacity
             disabled={true}
-            onPress={() => {
-              handleOnPressTable(item.id);
-            }}
+            onPress={() => navigation.navigate("Order", { item })}
             style={styles.flatlistitemStyleInUse}
           >
             <View>
@@ -103,9 +42,7 @@ const SelectedTable = () => {
     return (
       <View>
         <TouchableOpacity
-          onPress={() => {
-            handleOnPressTable(item.id);
-          }}
+          onPress={() => navigation.navigate("Order", { item })}
           style={styles.flatlistitemStyle}
         >
           <View>
@@ -123,13 +60,7 @@ const SelectedTable = () => {
   const [masterData, setMasterData] = useState([]);
   const [dataFromState, setNewData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-  const navigation = useNavigation();
 
-  const handleOnPressTable = async (id) => {
-    await AsyncStorage.setItem("tableID", id);
-    console.log("id sent: " + id);
-    navigation.goBack();
-  };
   useEffect(() => {
     const getData = async () => {
       const userLoginData = await AsyncStorage.getItem("userLoginData");
