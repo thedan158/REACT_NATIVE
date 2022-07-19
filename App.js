@@ -176,12 +176,6 @@ export default function App() {
 
           <Stack.Screen
             options={{ headerShown: false }}
-            name="TabForStaff"
-            component={TabForStaff}
-          />
-
-          <Stack.Screen
-            options={{ headerShown: false }}
             name="AccountForOwner"
             component={AccountForOwner}
           />

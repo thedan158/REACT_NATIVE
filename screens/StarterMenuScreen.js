@@ -15,6 +15,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { render } from 'react-dom';
+import styled, { ThemeProvider } from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
 
 
 const imgBtnOrange = require('../assets/icons/ButtonOrange.png');
@@ -22,9 +24,11 @@ const imgBtnOrange = require('../assets/icons/ButtonOrange.png');
 
 const StarterMenuScreen = () => {
   const navigation = useNavigation();
-
-  const btnCloseResource = require('../assets/icons/close.png');
-  const btnFillterResource = require('../assets/icons/fillter.png');
+  const theme = useSelector((state) => state.themeReducer.theme);
+  const IcCloseDark = require('../assets/icons/CancelDark.png');
+  const IcCloseLight = require('../assets/icons/cancelLight.png');
+  const FillterIconResouce = require('../assets/icons/fillter.png');
+  const FillterDarkTheme = require('../assets/icons/FillterDark.png');
 
   const [search, setSearch] = useState('');
   const [masterData, setMasterData] = useState([]);
@@ -157,11 +161,20 @@ const StarterMenuScreen = () => {
         </View>
 
         {/* Item detail section */}
-        <View>
-          <Text style={styles.txtNameItemFlatlist}>{item.name}</Text>
-          {/* <Text style={styles.txtDetailItemFlatlist}>{item.detail}</Text> */}
-          <Text style={styles.txtPriceItemFlatlist}>${item.price}</Text>
-        </View>
+        {theme.mode === 'light' ? (
+            <View>
+                <Text style={styles.txtNameItemFlatlist}>{item.name}</Text>
+              {/* <Text style={styles.txtDetailItemFlatlist}>{item.detail}</Text> */}
+              <Text style={styles.txtPriceItemFlatlist}>${item.price}</Text>
+            </View>
+          ) : (
+            <View>
+              <Text style={styles.txtNameItemFlatlistDarkTheme}>{item.name}</Text>
+              {/* <Text style={styles.txtDetailItemFlatlistDarkTheme}>{item.detail}</Text> */}
+              <Text style={styles.txtPriceItemFlatlist}>${item.price}</Text>
+            </View>
+
+          )}
 
         {/* Btn adjust section */}
         <View style={styles.containerBtnAdjust}>
@@ -174,7 +187,11 @@ const StarterMenuScreen = () => {
             </ImageBackground>
           </TouchableOpacity>
 
-          <Text style={styles.txtQuantityItem}> {counter} </Text>
+          {theme.mode === 'light' ? (
+               <Text style={styles.txtQuantityItem}> {counter} </Text>
+            ) : (
+              <Text style={styles.txtQuantityItemDarkTheme}> {counter} </Text>
+            )}
           <TouchableOpacity onPress={BtnAddPress}>
             <ImageBackground
               source={imgBtnOrange}
@@ -189,34 +206,54 @@ const StarterMenuScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.droidSafeArea}>
+    <ThemeProvider theme={theme}>
+      <Container>
       {/* --------------------------Header title section (1st section)----------------------------- */}
-      <View style={styles.container_header}>
-        <Text style={styles.txtTitle}>Starter</Text>
+      <ContainerHeader>
+        <ContentHeader>Starter</ContentHeader>
         <TouchableOpacity
           onPress={() => {
             navigation.goBack();
           }}
           style={styles.imgBtnCloseStyle}
         >
+          
           <Image source={btnCloseResource} />
         </TouchableOpacity>
-      </View>
+      </ContainerHeader>
 
       {/* ----------------------Search and pick-up item section (2nd section)---------------------- */}
-      <ScrollView style={styles.scrollviewStyle}>
+      <Container2ndSection>
         {/* ---------------Search section layout--------------- */}
-        <View style={styles.containerSearchView}>
-          <TextInput
-            style={styles.txtInpSearch}
-            value={search}
-            onChangeText={(text) => searchFilterFunction(text)}
-            placeholder="Search..."
-          />
+        <ContainerSearchFill>
+            {theme.mode === 'light' ? (
+               <TextInput
+               style={styles.txtInpSearch}
+               value={search}
+               onChangeText={(text) => searchFilterFunction(text)}
+               placeholder="Search..."
+                placeholderTextColor="#8A8A8A"
+             />
+
+            ) : (
+              <TextInput
+              style={styles.txtInpSearchDark}
+              value={search}
+              onChangeText={(text) => searchFilterFunction(text)}
+              placeholder="Search..."
+              placeholderTextColor="#8A8A8A"
+            />
+            )}
+
+         
           <TouchableOpacity style={styles.imaBtnFillter}>
-            <Image source={btnFillterResource} />
+            {theme.mode === 'light' ? (
+                    <Image source={FillterIconResouce} style={styles.imgIconFillter} />
+                  ) : (
+                    <Image source={FillterDarkTheme} style={styles.imgIconFillter} />
+                  )}
           </TouchableOpacity>
-        </View>
+        </ContainerSearchFill>
 
         {/* ----------------List item section----------------- */}
         <FlatList
@@ -233,12 +270,53 @@ const StarterMenuScreen = () => {
             <Text style={styles.txtBtnApply}>Apply</Text>
           </View>
         </TouchableOpacity>
-      </ScrollView>
-    </SafeAreaView>
+      </Container2ndSection>
+    </Container>
+    </ThemeProvider>
+    
   );
 };
 
 export default StarterMenuScreen;
+
+const Container = styled.View`
+  flex: 1;
+  justify-content: center;
+  elevation: 8;
+  background-color: ${(props) => props.theme.PRIMARY_BACKGROUND_ACCOUNT_COLOR};
+  padding-top: 7%;
+`
+const ContainerHeader = styled.View`
+  height: 70;
+  flex-direction: row;
+  background-color: ${(props) => props.theme.PRIMARY_BACKGROUND_ACCOUNT_COLOR};
+  justify-content: space-between;
+
+`
+const ContentHeader = styled.Text`
+  margin-left: 30;
+  justify-content: center;
+  color: ${(props) => props.theme.PRIMARY_TEXT_COLOR};
+  align-items: center;
+  align-self: center;
+  font-size: 25;
+  font-weight: bold;
+`
+const Container2ndSection = styled.ScrollView`
+  background-color: ${(props) => props.theme.PRIMARY_BACKGROUND_ACCOUNT_COLOR};
+  flex-direction: column;
+  flex: 1;
+`
+const ContainerSearchFill = styled.View`
+  height: 100;
+  flex-direction: row;
+  background-color: ${(props) => props.theme.PRIMARY_BACKGROUND_ACCOUNT_COLOR};
+  justify-content: space-between;
+  align-items: center;
+  align-self: center;
+  margin-top: -20;
+`
+
 
 const styles = StyleSheet.create({
   droidSafeArea: {
@@ -259,7 +337,7 @@ const styles = StyleSheet.create({
   containerSearchView: {
     height: 100,
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: '#000',
     justifyContent: 'space-between',
     alignItems: 'center',
     alignSelf: 'center',
@@ -317,7 +395,13 @@ const styles = StyleSheet.create({
   },
   txtQuantityItem: {
     fontSize: 16,
-    marginHorizontal: '2%',
+    marginHorizontal: "2%",
+    color: "#3D3D3D",
+  },
+  txtQuantityItemDarkTheme: {
+    fontSize: 16,
+    marginHorizontal: "2%",
+    color: "#fff",
   },
   txtTitle: {
     marginLeft: 30,
@@ -342,8 +426,21 @@ const styles = StyleSheet.create({
     borderColor: '#E1D9D1',
     paddingLeft: 25,
     fontSize: 18,
+    color: "#8A8A8A",
+  },
 
-    color: '#000000',
+  txtInpSearchDark:{
+    marginLeft: 10,
+    height: 55,
+    marginRight: 10,
+    width: 280,
+    backgroundColor: '#313133',
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#E1D9D1',
+    paddingLeft: 25,
+    fontSize: 18,
+    color: "#8A8A8A",
   },
   txtDetailItemFlatlist: {
     fontSize: 12,
@@ -353,6 +450,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#3D3D3D',
     fontWeight: 'bold',
+  },
+  txtNameItemFlatlistDarkTheme: {
+    fontSize: 16,
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  txtDetailItemFlatlistDarkTheme: {
+    fontSize: 12,
+    color: "#fff",
   },
   txtPriceItemFlatlist: {
     fontSize: 18,
