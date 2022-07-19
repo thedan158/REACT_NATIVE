@@ -12,8 +12,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../assets/Colors';
 import { useNavigation } from '@react-navigation/core';
 import ModalListFood from '../custom component/ModalListFood';
-import UserDarkTheme from '../assets/icons/userBlack.png';
-import UserLightTheme from '../assets/icons/userWhite.png';
+import UserDarkTheme from '../assets/icons/personal_dark.png';
+import UserLightTheme from '../assets/icons/personal_light.png';
 
 import styled, { ThemeProvider } from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';

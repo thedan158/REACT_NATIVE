@@ -14,8 +14,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/core";
 
-const SearchIconResouce = require("../assets/icons/search.png");
-const FillterIconResouce = require("../assets/icons/fillter.png");
+import styled, { ThemeProvider } from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+
+const SearchIconResouce = require("../assets/icons/SearchGray.png");
+const FillterIconResouce = require('../assets/icons/fillter.png');
+const FillterDarkTheme = require('../assets/icons/FillterDark.png');
 
 const DataTable = [
   {
@@ -125,6 +129,8 @@ const SelectedTable = () => {
   const [refreshing, setRefreshing] = useState(false);
   const navigation = useNavigation();
 
+  const theme = useSelector((state) => state.themeReducer.theme);
+
   const handleOnPressTable = async (id) => {
     await AsyncStorage.setItem("tableID", id);
     console.log("id sent: " + id);
@@ -169,50 +175,91 @@ const SelectedTable = () => {
 
   return (
     // Root View
-    <ScrollView style={styles.container}>
-      <View style={styles.containerTop}>
-        <Text style={styles.txtHeaderView}>SELECT TABLE</Text>
-        <View style={styles.containerTemp}>
-          <View style={styles.containerSearchLayout}>
-            <TouchableOpacity style={styles.btnSearch}>
-              <Image source={SearchIconResouce} style={styles.imgIconSearch} />
-            </TouchableOpacity>
-            <TextInput
-              value={search}
-              onChangeText={(text) => searchFilterFunction(text)}
-              style={styles.txtSearchBar}
-              placeholder={"Search Table..."}
-            />
-          </View>
+    <ThemeProvider theme={theme}>
+      <Container>
+        <View style={styles.containerTop}>
+          <Text style={styles.txtHeaderView}>SELECT TABLE</Text>
+          <View style={styles.containerTemp}>
+            <ContainerSearch>
+              <TouchableOpacity style={styles.btnSearch}>
+                <Image
+                  source={SearchIconResouce}
+                  style={styles.imgIconSearch}
+                />
+              </TouchableOpacity>
+              <TextInput
+                value={search}
+                onChangeText={(text) => searchFilterFunction(text)}
+                style={styles.txtSearchBar}
+                placeholder={"Search Table..."}
+                placeholderTextColor="#8A8A8A"
+              />
+            </ContainerSearch>
 
-          <TouchableOpacity style={styles.btnImgFillter}>
-            <Image source={FillterIconResouce} style={styles.imgIconFillter} />
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.btnImgFillter}>
+              {theme.mode === 'light' ? (
+                  <Image source={FillterIconResouce} style={styles.imgIconFillter} />
+                ) : (
+                  <Image source={FillterDarkTheme} style={styles.imgIconFillter} />
+                )}
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-      <View style={styles.containerBottom}>
-        <FlatList
-          refreshing={refreshing}
-          data={dataFromState}
-          renderItem={({ item, index }) => {
-            return (
-              <FlatlistItemFunctions
-                item={item}
-                index={index}
-              ></FlatlistItemFunctions>
-            );
-          }}
-          keyExtractor={(item) => item.id}
-          nestedScrollEnabled
-          numColumns={2}
-          onRefresh={() => setRefreshing(true)}
-        />
-      </View>
-    </ScrollView>
+        <ContainerBottom>
+          <FlatList
+            refreshing={refreshing}
+            data={dataFromState}
+            renderItem={({ item, index }) => {
+              return (
+                <FlatlistItemFunctions
+                  item={item}
+                  index={index}
+                ></FlatlistItemFunctions>
+              );
+            }}
+            keyExtractor={(item) => item.id}
+            nestedScrollEnabled
+            numColumns={2}
+            onRefresh={() => setRefreshing(true)}
+          />
+        </ContainerBottom>
+      </Container>
+    </ThemeProvider>
   );
 };
 
 export default SelectedTable;
+
+const Container = styled.ScrollView`
+  background-color: ${(props) => props.theme.PRIMARY_BACKGROUND_ACCOUNT_COLOR};
+  flex: 1;
+`;
+
+const ContainerSearch = styled.View`
+  width: 280;
+  height: 50;
+  border-radius: 15;
+  margin-right: 10;
+  border-width: 1;
+  border-color: #a09a99;
+  background-color: ${(props) => props.theme.PRIMARY_BACKGROUND_ACCOUNT_COLOR};
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  padding: 0;
+`;
+const ContainerBottom = styled.View`
+  border-topLeftRadius: 30;
+  border-topRightRadius: 30;
+  border-color: #808080;
+  background-color:  ${(props) => props.theme.PRIMARY_BACKGROUND_ACCOUNT_COLOR};
+  justify-content: center;
+  align-items: center;
+  margin-top: -40;
+  padding-top: 20;
+  padding-left: 10;
+
+`;
 
 const styles = StyleSheet.create({
   container: {
@@ -240,7 +287,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   txtSearchBar: {
-    color: "#000000",
+    color: "#8A8A8A",
   },
   txtHeaderView: {
     fontSize: 30,
