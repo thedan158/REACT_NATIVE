@@ -169,9 +169,9 @@ export default function App() {
             component={TabForOwner}
           />
           <Stack.Screen
-            options={{ headerShown: false }}
-            name="TabForStaff"
-            component={TabForStaff}
+            name="StaffInformation"
+            component={StaffInformation}
+            options={{ ...customTransition, headerShown: false }}
           />
 
           <Stack.Screen
@@ -261,12 +261,6 @@ export default function App() {
             options={{ headerShown: false }}
             name="CheckOutTableScreen"
             component={CheckOutTableScreen}
-          />
-
-          <Stack.Screen
-            name="StaffInformation"
-            component={StaffInformation}
-            options={{ ...customTransition, headerShown: false }}
           />
 
           <Stack.Screen

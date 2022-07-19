@@ -15,6 +15,7 @@ import React, { useState, useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { useIsFocused } from "@react-navigation/core";
 
 const maxWidthConst = windowWidth - 10;
 const imgAddItem = require("../assets/icons/AddItem.png");
@@ -27,10 +28,10 @@ const maxWidth40 = windowWidth - 30;
 const imgSearchSource = require("../assets/icons/search.png");
 
 const Button3Screen = ({ navigation }) => {
+  const isFocus = useIsFocused();
   const [search, setSearch] = useState("");
   const [masterData, setMasterData] = useState([]);
   const [dataFromState, setNewData] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(false);
 
   useEffect(() => {
@@ -59,10 +60,9 @@ const Button3Screen = ({ navigation }) => {
       console.log("filteredData is all selected");
       setNewData(message);
       setMasterData(message);
-      setRefreshing(false);
     };
     getData().catch((err) => console.log(err));
-  }, [refreshing]);
+  }, [isFocus]);
 
   const searchFilterFunction = (text) => {
     if (text) {
@@ -203,8 +203,6 @@ const Button3Screen = ({ navigation }) => {
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
-          refreshing={refreshing}
-          onRefresh={() => setRefreshing(true)}
         />
       </View>
     </LinearGradient>

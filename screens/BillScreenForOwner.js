@@ -15,7 +15,7 @@ const imgAddItem = require('../assets/icons/AddItem.png');
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import MessageQueue from 'react-native/Libraries/BatchedBridge/MessageQueue';
-
+import { useIsFocused } from '@react-navigation/core';
 import styled, { ThemeProvider } from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import themeReducer from '../redux/themeReducer';
@@ -24,6 +24,7 @@ const SearchIconResouce = require('../assets/icons/SearchGray.png');
 
 
 const BillScreenForOwner = ({ navigation }) => {
+  const isFocus = useIsFocused();
   const [search, setSearch] = useState('');
   const [masterData, setMasterData] = useState([]);
   const [dataFromState, setNewData] = useState([]);
@@ -98,7 +99,7 @@ const BillScreenForOwner = ({ navigation }) => {
       console.log('filteredData is all selected');
     };
     getData().catch((err) => console.log(err));
-  }, [refreshing]);
+  }, [isFocus]);
   const searchFilterFunction = (text) => {
     if (text) {
       const newData = masterData.filter(function (item) {

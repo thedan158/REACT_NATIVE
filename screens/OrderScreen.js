@@ -34,94 +34,18 @@ const deviceHeight = Dimensions.get("window").height;
 
 // TODO fix the Scrollview with flatlist
 
-const DATA = [
-  {
-    id: "1",
-    name: "Rồng 7 Món",
-    quantity: "1",
-  },
-  {
-    id: "2",
-    name: "Choáng váng thần dược",
-    quantity: "2",
-  },
-  {
-    id: "3",
-    name: "Ốc Luộc",
-    quantity: "1",
-  },
-];
+const OrderScreen = ({ route, navigation }) => {
+  const { item } = route?.params || {};
+  console.log("item:", item);
 
-const OrderScreen = () => {
-  const [search, setSearch] = useState("");
-  const [masterData, setMasterData] = useState([]);
+
   const [dataStarter, setNewStarter] = useState([]);
   const [dataMainCourse, setNewMainCourse] = useState([]);
   const [dataDrink, setNewDrink] = useState([]);
-  const [selected, setIsSelected] = useState("Select Table");
+  const [selected, setIsSelected] = useState(item?.name || "Select Table");
   const [refreshing, setRefreshing] = useState(false);
 
   const theme = useSelector((state) => state.themeReducer.theme);
-
-  var STARTER = [],
-    MAINCOURSE = [],
-    DESSERT = [];
-  useEffect(() => {
-    const getData = async () => {
-      (STARTER = []), (MAINCOURSE = []), (DESSERT = []);
-      const id = await AsyncStorage.getItem("tableID");
-      console.log("oke");
-      console.log(id);
-      if (!id) {
-        setIsSelected("Select your table");
-      }
-      if (id) {
-        const resOrderID = await axios.post(
-          `https://foody-uit.herokuapp.com/order/getCurrentOrderID`,
-          {
-            tableID: id,
-          }
-        );
-        const orderID = resOrderID.data.message;
-        console.log("orderID: " + orderID);
-        const res = await axios.post(
-          `https://foody-uit.herokuapp.com/orderInfo/getOrderInfo`,
-          {
-            orderID: orderID,
-          }
-        );
-        const { success, message } = res.data;
-        console.log(message);
-        console.log("success " + success);
-        if (success) {
-          for (let i = 0; i < message.length; i++) {
-            if (message[i].foodType == "Starter") {
-              STARTER.push(message[i]);
-            } else if (message[i].foodType == "Main course") {
-              MAINCOURSE.push(message[i]);
-            } else {
-              DESSERT.push(message[i]);
-            }
-          }
-          setNewStarter(STARTER);
-          setNewMainCourse(MAINCOURSE);
-          setNewDrink(DESSERT);
-
-          setRefreshing(false);
-        } else {
-          console.log("None");
-          setNewStarter([]);
-          setNewMainCourse([]);
-          setNewDrink([]);
-
-          setRefreshing(false);
-        }
-      }
-    };
-    getData().catch((err) => console.log(err));
-  }, [refreshing]);
-
-  const navigation = useNavigation();
   const insets = useSafeAreaInsets();
 
   const handleStarterMenu = () => {
@@ -148,15 +72,15 @@ const OrderScreen = () => {
     return <AppLoading />;
   }
 
-  const FlatlistItem = ({item}) =>  {
-      return (
-        <View style={styles.flatlistitemStyle}>
-          <ContentFlatListItem>{item.quantity}</ContentFlatListItem>
-          <ContentFlatListItem>x</ContentFlatListItem>
-          <ContentFlatListItem>{item.name}</ContentFlatListItem>
-        </View>
-      );
-  }
+  const FlatlistItem = ({ item }) => {
+    return (
+      <View style={styles.flatlistitemStyle}>
+        <ContentFlatListItem>{item.quantity}</ContentFlatListItem>
+        <ContentFlatListItem>x</ContentFlatListItem>
+        <ContentFlatListItem>{item.name}</ContentFlatListItem>
+      </View>
+    );
+  };
 
   return (
     //   Root view
@@ -451,7 +375,6 @@ const ContentInputMessage = styled.TextInput`
   color: ${(props) => props.theme.PRIMARY_TEXT_COLOR};
 `;
 const ContentFlatListItem = styled.Text`
-  margin: 5;
   color: ${(props) => props.theme.PRIMARY_TEXT_COLOR};
 `;
 

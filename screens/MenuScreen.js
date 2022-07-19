@@ -16,6 +16,7 @@ import Colors from "../assets/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { useIsFocused } from "@react-navigation/core";
 
 const maxWidthConst = windowWidth - 10;
 const imgAddItem = require("../assets/icons/AddItem.png");
@@ -28,10 +29,10 @@ const maxWidth40 = windowWidth - 30;
 const imgSearchSource = require("../assets/icons/search.png");
 
 const MenuScreen = ({ navigation }) => {
+  const isFocus = useIsFocused();
   const [dataFromState, setNewData] = useState([]);
   const [search, setSearch] = useState("");
   const [masterData, setMasterData] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(false);
   useEffect(() => {
     const getData = async () => {
@@ -59,10 +60,9 @@ const MenuScreen = ({ navigation }) => {
       console.log("filteredData is all selected");
       setNewData(message);
       setMasterData(message);
-      setRefreshing(false);
     };
     getData().catch((err) => console.log(err));
-  }, [refreshing]);
+  }, [isFocus]);
   const searchFilterFunction = (text) => {
     if (text) {
       const newData = masterData.filter(function (item) {
@@ -159,11 +159,15 @@ const MenuScreen = ({ navigation }) => {
 
   const FlatListItem = ({ item }) => {
     return (
-      <TouchableOpacity onPress={()=>navigation.navigate('EditMenuScreen', {item} )}
+      <TouchableOpacity
+        onPress={() => navigation.navigate("EditMenuScreen", { item })}
       >
         <View style={styles.containerItemFlatList}>
           <View style={styles.containerImageItem}>
-            <Image source={{ uri: item.imagePath }} style={styles.imgSourceItem} />
+            <Image
+              source={{ uri: item.imagePath }}
+              style={styles.imgSourceItem}
+            />
           </View>
 
           <View style={styles.containerInfoItem}>
@@ -193,7 +197,6 @@ const MenuScreen = ({ navigation }) => {
       <View style={styles.containerDevideLine}></View>
       <View style={styles.containerInfoItem1}>
         <FlatList
-          refreshing={refreshing}
           data={dataFromState}
           renderItem={({ item, index }) => {
             return <FlatListItem item={item} index={index} />;
@@ -201,7 +204,6 @@ const MenuScreen = ({ navigation }) => {
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
-          onRefresh={() => setRefreshing(true)}
         />
       </View>
     </LinearGradient>

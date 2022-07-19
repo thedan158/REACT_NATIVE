@@ -6,6 +6,7 @@ export const lightTheme = {
   PRIMARY_BUTTON_COLOR: '#fff',
   PRIMARY_BUTTON_TEXT_COLOR: '#fff',
   PRIMARY_SHADOW_COLOR: '#9E9C9C',
+  PRIMARY_INFO_COLOR: '#495057',
   STATUS_BAR_STYLE: 'default',
 };
 
@@ -17,5 +18,6 @@ export const darkTheme = {
   PRIMARY_BUTTON_COLOR: '#313133',
   PRIMARY_BUTTON_TEXT_COLOR: '#fff',
   PRIMARY_SHADOW_COLOR: '#555555',
+  PRIMARY_INFO_COLOR: '#9B9B9B',
   STATUS_BAR_STYLE: 'light-content',
 };
