@@ -85,7 +85,6 @@ const AccountForStaff = () => {
         <View style={styles.containerHeader}>
           <View
             style={{
-              marginLeft: 20,
               marginTop: '1%',
               flex: 8,
             }}

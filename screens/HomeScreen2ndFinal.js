@@ -18,7 +18,6 @@ import UserLightTheme from '../assets/icons/personal_light.png';
 import styled, { ThemeProvider } from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 
-
 const imgDesertDish = require('../assets/images/DessertDish.png');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -37,9 +36,7 @@ const HomeScreen2ndFinal = () => {
   const dispatch = useDispatch();
 
   return (
-
     <ThemeProvider theme={theme}>
-
       <Container>
         <View style={styles.containerHeaderTop}>
           {/* <Image source={{ uri: 'https://icons-for-free.com/download-icon-HOME-131994911289288683_512.png' }}
@@ -47,22 +44,16 @@ const HomeScreen2ndFinal = () => {
           <View style={styles.containerTitleInfo}>
             <Content_Header>Home</Content_Header>
           </View>
-          <View 
+          <View
             style={{
               marginRight: '3%',
               alignSelf: 'center',
             }}
           >
-            {theme.mode === "light" ? (
-              <Image
-              source={UserLightTheme}
-              style={styles.icUserStyle}
-            />
+            {theme.mode === 'light' ? (
+              <Image source={UserLightTheme} style={styles.icUserStyle} />
             ) : (
-              <Image
-              source={UserDarkTheme}
-              style={styles.icUserStyle}
-            />
+              <Image source={UserDarkTheme} style={styles.icUserStyle} />
             )}
           </View>
         </View>
@@ -92,7 +83,11 @@ const HomeScreen2ndFinal = () => {
                       }}
                     >
                       <Text
-                        style={{ color: '#fff', fontSize: 18, marginBottom: -2 }}
+                        style={{
+                          color: '#fff',
+                          fontSize: 18,
+                          marginBottom: -2,
+                        }}
                       >
                         OF
                       </Text>
@@ -120,7 +115,11 @@ const HomeScreen2ndFinal = () => {
                   {/* Detail info for Menu Section */}
                   <View style={styles.containerHeaderDetailMenuInfoTxt}>
                     <Text
-                      style={{ color: '#fff', fontSize: 15, fontWeight: 'bold' }}
+                      style={{
+                        color: '#fff',
+                        fontSize: 15,
+                        fontWeight: 'bold',
+                      }}
                     >
                       100% FRESH FOOD
                     </Text>
@@ -167,10 +166,14 @@ const HomeScreen2ndFinal = () => {
               end={{ x: 1, y: 0 }}
             >
               <View style={styles.ContainnerTextSaleOff}>
-                <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>
+                <Text
+                  style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
+                >
                   STARTER
                 </Text>
-                <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>
+                <Text
+                  style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
+                >
                   DISH
                 </Text>
                 <View style={{ flexDirection: 'row' }}>
@@ -207,7 +210,9 @@ const HomeScreen2ndFinal = () => {
               end={{ x: 1, y: 0 }}
             >
               <View style={styles.ContainnerTextSaleOff}>
-                <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>
+                <Text
+                  style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
+                >
                   DESERT and DRINK
                 </Text>
                 <Text style={{ color: '#fff' }}>Guarantee</Text>
@@ -244,7 +249,9 @@ const HomeScreen2ndFinal = () => {
               end={{ x: 1, y: 0 }}
             >
               <View style={styles.containerExcDealInfo}>
-                <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>
+                <Text
+                  style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
+                >
                   Exclusive Deal
                 </Text>
                 <Text style={{}}>
@@ -285,21 +292,19 @@ const Container = styled.View`
 `;
 
 const Content_Header = styled.Text`
-  font-size: 30;
+  font-size: 25;
   font-weight: bold;
   align-self: center;
   align-items: center;
   color: ${(props) => props.theme.PRIMARY_TEXT_COLOR};
-
 `;
 const Content = styled.Text`
   flex: 1;
-  marginLeft: 5%;
+  margin-left: 5%;
   font-size: 20;
   font-weight: bold;
   color: ${(props) => props.theme.PRIMARY_TEXT_COLOR};
-
-`
+`;
 
 const styles = StyleSheet.create({
   container: {
