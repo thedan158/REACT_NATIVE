@@ -78,6 +78,7 @@ import EditResProfile from './screens/EditResProfile';
 import AddingTable from './screens/AddingTable';
 import BillScreenForOwner from './screens/BillScreenForOwner';
 import EditTableInfo from './screens/EditTableInfo';
+import NotificationScreen from './screens/NotificationScreen';
 
 const store = createStore(
   combineReducers({ themeReducer }),
@@ -165,9 +166,21 @@ export default function App() {
           />
           <Stack.Screen
             options={{ headerShown: false }}
+            name="TabForStaff"
+            component={TabForStaff}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="NotificationScreen"
+            component={NotificationScreen}
+          />
+
+          <Stack.Screen
+            options={{ headerShown: false }}
             name="TabForOwner"
             component={TabForOwner}
           />
+
           <Stack.Screen
             name="StaffInformation"
             component={StaffInformation}

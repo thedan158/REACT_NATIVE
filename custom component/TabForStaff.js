@@ -6,19 +6,15 @@ import {
 } from '@react-navigation/bottom-tabs';
 import { Path } from 'react-native-svg';
 import Svg from 'react-native-svg';
-import HomeScreen from '../screens/HomeScreen';
 import OrderScreen from '../screens/OrderScreen';
-import RestaurantManagement from '../screens/RestaurantManagement';
-import SelectedTable from '../screens/SelectedTableScreen';
 import AccountForStaff from '../screens/AccountForStaff';
 import order from '../assets/icons/order.png';
 import home from '../assets/icons/home.png';
 import account from '../assets/icons/user.png';
-import cash from '../assets/icons/cash.png';
+import notification from '../assets/icons/notification.png';
 import HomeScreen2ndFinal from '../screens/HomeScreen2ndFinal';
-import BillScreen from '../screens/BillScreen';
-import Colors from '../assets/Colors';
 import { useSelector } from 'react-redux';
+import NotificationScreen from '../screens/NotificationScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -205,12 +201,12 @@ const Tabs = () => {
       />
 
       <Tab.Screen
-        name="Like"
-        component={BillScreen}
+        name="Notification"
+        component={NotificationScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <Image
-              source={cash}
+              source={notification}
               resizeMode="contain"
               style={{
                 width: 25,
