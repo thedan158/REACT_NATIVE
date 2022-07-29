@@ -7,26 +7,25 @@ import {
   Image,
   ImageBackground,
   ScrollView,
-  Alert,
-  Platform,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import back from "../assets/icons/back-green.png";
-import gallery from "../assets/icons/picture.png";
-import { useNavigation } from "@react-navigation/core";
-import CustomTextInput from "../custom component/CustomTextInput";
 import Colors from "../assets/Colors";
+import { useNavigation } from "@react-navigation/core";
+import back from "../assets/icons/back-green.png";
+import CustomTextInput from "../custom component/CustomTextInput";
 import * as ImagePicker from "expo-image-picker";
-import background from "../assets/images/background.png";
 import CustomModal from "../custom component/CustomModal";
 import del from "../assets/icons/delete_light.png";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-const EditTableInfo = ({ route }) => {
+const EditTableInfoScreenRework1 = ({ navigation }) => {
+  const [image, setImage] = useState("null");
+  const [nameTable, setNameTable] = useState("Table 1");
+  const [visible, setVisible] = useState(false);
+  const [visibleDeleted, setVisibleDeleted] = useState(false);
+
   const handleDeleteTable = async (id) => {
     const res = await axios.delete(
       `https://foody-uit.herokuapp.com/table/deleteTable/${id}`
@@ -38,58 +37,12 @@ const EditTableInfo = ({ route }) => {
       navigation.goBack();
     }
   };
-  const handleSave = async (id) => {
-    const res1 = await axios.put(
-      `https://foody-uit.herokuapp.com/table/updateTable/${id}`,
-      {
-        name: nameTable,
-      }
-    );
-    const success1 = res1.data.success;
-    const message1 = res1.data.message;
-    console.log(message1);
-    console.log(success1);
-    if (success1) {
-      setVisible(true);
-      navigation.goBack();
-    }
-  };
-  const { item } = route.params;
-  const [nameTable, setNameTable] = useState(item.name);
-  const [numberPeople, setNumberPeople] = useState("");
-  const [position, setPosition] = useState("");
-  const [visible, setVisible] = useState(false);
-  const [visibleDeleted, setVisibleDeleted] = useState(false);
-  const [image, setImage] = useState("null");
-  const navigation = useNavigation();
-
-  useEffect(async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-    if (status !== "granted") {
-      alert("Permission denied!");
-    }
-  }, []);
-
-  const PickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    console.log(result);
-    if (!result.cancelled) {
-      setImage(result.uri);
-    }
-  };
   return (
     <ScrollView>
       <View style={styles.container}>
         <View
           style={{
             flexDirection: "row",
-            marginTop: 20,
             width: windowWidth,
             alignItems: "center",
             justifyContent: "space-between",
@@ -119,21 +72,12 @@ const EditTableInfo = ({ route }) => {
 
         {/* Pick image  */}
         <View style={styles.view2}>
-          <TouchableOpacity onPress={PickImage}>
-            <View style={styles.pickLogo}>
-              <ImageBackground
-                style={styles.ImageBackground}
-                source={item.imgSourceEmpty}
-              />
+          <ImageBackground
+            style={styles.ImageBackground}
+            source={require("../assets/images/logo_app.png")}
+          />
 
-              {image && (
-                <Image source={{ uri: image }} style={styles.pick}></Image>
-              )}
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={PickImage} style={styles.button1}>
-            <Text style={styles.buttonText}>Select Your Image</Text>
-          </TouchableOpacity>
+          {image && <Image source={{ uri: image }} style={styles.pick}></Image>}
         </View>
 
         {/* Input section  */}
@@ -144,24 +88,6 @@ const EditTableInfo = ({ route }) => {
             value={nameTable}
             onChangeText={(text) => setNameTable(text)}
             placeholder="Name Table"
-          />
-
-          {/* Number of people in use */}
-          <CustomTextInput
-            blurColor={Colors.secondary}
-            value={numberPeople}
-            onChangeText={(text) => setNumberPeople(text)}
-            placeholder="Number of chair"
-            keyboardType="decimal-pad"
-          />
-
-          {/* Position table  */}
-          <CustomTextInput
-            blurColor={Colors.secondary}
-            value={position}
-            onChangeText={(text) => setPosition(text)}
-            placeholder="Position table"
-            keyboardType="decimal-pad"
           />
         </View>
 
@@ -183,10 +109,12 @@ const EditTableInfo = ({ route }) => {
 
           {/* Button save */}
           <TouchableOpacity
-            onPress={() => handleSave(item.id)}
-            style={styles.button}
+            onPress={() => {
+              setVisible(true);
+            }}
+            style={styles.buttonSave}
           >
-            <Text style={styles.buttonText}>Save</Text>
+            <Text style={styles.buttonTextSave}>Save</Text>
           </TouchableOpacity>
         </View>
 
@@ -214,7 +142,7 @@ const EditTableInfo = ({ route }) => {
           </TouchableOpacity>
         </CustomModal>
 
-        {/* Modal adding */}
+        {/* Modal Edit  */}
         <CustomModal visible={visible}>
           <View style={{ alignItems: "center" }}>
             <Image
@@ -226,7 +154,7 @@ const EditTableInfo = ({ route }) => {
           <Text
             style={{ marginVertical: 30, fontSize: 20, textAlign: "center" }}
           >
-            Adding table successfully.
+            Edit table successfully.
           </Text>
           <TouchableOpacity
             onPress={() => {
@@ -242,36 +170,35 @@ const EditTableInfo = ({ route }) => {
   );
 };
 
-export default EditTableInfo;
+export default EditTableInfoScreenRework1;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     height: windowHeight,
     width: windowWidth,
-    paddingTop: "2%",
+
     backgroundColor: "white",
   },
   view2: {
-    flex: 3,
     justifyContent: "space-evenly",
     alignItems: "center",
+    marginVertical: 50,
   },
   view3: {
+    marginVertical: 50,
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    flex: 5,
   },
   ImageBackground: {
-    height: 50,
-    width: 50,
+    height: 200,
+    width: 200,
     borderRadius: 15,
     position: "absolute",
     alignSelf: "center",
   },
   view4: {
-    flex: 1,
     flexDirection: "row",
     justifyContent: "center",
     marginTop: 10,
@@ -314,42 +241,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   button: {
-    backgroundColor: Colors.primary,
-    width: "50%",
-    padding: 15,
-    borderRadius: 20,
-    elevation: 1,
-    alignSelf: "center",
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-
-    elevation: 3,
-  },
-  button1: {
     backgroundColor: Colors.secondary,
-    width: "50%",
+    width: "100%",
     padding: 15,
     borderRadius: 20,
     elevation: 1,
     alignSelf: "center",
     justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-
-    elevation: 3,
   },
   buttonDelete: {
     backgroundColor: "#FFF0F3",
@@ -375,6 +274,30 @@ const styles = StyleSheet.create({
   },
   buttonTextDelete: {
     color: "#DA0000",
+    fontWeight: "700",
+    fontSize: 16,
+  },
+  buttonSave: {
+    backgroundColor: Colors.secondary,
+    width: "50%",
+    padding: 15,
+    borderRadius: 20,
+    elevation: 1,
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+
+    elevation: 3,
+  },
+  buttonTextSave: {
+    color: "white",
     fontWeight: "700",
     fontSize: 16,
   },
