@@ -308,8 +308,8 @@ const ContainerScrollView = styled.ScrollView`
   flex: 1;
 `;
 const ContainerBottom = styled.View`
-  border-topleftradius: 30;
-  border-toprightradius: 30;
+  border-top-left-radius: 30;
+  border-top-right-radius: 30;
 
   background-color: ${(props) => props.theme.PRIMARY_BACKGROUND_ACCOUNT_COLOR};
   justify-content: center;
@@ -363,7 +363,7 @@ const styles = StyleSheet.create({
   containerBottom: {
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-
+    
     borderColor: "#808080",
     backgroundColor: "#fff",
     justifyContent: "center",
