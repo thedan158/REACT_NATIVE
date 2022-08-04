@@ -9,96 +9,97 @@ import {
   ScrollView,
   ImageBackground,
   TouchableWithoutFeedback,
-} from 'react-native';
-import React from 'react';
-import leftArrowLightTheme from '../assets/icons/back-orange.png';
-import invoiceLightTheme from '../assets/icons/invoice.png';
-import BillSticker from '../assets/icons/billSticker.png';
-import { StatusBar } from 'expo-status-bar';
-import { Dimensions } from 'react-native';
-import styled, { ThemeProvider } from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
-import Colors from '../assets/Colors';
-import cart from '../assets/icons/cart.png';
+} from "react-native";
+import React from "react";
+import { LinearGradient } from "expo-linear-gradient";
+import leftArrowLightTheme from "../assets/icons/back-orange.png";
+import invoiceLightTheme from "../assets/icons/invoice.png";
+import BillSticker from "../assets/icons/billSticker.png";
+import { StatusBar } from "expo-status-bar";
+import { Dimensions } from "react-native";
+import styled, { ThemeProvider } from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import Colors from "../assets/Colors";
+import cart from "../assets/icons/cart.png";
 
-const { width, height } = Dimensions.get('window');
-const imgBtnOrange = require('../assets/icons/ButtonOrange.png');
+const { width, height } = Dimensions.get("window");
+const imgBtnOrange = require("../assets/icons/ButtonOrange.png");
 
 // Dummy Data for Testing UI/UX -------------------------------------------------------------
 const categoryMenuTypeData = [
   {
     id: 4,
-    name: 'Full Menu',
-    icon: require('../assets/icons/menuIcon.png'),
+    name: "Full Menu",
+    icon: require("../assets/icons/menuIcon.png"),
   },
   {
     id: 1,
-    name: 'Starter Dish',
-    icon: require('../assets/icons/starterDish.png'),
+    name: "Starter Dish",
+    icon: require("../assets/icons/starterDish.png"),
   },
   {
     id: 2,
-    name: 'Main Dish',
-    icon: require('../assets/icons/mainDish.png'),
+    name: "Main Dish",
+    icon: require("../assets/icons/mainDish.png"),
   },
   {
     id: 3,
-    name: 'Dessert-Drink',
-    icon: require('../assets/icons/dessertDish.png'),
+    name: "Dessert-Drink",
+    icon: require("../assets/icons/dessertDish.png"),
   },
 ];
 
 const DishData = [
   {
     id: 1,
-    nameDish: 'Crispy Chicken Burger',
+    nameDish: "Crispy Chicken",
     categoryFoodType: [2, 4],
-    photo: require('../assets/images/burger-restaurant.jpg'),
-    detail: 'Crispy Chicken Burger - Main',
-    duration: '15 - 20 min',
+    photo: require("../assets/images/food-dishes-Transparent-Images.png"),
+    detail: "Crispy Chicken Burger - Main",
+    duration: "15 - 20 min",
     price: 15,
   },
   {
     id: 2,
-    nameDish: 'Crispy Chicken Burger',
+    nameDish: "Crispy Chicken",
     categoryFoodType: [3, 4],
-    photo: require('../assets/images/burger-restaurant.jpg'),
-    detail: 'Crispy Chicken Burger - Dessert',
-    duration: '10 - 15 min',
+    photo: require("../assets/images/food-dishes-Transparent-Images.png"),
+    detail: "Crispy Chicken Burger - Dessert",
+    duration: "10 - 15 min",
     price: 20,
   },
   {
     id: 3,
-    nameDish: 'Crispy Chicken Burger',
+    nameDish: "Crispy Chicken",
     categoryFoodType: [1, 4],
-    photo: require('../assets/images/burger-restaurant.jpg'),
-    detail: 'Crispy Chicken Burger - Starter',
-    duration: '5 - 10 min',
+    photo: require("../assets/images/food-dishes-Transparent-Images.png"),
+    detail: "Crispy Chicken Burger - Starter",
+    duration: "5 - 10 min",
     price: 10,
   },
   {
     id: 4,
-    nameDish: 'Crispy Chicken Burger',
+    nameDish: "Crispy Chicken",
     categoryFoodType: [2, 4],
-    photo: require('../assets/images/burger-restaurant.jpg'),
-    detail: 'Crispy Chicken Burger - Main 2',
-    duration: '15 - 20 min',
+    photo: require("../assets/images/food-dishes-Transparent-Images.png"),
+    detail: "Crispy Chicken Burger - Main 2",
+    duration: "15 - 20 min",
     price: 15,
   },
   {
     id: 5,
-    nameDish: 'Crispy Chicken',
+    nameDish: "Crispy Chicken",
     categoryFoodType: [1, 4],
-    photo: require('../assets/images/burger-restaurant.jpg'),
-    detail: 'Crispy Chicken Burger - Starter 2',
-    duration: '3 - 8 min',
+    photo: require("../assets/images/food-dishes-Transparent-Images.png"),
+    detail: "Crispy Chicken Burger - Starter 2",
+    duration: "3 - 8 min",
     price: 15,
   },
 ];
 
 const item = {
   id: 1,
-  name: 'Table 1',
+  name: "Table 1",
   isBusy: true,
 };
 
@@ -107,6 +108,7 @@ const MenuOrderScreen = ({ navigation }) => {
   const [categories, setCategories] = React.useState(categoryMenuTypeData);
   const [selectedCategory, setSelectedCategory] = React.useState(null);
   const [dishData, setDishData] = React.useState(DishData);
+  const [selectedDish, setSelectedDish] = React.useState(0);
   const theme = useSelector((state) => state.themeReducer.theme);
 
   function onSelectCategory(category) {
@@ -125,7 +127,7 @@ const MenuOrderScreen = ({ navigation }) => {
 
     if (category.length > 0) return category[0].name;
 
-    return '';
+    return "";
   }
 
   // Header Render Function ----------------------------------------------------------------
@@ -134,17 +136,17 @@ const MenuOrderScreen = ({ navigation }) => {
     return (
       <View
         style={{
-          flexDirection: 'row',
+          flexDirection: "row",
           height: 50,
-          paddingTop: '2%',
-          marginBottom: '5%',
+          paddingTop: "2%",
+          marginBottom: "5%",
         }}
       >
         <TouchableOpacity
           style={{
             width: 50,
             paddingLeft: 10 * 3,
-            justifyContent: 'center',
+            justifyContent: "center",
           }}
           onPress={() => {
             navigation.goBack();
@@ -161,15 +163,15 @@ const MenuOrderScreen = ({ navigation }) => {
         </TouchableOpacity>
 
         <View
-          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
           <View
             style={{
-              width: '70%',
-              height: '100%',
-              backgroundColor: '#EFEFF1',
-              alignItems: 'center',
-              justifyContent: 'center',
+              width: "70%",
+              height: "100%",
+              backgroundColor: "#EFEFF1",
+              alignItems: "center",
+              justifyContent: "center",
               borderRadius: 30,
             }}
           >
@@ -177,8 +179,8 @@ const MenuOrderScreen = ({ navigation }) => {
               style={{
                 lineHeight: 22,
                 fontSize: 20,
-                color: '#FA4A0C',
-                fontWeight: 'bold',
+                color: "#FA4A0C",
+                fontWeight: "bold",
               }}
             >
               TABLE 1
@@ -190,10 +192,10 @@ const MenuOrderScreen = ({ navigation }) => {
           style={{
             width: 50,
             paddingRight: 10 * 2,
-            justifyContent: 'center',
+            justifyContent: "center",
           }}
           onPress={() => {
-            navigation.navigate('CheckOutTableScreen', { item });
+            navigation.navigate("CheckOutTableScreen", { item });
           }}
         >
           <Image
@@ -216,13 +218,15 @@ const MenuOrderScreen = ({ navigation }) => {
         <TouchableOpacity
           style={{
             padding: 10,
-            paddingBottom: 10 * 2,
+            alignSelf: 'center',
+            height: '80%',
             backgroundColor:
-              selectedCategory?.id == item.id ? '#FA4A0C' : '#F5F5F6',
-            alignItems: 'center',
-            justifyContent: 'center',
+              selectedCategory?.id == item.id ? Colors.primary : "#F5F5F6",
+            alignItems: "center",
+            justifyContent: "center",
             borderRadius: 30,
             marginRight: 10,
+            flexDirection: "row",
             ...styles.shadow,
           }}
           onPress={() => onSelectCategory(item)}
@@ -232,10 +236,12 @@ const MenuOrderScreen = ({ navigation }) => {
               width: 50,
               height: 50,
               borderRadius: 25,
-              alignItems: 'center',
-              justifyContent: 'center',
+              alignItems: "center",
+              alignSelf: "center",
+              justifyContent: "center",
+              marginRight: 5,
               backgroundColor:
-                selectedCategory?.id == item.id ? '#FFFFFF' : '#F5F5F6',
+                 selectedCategory?.id == item.id ? 'transparent' : "transparent",
             }}
           >
             <Image
@@ -250,11 +256,11 @@ const MenuOrderScreen = ({ navigation }) => {
 
           <Text
             style={{
-              marginTop: 10,
-              color: selectedCategory?.id == item.id ? '#FFFFFF' : '#1E1F20',
-
-              fontSize: 12,
-              lineHeight: 22,
+              marginTop: 0,
+              color: selectedCategory?.id == item.id ? "#FFFFFF" : "#1E1F20",
+              alignSelf: "center",
+              fontSize: 14,
+              marginLeft: 0,
             }}
           >
             {item.name}
@@ -273,7 +279,7 @@ const MenuOrderScreen = ({ navigation }) => {
           style={{
             fontSize: 25,
             lineHeight: 50,
-            fontWeight: 'bold',
+            fontWeight: "bold",
           }}
         >
           Categories
@@ -286,7 +292,10 @@ const MenuOrderScreen = ({ navigation }) => {
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => `${item.id}`}
           renderItem={renderItem}
-          contentContainerStyle={{ paddingVertical: 10 }}
+          contentContainerStyle={{
+            paddingVertical: 10,
+            paddingRight: 10,
+          }}
         />
       </View>
     );
@@ -295,120 +304,97 @@ const MenuOrderScreen = ({ navigation }) => {
   // List Dish Data Render Function
 
   function renderFoodList() {
-    const renderItem = ({ item }) => (
-      <TouchableOpacity
-        style={{
-          marginBottom: 10 * 2,
-        }}
-      >
-        {/* Image */}
-        <View
+    const RenderItemFlatList = ({ item }) => {
+      const [counter, setCounter] = React.useState(0);
+      function BtnDelPress() {
+        if (item.quantity > 0) {
+          setCounter((counter) => counter - 1);
+          item.quantity = counter - 1;
+          if(selectedDish > 0){
+            setSelectedDish((counter) => counter - 1);
+          }
+        }
+      }
+      function BtnAddPress() {
+        setCounter((counter) => counter + 1);
+        item.quantity = counter + 1;
+        setSelectedDish((counter) => counter + 1);
+      }
+
+      return (
+        <LinearGradient
+          colors={["#eef2f3", "#eef2f3"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
           style={{
-            marginBottom: 10,
+            padding: 10,
+            width: 140,
+            height: 200,
+            margin: 10,
+            borderRadius: 20,
+            alignSelf: "center",
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+
+            elevation: 5,
           }}
         >
           <Image
             source={item.photo}
-            resizeMode="cover"
             style={{
-              width: '100%',
-              height: 200,
-              borderRadius: 30,
+              borderRadius: 20,
+              marginBottom: '4%',
+              marginTop: "4%",
+              width: "80%",
+              height: "100%",
+              alignSelf: "center",
+              resizeMode: "contain",
+              flex: 5,
             }}
-          />
-          {/* Duration */}
-          <View
+          ></Image>
+          <Text
             style={{
-              position: 'absolute',
-              bottom: 0,
-              height: 50,
-              width: width * 0.3,
-              backgroundColor: '#FFFFFF',
-              borderTopRightRadius: 30,
-              borderBottomLeftRadius: 30,
-              alignItems: 'center',
-              justifyContent: 'center',
-              ...styles.shadow,
+              flex: 1.5,
+              color: '#434343',
             }}
           >
-            <Text
-              style={{
-                fontSize: 18,
-                lineHeight: 22,
-              }}
-            >
-              {item.duration}
-            </Text>
-          </View>
-        </View>
-
-        {/* Dish Name */}
-        <Text
-          style={{
-            fontSize: 20,
-            lineHeight: 30,
-            fontWeight: 'bold',
-          }}
-        >
-          {item.nameDish}
-        </Text>
-
-        {/* Dish Type Info */}
-        <View
-          style={{
-            flexDirection: 'row',
-            marginLeft: 10,
-          }}
-        >
-          {/* Categories Food Type */}
-          {/* {
-                        item.categoryFoodType.map((categoryId) => {
-                            return (
-                                <View
-                                    style={{ flexDirection: 'row' }}
-                                    key={categoryId}
-                                >
-                                    <Text style={{ 
-                                        fontSize: 16, lineHeight: 22,
-                                     }}>
-                                        {getCategoryNameById(categoryId)}
-                                    </Text>
-                                    <Text style={{ 
-                                        fontSize: 20, 
-                                        lineHeight: 22, 
-                                        color:  '#898C95' }}> . </Text>
-                                </View>
-                                )
-                            })
-                    } */}
-
-          <View
+            {item.nameDish}
+          </Text>
+          <Text
             style={{
-              flexDirection: 'row',
+              color: Colors.primary,
+              flex: 2,
+              fontSize: 20,
+              fontWeight: "bold",
             }}
           >
-            <Text
-              style={{
-                lineHeight: 22,
-                fontSize: 16,
-                color: '#1E1F20',
-              }}
-            >
-              $
-            </Text>
-            <Text
-              style={{
-                lineHeight: 22,
-                fontSize: 16,
-                color: Colors.primary,
-              }}
-            >
-              {item.price}
-            </Text>
+            ${item.price}
+          </Text>
+          <View
+            style={{
+              flex: 2,
+              flexDirection: "row",
+              alignSelf: "center",
+              alignItems: "center",
+              justifyContent: "space-evenly",
+            }}
+          >
+            {/* <TouchableOpacity onPress={BtnDelPress} style={styles.buttonAdjust}>
+              <Text>-</Text>
+            </TouchableOpacity> */}
+
+            <TouchableOpacity onPress={BtnAddPress} style={styles.buttonAdjust}>
+              <Text>+</Text>
+            </TouchableOpacity>
           </View>
-        </View>
-      </TouchableOpacity>
-    );
+        </LinearGradient>
+      );
+    };
 
     // Function Render Food Item FlatList
     const FlatlistItem = ({ item }) => {
@@ -428,7 +414,7 @@ const MenuOrderScreen = ({ navigation }) => {
         <View style={styles.flatlistItemView}>
           <View
             style={{
-              marginLeft: '3%',
+              marginLeft: "3%",
             }}
           >
             {/* Image item section */}
@@ -436,11 +422,11 @@ const MenuOrderScreen = ({ navigation }) => {
           </View>
 
           {/* Item detail section */}
-          {theme.mode === 'light' ? (
+          {theme.mode === "light" ? (
             <View
               style={{
                 flex: 2,
-                marginLeft: '3%',
+                marginLeft: "3%",
               }}
             >
               <Text style={styles.txtNameItemFlatlist}>{item.nameDish}</Text>
@@ -451,7 +437,7 @@ const MenuOrderScreen = ({ navigation }) => {
             <View
               style={{
                 flex: 2,
-                marginLeft: '3%',
+                marginLeft: "3%",
               }}
             >
               <Text style={styles.txtNameItemFlatlistDarkTheme}>
@@ -474,7 +460,7 @@ const MenuOrderScreen = ({ navigation }) => {
                 <Text style={styles.btnDel}>-</Text>
               </ImageBackground>
             </TouchableOpacity>
-            {theme.mode === 'light' ? (
+            {theme.mode === "light" ? (
               <Text style={styles.txtQuantityItem}> {counter} </Text>
             ) : (
               <Text style={styles.txtQuantityItemDarkTheme}> {counter} </Text>
@@ -494,34 +480,43 @@ const MenuOrderScreen = ({ navigation }) => {
     };
 
     return (
-      <ScrollView
+      <View
         showsVerticalScrollIndicator={false}
         style={{
           marginVertical: 10,
           flex: 1,
+          borderRadius: 10,
         }}
       >
         <FlatList
           data={dishData}
           keyExtractor={(item) => `${item.id}`}
           renderItem={({ item, index }) => {
-            return <FlatlistItem item={item} index={index}></FlatlistItem>;
+            return (
+              <RenderItemFlatList
+                item={item}
+                index={index}
+              ></RenderItemFlatList>
+            );
           }}
           showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          numColumns={2}
           contentContainerStyle={{
             paddingHorizontal: 20,
             paddingTop: 10,
             marginBottom: 10,
             paddingBottom: 10,
+            borderRadius: 10,
           }}
         />
         <View
           styles={{
-            justifyContent: 'flex-end',
+            justifyContent: "flex-end",
             paddingRight: 10,
           }}
         ></View>
-      </ScrollView>
+      </View>
     );
   }
 
@@ -532,17 +527,36 @@ const MenuOrderScreen = ({ navigation }) => {
       {renderFoodList()}
       <View
         style={{
-          position: 'absolute',
-          alignItems: 'center',
+          position: "absolute",
+          alignItems: "center",
           width: 60,
           height: 60,
-          top: '93%',
-          left: '80%',
+          top: "93%",
+          left: "80%",
         }}
       >
         <TouchableWithoutFeedback>
           <View style={styles.floatingButton}>
-            <Image source={cart} style={{ width: 30, height: 30 }} />
+            {selectedDish > 0 ? (
+              <View style={styles.countingCartView}>
+                <Text
+                  style={{
+                    color: Colors.primary,
+                    alignSelf: "center",
+                    fontWeight: "bold",
+                    fontSize: 12,
+                  }}
+                >
+                  {selectedDish}
+                </Text>
+              </View>
+            ) : null}
+            <TouchableOpacity>
+              <ImageBackground
+                source={cart}
+                style={{ width: 30, height: 30 }}
+              ></ImageBackground>
+            </TouchableOpacity>
           </View>
         </TouchableWithoutFeedback>
       </View>
@@ -553,15 +567,47 @@ const MenuOrderScreen = ({ navigation }) => {
 export default MenuOrderScreen;
 
 const styles = StyleSheet.create({
+  textCounter: {},
+  buttonAdjust: {
+    height: 25,
+    width: 25,
+    marginHorizontal: "5%",
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
+    backgroundColor: Colors.primary,
+    borderRadius: 30,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+
+    elevation: 3,
+  },
+  countingCartView: {
+    alignItems: "center",
+    width: 20,
+    height: 20,
+    backgroundColor: "#FFFFFF",
+    bottom: "67%",
+    left: "67%",
+    position: "absolute",
+    borderRadius: 30,
+    borderColor: Colors.primary,
+    borderWidth: 2,
+  },
   floatingButton: {
     backgroundColor: Colors.primary,
-    position: 'absolute',
+    position: "absolute",
     width: 60,
     height: 60,
     borderRadius: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
 
     shadowOffset: {
       width: 0,
@@ -575,11 +621,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
 
-    backgroundColor: '#fff',
-    paddingTop: '5%',
+    backgroundColor: "#fff",
+    paddingTop: "6%",
   },
   shadow: {
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 3,
@@ -590,18 +636,18 @@ const styles = StyleSheet.create({
   },
   flatlistItemView: {
     height: 110,
-    width: '100%',
+    width: "100%",
     flex: 1,
     borderRadius: 30,
     borderWidth: 0,
     margin: 10,
-    borderColor: '#808080',
-    alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    backgroundColor: '#fff',
-    shadowColor: '#A0A0A0',
+    borderColor: "#808080",
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    backgroundColor: "#fff",
+    shadowColor: "#A0A0A0",
     shadowOffset: {
       width: 0,
       height: 7,
@@ -613,69 +659,69 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   containerImageItem: {
-    height: '85%',
+    height: "85%",
     width: 85,
     borderRadius: 20,
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
   },
   txtDetailItemFlatlist: {
     fontSize: 12,
-    color: '#3D3D3D',
-    flexWrap: 'wrap',
+    color: "#3D3D3D",
+    flexWrap: "wrap",
   },
   txtNameItemFlatlist: {
     fontSize: 16,
-    color: '#3D3D3D',
-    fontWeight: 'bold',
-    flexWrap: 'wrap',
+    color: "#3D3D3D",
+    fontWeight: "bold",
+    flexWrap: "wrap",
   },
   txtPriceItemFlatlist: {
     fontSize: 18,
-    color: '#F3554A',
-    fontWeight: 'bold',
-    flexWrap: 'wrap',
+    color: "#F3554A",
+    fontWeight: "bold",
+    flexWrap: "wrap",
   },
   txtDetailItemFlatlistDarkTheme: {
     fontSize: 12,
-    color: '#fff',
-    flexWrap: 'wrap',
+    color: "#fff",
+    flexWrap: "wrap",
   },
   txtNameItemFlatlistDarkTheme: {
     fontSize: 16,
-    color: '#fff',
-    fontWeight: 'bold',
-    flexWrap: 'wrap',
+    color: "#fff",
+    fontWeight: "bold",
+    flexWrap: "wrap",
   },
   containerBtnAdjust: {
-    justifyContent: 'center',
-    flexDirection: 'row',
+    justifyContent: "center",
+    flexDirection: "row",
     flex: 1,
-    paddingRight: '2%',
+    paddingRight: "2%",
   },
   imgBtnOrangeStyle: {
     width: 24,
     height: 24,
-    resizeMode: 'cover',
+    resizeMode: "cover",
     zIndex: 2,
   },
   btnDel: {
-    justifyContent: 'center',
-    color: '#FFF',
+    justifyContent: "center",
+    color: "#FFF",
     fontSize: 16,
     zIndex: 1,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   txtQuantityItem: {
     fontSize: 16,
-    marginHorizontal: '2%',
-    color: '#3D3D3D',
+    marginHorizontal: "2%",
+    color: "#3D3D3D",
   },
   txtQuantityItemDarkTheme: {
     fontSize: 16,
-    marginHorizontal: '2%',
-    color: '#fff',
+    marginHorizontal: "2%",
+    color: "#fff",
   },
 });
