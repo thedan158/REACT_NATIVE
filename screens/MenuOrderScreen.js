@@ -20,6 +20,10 @@ import styled, { ThemeProvider } from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import Colors from '../assets/Colors';
 import cart from '../assets/icons/cart.png';
+import IconBadge from 'react-native-icon-badge';
+import ModalOrderList from '../custom component/ModalOrderList';
+import close from '../assets/icons/close_orange.png';
+import FoodComponent from '../custom component/FoodComponent';
 
 const { width, height } = Dimensions.get('window');
 const imgBtnOrange = require('../assets/icons/ButtonOrange.png');
@@ -107,6 +111,8 @@ const MenuOrderScreen = ({ navigation }) => {
   const [categories, setCategories] = React.useState(categoryMenuTypeData);
   const [selectedCategory, setSelectedCategory] = React.useState(null);
   const [dishData, setDishData] = React.useState(DishData);
+  const [BadgeCount, setBadgeCount] = React.useState(3);
+  const [modalListOrder, setModalListOrder] = React.useState(false);
   const theme = useSelector((state) => state.themeReducer.theme);
 
   function onSelectCategory(category) {
@@ -526,7 +532,7 @@ const MenuOrderScreen = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       {renderHeader()}
       {renderMenuCategories()}
       {renderFoodList()}
@@ -534,49 +540,128 @@ const MenuOrderScreen = ({ navigation }) => {
         style={{
           position: 'absolute',
           alignItems: 'center',
-          width: 60,
-          height: 60,
-          top: '93%',
-          left: '80%',
+
+          top: '85%',
+          left: '75%',
         }}
       >
-        <TouchableWithoutFeedback>
+        {/* <TouchableWithoutFeedback>
           <View style={styles.floatingButton}>
             <Image source={cart} style={{ width: 30, height: 30 }} />
           </View>
-        </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback> */}
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <IconBadge
+            MainElement={
+              <TouchableOpacity
+                onPress={() => setModalListOrder(true)}
+                style={styles.floatingButton}
+              >
+                <Image source={cart} style={{ width: 25, height: 25 }} />
+              </TouchableOpacity>
+            }
+            BadgeElement={
+              <Text style={{ color: Colors.primary, fontWeight: 'bold' }}>
+                {BadgeCount}
+              </Text>
+            }
+            IconBadgeStyle={{
+              width: 25,
+              height: 25,
+              backgroundColor: '#fff',
+              borderColor: Colors.primary,
+              borderWidth: 2,
+            }}
+            Hidden={BadgeCount == 0}
+          />
+        </View>
       </View>
-    </SafeAreaView>
+      <ModalOrderList visible={modalListOrder}>
+        {/* Header  */}
+
+        {/* Table name  */}
+        <View style={styles.tableName}>
+          <Content style={{ color: Colors.primary }}>Table 1</Content>
+        </View>
+        {/* Close button  */}
+        <TouchableOpacity
+          style={styles.closeButton}
+          onPress={() => setModalListOrder(false)}
+        >
+          <Image source={close} style={{ height: 13, width: 13 }} />
+        </TouchableOpacity>
+
+        {/* Sub-header  */}
+        <View style={styles.subHeader}>
+          <Content style={{ fontSize: 20 }}>Order List</Content>
+          <Content style={{ color: '#787878', fontWeight: 'normal' }}>
+            4 items
+          </Content>
+        </View>
+
+        {/* List order  */}
+        <ScrollView style={styles.listOrder}>
+          <FoodComponent />
+        </ScrollView>
+
+        {/* Total price and order  */}
+        <View style={styles.footer}>
+          {/* Total price  */}
+          <View style={styles.totalPrice}>
+            <Text style={{ fontSize: 16, color: '#979797' }}>Price</Text>
+            <Content style={{ fontSize: 20, color: Colors.primary }}>
+              $35.40
+            </Content>
+          </View>
+          {/* Order button */}
+          <View style={styles.orderButton}>
+            <Content style={{ color: 'white', fontSize: 17 }}>Order</Content>
+          </View>
+        </View>
+      </ModalOrderList>
+    </View>
   );
 };
+
+const Content = styled.Text`
+  font-size: 18px;
+  color: ${(props) => props.theme.PRIMARY_TEXT_COLOR};
+  font-weight: bold;
+`;
 
 export default MenuOrderScreen;
 
 const styles = StyleSheet.create({
   floatingButton: {
     backgroundColor: Colors.primary,
-    position: 'absolute',
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+
+    width: 65,
+    height: 65,
+    borderRadius: 40,
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#000',
 
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 3.84,
 
-    elevation: 5,
+    // elevation: 5,
   },
   container: {
     flex: 1,
 
     backgroundColor: '#fff',
-    paddingTop: '5%',
+    paddingTop: '8%',
   },
   shadow: {
     shadowColor: '#000',
@@ -677,5 +762,92 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginHorizontal: '2%',
     color: '#fff',
+  },
+
+  // Modal Order List
+  totalPrice: {
+    flexDirection: 'column',
+    marginLeft: '3%',
+    alignSelf: 'center',
+  },
+  orderButton: {
+    backgroundColor: Colors.primary,
+    paddingVertical: 13,
+    paddingHorizontal: 70,
+    borderRadius: 20,
+
+    alignSelf: 'center',
+  },
+  footer: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+
+    marginLeft: '0%',
+    borderTopWidth: 1,
+    borderTopColor: '#EBEBEB',
+    paddingTop: 15,
+  },
+  listOrder: {
+    width: '96%',
+    marginLeft: '2%',
+  },
+  closeButton: {
+    position: 'absolute',
+
+    left: '90%',
+    top: '-2%',
+    width: 35,
+    height: 35,
+    justifyContent: 'center',
+
+    backgroundColor: 'white',
+    borderRadius: 30,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 3.27,
+
+    elevation: 10,
+  },
+  subHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '90%',
+    marginLeft: '5%',
+    marginTop: '5%',
+    marginBottom: '10%',
+  },
+  header: {
+    flexDirection: 'row',
+    position: 'absolute',
+    height: '20%',
+    left: '10%',
+    top: '-2%',
+  },
+  tableName: {
+    position: 'absolute',
+
+    left: '10%',
+    top: '-3%',
+    width: '50%',
+    justifyContent: 'center',
+    height: '8%',
+    backgroundColor: 'white',
+    borderRadius: 30,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 3.27,
+
+    elevation: 10,
   },
 });

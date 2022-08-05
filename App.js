@@ -164,13 +164,19 @@ export default function App() {
         >
           <Stack.Screen
             options={{ headerShown: false }}
-            name="SplashScreen"
-            component={SplashScreen}
+            name="MenuOrderScreen"
+            component={MenuOrderScreen}
           />
           <Stack.Screen
             options={{ headerShown: false }}
-            name="MenuOrderScreen"
-            component={MenuOrderScreen}
+            name="TabForStaff"
+            component={TabForStaff}
+          />
+
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="SplashScreen"
+            component={SplashScreen}
           />
 
           <Stack.Screen
@@ -185,11 +191,6 @@ export default function App() {
             component={EditTableInfoScreenRework1}
           />
 
-          <Stack.Screen
-            options={{ headerShown: false }}
-            name="TabForStaff"
-            component={TabForStaff}
-          />
           <Stack.Screen
             options={{ headerShown: false }}
             name="NotificationScreen"
