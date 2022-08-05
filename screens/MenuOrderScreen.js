@@ -11,6 +11,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import React from 'react';
+import { LinearGradient } from 'expo-linear-gradient';
 import leftArrowLightTheme from '../assets/icons/back-orange.png';
 import invoiceLightTheme from '../assets/icons/invoice.png';
 import BillSticker from '../assets/icons/billSticker.png';
@@ -55,36 +56,36 @@ const categoryMenuTypeData = [
 const DishData = [
   {
     id: 1,
-    nameDish: 'Crispy Chicken Burger',
+    nameDish: 'Crispy Chicken',
     categoryFoodType: [2, 4],
-    photo: require('../assets/images/burger-restaurant.jpg'),
+    photo: require('../assets/images/food-dishes-Transparent-Images.png'),
     detail: 'Crispy Chicken Burger - Main',
     duration: '15 - 20 min',
     price: 15,
   },
   {
     id: 2,
-    nameDish: 'Crispy Chicken Burger',
+    nameDish: 'Crispy Chicken',
     categoryFoodType: [3, 4],
-    photo: require('../assets/images/burger-restaurant.jpg'),
+    photo: require('../assets/images/food-dishes-Transparent-Images.png'),
     detail: 'Crispy Chicken Burger - Dessert',
     duration: '10 - 15 min',
     price: 20,
   },
   {
     id: 3,
-    nameDish: 'Crispy Chicken Burger',
+    nameDish: 'Crispy Chicken',
     categoryFoodType: [1, 4],
-    photo: require('../assets/images/burger-restaurant.jpg'),
+    photo: require('../assets/images/food-dishes-Transparent-Images.png'),
     detail: 'Crispy Chicken Burger - Starter',
     duration: '5 - 10 min',
     price: 10,
   },
   {
     id: 4,
-    nameDish: 'Crispy Chicken Burger',
+    nameDish: 'Crispy Chicken',
     categoryFoodType: [2, 4],
-    photo: require('../assets/images/burger-restaurant.jpg'),
+    photo: require('../assets/images/food-dishes-Transparent-Images.png'),
     detail: 'Crispy Chicken Burger - Main 2',
     duration: '15 - 20 min',
     price: 15,
@@ -93,7 +94,7 @@ const DishData = [
     id: 5,
     nameDish: 'Crispy Chicken',
     categoryFoodType: [1, 4],
-    photo: require('../assets/images/burger-restaurant.jpg'),
+    photo: require('../assets/images/food-dishes-Transparent-Images.png'),
     detail: 'Crispy Chicken Burger - Starter 2',
     duration: '3 - 8 min',
     price: 15,
@@ -113,6 +114,7 @@ const MenuOrderScreen = ({ navigation }) => {
   const [dishData, setDishData] = React.useState(DishData);
   const [BadgeCount, setBadgeCount] = React.useState(3);
   const [modalListOrder, setModalListOrder] = React.useState(false);
+  const [selectedDish, setSelectedDish] = React.useState(0);
   const theme = useSelector((state) => state.themeReducer.theme);
 
   function onSelectCategory(category) {
@@ -222,13 +224,15 @@ const MenuOrderScreen = ({ navigation }) => {
         <TouchableOpacity
           style={{
             padding: 10,
-            paddingBottom: 10 * 2,
+            alignSelf: 'center',
+            height: '80%',
             backgroundColor:
-              selectedCategory?.id == item.id ? '#FA4A0C' : '#F5F5F6',
+              selectedCategory?.id == item.id ? Colors.primary : '#F5F5F6',
             alignItems: 'center',
             justifyContent: 'center',
             borderRadius: 30,
             marginRight: 10,
+            flexDirection: 'row',
             ...styles.shadow,
           }}
           onPress={() => onSelectCategory(item)}
@@ -239,9 +243,11 @@ const MenuOrderScreen = ({ navigation }) => {
               height: 50,
               borderRadius: 25,
               alignItems: 'center',
+              alignSelf: 'center',
               justifyContent: 'center',
+              marginRight: 5,
               backgroundColor:
-                selectedCategory?.id == item.id ? '#FFFFFF' : '#F5F5F6',
+                selectedCategory?.id == item.id ? 'transparent' : 'transparent',
             }}
           >
             <Image
@@ -256,11 +262,11 @@ const MenuOrderScreen = ({ navigation }) => {
 
           <Text
             style={{
-              marginTop: 10,
+              marginTop: 0,
               color: selectedCategory?.id == item.id ? '#FFFFFF' : '#1E1F20',
-
-              fontSize: 12,
-              lineHeight: 22,
+              alignSelf: 'center',
+              fontSize: 14,
+              marginLeft: 0,
             }}
           >
             {item.name}
@@ -292,7 +298,10 @@ const MenuOrderScreen = ({ navigation }) => {
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => `${item.id}`}
           renderItem={renderItem}
-          contentContainerStyle={{ paddingVertical: 10 }}
+          contentContainerStyle={{
+            paddingVertical: 10,
+            paddingRight: 10,
+          }}
         />
       </View>
     );
@@ -301,120 +310,97 @@ const MenuOrderScreen = ({ navigation }) => {
   // List Dish Data Render Function
 
   function renderFoodList() {
-    const renderItem = ({ item }) => (
-      <TouchableOpacity
-        style={{
-          marginBottom: 10 * 2,
-        }}
-      >
-        {/* Image */}
-        <View
+    const RenderItemFlatList = ({ item }) => {
+      const [counter, setCounter] = React.useState(0);
+      function BtnDelPress() {
+        if (item.quantity > 0) {
+          setCounter((counter) => counter - 1);
+          item.quantity = counter - 1;
+          if (selectedDish > 0) {
+            setSelectedDish((counter) => counter - 1);
+          }
+        }
+      }
+      function BtnAddPress() {
+        setCounter((counter) => counter + 1);
+        item.quantity = counter + 1;
+        setSelectedDish((counter) => counter + 1);
+      }
+
+      return (
+        <LinearGradient
+          colors={['#eef2f3', '#eef2f3']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
           style={{
-            marginBottom: 10,
+            padding: 10,
+            width: 140,
+            height: 200,
+            margin: 10,
+            borderRadius: 20,
+            alignSelf: 'center',
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+
+            elevation: 5,
           }}
         >
           <Image
             source={item.photo}
-            resizeMode="cover"
             style={{
-              width: '100%',
-              height: 200,
-              borderRadius: 30,
+              borderRadius: 20,
+              marginBottom: '4%',
+              marginTop: '4%',
+              width: '80%',
+              height: '100%',
+              alignSelf: 'center',
+              resizeMode: 'contain',
+              flex: 5,
             }}
-          />
-          {/* Duration */}
-          <View
+          ></Image>
+          <Text
             style={{
-              position: 'absolute',
-              bottom: 0,
-              height: 50,
-              width: width * 0.3,
-              backgroundColor: '#FFFFFF',
-              borderTopRightRadius: 30,
-              borderBottomLeftRadius: 30,
-              alignItems: 'center',
-              justifyContent: 'center',
-              ...styles.shadow,
+              flex: 1.5,
+              color: '#434343',
             }}
           >
-            <Text
-              style={{
-                fontSize: 18,
-                lineHeight: 22,
-              }}
-            >
-              {item.duration}
-            </Text>
-          </View>
-        </View>
-
-        {/* Dish Name */}
-        <Text
-          style={{
-            fontSize: 20,
-            lineHeight: 30,
-            fontWeight: 'bold',
-          }}
-        >
-          {item.nameDish}
-        </Text>
-
-        {/* Dish Type Info */}
-        <View
-          style={{
-            flexDirection: 'row',
-            marginLeft: 10,
-          }}
-        >
-          {/* Categories Food Type */}
-          {/* {
-                        item.categoryFoodType.map((categoryId) => {
-                            return (
-                                <View
-                                    style={{ flexDirection: 'row' }}
-                                    key={categoryId}
-                                >
-                                    <Text style={{ 
-                                        fontSize: 16, lineHeight: 22,
-                                     }}>
-                                        {getCategoryNameById(categoryId)}
-                                    </Text>
-                                    <Text style={{ 
-                                        fontSize: 20, 
-                                        lineHeight: 22, 
-                                        color:  '#898C95' }}> . </Text>
-                                </View>
-                                )
-                            })
-                    } */}
-
+            {item.nameDish}
+          </Text>
+          <Text
+            style={{
+              color: Colors.primary,
+              flex: 2,
+              fontSize: 20,
+              fontWeight: 'bold',
+            }}
+          >
+            ${item.price}
+          </Text>
           <View
             style={{
+              flex: 2,
               flexDirection: 'row',
+              alignSelf: 'center',
+              alignItems: 'center',
+              justifyContent: 'space-evenly',
             }}
           >
-            <Text
-              style={{
-                lineHeight: 22,
-                fontSize: 16,
-                color: '#1E1F20',
-              }}
-            >
-              $
-            </Text>
-            <Text
-              style={{
-                lineHeight: 22,
-                fontSize: 16,
-                color: Colors.primary,
-              }}
-            >
-              {item.price}
-            </Text>
+            {/* <TouchableOpacity onPress={BtnDelPress} style={styles.buttonAdjust}>
+              <Text>-</Text>
+            </TouchableOpacity> */}
+
+            <TouchableOpacity onPress={BtnAddPress} style={styles.buttonAdjust}>
+              <Text>+</Text>
+            </TouchableOpacity>
           </View>
-        </View>
-      </TouchableOpacity>
-    );
+        </LinearGradient>
+      );
+    };
 
     // Function Render Food Item FlatList
     const FlatlistItem = ({ item }) => {
@@ -500,25 +486,34 @@ const MenuOrderScreen = ({ navigation }) => {
     };
 
     return (
-      <ScrollView
+      <View
         showsVerticalScrollIndicator={false}
         style={{
           marginVertical: 10,
           flex: 1,
+          borderRadius: 10,
         }}
       >
         <FlatList
           data={dishData}
           keyExtractor={(item) => `${item.id}`}
           renderItem={({ item, index }) => {
-            return <FlatlistItem item={item} index={index}></FlatlistItem>;
+            return (
+              <RenderItemFlatList
+                item={item}
+                index={index}
+              ></RenderItemFlatList>
+            );
           }}
           showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          numColumns={2}
           contentContainerStyle={{
             paddingHorizontal: 20,
             paddingTop: 10,
             marginBottom: 10,
             paddingBottom: 10,
+            borderRadius: 10,
           }}
         />
         <View
@@ -527,7 +522,7 @@ const MenuOrderScreen = ({ navigation }) => {
             paddingRight: 10,
           }}
         ></View>
-      </ScrollView>
+      </View>
     );
   }
 
@@ -547,7 +542,26 @@ const MenuOrderScreen = ({ navigation }) => {
       >
         {/* <TouchableWithoutFeedback>
           <View style={styles.floatingButton}>
-            <Image source={cart} style={{ width: 30, height: 30 }} />
+            {selectedDish > 0 ? (
+              <View style={styles.countingCartView}>
+                <Text
+                  style={{
+                    color: Colors.primary,
+                    alignSelf: "center",
+                    fontWeight: "bold",
+                    fontSize: 12,
+                  }}
+                >
+                  {selectedDish}
+                </Text>
+              </View>
+            ) : null}
+            <TouchableOpacity>
+              <ImageBackground
+                source={cart}
+                style={{ width: 30, height: 30 }}
+              ></ImageBackground>
+            </TouchableOpacity>
           </View>
         </TouchableWithoutFeedback> */}
         <View
@@ -638,6 +652,38 @@ const Content = styled.Text`
 export default MenuOrderScreen;
 
 const styles = StyleSheet.create({
+  textCounter: {},
+  buttonAdjust: {
+    height: 25,
+    width: 25,
+    marginHorizontal: '5%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    backgroundColor: Colors.primary,
+    borderRadius: 30,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+
+    elevation: 3,
+  },
+  countingCartView: {
+    alignItems: 'center',
+    width: 20,
+    height: 20,
+    backgroundColor: '#FFFFFF',
+    bottom: '67%',
+    left: '67%',
+    position: 'absolute',
+    borderRadius: 30,
+    borderColor: Colors.primary,
+    borderWidth: 2,
+  },
   floatingButton: {
     backgroundColor: Colors.primary,
 
