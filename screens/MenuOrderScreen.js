@@ -137,9 +137,10 @@ const MenuOrderScreen = ({ navigation }) => {
       <View
         style={{
           flexDirection: "row",
-          height: 50,
-          paddingTop: "2%",
-          marginBottom: "5%",
+          height: "100%",
+          flex: 0.3,
+          paddingTop: "3.5%",
+          marginBottom: "0%",
         }}
       >
         <TouchableOpacity
@@ -165,14 +166,25 @@ const MenuOrderScreen = ({ navigation }) => {
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
-          <View
+          {theme.mode === "light" ? (
+            <View
             style={{
               width: "70%",
               height: "100%",
-              backgroundColor: "#EFEFF1",
+              backgroundColor: "#Fff",
               alignItems: "center",
               justifyContent: "center",
               borderRadius: 30,
+              shadowColor: "#000",
+
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+
+              elevation: 5,
             }}
           >
             <Text
@@ -186,6 +198,39 @@ const MenuOrderScreen = ({ navigation }) => {
               TABLE 1
             </Text>
           </View>
+          ) : (
+            <View
+            style={{
+              width: "70%",
+              height: "100%",
+              backgroundColor: '#313133',
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 30,
+              shadowColor: '#555555',
+
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+
+              elevation: 5,
+            }}
+          >
+            <Text
+              style={{
+                lineHeight: 22,
+                fontSize: 20,
+                color: "#FA4A0C",
+                fontWeight: "bold",
+              }}
+            >
+              TABLE 1
+            </Text>
+          </View>
+          )}
         </View>
 
         <TouchableOpacity
@@ -215,71 +260,159 @@ const MenuOrderScreen = ({ navigation }) => {
   function renderMenuCategories() {
     const renderItem = ({ item }) => {
       return (
-        <TouchableOpacity
-          style={{
-            padding: 10,
-            alignSelf: 'center',
-            height: '80%',
-            backgroundColor:
-              selectedCategory?.id == item.id ? Colors.primary : "#F5F5F6",
-            alignItems: "center",
-            justifyContent: "center",
-            borderRadius: 30,
-            marginRight: 10,
-            flexDirection: "row",
-            ...styles.shadow,
-          }}
-          onPress={() => onSelectCategory(item)}
-        >
-          <View
-            style={{
-              width: 50,
-              height: 50,
-              borderRadius: 25,
-              alignItems: "center",
-              alignSelf: "center",
-              justifyContent: "center",
-              marginRight: 5,
-              backgroundColor:
-                 selectedCategory?.id == item.id ? 'transparent' : "transparent",
-            }}
-          >
-            <Image
-              source={item.icon}
-              resizeMode="contain"
+        <View>
+          {theme.mode === "light" ? (
+            <TouchableOpacity
               style={{
-                width: 30,
-                height: 30,
-              }}
-            />
-          </View>
+                padding: 10,
+                alignSelf: "center",
+                height: 60,
+                backgroundColor:
+                  selectedCategory?.id == item.id ? Colors.primary : "#FFF",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 30,
+                marginVertical: 5,
+                marginHorizontal: 10,
+                flexDirection: "row",
+                shadowColor: "#000",
 
-          <Text
-            style={{
-              marginTop: 0,
-              color: selectedCategory?.id == item.id ? "#FFFFFF" : "#1E1F20",
-              alignSelf: "center",
-              fontSize: 14,
-              marginLeft: 0,
-            }}
-          >
-            {item.name}
-          </Text>
-        </TouchableOpacity>
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+
+                elevation: 5,
+              }}
+              onPress={() => onSelectCategory(item)}
+            >
+              <View
+                style={{
+                  width: 50,
+                  height: 50,
+                  borderRadius: 25,
+                  alignItems: "center",
+                  alignSelf: "center",
+                  justifyContent: "center",
+                  marginRight: 5,
+                  backgroundColor:
+                    selectedCategory?.id == item.id
+                      ? "transparent"
+                      : "transparent",
+                }}
+              >
+                <Image
+                  source={item.icon}
+                  resizeMode="contain"
+                  style={{
+                    width: 30,
+                    height: 30,
+                  }}
+                />
+              </View>
+
+              <Text
+                style={{
+                  marginTop: 0,
+                  color:
+                    selectedCategory?.id == item.id ? "#FFFFFF" : "#1E1F20",
+                  alignSelf: "center",
+                  fontSize: 14,
+                  marginLeft: 0,
+                }}
+              >
+                {item.name}
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={{
+                padding: 10,
+                alignSelf: "center",
+                height: 60,
+                backgroundColor:
+                  selectedCategory?.id == item.id ? Colors.primary : '#313133',
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 30,
+                marginVertical: 5,
+                marginHorizontal: 10,
+                flexDirection: "row",
+                shadowColor:'#555555',
+
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+
+                elevation: 5,
+              }}
+              onPress={() => onSelectCategory(item)}
+            >
+              <View
+                style={{
+                  width: 50,
+                  height: 50,
+                  borderRadius: 25,
+                  alignItems: "center",
+                  alignSelf: "center",
+                  justifyContent: "center",
+                  marginRight: 5,
+                  backgroundColor:
+                    selectedCategory?.id == item.id
+                      ? "transparent"
+                      : "transparent",
+                }}
+              >
+                <Image
+                  source={item.icon}
+                  resizeMode="contain"
+                  style={{
+                    width: 30,
+                    height: 30,
+                  }}
+                />
+              </View>
+
+              <Text
+                style={{
+                  marginTop: 0,
+                  color: '#FFFFFF',
+                  alignSelf: "center",
+                  fontSize: 14,
+                  marginLeft: 0,
+                }}
+              >
+                {item.name}
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
       );
     };
 
     return (
       <View
         style={{
-          paddingHorizontal: 10 * 2,
+          marginTop: "2%",
+          paddingHorizontal: 20,
+          height: "100%",
+          flex: 1.1,
         }}
+        horizontal={true}
       >
         <Text
           style={{
             fontSize: 25,
-            lineHeight: 50,
+            lineHeight: 40,
             fontWeight: "bold",
+            paddingHorizontal: 5,
+            flex: 0.4,
+            color: Colors.primary,
           }}
         >
           Categories
@@ -288,13 +421,24 @@ const MenuOrderScreen = ({ navigation }) => {
         {/* FlatList Render Button Menu Categories */}
         <FlatList
           data={categories}
-          horizontal
+          horizontal={false}
+          style={{
+            paddingVertical: 0,
+            height: "100%",
+            flex: 1.5,
+            width: "100%",
+            alignSelf: "center",
+            alignContent: "center",
+          }}
           showsHorizontalScrollIndicator={false}
+          numColumns={2}
           keyExtractor={(item) => `${item.id}`}
           renderItem={renderItem}
           contentContainerStyle={{
-            paddingVertical: 10,
-            paddingRight: 10,
+            flexGrow: 1,
+            paddingHorizontal: 5,
+            alignItems: "center",
+            alignContent: "center",
           }}
         />
       </View>
@@ -310,7 +454,7 @@ const MenuOrderScreen = ({ navigation }) => {
         if (item.quantity > 0) {
           setCounter((counter) => counter - 1);
           item.quantity = counter - 1;
-          if(selectedDish > 0){
+          if (selectedDish > 0) {
             setSelectedDish((counter) => counter - 1);
           }
         }
@@ -323,7 +467,7 @@ const MenuOrderScreen = ({ navigation }) => {
 
       return (
         <LinearGradient
-          colors={["#eef2f3", "#eef2f3"]}
+          colors={["#D3D3D3", "#eef2f3"]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           style={{
@@ -348,7 +492,7 @@ const MenuOrderScreen = ({ navigation }) => {
             source={item.photo}
             style={{
               borderRadius: 20,
-              marginBottom: '4%',
+              marginBottom: "4%",
               marginTop: "4%",
               width: "80%",
               height: "100%",
@@ -360,7 +504,7 @@ const MenuOrderScreen = ({ navigation }) => {
           <Text
             style={{
               flex: 1.5,
-              color: '#434343',
+              color: "#434343",
             }}
           >
             {item.nameDish}
@@ -481,10 +625,9 @@ const MenuOrderScreen = ({ navigation }) => {
 
     return (
       <View
-        showsVerticalScrollIndicator={false}
         style={{
           marginVertical: 10,
-          flex: 1,
+          flex: 2.5,
           borderRadius: 10,
         }}
       >
@@ -521,50 +664,58 @@ const MenuOrderScreen = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      {renderHeader()}
-      {renderMenuCategories()}
-      {renderFoodList()}
-      <View
-        style={{
-          position: "absolute",
-          alignItems: "center",
-          width: 60,
-          height: 60,
-          top: "93%",
-          left: "80%",
-        }}
-      >
-        <TouchableWithoutFeedback>
-          <View style={styles.floatingButton}>
-            {selectedDish > 0 ? (
-              <View style={styles.countingCartView}>
-                <Text
-                  style={{
-                    color: Colors.primary,
-                    alignSelf: "center",
-                    fontWeight: "bold",
-                    fontSize: 12,
-                  }}
-                >
-                  {selectedDish}
-                </Text>
-              </View>
-            ) : null}
-            <TouchableOpacity>
-              <ImageBackground
-                source={cart}
-                style={{ width: 30, height: 30 }}
-              ></ImageBackground>
-            </TouchableOpacity>
-          </View>
-        </TouchableWithoutFeedback>
-      </View>
-    </SafeAreaView>
+    <ThemeProvider theme={theme}>
+      <ContainerSafeAreaView>
+        {renderHeader()}
+        {renderMenuCategories()}
+        {renderFoodList()}
+        <View
+          style={{
+            position: "absolute",
+            alignItems: "center",
+            width: 60,
+            height: 60,
+            top: "93%",
+            left: "80%",
+          }}
+        >
+          <TouchableWithoutFeedback>
+            <View style={styles.floatingButton}>
+              {selectedDish > 0 ? (
+                <View style={styles.countingCartView}>
+                  <Text
+                    style={{
+                      color: Colors.primary,
+                      alignSelf: "center",
+                      fontWeight: "bold",
+                      fontSize: 12,
+                    }}
+                  >
+                    {selectedDish}
+                  </Text>
+                </View>
+              ) : null}
+              <TouchableOpacity>
+                <ImageBackground
+                  source={cart}
+                  style={{ width: 30, height: 30 }}
+                ></ImageBackground>
+              </TouchableOpacity>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      </ContainerSafeAreaView>
+    </ThemeProvider>
   );
 };
 
 export default MenuOrderScreen;
+
+const ContainerSafeAreaView = styled.SafeAreaView`
+  flex: 1;
+  background-color: ${(props) => props.theme.PRIMARY_BACKGROUND_ACCOUNT_COLOR};
+  padding-top: 6%;
+`;
 
 const styles = StyleSheet.create({
   textCounter: {},
@@ -620,7 +771,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-
     backgroundColor: "#fff",
     paddingTop: "6%",
   },
