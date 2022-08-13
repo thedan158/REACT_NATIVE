@@ -288,7 +288,7 @@ const Container = styled.View`
   padding-top: 0;
   padding-bottom: 7%;
   padding-top: 5%;
-  background-color: ${(props) => props.theme.PRIMARY_BACKGROUND_ACCOUNT_COLOR};
+  background-color: ${(props) => props.theme.PRIMARY_BACKGROUND_COLOR};
 `;
 
 const Content_Header = styled.Text`
