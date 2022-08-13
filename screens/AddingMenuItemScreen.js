@@ -13,6 +13,7 @@ import {
 import React, { useEffect, useState } from "react";
 import back from "../assets/icons/back-green.png";
 import gallery from "../assets/icons/picture.png";
+import galleryDarkTheme from "../assets/icons/pictureDarkTheme.png";
 import { useNavigation } from "@react-navigation/core";
 import CustomTextInput from "../custom component/CustomTextInput";
 import Colors from "../assets/Colors";
@@ -25,9 +26,16 @@ import SelectDropdown from "react-native-select-dropdown";
 import { firebaseConfig } from "../firebase";
 import * as firebase from "firebase";
 
+import styled, { ThemeProvider } from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+
+
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 const AddingMenuItemScreen = () => {
+
+  const theme = useSelector((state) => state.themeReducer.theme);
+
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
   }
@@ -130,157 +138,170 @@ const AddingMenuItemScreen = () => {
   };
   const navigation = useNavigation();
   return (
-    <ImageBackground
-      source={background}
-      resizeMode="cover"
-      style={{
-        flex: 1,
-      }}
-    >
-      <ScrollView>
-        <View style={styles.container}>
-          <View
-            style={{
-              flexDirection: "row",
-              marginTop: 20,
-              width: windowWidth,
-              alignItems: "center",
-              justifyContent: "space-between",
-              flex: 0.5,
-            }}
-          >
-            <TouchableOpacity
+    <ThemeProvider theme={theme}>
+          <ContainerView>
+            <View
               style={{
-                justifyContent: "flex-start",
-                alignItems: "center",
                 flexDirection: "row",
-                marginLeft: 20,
-              }}
-              onPress={() => {
-                navigation.goBack();
+                marginTop: 20,
+                width: windowWidth,
+                alignItems: "center",
+                justifyContent: "space-between",
+                flex: 0.5,
               }}
             >
-              <Image
-                source={back}
+              <TouchableOpacity
                 style={{
-                  height: 20,
-                  width: 20,
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  marginLeft: 20,
+                }}
+                onPress={() => {
+                  navigation.goBack();
+                }}
+              >
+                <Image
+                  source={back}
+                  style={{
+                    height: 20,
+                    width: 20,
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+
+            {/* Pick image  */}
+            <View style={styles.view2}>
+              <TouchableOpacity onPress={PickImage}>
+                {theme.mode === 'light' ? (
+                  <View style={styles.pickLogo}>
+                  <ImageBackground
+                    style={styles.ImageBackground}
+                    source={gallery}
+                  />
+
+                  {image && (
+                    <Image source={{ uri: image }} style={styles.pick}></Image>
+                  )}
+                </View>
+                ) : (
+                  <View style={styles.pickLogoDarkTheme}>
+                  <ImageBackground
+                    style={styles.ImageBackground}
+                    source={galleryDarkTheme}
+                  />
+
+                  {image && (
+                    <Image source={{ uri: image }} style={styles.pick}></Image>
+                  )}
+                </View>
+                )}
+              </TouchableOpacity>
+              <TouchableOpacity onPress={PickImage} style={styles.button1}>
+                <Text style={styles.buttonText}>Select Your Image</Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Input section  */}
+            <View style={styles.view3}>
+              {/* Features input */}
+
+              <SelectDropdown
+                buttonStyle={styles.selectFoodType}
+                defaultButtonText="Select Food Type"
+                dropdownStyle={styles.dropdownStyle}
+                data={foodTypeContainer}
+                onSelect={(selectedItem, index) => {
+                  console.log(selectedItem, index);
+                  setFoodType(selectedItem);
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  // text represented after item is selected
+                  // if data array is an array of objects then return selectedItem.property to render after item is selected
+                  return selectedItem;
+                }}
+                rowTextForSelection={(item, index) => {
+                  // text represented for each item in dropdown
+                  // if data array is an array of objects then return item.property to represent item in dropdown
+                  return item;
                 }}
               />
-            </TouchableOpacity>
-          </View>
+              {/* Name dish input */}
 
-          {/* Pick image  */}
-          <View style={styles.view2}>
-            <TouchableOpacity onPress={PickImage}>
-              <View style={styles.pickLogo}>
-                <ImageBackground
-                  style={styles.ImageBackground}
-                  source={gallery}
-                />
+              <CustomTextInput
+                blurColor={Colors.secondary}
+                value={nameDish}
+                onChangeText={(text) => setNameDish(text)}
+                placeholder="Name Dish"
+              />
 
-                {image && (
-                  <Image source={{ uri: image }} style={styles.pick}></Image>
-                )}
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={PickImage} style={styles.button1}>
-              <Text style={styles.buttonText}>Select Your Image</Text>
-            </TouchableOpacity>
-          </View>
-
-          {/* Input section  */}
-          <View style={styles.view3}>
-            {/* Features input */}
-
-            <SelectDropdown
-              buttonStyle={styles.selectFoodType}
-              defaultButtonText="Select Food Type"
-              dropdownStyle={styles.dropdownStyle}
-              data={foodTypeContainer}
-              onSelect={(selectedItem, index) => {
-                console.log(selectedItem, index);
-                setFoodType(selectedItem);
-              }}
-              buttonTextAfterSelection={(selectedItem, index) => {
-                // text represented after item is selected
-                // if data array is an array of objects then return selectedItem.property to render after item is selected
-                return selectedItem;
-              }}
-              rowTextForSelection={(item, index) => {
-                // text represented for each item in dropdown
-                // if data array is an array of objects then return item.property to represent item in dropdown
-                return item;
-              }}
-            />
-            {/* Name dish input */}
-
-            <CustomTextInput
-              blurColor={Colors.secondary}
-              value={nameDish}
-              onChangeText={(text) => setNameDish(text)}
-              placeholder="Name Dish"
-            />
-
-            {/* Price Dish */}
+              {/* Price Dish */}
 
 
-            <CustomTextInput
-              blurColor={Colors.secondary}
-              value={priceDish}
-              onChangeText={(text) => setPriceDish(text)}
-              placeholder="Price Dish"
-              keyboardType="decimal-pad"
-            />
+              <CustomTextInput
+                blurColor={Colors.secondary}
+                value={priceDish}
+                onChangeText={(text) => setPriceDish(text)}
+                placeholder="Price Dish"
+                keyboardType="decimal-pad"
+              />
 
-            {/* Discount  */}
-            <CustomTextInput
-              blurColor={Colors.secondary}
-              value={discount}
-              onChangeText={(text) => setDiscount(text)}
-              placeholder="Discount"
-              keyboardType="decimal-pad"
-            />
-          </View>
-
-          <View style={styles.view4}>
-            {/* Button save */}
-            <TouchableOpacity onPress={handleSave} style={styles.button}>
-              <Text style={styles.buttonText}>Save</Text>
-            </TouchableOpacity>
-          </View>
-
-          {/* Modal  */}
-          <CustomModal visible={visible}>
-            <View style={{ alignItems: "center" }}>
-              <Image
-                source={require("../assets/icons/save-green.png")}
-                style={{ height: 150, width: 150, marginVertical: 30 }}
+              {/* Discount  */}
+              <CustomTextInput
+                blurColor={Colors.secondary}
+                value={discount}
+                onChangeText={(text) => setDiscount(text)}
+                placeholder="Discount"
+                keyboardType="decimal-pad"
               />
             </View>
 
-            <Text
-              style={{ marginVertical: 30, fontSize: 20, textAlign: "center" }}
-            >
-              Adding to menu successfully.
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setVisible(false);
-                navigation.goBack();
-              }}
-              style={styles.button}
-            >
-              <Text style={styles.buttonText}>OK</Text>
-            </TouchableOpacity>
-          </CustomModal>
-        </View>
-      </ScrollView>
-    </ImageBackground>
+            <View style={styles.view4}>
+              {/* Button save */}
+              <TouchableOpacity onPress={handleSave} style={styles.button}>
+                <Text style={styles.buttonText}>Save</Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Modal  */}
+            <CustomModal visible={visible}>
+              <View style={{ alignItems: "center" }}>
+                <Image
+                  source={require("../assets/icons/save-green.png")}
+                  style={{ height: 150, width: 150, marginVertical: 30 }}
+                />
+              </View>
+
+              <Text
+                style={{ marginVertical: 30, fontSize: 20, textAlign: "center" }}
+              >
+                Adding to menu successfully.
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  setVisible(false);
+                  navigation.goBack();
+                }}
+                style={styles.button}
+              >
+                <Text style={styles.buttonText}>OK</Text>
+              </TouchableOpacity>
+            </CustomModal>
+          </ContainerView>
+    </ThemeProvider>
   );
 };
 
 export default AddingMenuItemScreen;
+
+const ContainerView = styled.View`
+  flex: 1;
+  height: ${windowHeight};
+  width: ${windowWidth};
+  padding-top: 2%;
+  background-color: ${(props) => props.theme.PRIMARY_BACKGROUND_COLOR};
+`
 
 const styles = StyleSheet.create({
   container: {
@@ -318,6 +339,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderColor: "black",
+    borderWidth: 3,
+    borderRadius: 10,
+    borderStyle: "dashed",
+  },
+  pickLogoDarkTheme:{
+    width: 140,
+    height: 140,
+    backgroundColor: "#121212",
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "white",
     borderWidth: 3,
     borderRadius: 10,
     borderStyle: "dashed",

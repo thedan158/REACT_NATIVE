@@ -207,7 +207,7 @@ const OrderScreenUpdate1 = ({ navigation }) => {
                 source={require("../assets/icons/QuestionMarkOrange.png")}
                 style={{ height: 150, width: 150, marginVertical: 30 }}
               />
-              {theme === 'light' ? (
+              {theme.mode === 'light' ? (
                 <Text
                 style={{
                   marginVertical: 30,
@@ -269,7 +269,7 @@ const OrderScreenUpdate1 = ({ navigation }) => {
                 source={require("../assets/icons/orderSticker.png")}
                 style={{ height: 150, width: 150, marginVertical: 30 }}
               />
-              {theme == 'light' ? (
+              {theme.mode == 'light' ? (
                 <Text
                 style={{
                   marginVertical: 30,

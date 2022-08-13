@@ -18,6 +18,11 @@ import { useNavigation } from '@react-navigation/core';
 import del_light from '../assets/icons/delete_light.png';
 import CustomModal from '../custom component/CustomModal';
 import gallery from '../assets/icons/picture.png';
+import galleryDarkTheme from "../assets/icons/pictureDarkTheme.png";
+
+import styled, { ThemeProvider } from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -53,182 +58,196 @@ const EditMenuScreen = ({ route }) => {
   };
 
   return (
-    <ImageBackground
-      source={background}
-      resizeMode="cover"
-      style={{
-        flex: 1,
-      }}
-    >
-      <ScrollView>
-        <View style={styles.container}>
-          <View
-            style={{
-              flexDirection: 'row',
-              marginTop: 20,
-              width: windowWidth,
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              flex: 0.5,
-            }}
-          >
-            <TouchableOpacity
+    <ThemeProvider theme={theme}> 
+      <ContainerView>
+            <View
               style={{
-                justifyContent: 'flex-start',
-                alignItems: 'center',
                 flexDirection: 'row',
-                marginLeft: 20,
-              }}
-              onPress={() => {
-                navigation.goBack();
+                marginTop: 20,
+                width: windowWidth,
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flex: 0.5,
               }}
             >
-              <Image
-                source={back}
+              <TouchableOpacity
                 style={{
-                  height: 20,
-                  width: 20,
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  marginLeft: 20,
                 }}
-              />
-            </TouchableOpacity>
-          </View>
-
-          {/* Pick image  */}
-          <View style={styles.view2}>
-            <TouchableOpacity onPress={PickImage}>
-              <View style={styles.pickLogo}>
-                <ImageBackground
-                  style={styles.ImageBackground}
-                  imageStyle={{ borderRadius: 15 }}
-                  source={gallery}
+                onPress={() => {
+                  navigation.goBack();
+                }}
+              >
+                <Image
+                  source={back}
+                  style={{
+                    height: 20,
+                    width: 20,
+                  }}
                 />
-                {image && (
-                  <Image source={{ uri: image }} style={styles.pick}></Image>
+              </TouchableOpacity>
+            </View>
+
+            {/* Pick image  */}
+            <View style={styles.view2}>
+              <TouchableOpacity onPress={PickImage}>
+
+                {theme.mode === 'light' ? (
+                  <View style={styles.pickLogo}>
+                  <ImageBackground
+                    style={styles.ImageBackground}
+                    source={gallery}
+                  />
+
+                  {image && (
+                    <Image source={{ uri: image }} style={styles.pick}></Image>
+                  )}
+                </View>
+                ) : (
+                  <View style={styles.pickLogoDarkTheme}>
+                  <ImageBackground
+                    style={styles.ImageBackground}
+                    source={galleryDarkTheme}
+                  />
+
+                  {image && (
+                    <Image source={{ uri: image }} style={styles.pick}></Image>
+                  )}
+                </View>
                 )}
+              </TouchableOpacity>
+              <TouchableOpacity onPress={PickImage} style={styles.button1}>
+                <Text style={styles.buttonText}>Select Your Image</Text>
+              </TouchableOpacity>
+            </View>
+            {/* Input section  */}
+            <View style={styles.view3}>
+              {/* Name dish input */}
+
+              <CustomTextInput
+                blurColor={Colors.secondary}
+                value={nameDish}
+                onChangeText={(text) => setNameDish(text)}
+                placeholder="Name Dish"
+              />
+
+              {/* Features input */}
+
+              <CustomTextInput
+                blurColor={Colors.secondary}
+                value={specialFeatures}
+                onChangeText={(text) => setSpecialFeatures(text)}
+                placeholder="Special Features"
+              />
+
+              {/* Price Dish */}
+
+              <CustomTextInput
+                blurColor={Colors.secondary}
+                value={priceDish}
+                onChangeText={(text) => setPriceDish(text)}
+                placeholder="Price Dish"
+                keyboardType="decimal-pad"
+              />
+
+              {/* Discount  */}
+              <CustomTextInput
+                blurColor={Colors.secondary}
+                value={discount}
+                onChangeText={(text) => setDiscount(text)}
+                placeholder="Discount"
+                keyboardType="decimal-pad"
+              />
+            </View>
+
+            <View style={styles.view4}>
+              {/* Button Delete */}
+              <TouchableOpacity
+                onPress={() => {
+                  setVisibleDeleted(true);
+                }}
+                style={styles.buttonDelete}
+              >
+                <Image
+                  source={del_light}
+                  style={{ height: 15, width: 15, marginHorizontal: 10 }}
+                />
+                <Text style={styles.buttonTextDelete}>Delete</Text>
+              </TouchableOpacity>
+
+              {/* Button Save */}
+              <TouchableOpacity
+                onPress={() => setVisible(true)}
+                style={styles.button}
+              >
+                <Text style={styles.buttonText}>SAVE</Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Modal delete */}
+            <CustomModal visible={visibleDeleted}>
+              <View style={{ alignItems: 'center' }}>
+                <Image
+                  source={require('../assets/icons/save-green.png')}
+                  style={{ height: 150, width: 150, marginVertical: 30 }}
+                />
               </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={PickImage} style={styles.button1}>
-              <Text style={styles.buttonText}>Select Your Image</Text>
-            </TouchableOpacity>
-          </View>
-          {/* Input section  */}
-          <View style={styles.view3}>
-            {/* Name dish input */}
 
-            <CustomTextInput
-              blurColor={Colors.secondary}
-              value={nameDish}
-              onChangeText={(text) => setNameDish(text)}
-              placeholder="Name Dish"
-            />
+              <Text
+                style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}
+              >
+                Deleted table successfully.
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  setVisibleDeleted(false);
+                }}
+                style={styles.button}
+              >
+                <Text style={styles.buttonText}>OK</Text>
+              </TouchableOpacity>
+            </CustomModal>
 
-            {/* Features input */}
+            {/* Modal adding  */}
+            <CustomModal visible={visible}>
+              <View style={{ alignItems: 'center' }}>
+                <Image
+                  source={require('../assets/icons/save-green.png')}
+                  style={{ height: 150, width: 150, marginVertical: 30 }}
+                />
+              </View>
 
-            <CustomTextInput
-              blurColor={Colors.secondary}
-              value={specialFeatures}
-              onChangeText={(text) => setSpecialFeatures(text)}
-              placeholder="Special Features"
-            />
-
-            {/* Price Dish */}
-
-            <CustomTextInput
-              blurColor={Colors.secondary}
-              value={priceDish}
-              onChangeText={(text) => setPriceDish(text)}
-              placeholder="Price Dish"
-              keyboardType="decimal-pad"
-            />
-
-            {/* Discount  */}
-            <CustomTextInput
-              blurColor={Colors.secondary}
-              value={discount}
-              onChangeText={(text) => setDiscount(text)}
-              placeholder="Discount"
-              keyboardType="decimal-pad"
-            />
-          </View>
-
-          <View style={styles.view4}>
-            {/* Button Delete */}
-            <TouchableOpacity
-              onPress={() => {
-                setVisibleDeleted(true);
-              }}
-              style={styles.buttonDelete}
-            >
-              <Image
-                source={del_light}
-                style={{ height: 15, width: 15, marginHorizontal: 10 }}
-              />
-              <Text style={styles.buttonTextDelete}>Delete</Text>
-            </TouchableOpacity>
-
-            {/* Button Save */}
-            <TouchableOpacity
-              onPress={() => setVisible(true)}
-              style={styles.button}
-            >
-              <Text style={styles.buttonText}>SAVE</Text>
-            </TouchableOpacity>
-          </View>
-
-          {/* Modal delete */}
-          <CustomModal visible={visibleDeleted}>
-            <View style={{ alignItems: 'center' }}>
-              <Image
-                source={require('../assets/icons/save-green.png')}
-                style={{ height: 150, width: 150, marginVertical: 30 }}
-              />
-            </View>
-
-            <Text
-              style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}
-            >
-              Deleted table successfully.
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setVisibleDeleted(false);
-              }}
-              style={styles.button}
-            >
-              <Text style={styles.buttonText}>OK</Text>
-            </TouchableOpacity>
-          </CustomModal>
-
-          {/* Modal adding  */}
-          <CustomModal visible={visible}>
-            <View style={{ alignItems: 'center' }}>
-              <Image
-                source={require('../assets/icons/save-green.png')}
-                style={{ height: 150, width: 150, marginVertical: 30 }}
-              />
-            </View>
-
-            <Text
-              style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}
-            >
-              Adding table successfully.
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setVisible(false);
-              }}
-              style={styles.button}
-            >
-              <Text style={styles.buttonText}>OK</Text>
-            </TouchableOpacity>
-          </CustomModal>
-        </View>
-      </ScrollView>
-    </ImageBackground>
+              <Text
+                style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}
+              >
+                Adding table successfully.
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  setVisible(false);
+                }}
+                style={styles.button}
+              >
+                <Text style={styles.buttonText}>OK</Text>
+              </TouchableOpacity>
+            </CustomModal>
+      </ContainerView>
+    </ThemeProvider>
   );
 };
 
 export default EditMenuScreen;
+
+const ContainerView = styled.View`
+  flex: 1;
+  padding-top: 5%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`
 
 const styles = StyleSheet.create({
   container: {
@@ -315,6 +334,30 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '700',
     fontSize: 16,
+  },
+  pickLogo: {
+    width: 140,
+    height: 140,
+    backgroundColor: "white",
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "black",
+    borderWidth: 3,
+    borderRadius: 10,
+    borderStyle: "dashed",
+  },
+  pickLogoDarkTheme:{
+    width: 140,
+    height: 140,
+    backgroundColor: "#121212",
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "white",
+    borderWidth: 3,
+    borderRadius: 10,
+    borderStyle: "dashed",
   },
   buttonDelete: {
     backgroundColor: '#FFF0F3',
