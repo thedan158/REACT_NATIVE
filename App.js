@@ -164,6 +164,11 @@ export default function App() {
         >
           <Stack.Screen
             options={{ headerShown: false }}
+            name="SplashScreen"
+            component={SplashScreen}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
             name="MenuOrderScreen"
             component={MenuOrderScreen}
           />
@@ -171,12 +176,6 @@ export default function App() {
             options={{ headerShown: false }}
             name="TabForStaff"
             component={TabForStaff}
-          />
-
-          <Stack.Screen
-            options={{ headerShown: false }}
-            name="SplashScreen"
-            component={SplashScreen}
           />
 
           <Stack.Screen

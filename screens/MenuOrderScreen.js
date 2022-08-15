@@ -278,7 +278,7 @@ const MenuOrderScreen = ({ navigation }) => {
     return (
       <View
         style={{
-          paddingHorizontal: 10 * 2,
+          paddingLeft: 10 * 2,
         }}
       >
         <Text
@@ -329,7 +329,7 @@ const MenuOrderScreen = ({ navigation }) => {
 
       return (
         <LinearGradient
-          colors={['#eef2f3', '#eef2f3']}
+          colors={['#F8F8F9', '#F8F8F9']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           style={{
@@ -339,7 +339,7 @@ const MenuOrderScreen = ({ navigation }) => {
             margin: 10,
             borderRadius: 20,
             alignSelf: 'center',
-            shadowColor: '#000',
+            shadowColor: '#777777',
             shadowOffset: {
               width: 0,
               height: 2,
@@ -347,7 +347,7 @@ const MenuOrderScreen = ({ navigation }) => {
             shadowOpacity: 0.25,
             shadowRadius: 3.84,
 
-            elevation: 5,
+            elevation: 25,
           }}
         >
           <Image
@@ -495,6 +495,7 @@ const MenuOrderScreen = ({ navigation }) => {
         }}
       >
         <FlatList
+          columnWrapperStyle={{ justifyContent: 'space-between' }}
           data={dishData}
           keyExtractor={(item) => `${item.id}`}
           renderItem={({ item, index }) => {
@@ -582,7 +583,7 @@ const MenuOrderScreen = ({ navigation }) => {
             }
             BadgeElement={
               <Text style={{ color: Colors.primary, fontWeight: 'bold' }}>
-                {BadgeCount}
+                {selectedDish}
               </Text>
             }
             IconBadgeStyle={{
