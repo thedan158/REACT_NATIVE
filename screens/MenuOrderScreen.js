@@ -112,7 +112,6 @@ const MenuOrderScreen = ({ navigation }) => {
   const [categories, setCategories] = React.useState(categoryMenuTypeData);
   const [selectedCategory, setSelectedCategory] = React.useState(null);
   const [dishData, setDishData] = React.useState(DishData);
-  const [BadgeCount, setBadgeCount] = React.useState(3);
   const [modalListOrder, setModalListOrder] = React.useState(false);
   const [selectedDish, setSelectedDish] = React.useState(0);
   const theme = useSelector((state) => state.themeReducer.theme);
@@ -189,7 +188,7 @@ const MenuOrderScreen = ({ navigation }) => {
                 fontWeight: 'bold',
               }}
             >
-              TABLE 1
+              {item.name}
             </Text>
           </View>
         </View>
@@ -280,6 +279,7 @@ const MenuOrderScreen = ({ navigation }) => {
         style={{
           paddingLeft: 10 * 2,
         }}
+        horizontal={true}
       >
         <Text
           style={{
@@ -294,13 +294,24 @@ const MenuOrderScreen = ({ navigation }) => {
         {/* FlatList Render Button Menu Categories */}
         <FlatList
           data={categories}
-          horizontal
+          horizontal={false}
+          style={{
+            paddingVertical: 0,
+            height: '100%',
+            flex: 1.5,
+            width: '100%',
+            alignSelf: 'center',
+            alignContent: 'center',
+          }}
           showsHorizontalScrollIndicator={false}
+          numColumns={2}
           keyExtractor={(item) => `${item.id}`}
           renderItem={renderItem}
           contentContainerStyle={{
-            paddingVertical: 10,
-            paddingRight: 10,
+            flexGrow: 1,
+            paddingHorizontal: 5,
+            alignItems: 'center',
+            alignContent: 'center',
           }}
         />
       </View>
@@ -487,10 +498,9 @@ const MenuOrderScreen = ({ navigation }) => {
 
     return (
       <View
-        showsVerticalScrollIndicator={false}
         style={{
           marginVertical: 10,
-          flex: 1,
+          flex: 2.5,
           borderRadius: 10,
         }}
       >
@@ -548,8 +558,8 @@ const MenuOrderScreen = ({ navigation }) => {
                 <Text
                   style={{
                     color: Colors.primary,
-                    alignSelf: "center",
-                    fontWeight: "bold",
+                    alignSelf: 'center',
+                    fontWeight: 'bold',
                     fontSize: 12,
                   }}
                 >
@@ -578,7 +588,7 @@ const MenuOrderScreen = ({ navigation }) => {
                 onPress={() => setModalListOrder(true)}
                 style={styles.floatingButton}
               >
-                <Image source={cart} style={{ width: 25, height: 25 }} />
+                <Image source={cart} style={{ width: 30, height: 30 }} />
               </TouchableOpacity>
             }
             BadgeElement={
@@ -593,7 +603,7 @@ const MenuOrderScreen = ({ navigation }) => {
               borderColor: Colors.primary,
               borderWidth: 2,
             }}
-            Hidden={BadgeCount == 0}
+            Hidden={selectedDish == 0}
           />
         </View>
       </View>
@@ -602,7 +612,7 @@ const MenuOrderScreen = ({ navigation }) => {
 
         {/* Table name  */}
         <View style={styles.tableName}>
-          <Content style={{ color: Colors.primary }}>Table 1</Content>
+          <Content style={{ color: Colors.primary }}>{item.name}</Content>
         </View>
         {/* Close button  */}
         <TouchableOpacity
@@ -622,6 +632,8 @@ const MenuOrderScreen = ({ navigation }) => {
 
         {/* List order  */}
         <ScrollView style={styles.listOrder}>
+          <FoodComponent />
+          <FoodComponent />
           <FoodComponent />
         </ScrollView>
 
@@ -651,6 +663,12 @@ const Content = styled.Text`
 `;
 
 export default MenuOrderScreen;
+
+const ContainerSafeAreaView = styled.SafeAreaView`
+  flex: 1;
+  background-color: ${(props) => props.theme.PRIMARY_BACKGROUND_ACCOUNT_COLOR};
+  padding-top: 6%;
+`;
 
 const styles = StyleSheet.create({
   textCounter: {},

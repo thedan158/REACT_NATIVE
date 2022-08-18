@@ -21,10 +21,17 @@ import background from '../assets/images/background.png';
 import CustomModal from '../custom component/CustomModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+
+import styled, { ThemeProvider } from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const AddingTable = () => {
+
+  const theme = useSelector((state) => state.themeReducer.theme);
   const [nameTable, setNameTable] = useState('');
   const [numberPeople, setNumberPeople] = useState('');
   const [position, setPosition] = useState('');
@@ -71,12 +78,12 @@ const AddingTable = () => {
     }
   };
   return (
-    <ScrollView>
-      <View style={styles.container}>
+    <ThemeProvider theme={theme}>
+      <ContainerView>
         <View
           style={{
             flexDirection: 'row',
-
+            paddingTop: '0%',
             width: windowWidth,
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -155,21 +162,24 @@ const AddingTable = () => {
             <Text style={styles.buttonText}>OK</Text>
           </TouchableOpacity>
         </CustomModal>
-      </View>
-    </ScrollView>
+      </ContainerView>
+    </ThemeProvider>
+      
+    
   );
 };
 
 export default AddingTable;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    height: windowHeight,
-    width: windowWidth,
+const ContainerView = styled.View`
+  flex: 1;
+  height: ${windowHeight};
+  width: ${windowWidth};
+  background-color: ${(props) => props.theme.PRIMARY_BACKGROUND_COLOR};
+  padding-top: 0%;
+`
 
-    backgroundColor: 'white',
-  },
+const styles = StyleSheet.create({
   view2: {
     justifyContent: 'space-evenly',
     alignItems: 'center',

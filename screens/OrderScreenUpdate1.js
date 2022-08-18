@@ -207,7 +207,8 @@ const OrderScreenUpdate1 = ({ navigation }) => {
                 source={require("../assets/icons/QuestionMarkOrange.png")}
                 style={{ height: 150, width: 150, marginVertical: 30 }}
               />
-              <Text
+              {theme.mode === 'light' ? (
+                <Text
                 style={{
                   marginVertical: 30,
                   fontSize: 20,
@@ -216,6 +217,19 @@ const OrderScreenUpdate1 = ({ navigation }) => {
               >
                 Do you want to adjust table name '{tableSelectedAdjust}' ?
               </Text>
+              ) : (
+                <Text
+                style={{
+                  marginVertical: 30,
+                  fontSize: 20,
+                  textAlign: "center",
+                  color: 'white',
+                }}
+              >
+                Do you want to adjust table name '{tableSelectedAdjust}' ?
+              </Text>
+              )}
+              
               <View
                 style={{
                   flexDirection: "row",
@@ -255,7 +269,8 @@ const OrderScreenUpdate1 = ({ navigation }) => {
                 source={require("../assets/icons/orderSticker.png")}
                 style={{ height: 150, width: 150, marginVertical: 30 }}
               />
-              <Text
+              {theme.mode == 'light' ? (
+                <Text
                 style={{
                   marginVertical: 30,
                   fontSize: 20,
@@ -266,6 +281,21 @@ const OrderScreenUpdate1 = ({ navigation }) => {
                 Do you want to place more orders with table name '
                 {tableSelectedAdjust}' ?
               </Text>
+              ) : (
+                <Text
+                style={{
+                  marginVertical: 30,
+                  fontSize: 20,
+                  textAlign: "center",
+                  flexWrap: "wrap",
+                  color: 'white',
+                }}
+              >
+                Do you want to place more orders with table name '
+                {tableSelectedAdjust}' ?
+              </Text>
+              )}
+              
               <View
                 style={{
                   flexDirection: "row",
