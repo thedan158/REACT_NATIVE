@@ -174,8 +174,20 @@ export default function App() {
           />
           <Stack.Screen
             options={{ headerShown: false }}
+            name="TabForOwner"
+            component={TabForOwner}
+          />
+
+          <Stack.Screen
+            options={{ headerShown: false }}
             name="MenuOrderScreen"
             component={MenuOrderScreen}
+          />
+
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="TabForStaff"
+            component={TabForStaff}
           />
 
           <Stack.Screen
@@ -192,16 +204,10 @@ export default function App() {
 
           <Stack.Screen
             options={{ headerShown: false }}
-            name="TabForStaff"
-            component={TabForStaff}
-          />
-          <Stack.Screen
-            options={{ headerShown: false }}
             name="NotificationScreen"
             component={NotificationScreen}
           />
 
-          
 
           <Stack.Screen
             name="StaffInformation"
