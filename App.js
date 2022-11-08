@@ -28,7 +28,7 @@ import back from './assets/icons/search.png';
 
 import { NavigationContainer } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
-import LoginScreen from './screens/LoginScreen';
+import LoginScreen from './screens/login/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 import AccountForStaff from './screens/AccountForStaff';
 import AccountForOwner from './screens/AccountForOwner';
@@ -138,9 +138,9 @@ const customTransition = {
           {
             scale: next
               ? next.progress.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [1, 0.7],
-                })
+                inputRange: [0, 1],
+                outputRange: [1, 0.7],
+              })
               : 1,
           },
         ],
