@@ -44,7 +44,6 @@ const StaffManagement = () => {
   const [masterData, setMasterData] = useState([]);
   const [WaiterData, setWaiterData] = useState([]);
   const [ChefData, setChefData] = useState([]);
-
   const Tab = createMaterialTopTabNavigator();
   const navigation = useNavigation();
   const theme = useSelector((state) => state.themeReducer.theme);

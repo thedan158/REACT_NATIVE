@@ -82,6 +82,7 @@ import NotificationScreen from './screens/NotificationScreen';
 import OrderScreenUpdate1 from './screens/OrderScreenUpdate1';
 import EditTableInfoScreenRework1 from './screens/EditTableInfoScreenRework1';
 import MenuOrderScreen from './screens/MenuOrderScreen';
+import KYCScreen from './screens/KYCScreen';
 
 const store = createStore(
   combineReducers({ themeReducer }),
@@ -164,11 +165,6 @@ export default function App() {
         >
           <Stack.Screen
             options={{ headerShown: false }}
-            name="TabForOwner"
-            component={TabForOwner}
-          />
-          <Stack.Screen
-            options={{ headerShown: false }}
             name="SplashScreen"
             component={SplashScreen}
           />
@@ -177,7 +173,11 @@ export default function App() {
             name="TabForOwner"
             component={TabForOwner}
           />
-
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="KYCScreen"
+            component={KYCScreen}
+          />
           <Stack.Screen
             options={{ headerShown: false }}
             name="MenuOrderScreen"

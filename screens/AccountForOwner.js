@@ -11,8 +11,7 @@ import React, { useState, useEffect } from 'react';
 import CardInformation from '../custom component/CardInformation';
 import ButtonUser from '../custom component/ButtonUser';
 import { NavigationContainer } from '@react-navigation/native';
-import { useNavigation } from '@react-navigation/core';
-import { useFocusEffect } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/core';
 import power from '../assets/icons/power.png';
 import personal_light from '../assets/icons/personal_light.png';
 import personal_dark from '../assets/icons/personal_dark.png';
@@ -55,6 +54,7 @@ const AccountForOwner = () => {
   const [isEnabled, setIsEnabled] = useState(false);
   const theme = useSelector((state) => state.themeReducer.theme);
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
   //*Set up variable for restaurant info
   const [restaurantName, setRestaurantName] = useState('');
   const [restaurantAddress, setRestaurantAddress] = useState('');
@@ -65,7 +65,7 @@ const AccountForOwner = () => {
     await AsyncStorage.removeItem('tableID');
     navigation.navigate('Login');
   };
-  useFocusEffect(() => {
+  useEffect(() => {
     const getData = async () => {
       const user = await AsyncStorage.getItem('userLoginData');
       const userInfo = JSON.parse(user);
@@ -113,7 +113,7 @@ const AccountForOwner = () => {
       );
     };
     getData().catch((err) => console.log(err));
-  }, []);
+  }, [isFocused]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -189,7 +189,7 @@ const AccountForOwner = () => {
             </Button>
 
             {/* Change password  */}
-            <Button onPress={() => navigation.navigate('ChangeOwnerPassword')}>
+            <Button onPress={() => navigation.navigate('KYCScreen')}>
               <Image
                 source={theme.mode === 'light' ? password_light : password_dark}
                 style={styles.iconTitle}

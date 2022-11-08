@@ -218,7 +218,7 @@ const StarterMenuScreen = () => {
           style={styles.imgBtnCloseStyle}
         >
           
-          <Image source={btnCloseResource} />
+    
         </TouchableOpacity>
       </ContainerHeader>
 
