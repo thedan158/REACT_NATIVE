@@ -1,0 +1,191 @@
+import { StyleSheet, Dimensions } from 'react-native';
+import Colors from '../../../../assets/Colors';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+const styles = StyleSheet.create({
+  container: {
+    width: windowWidth,
+    height: windowHeight,
+    flex: 1,
+  },
+  containerHeader: {
+    flexDirection: 'row',
+    // flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    marginVertical: '7%',
+    marginLeft: '5%',
+  },
+  feature: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonUser: {
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    // flex: 4,
+    marginTop: '5%',
+  },
+  about: {
+    flexDirection: 'row',
+    // flex: 1.5,
+    alignItems: 'flex-end',
+    marginLeft: '10%',
+    marginVertical: '5%',
+  },
+  buttonContainer: {
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    flexDirection: 'column',
+    marginVertical: 30,
+  },
+  btnEdit: {
+    width: 90,
+    height: 42,
+    borderRadius: 25,
+    backgroundColor: Colors.secondary,
+
+    left: '10%',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  textHeader: {
+    fontWeight: 'bold',
+    fontSize: 25,
+    // lineHeight: 27,
+  },
+  editText: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: '#fff',
+  },
+  card: {
+    width: '95%',
+    height: 170,
+    backgroundColor: 'black',
+    marginHorizontal: 15,
+    marginTop: 60,
+    borderRadius: 20,
+    backgroundColor: 'white',
+    alignSelf: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.18,
+    shadowRadius: 1.0,
+    elevation: 1,
+    flexDirection: 'row',
+  },
+  avatar: {
+    width: 90,
+    height: 90,
+    borderRadius: 20,
+    alignSelf: 'center',
+    marginLeft: 30,
+  },
+  information: {
+    justifyContent: 'center',
+    marginLeft: 20,
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    width: 180,
+  },
+  details: {
+    fontWeight: '400',
+    fontSize: 14,
+    lineHeight: 18,
+    color: '#232323',
+  },
+  line: {
+    width: 170,
+    backgroundColor: '#898888',
+    height: 1,
+    marginVertical: 5,
+  },
+  image: {
+    width: 90,
+    height: 90,
+    borderRadius: 20,
+  },
+
+  buttonText1: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 16,
+  },
+  buttonText2: {
+    color: Colors.secondary,
+    fontWeight: '700',
+    fontSize: 16,
+  },
+  button1: {
+    backgroundColor: Colors.secondary,
+    width: '50%',
+    padding: 15,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 1,
+    margin: 5,
+    flexDirection: 'row',
+  },
+  button2: {
+    backgroundColor: 'white',
+    width: '50%',
+    padding: 15,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 1,
+    margin: 5,
+    flexDirection: 'row',
+  },
+  button3: {
+    width: '35%',
+    padding: 15,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 1,
+    margin: 5,
+    flexDirection: 'row',
+    backgroundColor: Colors.secondary,
+  },
+  TouchableOpacity: {
+    backgroundColor: 'white',
+    width: 350,
+    height: 50,
+    marginTop: '5%',
+    borderRadius: 20,
+    flexDirection: 'row',
+  },
+
+  textName: {
+    position: 'absolute',
+    fontSize: 18,
+    fontWeight: 'bold',
+    top: '25%',
+    left: '15%',
+  },
+
+  icon: {
+    width: 18,
+    height: 18,
+    position: 'absolute',
+    right: 30,
+    top: '30%',
+  },
+  iconTitle: {
+    width: 20,
+    height: 20,
+    marginHorizontal: 15,
+  },
+});
+export default styles;

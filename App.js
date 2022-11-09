@@ -27,62 +27,54 @@ import themeReducer from './redux/themeReducer';
 import back from './assets/icons/search.png';
 
 import { NavigationContainer } from '@react-navigation/native';
-import LottieView from 'lottie-react-native';
-import LoginScreen from './screens/login/LoginScreen';
-import HomeScreen from './screens/HomeScreen';
-import AccountForStaff from './screens/AccountForStaff';
-import AccountForOwner from './screens/AccountForOwner';
-import SplashScreen from './screens/SplashScreen';
-import SignupScreen from './screens/SignupScreen';
-import OnBoardingScreen from './screens/OnBoardingScreen';
-import AppLoader from './screens/AppLoader';
-import AppLoaderOwner from './screens/AppLoaderOwner';
-import ForgotPassword from './screens/ForgotPassword';
-import OTPsignup from './screens/OTPsignup';
-import OTPforgotpass from './screens/OTPforgotpass';
-import NewPassword from './screens/NewPassword';
-import RestaurantInformation from './screens/RestaurantInformation';
-import ChangeStaffPassword from './screens/ChangeStaffPassword';
-import ChangeOwnerPassword from './screens/ChangeOwnerPassword';
-import AddingMenuItemScreen from './screens/AddingMenuItemScreen';
-import OrderScreen from './screens/OrderScreen';
-import StarterMenuScreen from './screens/StarterMenuScreen';
-import MainCourseMenuScreen from './screens/MainCourseMenuScreen';
-import DesertMenuScreen from './screens/DesertMenuScreen';
-import SelectedTable from './screens/SelectedTableScreen';
-import EditMenuScreen from './screens/EditMenuScreen';
-import CreateStaffAccount from './screens/CreateStaffAccount';
-import RestaurantManagement from './screens/RestaurantManagement';
+import LoginScreen from './screens/authentication/login/LoginScreen/index';
+import HomeScreen from './screens/home/HomeScreen';
+import AccountForStaff from './screens/settings/staff/AccountForStaffScreen/index';
+import AccountForOwner from './screens/settings/owner/AccountForOwnerScreen/index';
+import SplashScreen from './screens/onboarding/SplashScreen/index';
+import SignupScreen from './screens/authentication/signup/SignUpScreen/index';
+import OnBoardingScreen from './screens/onboarding/OnBoardingScreen/index';
+import AppLoader from './custom component/AppLoader';
+import AppLoaderOwner from './custom component/AppLoaderOwner';
+import ForgotPassword from './screens/authentication/forgotpassword/ForgotPasswordScreen/index';
+import OTPsignup from './screens/authentication/signup/OTPSignUpScreen/index';
+import OTPforgotpass from './screens/authentication/forgotpassword/OTPForgotPasswordScreen/index';
+import NewPassword from './screens/authentication/changepassword/NewPasswordScreen/index';
+import RestaurantInformation from './screens/management/restaurantmanagement/RestaurantInformationScreen/index';
+import ChangeStaffPassword from './screens/authentication/changepassword/ChangeStaffPasswordScreen/index';
+import ChangeOwnerPassword from './screens/authentication/changepassword/ChangeOwnerPasswordScreen/index';
+import AddingMenuItemScreen from './screens/order/AddingMenuItemScreen';
+import OrderScreen from './screens/order/OrderScreen';
+import StarterMenuScreen from './screens/order/StarterMenuScreen';
+import MainCourseMenuScreen from './screens/order/MainCourseMenuScreen';
+import DesertMenuScreen from './screens/order/DesertMenuScreen';
+import SelectedTable from './screens/order/SelectedTableScreen';
+import EditMenuScreen from './screens/order/EditMenuScreen';
+import CreateStaffAccount from './screens/management/staffmanagement/CreateStaffAccountScreen/index';
+import RestaurantManagement from './screens/management/restaurantmanagement/RestaurantManagementScreen/index';
 import TabForStaff from './custom component/TabForStaff';
 import TabForOwner from './custom component/TabForOwner';
-import TabForChef from './custom component/TabForChef';
-import RePasswordSuccess from './screens/RePasswordSuccess';
-import PermissionManager from './screens/PermissionManager';
-import MenuScreen from './screens/MenuScreen';
-import HomeScreen2ndFinal from './screens/HomeScreen2ndFinal';
-import EditStaffProfile from './screens/EditStaffProfile';
-import EditOwnerProfile from './screens/EditOwnerProfile';
-import Button2Screen from './screens/Button2Screen';
-import Button3Screen from './screens/Button3Screen';
-import Button4Screen from './screens/Button4Screen';
-import RestaurantKitchen from './screens/ReceiveOrder';
-import AcceptedOrder from './screens/AcceptedOrder';
-import CompletedOrder from './screens/CompletedOrder';
+import RePasswordSuccess from './screens/authentication/changepassword/RePasswordSuccessScreen/index';
+import PermissionManager from './screens/management/staffmanagement/PermissionManagerScreen/index';
+import MenuScreen from './screens/order/MenuScreen';
+import HomeScreen2ndFinal from './screens/home/HomeScreen2ndFinal';
+import EditStaffProfile from './screens/settings/staff/EditStaffProfileScreen/index';
+import EditOwnerProfile from './screens/settings/owner/EditOwnerProfileScreen/index';
+import Button2Screen from './screens/home/Button2Screen';
+import Button3Screen from './screens/home/Button3Screen';
+import Button4Screen from './screens/home/Button4Screen';
 import OrderDetails from './custom component/OrderDetails';
-import StaffInformation from './screens/StaffInformation';
-import CheckOutTableScreen from './screens/CheckOutTableScreen';
-import ListFood from './screens/ListFood';
-import ListFoodDetails from './screens/ListFoodDetails';
-import Analytics from './screens/Analytics';
-import EditResProfile from './screens/EditResProfile';
-import AddingTable from './screens/AddingTable';
-import BillScreenForOwner from './screens/BillScreenForOwner';
-import EditTableInfo from './screens/EditTableInfo';
-import NotificationScreen from './screens/NotificationScreen';
-import OrderScreenUpdate1 from './screens/OrderScreenUpdate1';
-import EditTableInfoScreenRework1 from './screens/EditTableInfoScreenRework1';
-import MenuOrderScreen from './screens/MenuOrderScreen';
-import KYCScreen from './screens/KYCScreen';
+import StaffInformation from './screens/management/staffmanagement/StaffInformationScreen/index';
+import CheckOutTableScreen from './screens/order/CheckOutTableScreen';
+import Analytics from './screens/management/analytics/AnalyticsScreen/index';
+import EditResProfile from './screens/management/restaurantmanagement/EditRestaurantProfileScreen/index';
+import AddingTable from './screens/order/AddingTable';
+import BillScreenForOwner from './screens/order/BillScreenForOwner';
+import EditTableInfo from './screens/order/EditTableInfo';
+import NotificationScreen from './screens/notifications/NotificationScreen';
+import OrderScreenUpdate1 from './screens/order/OrderScreenUpdate1';
+import EditTableInfoScreenRework1 from './screens/order/EditTableInfoScreenRework1';
+import MenuOrderScreen from './screens/order/MenuOrderScreen';
 
 const store = createStore(
   combineReducers({ themeReducer }),
@@ -138,9 +130,9 @@ const customTransition = {
           {
             scale: next
               ? next.progress.interpolate({
-                inputRange: [0, 1],
-                outputRange: [1, 0.7],
-              })
+                  inputRange: [0, 1],
+                  outputRange: [1, 0.7],
+                })
               : 1,
           },
         ],
@@ -173,11 +165,7 @@ export default function App() {
             name="TabForOwner"
             component={TabForOwner}
           />
-          <Stack.Screen
-            options={{ headerShown: false }}
-            name="KYCScreen"
-            component={KYCScreen}
-          />
+
           <Stack.Screen
             options={{ headerShown: false }}
             name="MenuOrderScreen"
@@ -207,7 +195,6 @@ export default function App() {
             name="NotificationScreen"
             component={NotificationScreen}
           />
-
 
           <Stack.Screen
             name="StaffInformation"
@@ -285,46 +272,17 @@ export default function App() {
           />
 
           <Stack.Screen
-            name="ListFoodDetails"
-            component={ListFoodDetails}
-            options={{
-              headerShown: false,
-              gestureDirection: 'vertical',
-              transitionSpec: {
-                open: config,
-                close: closeConfig,
-              },
-              cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
-            }}
-          />
-
-          <Stack.Screen
             options={{ headerShown: false }}
             name="CheckOutTableScreen"
             component={CheckOutTableScreen}
           />
 
           <Stack.Screen
-            options={{ headerShown: false }}
-            name="AcceptedOrder"
-            component={AcceptedOrder}
-          />
-          <Stack.Screen
-            options={{ headerShown: false }}
-            name="CompletedOrder"
-            component={CompletedOrder}
-          />
-          <Stack.Screen
             options={{
               headerShown: false,
             }}
             name="OrderDetails"
             component={OrderDetails}
-          />
-          <Stack.Screen
-            options={{ headerShown: false }}
-            name="RestaurantKitchen"
-            component={RestaurantKitchen}
           />
 
           <Stack.Screen
@@ -454,11 +412,6 @@ export default function App() {
             options={{ headerShown: false }}
             name="Signup"
             component={SignupScreen}
-          />
-          <Stack.Screen
-            options={{ headerShown: false }}
-            name="TabForChef"
-            component={TabForChef}
           />
 
           <Stack.Screen
