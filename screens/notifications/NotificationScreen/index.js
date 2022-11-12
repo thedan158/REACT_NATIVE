@@ -10,8 +10,9 @@ import {
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled, { ThemeProvider } from 'styled-components';
-import UnreadNotification from '../../custom component/UnreadNotification';
-import ReadNotification from '../../custom component/ReadNotification';
+import UnreadNotification from '../../../custom component/UnreadNotification';
+import ReadNotification from '../../../custom component/ReadNotification';
+import styles from './style';
 
 const windowsWidth = Dimensions.get('window').width;
 const windowsHeight = Dimensions.get('window').height;
@@ -134,35 +135,3 @@ const Container = styled.View`
   padding-top: 3%;
 `;
 export default NotificationScreen;
-
-const styles = StyleSheet.create({
-  dateText: {},
-  date: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: '3%',
-    marginTop: '7%',
-  },
-  containerHeader: {
-    flexDirection: 'row',
-
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    marginTop: '5%',
-    marginLeft: '5%',
-  },
-  textHeader: {
-    fontWeight: 'bold',
-    fontSize: 25,
-    alignSelf: 'center',
-  },
-  notifications: {
-    marginBottom: '15%',
-  },
-  container: {
-    flex: 1,
-    width: windowsWidth,
-    height: windowsHeight,
-    backgroundColor: 'white',
-  },
-});
