@@ -48,7 +48,7 @@ import OrderScreen from './screens/order/OrderScreen/index';
 import StarterMenuScreen from './screens/order/StarterMenuScreen/index';
 import MainCourseMenuScreen from './screens/order/MainCourseMenuScreen/index';
 import DesertMenuScreen from './screens/order/DesertMenuScreen/index';
-import SelectedTable from './screens/order/SelectedTableScreen/index';
+import SelectedTable from './screens/order/SelectTableScreen/index';
 import EditMenuScreen from './screens/order/EditMenuScreen/index';
 import CreateStaffAccount from './screens/management/staffmanagement/CreateStaffAccountScreen/index';
 import RestaurantManagement from './screens/management/restaurantmanagement/RestaurantManagementScreen/index';
