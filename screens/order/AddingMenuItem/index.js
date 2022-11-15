@@ -11,8 +11,8 @@ import {
     Platform,
   } from 'react-native';
   import React, { useEffect, useState } from 'react';
-  import back from '../../assets/icons/back-green.png';
-  import gallery from '../../assets/icons/picture.png';
+  import back from '../../../assets/icons/back.png';
+  import gallery from '../../../assets/icons/picture.png';
   import galleryDarkTheme from '../../assets/icons/pictureDarkTheme.png';
   import { useNavigation } from '@react-navigation/core';
   import CustomTextInput from '../../custom component/CustomTextInput';
