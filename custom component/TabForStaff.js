@@ -14,7 +14,7 @@ import notification from '../assets/icons/notification.png';
 import HomeScreen2ndFinal from '../screens/home/HomeScreen2ndFinal';
 import { useSelector } from 'react-redux';
 import NotificationScreen from '../screens/notifications/NotificationScreen';
-import OrderScreenUpdate1 from '../screens/order/OrderScreenUpdate1';
+import OrderScreenUpdate1 from '../screens/order/OrderScreenVer2';
 
 const Tab = createBottomTabNavigator();
 

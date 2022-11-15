@@ -14,7 +14,7 @@ import account from '../assets/icons/user.png';
 import cash from '../assets/icons/cash.png';
 import queen from '../assets/icons/queen.png';
 import AccountForOwner from '../screens/settings/owner/AccountForOwnerScreen/index';
-import OrderScreenUpdate1 from '../screens/order/OrderScreenUpdate1';
+import OrderScreenUpdate1 from '../screens/order/OrderScreenVer2';
 import BillScreenForOwner from '../screens/order/BillScreenForOwner';
 import { useSelector } from 'react-redux';
 
