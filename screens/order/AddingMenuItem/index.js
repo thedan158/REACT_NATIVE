@@ -1,4 +1,5 @@
 import {
+
   StyleSheet,
   Text,
   View,
@@ -50,6 +51,7 @@ const AddingMenuItemScreen = () => {
 
     if (status !== 'granted') {
       alert('Permission denied!');
+
     }
   }, []);
 
