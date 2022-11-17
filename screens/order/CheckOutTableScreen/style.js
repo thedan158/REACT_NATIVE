@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     },
     DevideLineStyle: {
       flex: 0.03,
-      width: maxWidthConst,
+      width: windowWidth,
       height: '0.1%',
       marginTop: '0%',
       marginBottom: '0%',

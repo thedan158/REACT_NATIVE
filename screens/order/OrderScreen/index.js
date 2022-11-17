@@ -1,11 +1,7 @@
 import {
-  StyleSheet,
   Dimensions,
-  Platform,
-  StatusBar,
   ScrollView,
   FlatList,
-  TextInput,
   Text,
   View,
   Image,
@@ -16,8 +12,6 @@ import React, { useState, useEffect, Component } from 'react';
 import AppLoading from 'expo-app-loading';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
-import { useNavigation } from '@react-navigation/core';
-import { SafeAreaView } from 'react-navigation';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
