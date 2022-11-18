@@ -189,7 +189,7 @@ const AccountForOwner = () => {
             </Button>
 
             {/* Change password  */}
-            <Button onPress={() => navigation.navigate('KYCScreen')}>
+            <Button onPress={() => navigation.navigate('ChangeOwnerPassword')}>
               <Image
                 source={theme.mode === 'light' ? password_light : password_dark}
                 style={styles.iconTitle}
