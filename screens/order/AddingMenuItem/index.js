@@ -33,7 +33,7 @@ import { useSelector, useDispatch } from 'react-redux';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const AddingMenuItemScreen = () => {
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
 
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);

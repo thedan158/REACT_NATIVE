@@ -25,7 +25,7 @@ const PermissionManager = () => {
   const [visible, setVisible] = React.useState(false);
   const [isWaiter, setIsWaiter] = React.useState(false);
   const [isChef, setIsChef] = React.useState(false);
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
 
   const childtoParent = async (childData) => {
     setIsWaiter(!childData);

@@ -43,7 +43,7 @@ const EditProfile = () => {
   const [image, setImage] = useState('null');
   const [visible, setVisible] = React.useState(false);
   const [url, setUrl] = useState('');
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
 
   const [visibleLoad, setVisibleLoad] = React.useState(false);
 

@@ -38,7 +38,7 @@ const OrderScreen = ({ route, navigation }) => {
   const [selected, setIsSelected] = useState(item?.name || 'Select Table');
   const [refreshing, setRefreshing] = useState(false);
 
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
   const insets = useSafeAreaInsets();
 
   const handleStarterMenu = () => {

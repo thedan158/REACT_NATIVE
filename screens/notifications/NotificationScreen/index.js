@@ -17,7 +17,7 @@ import styles from './style';
 const windowsWidth = Dimensions.get('window').width;
 const windowsHeight = Dimensions.get('window').height;
 const NotificationScreen = () => {
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
   // list notifications here
   const notifications = [
     {

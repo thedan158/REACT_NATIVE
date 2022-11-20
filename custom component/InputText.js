@@ -14,7 +14,7 @@ const InputText = ({
   paddingVertical,
   ...props
 }) => {
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
   const [focused, setFocused] = React.useState(false);
   const getFlexDirection = () => {
     if (icon && iconPosition) {

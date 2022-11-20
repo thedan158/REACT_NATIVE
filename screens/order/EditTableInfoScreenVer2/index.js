@@ -29,7 +29,7 @@ const EditTableInfoScreenRework1 = ({ navigation }) => {
   const [visible, setVisible] = useState(false);
   const [visibleDeleted, setVisibleDeleted] = useState(false);
 
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
 
   const handleDeleteTable = async (id) => {
     const res = await axios.delete(

@@ -115,7 +115,7 @@ const MenuOrderScreen = ({ navigation }) => {
   const [dishData, setDishData] = React.useState(DishData);
   const [modalListOrder, setModalListOrder] = React.useState(false);
   const [selectedDish, setSelectedDish] = React.useState(0);
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
 
   function onSelectCategory(category) {
     //filter Dish Type

@@ -52,7 +52,7 @@ const AccountForOwner = () => {
   const [image, setImage] = useState('null');
   const [visible, setVisible] = React.useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   //*Set up variable for restaurant info
@@ -133,11 +133,11 @@ const AccountForOwner = () => {
             </View>
             <View style={{ flex: 2, marginRight: '5%' }}>
               {theme.mode === 'light' ? (
-                <Switch onPress={() => dispatch(switchTheme(darkTheme))}>
+                <Switch onPress={() => dispatch({type: 'switchTheme'})}>
                   <Image source={light_on} style={{ width: 25, height: 25 }} />
                 </Switch>
               ) : (
-                <Switch onPress={() => dispatch(switchTheme(lightTheme))}>
+                <Switch onPress={() => dispatch({type: 'switchTheme'})}>
                   <Image source={dark_on} style={{ width: 25, height: 25 }} />
                 </Switch>
               )}
@@ -189,7 +189,7 @@ const AccountForOwner = () => {
             </Button>
 
             {/* Change password  */}
-            <Button onPress={() => navigation.navigate('KYCScreen')}>
+            <Button onPress={() => navigation.navigate('ChangeOwnerPassword')}>
               <Image
                 source={theme.mode === 'light' ? password_light : password_dark}
                 style={styles.iconTitle}

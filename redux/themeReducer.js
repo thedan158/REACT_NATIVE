@@ -5,7 +5,7 @@ const initialState = {
   theme: lightTheme,
 };
 
-const themeReducer = (state = initialState, action) => {
+const setting = (state = initialState, action) => {
   switch (action.type) {
     case SWITCH_THEME:
       return { theme: action.theme };
@@ -15,4 +15,4 @@ const themeReducer = (state = initialState, action) => {
   }
 };
 
-export default themeReducer;
+export default setting;

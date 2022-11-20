@@ -47,7 +47,7 @@ const DataTable = [
 const OrderScreenUpdate1 = ({ navigation }) => {
   const isFocus = useIsFocused();
   const [search, setSearch] = useState('');
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
   const [dataFromState, setNewData] = useState([]);
   const [modalAdjustTableVisibleConfirm, setModalAdjustTableVisibleConfirm] =
     useState(false);

@@ -60,7 +60,7 @@ const Analytics = () => {
 
   const [showMoreToggle, setShowMoreToggle] = React.useState(false);
   const [selectedCategory, setSelectedCategory] = React.useState(null);
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
 
   function renderCategoryList() {
     const renderItem = ({ item }) => (

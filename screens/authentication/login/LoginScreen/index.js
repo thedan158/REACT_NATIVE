@@ -1,114 +1,100 @@
 import {
   Image,
-  StyleSheet,
   Text,
-  TextInput,
   View,
   TouchableOpacity,
   ScrollView,
   ImageBackground,
   Dimensions,
   Alert,
-} from 'react-native';
-import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/core';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import logo from '../../../../assets/images/logo_app.png';
-import CustomTextInput from '../../../../custom component/CustomTextInput';
-import eye from '../../../../assets/icons/eye.png';
-import hidden from '../../../../assets/icons/close-eye.png';
-import Colors from '../../../../assets/Colors';
-import background from '../../../../assets/images/background.png';
-import CustomModal from '../../../../custom component/CustomModal';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import styles from './style';
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+} from "react-native";
+import React, { useState } from "react";
+import { getStateFromPath, useNavigation } from "@react-navigation/core";
+import logo from "../../../../assets/images/logo_app.png";
+import CustomTextInput from "../../../../custom component/CustomTextInput";
+import eye from "../../../../assets/icons/eye.png";
+import hidden from "../../../../assets/icons/close-eye.png";
+import Colors from "../../../../assets/Colors";
+import background from "../../../../assets/images/background.png";
+import CustomModal from "../../../../custom component/CustomModal";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import styles from "./style";
+import { useDispatch } from "react-redux";
+import { getAPIActionJSON, getStatelessAPI } from "../../../../api/ApiActions";
 
 const LoginScreen = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [isSecureEntry, setIsSecureEntry] = useState(true);
   const [visible, setVisible] = React.useState(false);
+  const dispatch = useDispatch();
 
   const navigation = useNavigation();
 
   const handleLogin = async () => {
-    console.log('Login');
-    const data = {
-      username: username,
-      password: password,
-    };
-    console.log(data);
     // Passing configuration object to axios
-    const res = await axios
-      .post(`https://foody-uit.herokuapp.com/auth/login`, {
+    dispatch(
+      getAPIActionJSON("login", {
         username: username,
         password: password,
       })
-      .catch((err) => {
-        console.log(err);
-        Alert.alert('Login failed', 'Please check your username and password');
-      });
-    const { success } = res.data;
-    console.log(success);
-    if (!success) {
-      Alert.alert('Wrong username or password');
-      return;
-    }
-    const role = res.data.role;
-    console.log(role);
-    await AsyncStorage.setItem('userLoginRole', role);
-    console.log('Correct account ' + success);
-    await AsyncStorage.setItem('userLoginData', JSON.stringify(data));
-    if (success) {
-      try {
-        console.log('Check');
-        const resRestaurant = await axios.post(
-          `https://foody-uit.herokuapp.com/auth/hasNoRestaurant`,
-          {
-            username: username,
-          }
-        );
-        const successRes = resRestaurant.data.success;
-        console.log('Has no res ' + successRes);
-        if (!successRes) {
-          if (role === 'owner') {
-            navigation.navigate('AppLoaderOwner');
-          } else {
-            navigation.navigate('AppLoader');
-          }
-        } else {
-          navigation.navigate('RestaurantInformation');
-        }
-      } catch (err) {
-        console.log(err);
-        Alert.alert('Error', 'Something went wrong');
+    );
+    const res = await axios.post(
+      `https://foody-uit.herokuapp.com/api/auth/login`,
+      {
+        username: username,
+        password: password,
       }
-    } else {
-      Alert.alert('Wrong username or password');
-    }
+    );
+    navigation.navigate('AppLoader');
+    // await AsyncStorage.setItem('userLoginData', JSON.stringify(data));
+    // if (success) {
+    //   try {
+    //     console.log('Check');
+    //     const resRestaurant = await axios.post(
+    //       `https://foody-uit.herokuapp.com/api/auth/hasNoRestaurant`,
+    //       {
+    //         username: username,
+    //       }
+    //     );
+    //     const successRes = resRestaurant.data.success;
+    //     console.log('Has no res ' + successRes);
+    //     if (!successRes) {
+    //       if (role === 'owner') {
+    //         navigation.navigate('AppLoaderOwner');
+    //       } else {
+    //         navigation.navigate('AppLoader');
+    //       }
+    //     } else {
+    //       navigation.navigate('RestaurantInformation');
+    //     }
+    //   } catch (err) {
+    //     console.log(err);
+    //     Alert.alert('Error', 'Something went wrong');
+    //   }
+    // } else {
+    //   Alert.alert('Wrong username or password');
+    // }
   };
 
   return (
     <ScrollView>
       {/* Modal  pop-up when login failed*/}
       <CustomModal visible={visible}>
-        <View style={{ alignItems: 'center' }}>
+        <View style={{ alignItems: "center" }}>
           <Image
-            source={require('../../../../assets/icons/remove.png')}
+            source={require("../../../../assets/icons/remove.png")}
             style={{ height: 150, width: 150, marginVertical: 30 }}
           />
         </View>
 
-        <Text style={{ marginVertical: 20, fontSize: 20, textAlign: 'center' }}>
+        <Text style={{ marginVertical: 20, fontSize: 20, textAlign: "center" }}>
           Incorrect username or password
         </Text>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('Login');
+            navigation.navigate("Login");
             setVisible(false);
           }}
           style={styles.button}
@@ -172,7 +158,7 @@ const LoginScreen = () => {
 
             {/* Forgot password  */}
             <TouchableOpacity
-              onPress={() => navigation.navigate('ForgotPassword')}
+              onPress={() => navigation.navigate("ForgotPassword")}
             >
               <Text style={styles.forgotPassword}>Forgot password?</Text>
             </TouchableOpacity>
@@ -190,7 +176,7 @@ const LoginScreen = () => {
 
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate('Signup');
+                  navigation.navigate("Signup");
                 }}
               >
                 <Text style={styles.buttonOutlineText}> Register</Text>

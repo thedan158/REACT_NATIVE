@@ -29,7 +29,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const AddingTable = () => {
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
   const [nameTable, setNameTable] = useState('');
   const [numberPeople, setNumberPeople] = useState('');
   const [position, setPosition] = useState('');

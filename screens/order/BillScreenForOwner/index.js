@@ -18,7 +18,6 @@ import MessageQueue from 'react-native/Libraries/BatchedBridge/MessageQueue';
 import { useIsFocused } from '@react-navigation/core';
 import styled, { ThemeProvider } from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-import themeReducer from '../../../redux/themeReducer';
 import styles from './style';
 
 const SearchIconResouce = require('../../../assets/icons/SearchGray.png');
@@ -30,7 +29,7 @@ const BillScreenForOwner = ({ navigation }) => {
   const [dataFromState, setNewData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
 
   const FlatlistItemFunctions = ({ item }) => {
     if (item.isBusy === true) {

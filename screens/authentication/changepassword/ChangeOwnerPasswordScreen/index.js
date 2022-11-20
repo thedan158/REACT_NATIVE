@@ -36,7 +36,7 @@ const ChangePassword = () => {
   const [isSecureEntryConfirm, setIsSecureEntryConfirm] = useState(true);
   const [visible, setVisible] = React.useState(false);
   const [visibleLoad, setVisibleLoad] = React.useState(false);
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
 
   // function close LoadingOwner and open CustomModal when timePassed is true
   const loadingAndPopup = () => {

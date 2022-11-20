@@ -31,7 +31,7 @@ const windowWidth = Dimensions.get('window').width;
 
 const StaffInformation = ({ route }) => {
   const navigation = useNavigation();
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
   const [visible, setVisible] = React.useState(false);
   const [editRole, setEditRole] = React.useState(false);
   const [waiter, setWaiter] = React.useState(false);

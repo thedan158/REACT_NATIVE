@@ -6,54 +6,54 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
-} from 'react-native';
-import React, { useState, useEffect } from 'react';
-import CardInformation from '../../../../custom component/CardInformation';
-import { useFocusEffect } from '@react-navigation/native';
-import { useNavigation } from '@react-navigation/core';
-import power from '../../../../assets/icons/power.png';
-import personal_light from '../../../../assets/icons/personal_light.png';
-import personal_dark from '../../../../assets/icons/personal_dark.png';
-import password_light from '../../../../assets/icons/password_light.png';
-import password_dark from '../../../../assets/icons/password_dark.png';
-import light_on from '../../../../assets/icons/light-on.png';
-import dark_on from '../../../../assets/icons/dark-on.png';
-import policy_light from '../../../../assets/icons/policy_light.png';
-import policy_dark from '../../../../assets/icons/policy_dark.png';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { firebaseConfig } from '../../../../firebase';
-import * as firebase from 'firebase';
-import ModalPrivacy from '../../../../custom component/ModalPrivacy';
-import styles from './style';
+} from "react-native";
+import React, { useState, useEffect } from "react";
+import CardInformation from "../../../../custom component/CardInformation";
+import { useFocusEffect } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/core";
+import power from "../../../../assets/icons/power.png";
+import personal_light from "../../../../assets/icons/personal_light.png";
+import personal_dark from "../../../../assets/icons/personal_dark.png";
+import password_light from "../../../../assets/icons/password_light.png";
+import password_dark from "../../../../assets/icons/password_dark.png";
+import light_on from "../../../../assets/icons/light-on.png";
+import dark_on from "../../../../assets/icons/dark-on.png";
+import policy_light from "../../../../assets/icons/policy_light.png";
+import policy_dark from "../../../../assets/icons/policy_dark.png";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { firebaseConfig } from "../../../../firebase";
+import * as firebase from "firebase";
+import ModalPrivacy from "../../../../custom component/ModalPrivacy";
+import styles from "./style";
 
-import styled, { ThemeProvider } from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
-import { switchTheme } from '../../../../redux/themeActions';
-import { lightTheme, darkTheme } from '../../../../assets/Theme';
+import styled, { ThemeProvider } from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { switchTheme } from "../../../../redux/themeActions";
+import { lightTheme, darkTheme } from "../../../../assets/Theme";
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 const AccountForStaff = () => {
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
   }
-  const [fullname, setFullname] = useState('');
-  const [address, setAddress] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [email, setEmail] = useState('');
+  const [fullname, setFullname] = useState("");
+  const [address, setAddress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
   const navigation = useNavigation();
-  const [image, setImage] = useState('null');
+  const [image, setImage] = useState("null");
   const [visible, setVisible] = React.useState(false);
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState("");
   const [isEnabled, setIsEnabled] = useState(false);
 
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
   const dispatch = useDispatch();
 
   useFocusEffect(() => {
     const getData = async () => {
-      const user = await AsyncStorage.getItem('userLoginData');
+      const user = await AsyncStorage.getItem("userLoginData");
       const userInfo = JSON.parse(user);
       console.log(userInfo.username);
       const response = await axios.get(
@@ -64,17 +64,17 @@ const AccountForStaff = () => {
       console.log(data);
       console.log(success);
       if (!success) {
-        Alert.alert('Account not found');
+        Alert.alert("Account not found");
         return;
       }
-      setAddress(data.address ? data.address : '');
-      setEmail(data.email ? data.email : '');
+      setAddress(data.address ? data.address : "");
+      setEmail(data.email ? data.email : "");
       setFullname(data.fullname ? data.fullname : userInfo.username);
-      setPhoneNumber(data.phoneNumber ? data.phoneNumber : '');
+      setPhoneNumber(data.phoneNumber ? data.phoneNumber : "");
       setImage(
         data.imagePath
           ? data.imagePath
-          : 'https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fgood.png?alt=media&token=de139437-3a20-4eb3-ba56-f6a591779d15'
+          : "https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fgood.png?alt=media&token=de139437-3a20-4eb3-ba56-f6a591779d15"
       );
     };
     getData().catch((err) => console.log(err));
@@ -86,19 +86,19 @@ const AccountForStaff = () => {
         <View style={styles.containerHeader}>
           <View
             style={{
-              marginTop: '1%',
+              marginTop: "1%",
               flex: 8,
             }}
           >
             <Content style={styles.textHeader}>Personal details</Content>
           </View>
-          <View style={{ flex: 2, marginRight: '5%' }}>
-            {theme.mode === 'light' ? (
-              <Switch onPress={() => dispatch(switchTheme(darkTheme))}>
+          <View style={{ flex: 2, marginRight: "5%" }}>
+            {theme.mode === "light" ? (
+              <Switch onPress={() => dispatch({ type: "switchTheme" })}>
                 <Image source={light_on} style={{ width: 25, height: 25 }} />
               </Switch>
             ) : (
-              <Switch onPress={() => dispatch(switchTheme(lightTheme))}>
+              <Switch onPress={() => dispatch({ type: "switchTheme" })}>
                 <Image source={dark_on} style={{ width: 25, height: 25 }} />
               </Switch>
             )}
@@ -117,18 +117,18 @@ const AccountForStaff = () => {
 
         <View style={styles.buttonUser}>
           {/* Edit profile  */}
-          <Button onPress={() => navigation.navigate('EditStaffProfile')}>
+          <Button onPress={() => navigation.navigate("EditStaffProfile")}>
             <Image
-              source={theme.mode === 'light' ? personal_light : personal_dark}
+              source={theme.mode === "light" ? personal_light : personal_dark}
               style={styles.iconTitle}
             />
             <Content>Edit Your Profile</Content>
           </Button>
 
           {/* Change password  */}
-          <Button onPress={() => navigation.navigate('ChangeStaffPassword')}>
+          <Button onPress={() => navigation.navigate("ChangeStaffPassword")}>
             <Image
-              source={theme.mode === 'light' ? password_light : password_dark}
+              source={theme.mode === "light" ? password_light : password_dark}
               style={styles.iconTitle}
             />
             <Content>Change Your Password</Content>
@@ -137,7 +137,7 @@ const AccountForStaff = () => {
           {/* Policy and privacy  */}
           <Button onPress={() => setVisible(true)}>
             <Image
-              source={theme.mode === 'light' ? policy_light : policy_dark}
+              source={theme.mode === "light" ? policy_light : policy_dark}
               style={styles.iconTitle}
             />
             <Content>Policy and privacy</Content>
@@ -147,7 +147,7 @@ const AccountForStaff = () => {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('Login');
+              navigation.navigate("Login");
             }}
             style={styles.button1}
           >

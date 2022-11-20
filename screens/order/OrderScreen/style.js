@@ -284,3 +284,4 @@ const styles = StyleSheet.create({
     width: 40,
   },
 });
+export default styles;

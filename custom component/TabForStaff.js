@@ -19,7 +19,7 @@ import OrderScreenUpdate1 from '../screens/order/OrderScreenVer2';
 const Tab = createBottomTabNavigator();
 
 const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
   var isSelected = accessibilityState.selected;
 
   if (isSelected) {

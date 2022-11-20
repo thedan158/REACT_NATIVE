@@ -46,7 +46,7 @@ const StaffManagement = () => {
   const [ChefData, setChefData] = useState([]);
   const Tab = createMaterialTopTabNavigator();
   const navigation = useNavigation();
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
 
   useEffect(() => {
     const getData = async () => {

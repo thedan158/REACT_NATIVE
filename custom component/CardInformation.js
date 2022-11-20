@@ -15,7 +15,7 @@ import { lightTheme, darkTheme } from '../assets/Theme';
 import { useNavigation } from '@react-navigation/core';
 
 const CardInformation = ({ name, mail, phone, address, imageSource }) => {
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
 
   return (
     <Container>
@@ -39,9 +39,7 @@ const CardInformation = ({ name, mail, phone, address, imageSource }) => {
 export default CardInformation;
 const Container = styled.View`
   width: 95%;
-  background-color: ${(props) => props.theme.PRIMARY_BUTTON_COLOR};
   border-radius: 20px;
-  shadow-color: ${(props) => props.theme.PRIMARY_SHADOW_COLOR};
   shadow-offset: 0px 2px;
   shadow-opacity: 0.5;
   shadow-radius: 3px;
@@ -49,7 +47,6 @@ const Container = styled.View`
 `;
 const Content = styled.Text`
   font-size: 18px;
-  color: ${(props) => props.theme.PRIMARY_TEXT_COLOR};
   font-weight: bold;
 `;
 
@@ -69,7 +66,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.18,
     shadowRadius: 1.0,
-
     flexDirection: 'row',
   },
   avatar: {

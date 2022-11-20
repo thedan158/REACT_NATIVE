@@ -9,7 +9,7 @@ import styles from './style';
 
 const RestaurantManagement = () => {
   const Tab = createMaterialTopTabNavigator();
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
 
   return (
     <View style={{ flex: 1 }}>

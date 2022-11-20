@@ -28,7 +28,7 @@ const CreateStaffAccount = () => {
   const [password, setPassword] = useState('');
   const [isSecureEntry, setIsSecureEntry] = useState(true);
   const navigation = useNavigation();
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
 
   const handleCreateAccount = async () => {
     if (username === '' || password === '') {

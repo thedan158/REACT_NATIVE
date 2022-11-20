@@ -7,7 +7,7 @@ import del from '../assets/icons/bin.png';
 import decrease from '../assets/icons/decrease.png';
 import increase from '../assets/icons/increase.png';
 const FoodComponent = ({ item }) => {
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
   return (
     <ThemeProvider theme={theme}>
       <Container>

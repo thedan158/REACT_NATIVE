@@ -21,7 +21,7 @@ import { useSelector } from 'react-redux';
 const Tab = createBottomTabNavigator();
 
 const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
 
   return (
     <View style={{ flex: 1, alignItems: 'center' }}>
@@ -65,7 +65,7 @@ const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
 };
 
 const Tabs = () => {
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
   return (
     <Tab.Navigator
       screenOptions={{

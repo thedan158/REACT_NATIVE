@@ -23,7 +23,7 @@ const imgBtnOrange = require('../../../assets/icons/ButtonOrange.png');
 
 const StarterMenuScreen = () => {
   const navigation = useNavigation();
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
   const IcCloseDark = require('../../../assets/icons/CancelDark.png');
   const IcCloseLight = require('../../../assets/icons/cancelLight.png');
   const FillterIconResouce = require('../../../assets/icons/fillter.png');

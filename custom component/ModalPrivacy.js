@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import styled, { ThemeProvider } from 'styled-components';
 
 const ModalPrivacy = ({ visible, children }) => {
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
   const [showModal, setShowModal] = React.useState(visible);
   const scaleValue = React.useRef(new Animated.Value(0)).current;
   React.useEffect(() => {

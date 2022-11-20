@@ -69,7 +69,7 @@ const MainCourseMenuScreen = () => {
   const IcCloseLight = require('../../../assets/icons/cancelLight.png');
   const FillterIconResouce = require('../../../assets/icons/fillter.png');
   const FillterDarkTheme = require('../../../assets/icons/FillterDark.png');
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
   const [search, setSearch] = useState('');
   const [masterData, setMasterData] = useState([]);
   const [dataFromState, setNewData] = useState([]);

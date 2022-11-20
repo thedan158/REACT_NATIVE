@@ -19,7 +19,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const CustomScreen = ({ icon, title, previousScreen, children }) => {
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
   const navigation = useNavigation();
   return (
     <ThemeProvider theme={theme}>

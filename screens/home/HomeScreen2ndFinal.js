@@ -31,7 +31,7 @@ const HomeScreen2ndFinal = () => {
   const navigation = useNavigation();
   const [visible, setVisible] = React.useState(false);
 
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
   const dispatch = useDispatch();
 
   return (

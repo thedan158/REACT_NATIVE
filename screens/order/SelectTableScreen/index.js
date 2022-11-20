@@ -64,7 +64,7 @@ const SelectedTable = ({ navigation }) => {
   const [masterData, setMasterData] = useState([]);
   const [dataFromState, setNewData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
 
   const handleOnPressTable = async (id) => {
     await AsyncStorage.setItem('tableID', id);

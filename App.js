@@ -19,8 +19,7 @@ import {
   CardStyleInterpolators,
 } from "@react-navigation/stack";
 
-import { Provider } from "react-redux";
-import themeReducer from "./redux/themeReducer";
+import { Provider, useSelector } from "react-redux";
 
 import { NavigationContainer } from "@react-navigation/native";
 import LoginScreen from "./screens/authentication/login/LoginScreen/index";
@@ -73,6 +72,7 @@ import NotificationScreen from "./screens/notifications/NotificationScreen";
 import OrderScreenUpdate1 from "./screens/order/OrderScreenVer2/index";
 import EditTableInfoScreenRework1 from "./screens/order/EditTableInfoScreenVer2/index";
 import MenuOrderScreen from "./screens/order/MenuOrderScreen/index";
+import store from "./app/store";
 
 const Stack = createStackNavigator();
 // animation function
@@ -138,7 +138,9 @@ const customTransition = {
 
 LogBox.ignoreAllLogs();
 
-export default function App() {
+function Navigation() {
+  const state = useSelector((state) => state);
+  console.log("current state", state);
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -486,17 +488,10 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  AndroidSafeArea: {
-    flex: 1,
-    backgroundColor: "white",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-  },
-});
+export default function App() {
+  return (
+    <Provider store={store}>
+      <Navigation />
+    </Provider>
+  );
+}

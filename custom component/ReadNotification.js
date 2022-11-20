@@ -5,7 +5,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import check from '../assets/icons/check.png';
 import table from '../assets/icons/TableGray.png';
 const ReadNotification = ({ item }) => {
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
   return (
     <ThemeProvider theme={theme}>
       <Container>

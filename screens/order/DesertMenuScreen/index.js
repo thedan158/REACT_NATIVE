@@ -26,7 +26,7 @@ const DesertMenuScreen = () => {
   const navigation = useNavigation();
   const btnCloseResource = require('../../../assets/icons/close.png');
   const btnFillterResource = require('../../../assets/icons/fillter.png');
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
   const FillterIconResouce = require('../../../assets/icons/fillter.png');
   const FillterDarkTheme = require('../../../assets/icons/FillterDark.png');
   const IcCloseDark = require('../../../assets/icons/CancelDark.png');

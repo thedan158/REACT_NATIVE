@@ -87,7 +87,7 @@ const BillScreen = ({ navigation }) => {
   const [dataFromState, setNewData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
-  const theme = useSelector((state) => state.themeReducer.theme);
+  const theme = useSelector((state) => state.setting.theme);
 
   const FlatlistItemFunctions = ({ item }) => {
     if (item.isBusy === true) {
