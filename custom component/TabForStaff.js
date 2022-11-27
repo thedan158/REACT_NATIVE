@@ -11,7 +11,7 @@ import order from '../assets/icons/order.png';
 import home from '../assets/icons/home.png';
 import account from '../assets/icons/user.png';
 import notification from '../assets/icons/notification.png';
-import HomeScreen2ndFinal from '../screens/home/HomeScreen2ndFinal';
+import HomeScreen2ndFinal from '../screens/home/HomeScreen/index';
 import { useSelector } from 'react-redux';
 import NotificationScreen from '../screens/notifications/NotificationScreen';
 import OrderScreenUpdate1 from '../screens/order/OrderScreenVer2';
