@@ -11,31 +11,24 @@ import {
   FlatList,
   Alert,
 } from 'react-native';
-
 import React, { useState, useEffect } from 'react';
+import Colors from '../../../assets/Colors';
 import { LinearGradient } from 'expo-linear-gradient';
-import Colors from '../../assets/Colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useIsFocused } from '@react-navigation/core';
+import styles from './style'
 
-const maxWidthConst = windowWidth - 10;
-const imgAddItem = require('../../assets/icons/AddItem.png');
-const imgPlusSignItem = require('../../assets/icons/PlusSign.png');
-const imgUserSource = require('../../assets/icons/user.png');
-const imgGoBackSource = require('../../assets/icons/back.png');
-const icStar = require('../../assets/icons/Star.png');
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-const maxWidth40 = windowWidth - 30;
-const imgSearchSource = require('../../assets/icons/search.png');
+const imgAddItem = require('../../../assets/icons/AddItem.png');
+const imgGoBackSource = require('../../../assets/icons/back.png');
+const icStar = require('../../../assets/icons/Star.png');
+const imgSearchSource = require('../../../assets/icons/search.png');
 
-const Button2Screen = ({ navigation }) => {
+const MenuScreen = ({ navigation }) => {
   const isFocus = useIsFocused();
+  const [dataFromState, setNewData] = useState([]);
   const [search, setSearch] = useState('');
   const [masterData, setMasterData] = useState([]);
-  const [dataFromState, setNewData] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(false);
   useEffect(() => {
     const getData = async () => {
@@ -51,7 +44,7 @@ const Button2Screen = ({ navigation }) => {
         `https://foody-uit.herokuapp.com/food/getAllFoodWithType`,
         {
           username: user.username,
-          foodType: 'Starter',
+          foodType: 'Main course',
         }
       );
 
@@ -63,11 +56,9 @@ const Button2Screen = ({ navigation }) => {
       console.log('filteredData is all selected');
       setNewData(message);
       setMasterData(message);
-      setRefreshing(false);
     };
     getData().catch((err) => console.log(err));
   }, [isFocus]);
-
   const searchFilterFunction = (text) => {
     if (text) {
       const newData = masterData.filter(function (item) {
@@ -96,7 +87,6 @@ const Button2Screen = ({ navigation }) => {
         </TouchableOpacity>
 
         <Text style={styles.txtHeaderViewTab}>{HeaderText}</Text>
-
         <TouchableOpacity
           style={styles.btnUserStyle}
           onPress={() => {
@@ -164,8 +154,6 @@ const Button2Screen = ({ navigation }) => {
   }
 
   const FlatListItem = ({ item }) => {
-    function HandleItemPress() {}
-
     return (
       <TouchableOpacity
         onPress={() => navigation.navigate('EditMenuScreen', { item })}
@@ -195,12 +183,12 @@ const Button2Screen = ({ navigation }) => {
   return (
     <LinearGradient
       style={styles.container}
-      colors={[Colors.FrenchRaspberry, Colors.ParadisePink]}
+      colors={[Colors.ImperialRed, Colors.DarkOrange]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
     >
-      {HeaderViewTab({ HeaderText: 'Large Discount' })}
-      {InformationViewTab({ TextInFo1: '60% Off today!!' })}
+      {HeaderViewTab({ HeaderText: 'Menu Of the day' })}
+      {InformationViewTab({ TextInFo1: 'Have a good day!' })}
       {SearchBarViewComponent()}
       <View style={styles.containerDevideLine}></View>
       <View style={styles.containerInfoItem1}>
@@ -218,172 +206,4 @@ const Button2Screen = ({ navigation }) => {
   );
 };
 
-export default Button2Screen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: windowWidth,
-    height: windowHeight,
-    paddingTop: '0%',
-  },
-  containerHeaderViewTab: {
-    flex: 1,
-    flexDirection: 'row',
-    height: 60,
-    width: windowWidth,
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    flexWrap: 'wrap-reverse',
-  },
-  containerDevideLine: {
-    height: 1,
-    width: windowWidth - 15,
-    marginTop: '4%',
-    marginBottom: '5%',
-    backgroundColor: '#AFAFAF',
-    alignSelf: 'center',
-  },
-  containerItemFlatList: {
-    width: windowWidth - 40,
-    height: '100%',
-    paddingHorizontal: '5%',
-    backgroundColor: '#FFFFFF',
-    paddingTop: 0,
-    marginVertical: '2%',
-    alignSelf: 'center',
-    justifyContent: 'center',
-    borderRadius: 15,
-    paddingBottom: '1.5%',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
-
-    elevation: 4,
-    flex: 1,
-  },
-  containerImageItem: {
-    flex: 2,
-    marginBottom: '1%',
-    justifyContent: 'center',
-    alignContent: 'center',
-  },
-  containerSearchViewComponent: {
-    height: 40,
-    width: windowWidth,
-    maxWidth: '85%',
-    alignSelf: 'center',
-    borderRadius: 15,
-    backgroundColor: '#fff',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 5,
-  },
-  containerInfoViewTab: {
-    height: 70,
-    width: windowWidth,
-    maxWidth: '110%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignContent: 'center',
-    paddingHorizontal: '5%',
-  },
-  containerInfoItem: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    alignContent: 'center',
-    paddingHorizontal: '5%',
-  },
-  containerInfoItem1: {
-    flex: 7,
-  },
-  containerRatingItem: {
-    flexDirection: 'row',
-    flex: 2,
-    marginBottom: '3%',
-  },
-  txtPriceItemInfo2: {
-    color: '#EF5B5B',
-    fontSize: 25,
-    fontWeight: 'bold',
-  },
-  txtHeaderViewTab: {
-    color: '#fff',
-    fontSize: 25,
-    fontWeight: 'bold',
-    paddingTop: '0%',
-  },
-  txtNameDishItem: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: '2%',
-  },
-  txtRatingItem: {
-    color: '#EF5B5B',
-    marginHorizontal: 5,
-  },
-  containerPriceItem: {
-    flex: 1,
-  },
-  btnSearchStyle: {
-    width: 20,
-    height: 20,
-    flex: 1,
-  },
-  imgSearchStyle: {
-    width: 20,
-    height: 20,
-    resizeMode: 'cover',
-  },
-  imgStarItem: {
-    height: 15,
-    width: 15,
-  },
-  btnGoBack: {
-    height: 30,
-    width: 30,
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center',
-  },
-  btnUserStyle: {
-    height: 30,
-    width: 30,
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center',
-  },
-  imgGoBackStyle: {
-    height: 25,
-    width: 25,
-    resizeMode: 'cover',
-    alignSelf: 'center',
-  },
-  imgSourceItem: {
-    resizeMode: 'cover',
-    margin: '2%',
-    borderRadius: 15,
-    height: 150,
-    width: windowWidth - 50,
-    alignSelf: 'center',
-    flex: 1,
-  },
-  imgUserStyle: {
-    height: 25,
-    width: 25,
-    resizeMode: 'cover',
-    alignSelf: 'center',
-  },
-});
+export default MenuScreen;
