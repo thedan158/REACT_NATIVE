@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     ImageBackground,
   } from 'react-native';
-  import React from 'react';
+  import React, {useEffect, LogBox } from 'react';
   import { LinearGradient } from 'expo-linear-gradient';
   import Colors from '../../../assets/Colors';
   import { useNavigation } from '@react-navigation/core';
@@ -16,6 +16,7 @@ import {
   import styled, { ThemeProvider } from 'styled-components';
   import { useSelector, useDispatch } from 'react-redux';
   
+
   const imgDesertDish = require('../../../assets/images/DessertDish.png');
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
@@ -24,13 +25,36 @@ import {
   const imgBackgroundSource3 = {
     uri: 'https://www.pngall.com/wp-content/uploads/2/Meal-PNG-Pic.png',
   };
-  
+ 
   const HomeScreen2ndFinal = () => {
+    
     const navigation = useNavigation();
     const [visible, setVisible] = React.useState(false);
-  
     const theme = useSelector((state) => state.setting.theme);
+    const menuMainCoursesList = useSelector((state) => state.user.menuMainCourses);
+    const menuDesertAndDrinksList = useSelector((state) => state.user.menuDesertAndDrinks);
     const dispatch = useDispatch();
+    const getMenu = async () => {
+      dispatch(
+        getAPIActionJSON("postMainCourse", {
+          username: 'thedantest9',
+          foodType: 'Main course',
+        }),
+        getAPIActionJSON("postDesertAndDrink", {
+          username: 'thedantest9',
+          foodType: 'Dessert and Drink',
+        }) 
+      );
+
+    }
+    useEffect(() => {
+      getMenu();
+      console.log(menuMainCoursesList);
+      console.log(menuDesertAndDrinksList);
+      return () => {
+        
+      };
+    }, [])
   
     return (
       <ThemeProvider theme={theme}>
