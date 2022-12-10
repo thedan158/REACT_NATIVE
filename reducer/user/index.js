@@ -10,6 +10,8 @@ const initialState = {
   isLoggedin: false,
   errorMessage: "",
   restaurantID: "",
+  menuMainCourses: [],
+  menuDesertAndDrinks: [],
 };
 export default function UserReducer(state = initialState, action) {
   switch (action.type) {
@@ -34,6 +36,32 @@ export default function UserReducer(state = initialState, action) {
         ...state,
         isLoggedin: false,
       };
+    case "postMainCourse.reply":
+      if (action.data.success === true) {
+        return {
+          ...state,
+          menuMainCourses: action.data.message,
+        }
+      }
+      else {
+        return {
+          ...state,
+          errorMessage: "Cann't get menu main courses",
+        }
+      }
+    case "postDesertAndDrink.reply": 
+      if (action.data.success === true) {
+        return {
+          ...state,
+          menuDesertAndDrinks: action.data.message,
+        }
+      }
+      else {
+        return {
+          ...state,
+          errorMessage: "Cann't get menu desert and drinks",
+        }
+      }
     /* falls through */
     default:
       return state;

@@ -18,7 +18,8 @@ import {
   import AsyncStorage from '@react-native-async-storage/async-storage';
   import axios from 'axios';
   import { useIsFocused } from '@react-navigation/core';
-  
+  import styles from './style';
+
   const maxWidthConst = windowWidth - 10;
   const imgAddItem = require('../../../assets/icons/AddItem.png');
   const imgPlusSignItem = require('../../../assets/icons/PlusSign.png');

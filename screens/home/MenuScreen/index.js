@@ -18,7 +18,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useIsFocused } from '@react-navigation/core';
 import styles from './style'
-
+import { useDispatch } from "react-redux";
+import {getAPIActionJSON, getStatelessAPI} from '../../../api/ApiActions'
+import { useSelector } from 'react-redux';
+import { log } from 'react-native-reanimated';
 const imgAddItem = require('../../../assets/icons/AddItem.png');
 const imgGoBackSource = require('../../../assets/icons/back.png');
 const icStar = require('../../../assets/icons/Star.png');
@@ -27,37 +30,66 @@ const imgSearchSource = require('../../../assets/icons/search.png');
 const MenuScreen = ({ navigation }) => {
   const isFocus = useIsFocused();
   const [dataFromState, setNewData] = useState([]);
+  const menuMainCourseList = useSelector((state) => state.user.menuMainCourses);
   const [search, setSearch] = useState('');
   const [masterData, setMasterData] = useState([]);
   const [isAuthorized, setIsAuthorized] = useState(false);
-  useEffect(() => {
-    const getData = async () => {
-      const userLoginData = await AsyncStorage.getItem('userLoginData');
-      const user = JSON.parse(userLoginData);
-      const userLoginRole = await AsyncStorage.getItem('userLoginRole');
-      console.log('userrole: ' + userLoginRole);
-      if (userLoginRole === 'owner' || userLoginRole === 'chef') {
-        setIsAuthorized(true);
-      }
-      console.log('username: ' + user.username);
-      const res = await axios.post(
-        `https://foody-uit.herokuapp.com/food/getAllFoodWithType`,
-        {
-          username: user.username,
-          foodType: 'Main course',
-        }
-      );
+  const dispatch = useDispatch();
 
-      const { success, message } = res.data;
+  const getDataMenuRedux = async () => {
+     {
+      console.log('getDataMenuRedux is called');
+      // if (userRedux.role === 'owner' || userRedux.role === 'chef') {
+      //   setIsAuthorized(true);
+      // }
+      const res = await getStatelessAPI("postMainCourse", {
+        username: 'thedantest9',
+        foodType: 'Main course',
+      })
+      console.log('res', res);
+      const {success, message} = res;
       if (!success) {
         Alert.alert('Error', message);
         return;
       }
+      console.log('success', success);
+      console.log('message received');
+      console.log(message);
       console.log('filteredData is all selected');
-      setNewData(message);
-      setMasterData(message);
-    };
-    getData().catch((err) => console.log(err));
+      // setNewData(message);
+      // setMasterData(message);
+      
+    }
+    
+  }
+  useEffect(() => {
+    // const getData = async () => {
+    //   const userLoginData = await AsyncStorage.getItem('userLoginData');
+    //   const user = JSON.parse(userLoginData);
+    //   const userLoginRole = await AsyncStorage.getItem('userLoginRole');
+    //   console.log('userrole: ' + userLoginRole);
+    //   if (userLoginRole === 'owner' || userLoginRole === 'chef') {
+    //     setIsAuthorized(true);
+    //   }
+    //   console.log('username: ' + user.username);
+    //   const res = await axios.post(
+    //     `https://foody-uit.herokuapp.com/food/getAllFoodWithType`,
+    //     {
+    //       username: user.username,
+    //       foodType: 'Main course',
+    //     }
+    //   );
+
+    //   const { success, message } = res.data;
+    //   if (!success) {
+    //     Alert.alert('Error', message);
+    //     return;
+    //   }
+    //   console.log('filteredData is all selected');
+    //   setNewData(message);
+    //   setMasterData(message);
+    // };
+    
   }, [isFocus]);
   const searchFilterFunction = (text) => {
     if (text) {

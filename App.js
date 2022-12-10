@@ -149,6 +149,18 @@ function Navigation() {
       >
         <Stack.Screen
           options={{ headerShown: false }}
+          name="HomeScreen2ndFinal"
+          component={HomeScreen2ndFinal}
+        />
+        
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="MenuScreen"
+          component={MenuScreen}
+        />
+
+        <Stack.Screen
+          options={{ headerShown: false }}
           name="SplashScreen"
           component={SplashScreen}
         />
@@ -212,11 +224,7 @@ function Navigation() {
           component={RestaurantInformation}
         />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="HomeScreen2ndFinal"
-          component={HomeScreen2ndFinal}
-        />
+        
 
         <Stack.Screen
           options={{
@@ -283,12 +291,7 @@ function Navigation() {
           component={EditMenuScreen}
         />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="MenuScreen"
-          component={MenuScreen}
-        />
-
+        
         <Stack.Screen
           options={{ headerShown: false }}
           name="AddingMenuItemScreen"
