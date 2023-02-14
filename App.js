@@ -23,7 +23,6 @@ import { Provider, useSelector } from "react-redux";
 
 import { NavigationContainer } from "@react-navigation/native";
 import LoginScreen from "./screens/authentication/login/LoginScreen/index";
-import HomeScreen from "./screens/home/HomeScreen";
 import AccountForStaff from "./screens/settings/staff/AccountForStaffScreen/index";
 import AccountForOwner from "./screens/settings/owner/AccountForOwnerScreen/index";
 import SplashScreen from "./screens/onboarding/SplashScreen/index";
@@ -53,13 +52,12 @@ import TabForStaff from "./custom component/TabForStaff";
 import TabForOwner from "./custom component/TabForOwner";
 import RePasswordSuccess from "./screens/authentication/changepassword/RePasswordSuccessScreen/index";
 import PermissionManager from "./screens/management/staffmanagement/PermissionManagerScreen/index";
-import MenuScreen from "./screens/order/MenuScreen/index";
-import HomeScreen2ndFinal from "./screens/home/HomeScreen2ndFinal";
+import MenuScreen from "./screens/home/MenuScreen/index";
+import HomeScreen2ndFinal from "./screens/home/HomeScreen/index";
 import EditStaffProfile from "./screens/settings/staff/EditStaffProfileScreen/index";
 import EditOwnerProfile from "./screens/settings/owner/EditOwnerProfileScreen/index";
-import Button2Screen from "./screens/home/Button2Screen";
-import Button3Screen from "./screens/home/Button3Screen";
-import Button4Screen from "./screens/home/Button4Screen";
+import StarterMenuHome from "./screens/home/StarterMenuHome/index";
+import DesertAndDrinkMenuHome from "./screens/home/DesertAndDrinkMenuHome/index";
 import OrderDetails from "./custom component/OrderDetails";
 import StaffInformation from "./screens/management/staffmanagement/StaffInformationScreen/index";
 import CheckOutTableScreen from "./screens/order/CheckOutTableScreen/index";
@@ -123,9 +121,9 @@ const customTransition = {
           {
             scale: next
               ? next.progress.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [1, 0.7],
-                })
+                inputRange: [0, 1],
+                outputRange: [1, 0.7],
+              })
               : 1,
           },
         ],
@@ -149,6 +147,18 @@ function Navigation() {
           gestureDirection: "horizontal",
         }}
       >
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="HomeScreen2ndFinal"
+          component={HomeScreen2ndFinal}
+        />
+        
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="MenuScreen"
+          component={MenuScreen}
+        />
+
         <Stack.Screen
           options={{ headerShown: false }}
           name="SplashScreen"
@@ -214,11 +224,7 @@ function Navigation() {
           component={RestaurantInformation}
         />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="HomeScreen2ndFinal"
-          component={HomeScreen2ndFinal}
-        />
+        
 
         <Stack.Screen
           options={{
@@ -285,12 +291,7 @@ function Navigation() {
           component={EditMenuScreen}
         />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="MenuScreen"
-          component={MenuScreen}
-        />
-
+        
         <Stack.Screen
           options={{ headerShown: false }}
           name="AddingMenuItemScreen"
@@ -300,19 +301,13 @@ function Navigation() {
         <Stack.Screen
           options={{ headerShown: false }}
           name="StarterMenuHome"
-          component={Button2Screen}
+          component={StarterMenuHome}
         />
 
         <Stack.Screen
           options={{ headerShown: false }}
-          name="Button3Screen"
-          component={Button3Screen}
-        />
-
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="Button4Screen"
-          component={Button4Screen}
+          name="DesertAndDrinkMenuHome"
+          component={DesertAndDrinkMenuHome}
         />
         <Stack.Screen
           options={{ headerShown: false }}
@@ -434,13 +429,6 @@ function Navigation() {
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           }}
         />
-
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ headerShown: false }}
-        />
-
         <Stack.Screen
           options={{ headerShown: false }}
           name="ForgotPassword"

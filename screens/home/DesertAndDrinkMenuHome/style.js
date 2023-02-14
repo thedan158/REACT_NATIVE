@@ -1,9 +1,6 @@
-import { StyleSheet, Dimensions } from 'react-native';
-import Colors from '../../../assets/Colors';
-
+import { StyleSheet, Dimensions } from "react-native";
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-
 
 const styles = StyleSheet.create({
     container: {
@@ -94,7 +91,11 @@ const styles = StyleSheet.create({
     containerInfoItem1: {
       flex: 7,
     },
-  
+    containerRatingItem: {
+      flexDirection: 'row',
+      flex: 2,
+      marginBottom: '3%',
+    },
     txtPriceItemInfo2: {
       color: '#EF5B5B',
       fontSize: 25,
@@ -168,4 +169,6 @@ const styles = StyleSheet.create({
       alignSelf: 'center',
     },
   });
-export default styles;  
+
+  export default styles;
+  
