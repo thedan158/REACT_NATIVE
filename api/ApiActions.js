@@ -1,7 +1,7 @@
 import { getAPIs } from "./Apis";
 import customAxios from "./AxiosInterceptors";
 
-const host = "https://foody-uit.herokuapp.com";
+const host = "https://foody-a8pk.onrender.com";
 export function getAPIActionJSON(type, data, params = "", addparams = "") {
   const api = getAPIs[type];
   //getAPIs['login']
