@@ -1,19 +1,24 @@
 import { getAPIs } from "./Apis";
 import customAxios from "./AxiosInterceptors";
 
-<<<<<<< HEAD
-const host = "https://foody-a8pk.onrender.com";
-=======
-const host = "https://6fb1-2402-800-6312-ebf3-f542-ae76-e98e-e9bb.ap.ngrok.io";
->>>>>>> c2ad10889fa2131c22f8ff6b9f3c5f8dafb7b81c
-export function getAPIActionJSON(type, data, params = "", addparams = "") {
+const host = "https://foody-e5dq.onrender.com";
+export function getAPIActionJSON(
+  type,
+  data,
+  params = "",
+  addparams = "",
+  onSuccess = () => {},
+  onError = () => {}
+) {
   const api = getAPIs[type];
   //getAPIs['login']
   //name: "login",
   //path: "/api/auth/login",
   //method: "POST"
   //https://foody-uit.herokuapp.com/api/auth/login
+
   return (dispatch, getState) => {
+    dispatch({ type: "loading.start" });
     customAxios({
       method: api.method, //POST
       url: host + api.path + addparams,
@@ -21,6 +26,7 @@ export function getAPIActionJSON(type, data, params = "", addparams = "") {
       data: data,
     })
       .then(function (response) {
+        dispatch({ type: "loading.success" });
         // if (response.headers["aenx-token"]) {
         //   localStorage.setItem("aenx-token", response.headers["aenx-token"]);
         // }
@@ -31,15 +37,18 @@ export function getAPIActionJSON(type, data, params = "", addparams = "") {
         //   );
         // }
         console.log(type, response.data);
-        if (response.status === 200 || 202) {
+        if (response.status === 200) {
           dispatch({
             type: `${type}.reply`, /// login.reply
             data: response.data,
             headers: response.headers,
           });
         }
+        onSuccess(response.data);
       })
       .catch((e) => {
+        dispatch({ type: "loading.success" });
+        onError(e);
         console.log(e);
       });
   };

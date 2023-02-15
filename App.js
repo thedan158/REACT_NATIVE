@@ -1,21 +1,9 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Platform,
-  SafeAreaView,
-  Easing,
-  Animated,
-  LogBox,
-  Image,
-} from "react-native";
+import { Easing, LogBox, ActivityIndicator, View, Text } from "react-native";
 
 import {
   createStackNavigator,
   TransitionSpecs,
-  HeaderStyleInterpolators,
   CardStyleInterpolators,
 } from "@react-navigation/stack";
 
@@ -121,9 +109,9 @@ const customTransition = {
           {
             scale: next
               ? next.progress.interpolate({
-                inputRange: [0, 1],
-                outputRange: [1, 0.7],
-              })
+                  inputRange: [0, 1],
+                  outputRange: [1, 0.7],
+                })
               : 1,
           },
         ],
@@ -149,20 +137,19 @@ function Navigation() {
       >
         <Stack.Screen
           options={{ headerShown: false }}
-          name="HomeScreen2ndFinal"
-          component={HomeScreen2ndFinal}
+          name="SplashScreen"
+          component={SplashScreen}
         />
-        
         <Stack.Screen
           options={{ headerShown: false }}
-          name="MenuScreen"
-          component={MenuScreen}
+          name="HomeScreen2ndFinal"
+          component={HomeScreen2ndFinal}
         />
 
         <Stack.Screen
           options={{ headerShown: false }}
-          name="SplashScreen"
-          component={SplashScreen}
+          name="MenuScreen"
+          component={MenuScreen}
         />
         <Stack.Screen
           options={{ headerShown: false }}
@@ -223,8 +210,6 @@ function Navigation() {
           name="RestaurantInformation"
           component={RestaurantInformation}
         />
-
-        
 
         <Stack.Screen
           options={{
@@ -291,7 +276,6 @@ function Navigation() {
           component={EditMenuScreen}
         />
 
-        
         <Stack.Screen
           options={{ headerShown: false }}
           name="AddingMenuItemScreen"
@@ -476,10 +460,39 @@ function Navigation() {
     </NavigationContainer>
   );
 }
+function LoadingAnimation() {
+  const loading = useSelector((state) => state.setting.loading);
+  if (!loading) return null;
+  return (
+    <View
+      style={{
+        position: "absolute",
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "rgba(100, 100, 100, 0.6)",
+      }}
+    >
+      <ActivityIndicator color="#bb5533" size="large" />
+      <Text
+        style={{
+          fontSize: 18,
+          marginTop: 12,
+        }}
+      >
+        Loading ...
+      </Text>
+    </View>
+  );
+}
 export default function App() {
   return (
     <Provider store={store}>
       <Navigation />
+      {<LoadingAnimation />}
     </Provider>
   );
 }

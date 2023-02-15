@@ -1,5 +1,4 @@
 import {
-
   StyleSheet,
   Text,
   View,
@@ -10,119 +9,125 @@ import {
   ScrollView,
   Alert,
   Platform,
-} from 'react-native';
-import React, { useEffect, useState } from 'react';
-import back from '../../../assets/icons/back-green.png';
-import gallery from '../../../assets/icons/picture.png';
-import galleryDarkTheme from '../../../assets/icons/pictureDarkTheme.png';
-import { useNavigation } from '@react-navigation/core';
-import CustomTextInput from '../../../custom component/CustomTextInput';
-import Colors from '../../../assets/Colors';
-import * as ImagePicker from 'expo-image-picker';
-import CustomModal from '../../../custom component/CustomModal';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import SelectDropdown from 'react-native-select-dropdown';
-import { firebaseConfig } from '../../../firebase';
-import * as firebase from 'firebase';
-import styles from './style';
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import back from "../../../assets/icons/back-green.png";
+import gallery from "../../../assets/icons/picture.png";
+import galleryDarkTheme from "../../../assets/icons/pictureDarkTheme.png";
+import { useNavigation } from "@react-navigation/core";
+import CustomTextInput from "../../../custom component/CustomTextInput";
+import Colors from "../../../assets/Colors";
+import * as ImagePicker from "expo-image-picker";
+import CustomModal from "../../../custom component/CustomModal";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import SelectDropdown from "react-native-select-dropdown";
+import { firebaseConfig } from "../../../firebase";
+import * as firebase from "firebase";
+import styles from "./style";
+import { getAPIActionJSON } from "../../../api/ApiActions";
 
-import styled, { ThemeProvider } from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
+import styled, { ThemeProvider } from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import LoadingOwner from "../../../custom component/LoadingOwner";
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 const AddingMenuItemScreen = () => {
   const theme = useSelector((state) => state.setting.theme);
 
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
   }
-  const [priceDish, setPriceDish] = useState('');
-  const [nameDish, setNameDish] = useState('');
-  const [foodType, setFoodType] = useState('');
-  const [discount, setDiscount] = useState('');
-  const [image, setImage] = useState('null');
+  const [priceDish, setPriceDish] = useState("");
+  const [nameDish, setNameDish] = useState("");
+  const [foodType, setFoodType] = useState("");
+  const [discount, setDiscount] = useState("");
+  const [image, setImage] = useState("null");
   const [visible, setVisible] = useState(false);
-  const [url, setUrl] = useState('');
-  const foodTypeContainer = ['Starter', 'Dessert and Drink', 'Main course'];
+  const username = useSelector((state) => state.user.username);
+  const [url, setUrl] = useState("");
+  const dispatch = useDispatch();
+  const foodTypeContainer = ["Starter", "Dessert and Drink", "Main course"];
   useEffect(async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-    if (status !== 'granted') {
-      alert('Permission denied!');
-
+    if (status !== "granted") {
+      alert("Permission denied!");
     }
   }, []);
-
+  const handleResponse = (response) => {
+    if (!response.success) {
+      Alert.alert(response.message);
+      return;
+    }
+  };
   const handleSave = async () => {
-    //*Get user data from AsyncStorage
-    const user = await AsyncStorage.getItem('userLoginData');
-    const userData = JSON.parse(user);
-    console.log(userData.username);
-
     //*Create blob from image
-    const blob = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
-        resolve(xhr.response);
-      };
-      xhr.onerror = function (e) {
-        console.log(e);
-        reject(new TypeError('Network request failed'));
-      };
-      xhr.responseType = 'blob';
-      xhr.open('GET', image, true);
-      xhr.send(null);
-    });
-
+    // const blob = await new Promise((resolve, reject) => {
+    //   const xhr = new XMLHttpRequest();
+    //   xhr.onload = function () {
+    //     resolve(xhr.response);
+    //   };
+    //   xhr.onerror = function (e) {
+    //     console.log(e);
+    //     reject(new TypeError("Network request failed"));
+    //   };
+    //   xhr.responseType = "blob";
+    //   xhr.open("GET", image, true);
+    //   xhr.send(null);
+    // });
     //*Upload blob to firebase
-    const ref = firebase
-      .storage()
-      .ref()
-      .child(
-        `images/${userData.username}_restaurantImage/food/${nameDish}.jpg`
-      );
-    const snapshot = ref.put(blob);
-    await snapshot.on(
-      firebase.storage.TaskEvent.STATE_CHANGED,
-      () => {
-        console.log('uploading');
-      },
-      (error) => {
-        console.log(error);
-        blob.close();
-        return;
-      },
-      async () => {
-        await ref.getDownloadURL().then(async (url) => {
-          console.log('download url: ' + url);
-          setUrl(url);
-          blob.close();
-          console.log(userData);
-          console.log('platform: ' + Platform.OS);
-          console.log('blob:' + blob);
-          console.log('url:' + url);
-          const res = await axios.post(
-            `https://foody-uit.herokuapp.com/food/addFood/${userData.username}`,
-            {
-              name: nameDish,
-              price: priceDish,
-              foodType: foodType,
-              discount: discount,
-              imagePath: url,
-            }
-          );
-          const { success } = res.data;
-          console.log(success);
-          if (!success) {
-            Alert.alert('Add new food failed');
-            return;
-          }
-          setVisible(true);
-        });
-      }
+    // const ref = firebase
+    //   .storage()
+    //   .ref()
+    //   .child(`images/${username}_restaurantImage/food/${nameDish}.jpg`);
+    // const snapshot = ref.put(blob);
+    // await snapshot.on(
+    //   firebase.storage.TaskEvent.STATE_CHANGED,
+    //   () => {
+    //     console.log("uploading");
+    //     dispatch({ type: "loading.start" });
+    //   },
+    //   (error) => {
+    //     console.log(error);
+    //     blob.close();
+    //     return;
+    //   },
+    // async () => {
+    //   dispatch({ type: "loading.success" });
+    //   await ref.getDownloadURL().then(async (url) => {
+    //     setUrl(url);
+    //     blob.close();
+    dispatch(
+      getAPIActionJSON(
+        "addFood",
+        {
+          name: nameDish,
+          price: priceDish,
+          foodType: foodType,
+          discount: discount,
+          imagePath: "abcxyz.com",
+        },
+        null,
+        `/${username}`,
+        (e) => handleResponse(e)
+      )
     );
+    // const res = await axios.post(
+    //   `https://foody-uit.herokuapp.com/food/addFood/${userData.username}`,
+
+    // );
+    // const { success } = res.data;
+    // console.log(success);
+    // if (!success) {
+    //   Alert.alert("Add new food failed");
+    //   return;
+    // }
+    setVisible(true);
+    // });
+    // }
+    // );
   };
   const PickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -142,19 +147,19 @@ const AddingMenuItemScreen = () => {
       <ContainerView>
         <View
           style={{
-            flexDirection: 'row',
+            flexDirection: "row",
             marginTop: 20,
             width: windowWidth,
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            alignItems: "center",
+            justifyContent: "space-between",
             flex: 0.5,
           }}
         >
           <TouchableOpacity
             style={{
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              flexDirection: 'row',
+              justifyContent: "flex-start",
+              alignItems: "center",
+              flexDirection: "row",
               marginLeft: 20,
             }}
             onPress={() => {
@@ -174,7 +179,7 @@ const AddingMenuItemScreen = () => {
         {/* Pick image  */}
         <View style={styles.view2}>
           <TouchableOpacity onPress={PickImage}>
-            {theme.mode === 'light' ? (
+            {theme.mode === "light" ? (
               <View style={styles.pickLogo}>
                 <ImageBackground
                   style={styles.ImageBackground}
@@ -265,15 +270,15 @@ const AddingMenuItemScreen = () => {
 
         {/* Modal  */}
         <CustomModal visible={visible}>
-          <View style={{ alignItems: 'center' }}>
+          <View style={{ alignItems: "center" }}>
             <Image
-              source={require('../../../assets/icons/save-green.png')}
+              source={require("../../../assets/icons/save-green.png")}
               style={{ height: 150, width: 150, marginVertical: 30 }}
             />
           </View>
 
           <Text
-            style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}
+            style={{ marginVertical: 30, fontSize: 20, textAlign: "center" }}
           >
             Adding to menu successfully.
           </Text>
