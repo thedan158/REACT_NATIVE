@@ -61,73 +61,73 @@ const AddingMenuItemScreen = () => {
       Alert.alert(response.message);
       return;
     }
+    setVisible(true);
   };
   const handleSave = async () => {
     //*Create blob from image
-    // const blob = await new Promise((resolve, reject) => {
-    //   const xhr = new XMLHttpRequest();
-    //   xhr.onload = function () {
-    //     resolve(xhr.response);
-    //   };
-    //   xhr.onerror = function (e) {
-    //     console.log(e);
-    //     reject(new TypeError("Network request failed"));
-    //   };
-    //   xhr.responseType = "blob";
-    //   xhr.open("GET", image, true);
-    //   xhr.send(null);
-    // });
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function (e) {
+        console.log(e);
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", image, true);
+      xhr.send(null);
+    });
     //*Upload blob to firebase
-    // const ref = firebase
-    //   .storage()
-    //   .ref()
-    //   .child(`images/${username}_restaurantImage/food/${nameDish}.jpg`);
-    // const snapshot = ref.put(blob);
-    // await snapshot.on(
-    //   firebase.storage.TaskEvent.STATE_CHANGED,
-    //   () => {
-    //     console.log("uploading");
-    //     dispatch({ type: "loading.start" });
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //     blob.close();
-    //     return;
-    //   },
-    // async () => {
-    //   dispatch({ type: "loading.success" });
-    //   await ref.getDownloadURL().then(async (url) => {
-    //     setUrl(url);
-    //     blob.close();
-    dispatch(
-      getAPIActionJSON(
-        "addFood",
-        {
-          name: nameDish,
-          price: priceDish,
-          foodType: foodType,
-          discount: discount,
-          imagePath: "abcxyz.com",
-        },
-        null,
-        `/${username}`,
-        (e) => handleResponse(e)
-      )
-    );
-    // const res = await axios.post(
-    //   `https://foody-uit.herokuapp.com/food/addFood/${userData.username}`,
+    const ref = firebase
+      .storage()
+      .ref()
+      .child(`images/${username}_restaurantImage/food/${nameDish}.jpg`);
+    const snapshot = ref.put(blob);
+    await snapshot.on(
+      firebase.storage.TaskEvent.STATE_CHANGED,
+      () => {
+        console.log("uploading");
+        dispatch({ type: "loading.start" });
+      },
+      (error) => {
+        console.log(error);
+        blob.close();
+        return;
+      },
+      async () => {
+        dispatch({ type: "loading.success" });
+        await ref.getDownloadURL().then(async (url) => {
+          setUrl(url);
+          blob.close();
+          dispatch(
+            getAPIActionJSON(
+              "addFood",
+              {
+                name: nameDish,
+                price: priceDish,
+                foodType: foodType,
+                discount: discount,
+                imagePath: "abcxyz.com",
+              },
+              null,
+              `/${username}`,
+              (e) => handleResponse(e)
+            )
+          );
+          // const res = await axios.post(
+          //   `https://foody-uit.herokuapp.com/food/addFood/${userData.username}`,
 
-    // );
-    // const { success } = res.data;
-    // console.log(success);
-    // if (!success) {
-    //   Alert.alert("Add new food failed");
-    //   return;
-    // }
-    setVisible(true);
-    // });
-    // }
-    // );
+          // );
+          // const { success } = res.data;
+          // console.log(success);
+          // if (!success) {
+          //   Alert.alert("Add new food failed");
+          //   return;
+          // }
+        });
+      }
+    );
   };
   const PickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
