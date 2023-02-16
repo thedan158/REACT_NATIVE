@@ -15,6 +15,8 @@ import React, { useState, useEffect } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { useDispatch, useSelector } from "react-redux";
+import { getAPIActionJSON } from '../../../api/ApiActions';
 import { useIsFocused } from '@react-navigation/core';
 import styles from './style';
 
@@ -30,39 +32,68 @@ const imgSearchSource = require('../../../assets/icons/search.png');
 
 const DesertAndDrinkMenuHome = ({ navigation }) => {
     const isFocus = useIsFocused();
+    const dispatch = useDispatch();
     const [search, setSearch] = useState('');
     const [masterData, setMasterData] = useState([]);
     const [dataFromState, setNewData] = useState([]);
     const [isAuthorized, setIsAuthorized] = useState(false);
+    const username = useSelector((state) => state.user.username);
+    const role = useSelector(state => state.user.role);
+
+    const handleResponse = (response) => {
+        if (!response.success) {
+          Alert.alert(response.message);
+          return;
+        }
+        setNewData(response.message);
+        setMasterData(response.message);
+  
+      }
+      const getData = () => {
+        dispatch (
+          getAPIActionJSON(
+            "getAllFoodWithType",
+            {
+              username: username,
+              foodType: 'Dessert and Drink',
+            },
+            null,
+            "",
+            (e) =>handleResponse(e)
+          )
+        )
+      }
 
     useEffect(() => {
-        const getData = async () => {
-            const userLoginData = await AsyncStorage.getItem('userLoginData');
-            const user = JSON.parse(userLoginData);
-            const userLoginRole = await AsyncStorage.getItem('userLoginRole');
-            console.log('userrole: ' + userLoginRole);
-            if (userLoginRole === 'owner' || userLoginRole === 'chef') {
-                setIsAuthorized(true);
-            }
-            console.log('username: ' + user.username);
-            const res = await axios.post(
-                `https://foody-uit.herokuapp.com/food/getAllFoodWithType`,
-                {
-                    username: user.username,
-                    foodType: 'Dessert and Drink',
-                }
-            );
+        // const getData = async () => {
+        //     const userLoginData = await AsyncStorage.getItem('userLoginData');
+        //     const user = JSON.parse(userLoginData);
+        //     const userLoginRole = await AsyncStorage.getItem('userLoginRole');
+        //     console.log('userrole: ' + userLoginRole);
+        //     if (userLoginRole === 'owner' || userLoginRole === 'chef') {
+        //         setIsAuthorized(true);
+        //     }
+        //     console.log('username: ' + user.username);
+        //     const res = await axios.post(
+        //         `https://foody-uit.herokuapp.com/food/getAllFoodWithType`,
+        //         {
+        //             username: user.username,
+        //             foodType: 'Dessert and Drink',
+        //         }
+        //     );
 
-            const { success, message } = res.data;
-            if (!success) {
-                Alert.alert('Error', message);
-                return;
-            }
-            console.log('filteredData is all selected');
-            setNewData(message);
-            setMasterData(message);
-        };
-        getData().catch((err) => console.log(err));
+        //     const { success, message } = res.data;
+        //     if (!success) {
+        //         Alert.alert('Error', message);
+        //         return;
+        //     }
+        //     console.log('filteredData is all selected');
+        //     setNewData(message);
+        //     setMasterData(message);
+        // };
+        // getData().catch((err) => console.log(err));
+
+        getData();
     }, [isFocus]);
 
     const searchFilterFunction = (text) => {
@@ -99,7 +130,7 @@ const DesertAndDrinkMenuHome = ({ navigation }) => {
                         navigation.navigate('AddingMenuItemScreen');
                     }}
                 >
-                    {isAuthorized && (
+                    {role !== 'waiter' && (
                         <Image source={imgAddItem} style={styles.imgUserStyle} />
                     )}
                 </TouchableOpacity>

@@ -45,7 +45,7 @@ export const getAPIs = {
     method: "PUT",
   },
   getAllFoodWithType: {
-    name: "updateUser",
+    name: "getAllFoodWithType",
     path: "/api/food/getAllFoodWithType",
     method: "POST",
   },
@@ -54,4 +54,5 @@ export const getAPIs = {
     path: "/api/food/addFood",
     method: "POST",
   },
+  
 };

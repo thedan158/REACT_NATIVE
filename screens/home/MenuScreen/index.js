@@ -30,7 +30,6 @@ const imgSearchSource = require("../../../assets/icons/search.png");
 const MenuScreen = ({ navigation }) => {
   const isFocus = useIsFocused();
   const [dataFromState, setNewData] = useState([]);
-  const menuMainCourseList = useSelector((state) => state.user.menuMainCourses);
   const [search, setSearch] = useState("");
   const [masterData, setMasterData] = useState([]);
   const role = useSelector((state) => state.user.role);
