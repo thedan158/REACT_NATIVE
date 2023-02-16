@@ -26,7 +26,7 @@ import {
   const imgAddItem = require('../../../assets/icons/AddItem.png');
   const imgPlusSignItem = require('../../../assets/icons/PlusSign.png');
   const imgUserSource = require('../../../assets/icons/user.png');
-  const dispatch = useDispatch();
+  
   const imgGoBackSource = require('../../../assets/icons/back.png');
   const icStar = require('../../../assets/icons/Star.png');
   const windowWidth = Dimensions.get('window').width;
@@ -35,6 +35,7 @@ import {
   const imgSearchSource = require('../../../assets/icons/search.png');
   
   const StarterMenuHome = ({ navigation }) => {
+    const dispatch = useDispatch();
     const isFocus = useIsFocused();
     const role = useSelector(state => state.user.role);
     const [search, setSearch] = useState('');
