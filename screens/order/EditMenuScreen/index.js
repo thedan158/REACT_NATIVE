@@ -7,24 +7,24 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-} from 'react-native';
-import React, { useState, useEffect } from 'react';
-import background from '../../../assets/images/background.png';
-import * as ImagePicker from 'expo-image-picker';
-import Colors from '../../../assets/Colors';
-import back from '../../../assets/icons/back-green.png';
-import CustomTextInput from '../../../custom component/CustomTextInput';
-import { useNavigation } from '@react-navigation/core';
-import del_light from '../../../assets/icons/delete_light.png';
-import CustomModal from '../../../custom component/CustomModal';
-import gallery from '../../../assets/icons/picture.png';
-import galleryDarkTheme from '../../../assets/icons/pictureDarkTheme.png';
-import styles from './style';
-import styled, { ThemeProvider } from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
+} from "react-native";
+import React, { useState, useEffect } from "react";
+import background from "../../../assets/images/background.png";
+import * as ImagePicker from "expo-image-picker";
+import Colors from "../../../assets/Colors";
+import back from "../../../assets/icons/back-green.png";
+import CustomTextInput from "../../../custom component/CustomTextInput";
+import { useNavigation } from "@react-navigation/core";
+import del_light from "../../../assets/icons/delete_light.png";
+import CustomModal from "../../../custom component/CustomModal";
+import gallery from "../../../assets/icons/picture.png";
+import galleryDarkTheme from "../../../assets/icons/pictureDarkTheme.png";
+import styles from "./style";
+import styled, { ThemeProvider } from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 const EditMenuScreen = ({ route }) => {
   const { item } = route.params;
   const [priceDish, setPriceDish] = useState(item.price);
@@ -34,12 +34,13 @@ const EditMenuScreen = ({ route }) => {
   const [image, setImage] = useState(item.imagePath);
   const [visible, setVisible] = useState(false);
   const [visibleDeleted, setVisibleDeleted] = useState(false);
+  const theme = useSelector((state) => state.setting.theme);
   const navigation = useNavigation();
   useEffect(async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-    if (status !== 'granted') {
-      alert('Permission denied!');
+    if (status !== "granted") {
+      alert("Permission denied!");
     }
   }, []);
 
@@ -61,19 +62,19 @@ const EditMenuScreen = ({ route }) => {
       <ContainerView>
         <View
           style={{
-            flexDirection: 'row',
+            flexDirection: "row",
             marginTop: 20,
             width: windowWidth,
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            alignItems: "center",
+            justifyContent: "space-between",
             flex: 0.5,
           }}
         >
           <TouchableOpacity
             style={{
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              flexDirection: 'row',
+              justifyContent: "flex-start",
+              alignItems: "center",
+              flexDirection: "row",
               marginLeft: 20,
             }}
             onPress={() => {
@@ -93,7 +94,7 @@ const EditMenuScreen = ({ route }) => {
         {/* Pick image  */}
         <View style={styles.view2}>
           <TouchableOpacity onPress={PickImage}>
-            {theme.mode === 'light' ? (
+            {theme.mode === "light" ? (
               <View style={styles.pickLogo}>
                 <ImageBackground
                   style={styles.ImageBackground}
@@ -187,15 +188,15 @@ const EditMenuScreen = ({ route }) => {
 
         {/* Modal delete */}
         <CustomModal visible={visibleDeleted}>
-          <View style={{ alignItems: 'center' }}>
+          <View style={{ alignItems: "center" }}>
             <Image
-              source={require('../../../assets/icons/save-green.png')}
+              source={require("../../../assets/icons/save-green.png")}
               style={{ height: 150, width: 150, marginVertical: 30 }}
             />
           </View>
 
           <Text
-            style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}
+            style={{ marginVertical: 30, fontSize: 20, textAlign: "center" }}
           >
             Deleted table successfully.
           </Text>
@@ -211,15 +212,15 @@ const EditMenuScreen = ({ route }) => {
 
         {/* Modal adding  */}
         <CustomModal visible={visible}>
-          <View style={{ alignItems: 'center' }}>
+          <View style={{ alignItems: "center" }}>
             <Image
-              source={require('../../../assets/icons/save-green.png')}
+              source={require("../../../assets/icons/save-green.png")}
               style={{ height: 150, width: 150, marginVertical: 30 }}
             />
           </View>
 
           <Text
-            style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}
+            style={{ marginVertical: 30, fontSize: 20, textAlign: "center" }}
           >
             Adding table successfully.
           </Text>

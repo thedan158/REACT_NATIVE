@@ -108,7 +108,7 @@ const AddingMenuItemScreen = () => {
                 price: priceDish,
                 foodType: foodType,
                 discount: discount,
-                imagePath: "abcxyz.com",
+                imagePath: url,
               },
               null,
               `/${username}`,
