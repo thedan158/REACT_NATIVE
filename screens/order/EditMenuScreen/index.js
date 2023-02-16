@@ -27,10 +27,11 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 const EditMenuScreen = ({ route }) => {
   const { item } = route.params;
+  console.log(item);
   const [priceDish, setPriceDish] = useState(item.price);
   const [nameDish, setNameDish] = useState(item.name);
   const [specialFeatures, setSpecialFeatures] = useState(item.votes);
-  const [discount, setDiscount] = useState(item.price);
+  const [discount, setDiscount] = useState(item.discount);
   const [image, setImage] = useState(item.imagePath);
   const [visible, setVisible] = useState(false);
   const [visibleDeleted, setVisibleDeleted] = useState(false);
