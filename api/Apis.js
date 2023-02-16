@@ -54,5 +54,14 @@ export const getAPIs = {
     path: "/api/food/addFood",
     method: "POST",
   },
-  
+  createTable: {
+    name: "createTable",
+    path: "/api/table/createTable",
+    method: "POST",
+  },
+  getAllTable: {
+    name: "getAllTable",
+    path: "/api/table/getAllTable",
+    method: "GET",
+  },
 };

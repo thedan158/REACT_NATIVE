@@ -9,90 +9,90 @@ import {
   ScrollView,
   Alert,
   Platform,
-} from 'react-native';
-import React, { useEffect, useState } from 'react';
-import back from '../../../assets/icons/back-green.png';
-import gallery from '../../../assets/icons/picture.png';
-import { useNavigation } from '@react-navigation/core';
-import CustomTextInput from '../../../custom component/CustomTextInput';
-import Colors from '../../../assets/Colors';
-import * as ImagePicker from 'expo-image-picker';
-import CustomModal from '../../../custom component/CustomModal';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import back from "../../../assets/icons/back-green.png";
+import gallery from "../../../assets/icons/picture.png";
+import { useNavigation } from "@react-navigation/core";
+import CustomTextInput from "../../../custom component/CustomTextInput";
+import Colors from "../../../assets/Colors";
+import * as ImagePicker from "expo-image-picker";
+import CustomModal from "../../../custom component/CustomModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
-import styled, { ThemeProvider } from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
-import styles from './style';
+import styled, { ThemeProvider } from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import styles from "./style";
+import { getAPIActionJSON } from "../../../api/ApiActions";
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 const AddingTable = () => {
   const theme = useSelector((state) => state.setting.theme);
-  const [nameTable, setNameTable] = useState('');
-  const [numberPeople, setNumberPeople] = useState('');
-  const [position, setPosition] = useState('');
+  const restaurantID = useSelector((state) => state.user.restaurantID);
+  const [tableName, setTableName] = useState("");
   const [visible, setVisible] = useState(false);
-  const [image, setImage] = useState('null');
+  const [image, setImage] = useState("null");
   const navigation = useNavigation();
-  const handleSave = async () => {
-    const userLoginData = await AsyncStorage.getItem('userLoginData');
-    const user = JSON.parse(userLoginData);
-    console.log('username: ' + user.username);
-    const res = await axios.post(
-      `https://foody-uit.herokuapp.com/table/createTable`,
-      {
-        username: user.username,
-        name: nameTable,
-      }
+  const dispatch = useDispatch();
+  const handleResponse = (response) => {
+    if (!response.success) {
+      Alert.alert(response.message);
+      return;
+    }
+    setVisible(true);
+    navigation.goBack();
+  };
+  const handleSave = () => {
+    if (tableName === "") {
+      Alert.alert("Please enter table name");
+      return;
+    }
+    dispatch(
+      getAPIActionJSON(
+        "createTable",
+        { name: tableName },
+        null,
+        `/${restaurantID}`,
+        (e) => handleResponse(e)
+      )
     );
-    const { success, message } = res.data;
-    console.log(message);
-    console.log(success);
-    if (success) {
-      setVisible(true);
-      navigation.goBack();
-    }
+    // const res = await axios.post(
+    //   `https://foody-uit.herokuapp.com/table/createTable`,
+    //   {
+    //     username: user.username,
+    //     name: nameTable,
+    //   }
+    // );
+    // const { success, message } = res.data;
+    // console.log(message);
+    // console.log(success);
+    // if (success) {
+    //   setVisible(true);
+    //   navigation.goBack();
+    // }
   };
-  useEffect(async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-    if (status !== 'granted') {
-      alert('Permission denied!');
-    }
-  }, []);
-
-  const PickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    console.log(result);
-    if (!result.cancelled) {
-      setImage(result.uri);
-    }
-  };
   return (
     <ThemeProvider theme={theme}>
       <ContainerView>
         <View
           style={{
-            flexDirection: 'row',
-            paddingTop: '0%',
+            flexDirection: "row",
+            paddingTop: "0%",
             width: windowWidth,
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            alignItems: "center",
+            justifyContent: "space-between",
             flex: 0.5,
           }}
         >
           <TouchableOpacity
             style={{
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              flexDirection: 'row',
+              justifyContent: "flex-start",
+              alignItems: "center",
+              flexDirection: "row",
               marginLeft: 20,
             }}
             onPress={() => {
@@ -113,7 +113,7 @@ const AddingTable = () => {
         <View style={styles.view2}>
           <ImageBackground
             style={styles.ImageBackground}
-            source={require('../../../assets/images/logo_app.png')}
+            source={require("../../../assets/images/logo_app.png")}
           />
 
           {image && <Image source={{ uri: image }} style={styles.pick}></Image>}
@@ -124,8 +124,8 @@ const AddingTable = () => {
           {/* Name Table input */}
           <CustomTextInput
             blurColor={Colors.secondary}
-            value={nameTable}
-            onChangeText={(text) => setNameTable(text)}
+            value={tableName}
+            onChangeText={(text) => setTableName(text)}
             placeholder="Name Table"
           />
         </View>
@@ -139,15 +139,15 @@ const AddingTable = () => {
 
         {/* Modal  */}
         <CustomModal visible={visible}>
-          <View style={{ alignItems: 'center' }}>
+          <View style={{ alignItems: "center" }}>
             <Image
-              source={require('../../../assets/icons/save-green.png')}
+              source={require("../../../assets/icons/save-green.png")}
               style={{ height: 150, width: 150, marginVertical: 30 }}
             />
           </View>
 
           <Text
-            style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}
+            style={{ marginVertical: 30, fontSize: 20, textAlign: "center" }}
           >
             Adding table successfully.
           </Text>

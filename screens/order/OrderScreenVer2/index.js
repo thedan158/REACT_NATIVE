@@ -9,44 +9,24 @@ import {
   FlatList,
   SafeAreaView,
   Alert,
-} from 'react-native';
-import Colors from '../../../assets/Colors';
-import { useIsFocused } from '@react-navigation/core';
-import React, { useState, useEffect } from 'react';
-import styled, { ThemeProvider } from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
-import CustomModal from '../../../custom component/CustomModal';
-import styles from './style';
+} from "react-native";
+import Colors from "../../../assets/Colors";
+import { useIsFocused } from "@react-navigation/core";
+import React, { useState, useEffect } from "react";
+import styled, { ThemeProvider } from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import CustomModal from "../../../custom component/CustomModal";
+import styles from "./style";
+import { getAPIActionJSON } from "../../../api/ApiActions";
 
-const imgAddItem = require('../../../assets/icons/AddItem.png');
-const SearchIconResouce = require('../../../assets/icons/SearchGray.png');
-
-const DataTable = [
-  {
-    id: 1,
-    name: 'Table 1',
-    isBusy: true,
-  },
-  {
-    id: 2,
-    name: 'Table 2',
-    isBusy: true,
-  },
-  {
-    id: 3,
-    name: 'Table 3',
-    isBusy: false,
-  },
-  {
-    id: 4,
-    name: 'Table 4',
-    isBusy: false,
-  },
-];
+const imgAddItem = require("../../../assets/icons/AddItem.png");
+const SearchIconResouce = require("../../../assets/icons/SearchGray.png");
 
 const OrderScreenUpdate1 = ({ navigation }) => {
   const isFocus = useIsFocused();
-  const [search, setSearch] = useState('');
+  const dispatch = useDispatch();
+  const restaurantID = useSelector((state) => state.user.restaurantID);
+  const [search, setSearch] = useState("");
   const theme = useSelector((state) => state.setting.theme);
   const [dataFromState, setNewData] = useState([]);
   const [modalAdjustTableVisibleConfirm, setModalAdjustTableVisibleConfirm] =
@@ -55,17 +35,30 @@ const OrderScreenUpdate1 = ({ navigation }) => {
     modalOpenMenuOrderScreenTableConfirm,
     setModalOpenMenuOrderScreenTableConfirm,
   ] = useState(false);
-  const [tableSelectedAdjust, setTableSelectedAdjust] = useState('');
-
+  const [tableSelectedAdjust, setTableSelectedAdjust] = useState("");
+  const handleResponse = (response) => {
+    if (!response.success) {
+      Alert.alert(response.message);
+      return;
+    }
+    setNewData(response.data);
+  };
+  const getData = () => {
+    dispatch(
+      getAPIActionJSON("getAllTable", null, null, `/${restaurantID}`, (e) =>
+        handleResponse(e)
+      )
+    );
+  };
   useEffect(() => {
-    setNewData(DataTable);
+    getData();
   }, [isFocus]);
 
   const searchFilterFunction = (text) => {
     setNewData(DataTable);
     if (text) {
       const newData = masterData.filter(function (item) {
-        const itemData = item.id ? item.id.toLowerCase() : ''.toUpperCase();
+        const itemData = item.id ? item.id.toLowerCase() : "".toUpperCase();
         const textData = text.toLowerCase();
         return itemData.indexOf(textData) > -1;
       });
@@ -83,7 +76,7 @@ const OrderScreenUpdate1 = ({ navigation }) => {
         <View>
           <Pressable
             onPress={() => {
-              navigation.navigate('CheckOutTableScreen', { item });
+              navigation.navigate("CheckOutTableScreen", { item });
             }}
             onLongPress={() => {
               setTableSelectedAdjust(item.name);
@@ -98,7 +91,7 @@ const OrderScreenUpdate1 = ({ navigation }) => {
           >
             <View>
               <Image
-                source={require('../../../assets/icons/TableOrange.png')}
+                source={require("../../../assets/icons/TableOrange.png")}
                 style={styles.imgItemFlatlist}
               />
               <Text style={styles.txtItemFlatlistInUse}>{item.name}</Text>
@@ -117,7 +110,7 @@ const OrderScreenUpdate1 = ({ navigation }) => {
             setModalAdjustTableVisibleConfirm(true);
           }}
           onPress={() => {
-            navigation.navigate('MenuOrderScreen');
+            navigation.navigate("MenuOrderScreen");
           }}
           style={({ pressed }) => [
             {
@@ -128,7 +121,7 @@ const OrderScreenUpdate1 = ({ navigation }) => {
         >
           <View>
             <Image
-              source={require('../../../assets/icons/TableGray.png')}
+              source={require("../../../assets/icons/TableGray.png")}
               style={styles.imgItemFlatlist}
             />
             <Text style={styles.txtItemFlatlist}>{item.name}</Text>
@@ -140,204 +133,196 @@ const OrderScreenUpdate1 = ({ navigation }) => {
 
   const handleConfirmAdjustTableInfo = async () => {
     setModalAdjustTableVisibleConfirm(false);
-    navigation.navigate('EditTableInfoScreenRework1', { tableSelectedAdjust });
+    navigation.navigate("EditTableInfoScreenRework1", { tableSelectedAdjust });
   };
   const handleConfirmMoreOrder = async () => {
     setModalOpenMenuOrderScreenTableConfirm(false);
-    navigation.navigate('MenuOrderScreen');
+    navigation.navigate("MenuOrderScreen");
   };
 
   return (
     // Root View
     <ThemeProvider theme={theme}>
-      <ContainerScrollView>
-        <SafeAreaView style={styles.droidSafeArea}>
-          <View style={styles.containerTop}>
-            <Text style={styles.txtHeaderView}>Order Rework</Text>
-            <View style={styles.containerTemp}>
-              <ContainerSearch>
-                <TouchableOpacity style={styles.btnSearch}>
-                  <Image
-                    source={SearchIconResouce}
-                    style={styles.imgIconSearch}
-                  />
-                </TouchableOpacity>
-                <TextInput
-                  value={search}
-                  onChangeText={(text) => searchFilterFunction(text)}
-                  style={styles.txtSearchBar}
-                  placeholder={'Search Table...'}
-                  placeholderTextColor="#8A8A8A"
+      <SafeAreaView style={styles.droidSafeArea}>
+        <View style={styles.containerTop}>
+          <Text style={styles.txtHeaderView}>TABLE</Text>
+          <View style={styles.containerTemp}>
+            <ContainerSearch>
+              <TouchableOpacity style={styles.btnSearch}>
+                <Image
+                  source={SearchIconResouce}
+                  style={styles.imgIconSearch}
                 />
-              </ContainerSearch>
+              </TouchableOpacity>
+              <TextInput
+                value={search}
+                onChangeText={(text) => searchFilterFunction(text)}
+                style={styles.txtSearchBar}
+                placeholder={"Search Table..."}
+                placeholderTextColor="#8A8A8A"
+              />
+            </ContainerSearch>
 
-              <TouchableOpacity
-                onPress={() => navigation.navigate('AddingTable')}
-                style={styles.btnImgFillter}
+            <TouchableOpacity
+              onPress={() => navigation.navigate("AddingTable")}
+              style={styles.btnImgFillter}
+            >
+              <Image source={imgAddItem} style={styles.imgIconFillter} />
+            </TouchableOpacity>
+          </View>
+        </View>
+        <ContainerBottom>
+          <FlatList
+            data={dataFromState}
+            renderItem={({ item, index }) => {
+              return (
+                <FlatlistItemFunctions
+                  item={item}
+                  index={index}
+                ></FlatlistItemFunctions>
+              );
+            }}
+            keyExtractor={(item) => item.id}
+            nestedScrollEnabled
+            numColumns={2}
+          />
+        </ContainerBottom>
+
+        {/* Modal Confirm Adjust Table */}
+        <CustomModal visible={modalAdjustTableVisibleConfirm}>
+          <View
+            style={{
+              alignSelf: "center",
+              alignItems: "center",
+            }}
+          >
+            <Image
+              source={require("../../../assets/icons/QuestionMarkOrange.png")}
+              style={{ height: 150, width: 150, marginVertical: 30 }}
+            />
+            {theme.mode === "light" ? (
+              <Text
+                style={{
+                  marginVertical: 30,
+                  fontSize: 20,
+                  textAlign: "center",
+                }}
               >
-                <Image source={imgAddItem} style={styles.imgIconFillter} />
+                Do you want to adjust table name '{tableSelectedAdjust}' ?
+              </Text>
+            ) : (
+              <Text
+                style={{
+                  marginVertical: 30,
+                  fontSize: 20,
+                  textAlign: "center",
+                  color: "white",
+                }}
+              >
+                Do you want to adjust table name '{tableSelectedAdjust}' ?
+              </Text>
+            )}
+
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                alignSelf: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              {/* Button Ok */}
+              <TouchableOpacity
+                onPress={() => handleConfirmAdjustTableInfo()}
+                style={styles.button}
+              >
+                <Text style={styles.buttonText}>OK</Text>
+              </TouchableOpacity>
+              {/* Button Cancel */}
+              <TouchableOpacity
+                onPress={() => {
+                  setModalAdjustTableVisibleConfirm(false);
+                }}
+                style={styles.button1}
+              >
+                <Text style={styles.buttonText}>Cancel</Text>
               </TouchableOpacity>
             </View>
           </View>
-          <ContainerBottom>
-            <FlatList
-              data={dataFromState}
-              renderItem={({ item, index }) => {
-                return (
-                  <FlatlistItemFunctions
-                    item={item}
-                    index={index}
-                  ></FlatlistItemFunctions>
-                );
-              }}
-              keyExtractor={(item) => item.id}
-              nestedScrollEnabled
-              numColumns={2}
+        </CustomModal>
+        {/* Modal Confirm Adding More Order ~ Modal Confirm More Ordered With Table Already Ordered */}
+        <CustomModal visible={modalOpenMenuOrderScreenTableConfirm}>
+          <View
+            style={{
+              alignSelf: "center",
+              alignItems: "center",
+            }}
+          >
+            <Image
+              source={require("../../../assets/icons/orderSticker.png")}
+              style={{ height: 150, width: 150, marginVertical: 30 }}
             />
-          </ContainerBottom>
-
-          {/* Modal Confirm Adjust Table */}
-          <CustomModal visible={modalAdjustTableVisibleConfirm}>
-            <View
-              style={{
-                alignSelf: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Image
-                source={require('../../../assets/icons/QuestionMarkOrange.png')}
-                style={{ height: 150, width: 150, marginVertical: 30 }}
-              />
-              {theme.mode === 'light' ? (
-                <Text
-                  style={{
-                    marginVertical: 30,
-                    fontSize: 20,
-                    textAlign: 'center',
-                  }}
-                >
-                  Do you want to adjust table name '{tableSelectedAdjust}' ?
-                </Text>
-              ) : (
-                <Text
-                  style={{
-                    marginVertical: 30,
-                    fontSize: 20,
-                    textAlign: 'center',
-                    color: 'white',
-                  }}
-                >
-                  Do you want to adjust table name '{tableSelectedAdjust}' ?
-                </Text>
-              )}
-
-              <View
+            {theme.mode == "light" ? (
+              <Text
                 style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  alignSelf: 'center',
-                  justifyContent: 'space-between',
+                  marginVertical: 30,
+                  fontSize: 20,
+                  textAlign: "center",
+                  flexWrap: "wrap",
                 }}
               >
-                {/* Button Ok */}
-                <TouchableOpacity
-                  onPress={() => handleConfirmAdjustTableInfo()}
-                  style={styles.button}
-                >
-                  <Text style={styles.buttonText}>OK</Text>
-                </TouchableOpacity>
-                {/* Button Cancel */}
-                <TouchableOpacity
-                  onPress={() => {
-                    setModalAdjustTableVisibleConfirm(false);
-                  }}
-                  style={styles.button1}
-                >
-                  <Text style={styles.buttonText}>Cancel</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </CustomModal>
-          {/* Modal Confirm Adding More Order ~ Modal Confirm More Ordered With Table Already Ordered */}
-          <CustomModal visible={modalOpenMenuOrderScreenTableConfirm}>
-            <View
-              style={{
-                alignSelf: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Image
-                source={require('../../../assets/icons/orderSticker.png')}
-                style={{ height: 150, width: 150, marginVertical: 30 }}
-              />
-              {theme.mode == 'light' ? (
-                <Text
-                  style={{
-                    marginVertical: 30,
-                    fontSize: 20,
-                    textAlign: 'center',
-                    flexWrap: 'wrap',
-                  }}
-                >
-                  Do you want to place more orders with table name '
-                  {tableSelectedAdjust}' ?
-                </Text>
-              ) : (
-                <Text
-                  style={{
-                    marginVertical: 30,
-                    fontSize: 20,
-                    textAlign: 'center',
-                    flexWrap: 'wrap',
-                    color: 'white',
-                  }}
-                >
-                  Do you want to place more orders with table name '
-                  {tableSelectedAdjust}' ?
-                </Text>
-              )}
-
-              <View
+                Do you want to place more orders with table name '
+                {tableSelectedAdjust}' ?
+              </Text>
+            ) : (
+              <Text
                 style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  alignSelf: 'center',
-                  justifyContent: 'space-between',
+                  marginVertical: 30,
+                  fontSize: 20,
+                  textAlign: "center",
+                  flexWrap: "wrap",
+                  color: "white",
                 }}
               >
-                {/* Button Ok */}
-                <TouchableOpacity
-                  onPress={() => handleConfirmMoreOrder()}
-                  style={styles.button}
-                >
-                  <Text style={styles.buttonText}>OK</Text>
-                </TouchableOpacity>
-                {/* Button Cancel */}
-                <TouchableOpacity
-                  onPress={() => {
-                    setModalOpenMenuOrderScreenTableConfirm(false);
-                  }}
-                  style={styles.button1}
-                >
-                  <Text style={styles.buttonText}>Cancel</Text>
-                </TouchableOpacity>
-              </View>
+                Do you want to place more orders with table name '
+                {tableSelectedAdjust}' ?
+              </Text>
+            )}
+
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                alignSelf: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              {/* Button Ok */}
+              <TouchableOpacity
+                onPress={() => handleConfirmMoreOrder()}
+                style={styles.button}
+              >
+                <Text style={styles.buttonText}>OK</Text>
+              </TouchableOpacity>
+              {/* Button Cancel */}
+              <TouchableOpacity
+                onPress={() => {
+                  setModalOpenMenuOrderScreenTableConfirm(false);
+                }}
+                style={styles.button1}
+              >
+                <Text style={styles.buttonText}>Cancel</Text>
+              </TouchableOpacity>
             </View>
-          </CustomModal>
-        </SafeAreaView>
-      </ContainerScrollView>
+          </View>
+        </CustomModal>
+      </SafeAreaView>
     </ThemeProvider>
   );
 };
 
 export default OrderScreenUpdate1;
 
-const ContainerScrollView = styled.ScrollView`
-  padding-bottom: 5%;
-  padding-top: 0%;
-  background-color: ${(props) => props.theme.PRIMARY_BACKGROUND_ACCOUNT_COLOR};
-  flex: 1;
-`;
 const ContainerBottom = styled.View`
   border-top-left-radius: 30;
   border-top-right-radius: 30;
