@@ -29,9 +29,9 @@ const imgBackgroundSource3 = {
 
 const HomeScreen2ndFinal = () => {
   const data = [
-    "https://firebasestorage.googleapis.com/v0/b/sugarcare-9f6bd.appspot.com/o/images%2Fcarousel%2Fmedicine_carousel.png?alt=media&token=f27c4cfc-c4f5-4212-a41b-05f1b2890a7c",
-    "https://firebasestorage.googleapis.com/v0/b/sugarcare-9f6bd.appspot.com/o/images%2Fcarousel%2Fclipboard_carousel.png?alt=media&token=8fd6f0bf-0764-48b2-92c8-b2fe32773011",
-    "https://firebasestorage.googleapis.com/v0/b/sugarcare-9f6bd.appspot.com/o/images%2Fcarousel%2Fdoctor_carousel.png?alt=media&token=34e6ab80-fe0f-4cb3-bc0f-ddbeb7b99558",
+    "https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fcarousel%2FManage%20your%20Prescriptions.png?alt=media&token=5f89fb93-ae05-46e9-a8e4-8391f69ac71f",
+    "https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fcarousel%2FManage%20your%20Prescriptions%20(4).png?alt=media&token=fcc93470-542f-4477-8ad8-0bb1d5ce2c1d",
+    "https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fcarousel%2FManage%20your%20Prescriptions%20(3).png?alt=media&token=99c290b0-a47a-422f-9789-c041a8b38e2d",
   ];
   const navigation = useNavigation();
   const userImagePath = useSelector((state) => state.user.imagePath);
@@ -92,7 +92,7 @@ const HomeScreen2ndFinal = () => {
           <Carousel
             loop
             width={windowWidth}
-            height={windowWidth / 2}
+            height={windowWidth / 1.7}
             autoPlay={true}
             data={data}
             scrollAnimationDuration={1200}
