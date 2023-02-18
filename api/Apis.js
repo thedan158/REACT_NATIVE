@@ -64,4 +64,9 @@ export const getAPIs = {
     path: "/api/table/getAllTable",
     method: "GET",
   },
+  getUserProfile: {
+    name: "getUserProfile",
+    path: "/api/profile/getUserProfile",
+    method: "GET",
+  },
 };

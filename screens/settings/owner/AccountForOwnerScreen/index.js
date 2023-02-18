@@ -67,9 +67,6 @@ const AccountForOwner = () => {
   };
   useEffect(() => {
     const getData = async () => {
-      const user = await AsyncStorage.getItem('userLoginData');
-      const userInfo = JSON.parse(user);
-      console.log(userInfo.username);
       const response = await axios.get(
         `https://foody-uit.herokuapp.com/profile/getUserProfile/${userInfo.username}`
       );

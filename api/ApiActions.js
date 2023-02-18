@@ -1,7 +1,7 @@
 import { getAPIs } from "./Apis";
 import customAxios from "./AxiosInterceptors";
 
-const host = "https://a4ae-116-110-40-131.ap.ngrok.io";
+const host = "https://2379-171-253-18-231.ap.ngrok.io";
 export function getAPIActionJSON(
   type,
   data,
