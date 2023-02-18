@@ -29,6 +29,7 @@ const OrderScreenUpdate1 = ({ navigation }) => {
   const [search, setSearch] = useState("");
   const theme = useSelector((state) => state.setting.theme);
   const [dataFromState, setNewData] = useState([]);
+  const [masterData, setMasterData] = useState([]);
   const [modalAdjustTableVisibleConfirm, setModalAdjustTableVisibleConfirm] =
     useState(false);
   const [
@@ -42,6 +43,7 @@ const OrderScreenUpdate1 = ({ navigation }) => {
       return;
     }
     setNewData(response.data);
+    setMasterData(response.data);
   };
   const getData = () => {
     dispatch(
@@ -55,14 +57,9 @@ const OrderScreenUpdate1 = ({ navigation }) => {
   }, [isFocus]);
 
   const searchFilterFunction = (text) => {
-    setNewData(DataTable);
     if (text) {
-      const newData = masterData.filter(function (item) {
-        const itemData = item.id ? item.id.toLowerCase() : "".toUpperCase();
-        const textData = text.toLowerCase();
-        return itemData.indexOf(textData) > -1;
-      });
-      setNewData(newData);
+      const newList = masterData.filter((item) => item.name.includes(text));
+      setNewData(newList);
       setSearch(text);
     } else {
       setNewData(masterData);
@@ -110,7 +107,7 @@ const OrderScreenUpdate1 = ({ navigation }) => {
             setModalAdjustTableVisibleConfirm(true);
           }}
           onPress={() => {
-            navigation.navigate("MenuOrderScreen");
+            navigation.navigate("MenuOrderScreen", { item });
           }}
           style={({ pressed }) => [
             {
@@ -182,7 +179,7 @@ const OrderScreenUpdate1 = ({ navigation }) => {
                 ></FlatlistItemFunctions>
               );
             }}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.name}
             nestedScrollEnabled
             numColumns={2}
           />

@@ -57,6 +57,13 @@ export default function UserReducer(state = initialState, action) {
           role: "owner",
         };
       }
+    case "register.reply":
+      if (action.data.success === true) {
+        return {
+          ...state,
+          restaurantID: action.data.data.restaurantID,
+        };
+      }
     case "logout":
       return {
         ...state,
