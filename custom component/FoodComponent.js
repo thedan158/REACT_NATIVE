@@ -1,38 +1,40 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import React from 'react';
-import { useSelector } from 'react-redux';
-import styled, { ThemeProvider } from 'styled-components';
-import pizza from '../assets/images/pizza.jpg';
-import del from '../assets/icons/bin.png';
-import decrease from '../assets/icons/decrease.png';
-import increase from '../assets/icons/increase.png';
-const FoodComponent = ({ item }) => {
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import React from "react";
+import { useSelector } from "react-redux";
+import styled, { ThemeProvider } from "styled-components";
+import pizza from "../assets/images/pizza.jpg";
+import del from "../assets/icons/bin.png";
+import decrease from "../assets/icons/decrease.png";
+import increase from "../assets/icons/increase.png";
+const FoodComponent = (props) => {
   const theme = useSelector((state) => state.setting.theme);
+  const { item, onAdd, onDes, onDel } = props;
+
   return (
     <ThemeProvider theme={theme}>
       <Container>
         {/* Image section  */}
         <View style={styles.avatar}>
-          <Image source={pizza} style={styles.image} />
+          <Image source={{ uri: item.imagePath }} style={styles.image} />
         </View>
 
         {/* Information */}
         <View style={styles.information}>
           {/* Food name and food price */}
-          <Content style={styles.foodName}>Croissant and Cappuccino</Content>
-          <Content style={styles.foodPrice}>$12.60</Content>
+          <Content style={styles.foodName}>{item.name}</Content>
+          <Content style={styles.foodPrice}>${item.price}</Content>
           {/* Quantity and delete  */}
           <View style={styles.quantityAndDelete}>
             <View style={styles.quantity}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={onDes}>
                 <Image source={decrease} style={{ height: 25, width: 25 }} />
               </TouchableOpacity>
-              <Content style={styles.foodPrice}>2</Content>
-              <TouchableOpacity>
+              <Content style={styles.foodPrice}>{item.quantity}</Content>
+              <TouchableOpacity onPress={onAdd}>
                 <Image source={increase} style={{ height: 25, width: 25 }} />
               </TouchableOpacity>
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={onDel}>
               <Image source={del} style={{ height: 25, width: 25 }} />
             </TouchableOpacity>
           </View>
@@ -63,76 +65,76 @@ export default FoodComponent;
 
 const styles = StyleSheet.create({
   quantity: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '50%',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "50%",
   },
   quantityAndDelete: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '80%',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "80%",
+    alignItems: "center",
   },
   foodPrice: {
     fontSize: 15,
-    fontWeight: 'bold',
-    color: '#000',
+    fontWeight: "bold",
+    color: "#000",
   },
   foodName: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#636363',
+    fontWeight: "bold",
+    color: "#636363",
   },
   information: {
-    marginLeft: '6%',
-    marginTop: '4%',
-    alignItems: 'flex-start',
-    flexDirection: 'column',
-    maxWidth: '70%',
-    justifyContent: 'space-between',
-    maxHeight: '75%',
+    marginLeft: "6%",
+    marginTop: "4%",
+    alignItems: "flex-start",
+    flexDirection: "column",
+    maxWidth: "70%",
+    justifyContent: "space-between",
+    maxHeight: "75%",
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '94%',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "94%",
   },
   textName: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 18,
     lineHeight: 27,
-    color: '#000',
+    color: "#000",
   },
   details: {
-    fontWeight: '500',
+    fontWeight: "500",
     fontSize: 12,
     lineHeight: 15,
     // color: '#898888',
   },
   textID: {
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    height: '100%',
-    marginTop: '2%',
-    maxWidth: '80%',
+    justifyContent: "flex-start",
+    alignItems: "center",
+    height: "100%",
+    marginTop: "2%",
+    maxWidth: "80%",
   },
   id: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 12,
     lineHeight: 27,
-    color: '#8A8A8A',
+    color: "#8A8A8A",
   },
   line: {
     width: 170,
-    backgroundColor: '#898888',
+    backgroundColor: "#898888",
     height: 1,
     marginVertical: 5,
   },
   avatar: {
-    alignItems: 'center',
+    alignItems: "center",
 
-    alignSelf: 'center',
-    marginLeft: '0%',
+    alignSelf: "center",
+    marginLeft: "0%",
   },
   image: {
     width: 100,

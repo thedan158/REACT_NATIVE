@@ -8,9 +8,9 @@ import {
   FlatList,
   ScrollView,
   ImageBackground,
-  TouchableWithoutFeedback,
+  Alert,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import leftArrowLightTheme from "../../../assets/icons/back-orange.png";
 import invoiceLightTheme from "../../../assets/icons/invoice.png";
@@ -26,6 +26,7 @@ import ModalOrderList from "../../../custom component/ModalOrderList";
 import close from "../../../assets/icons/close_orange.png";
 import FoodComponent from "../../../custom component/FoodComponent";
 import styles from "./style";
+import { getAPIActionJSON } from "../../../api/ApiActions";
 
 const { width, height } = Dimensions.get("window");
 const imgBtnOrange = require("../../../assets/icons/ButtonOrange.png");
@@ -34,109 +35,124 @@ const imgBtnOrange = require("../../../assets/icons/ButtonOrange.png");
 const categoryMenuTypeData = [
   {
     id: 4,
+    displayName: "Full Menu",
     name: "Full Menu",
     icon: require("../../../assets/icons/menuIcon.png"),
   },
   {
     id: 1,
-    name: "Starter Dish",
+    displayName: "Starter Dish",
+    name: "Starter",
     icon: require("../../../assets/icons/starterDish.png"),
   },
   {
     id: 2,
-    name: "Main Dish",
+    displayName: "Main Dish",
+    name: "Main course",
     icon: require("../../../assets/icons/mainDish.png"),
   },
   {
     id: 3,
-    name: "Dessert-Drink",
+    displayName: "Dessert & Drink",
+    name: "Dessert and Drink",
     icon: require("../../../assets/icons/dessertDish.png"),
   },
 ];
-
-const DishData = [
-  {
-    id: 1,
-    nameDish: "Crispy Chicken",
-    categoryFoodType: [2, 4],
-    photo: require("../../../assets/images/food-dishes-Transparent-Images.png"),
-    detail: "Crispy Chicken Burger - Main",
-    duration: "15 - 20 min",
-    price: 15,
-  },
-  {
-    id: 2,
-    nameDish: "Crispy Chicken",
-    categoryFoodType: [3, 4],
-    photo: require("../../../assets/images/food-dishes-Transparent-Images.png"),
-    detail: "Crispy Chicken Burger - Dessert",
-    duration: "10 - 15 min",
-    price: 20,
-  },
-  {
-    id: 3,
-    nameDish: "Crispy Chicken",
-    categoryFoodType: [1, 4],
-    photo: require("../../../assets/images/food-dishes-Transparent-Images.png"),
-    detail: "Crispy Chicken Burger - Starter",
-    duration: "5 - 10 min",
-    price: 10,
-  },
-  {
-    id: 4,
-    nameDish: "Crispy Chicken",
-    categoryFoodType: [2, 4],
-    photo: require("../../../assets/images/food-dishes-Transparent-Images.png"),
-    detail: "Crispy Chicken Burger - Main 2",
-    duration: "15 - 20 min",
-    price: 15,
-  },
-  {
-    id: 5,
-    nameDish: "Crispy Chicken",
-    categoryFoodType: [1, 4],
-    photo: require("../../../assets/images/food-dishes-Transparent-Images.png"),
-    detail: "Crispy Chicken Burger - Starter 2",
-    duration: "3 - 8 min",
-    price: 15,
-  },
-];
-
-const item = {
-  id: 1,
-  name: "Table 1",
-  isBusy: true,
-};
 
 const MenuOrderScreen = ({ navigation, route }) => {
   // States Declaration -------------------------------------------------------------------
   const { item } = route.params;
   console.log("item", item);
+  const dispatch = useDispatch();
   const [categories, setCategories] = React.useState(categoryMenuTypeData);
   const [selectedCategory, setSelectedCategory] = React.useState(null);
-  const [dishData, setDishData] = React.useState(DishData);
+  const [dishData, setDishData] = React.useState([]);
+  const [masterData, setMasterData] = useState([]);
   const [modalListOrder, setModalListOrder] = React.useState(false);
-  const [selectedDish, setSelectedDish] = React.useState(0);
+  const [selectedDish, setSelectedDish] = React.useState([]);
   const theme = useSelector((state) => state.setting.theme);
 
   function onSelectCategory(category) {
     //filter Dish Type
-    let DishList = DishData.filter((a) =>
-      a.categoryFoodType.includes(category.id)
-    );
+    if (category.name === "Full Menu") {
+      setDishData(masterData);
+      setSelectedCategory(category);
+      return;
+    }
+    let DishList = masterData.filter((item) => item.foodType === category.name);
 
     setDishData(DishList);
 
     setSelectedCategory(category);
   }
 
-  function getCategoryNameById(id) {
-    let category = categories.filter((a) => a.id == id);
-
-    if (category.length > 0) return category[0].name;
-
-    return "";
-  }
+  const handleResponse = (response) => {
+    if (!response.success) {
+      Alert.alert(response.message);
+      return;
+    }
+    setDishData(response.data);
+    setMasterData(response.data);
+  };
+  const getData = () => {
+    try {
+      dispatch(
+        getAPIActionJSON(
+          "getAllFood",
+          null,
+          null,
+          `/${item.restaurantID}`,
+          (e) => handleResponse(e)
+        )
+      );
+    } catch (error) {}
+  };
+  const handleAddQuantity = (index1) => {
+    const updatedList = selectedDish.map((item, index) => {
+      if (index === index1) {
+        return { ...item, quantity: item.quantity + 1 };
+      }
+      return item;
+    });
+    setSelectedDish(updatedList);
+  };
+  const handleDesQuantity = (index1) => {
+    var updatedList = selectedDish.map((item, index) => {
+      if (index === index1) {
+        return { ...item, quantity: item.quantity - 1 };
+      }
+      return item;
+    });
+    updatedList = updatedList.filter((item) => item.quantity !== 0);
+    setSelectedDish(updatedList);
+  };
+  const handleDel = (index1) => {
+    var updatedList = selectedDish.filter((item, index) => index !== index1);
+    setSelectedDish(updatedList);
+  };
+  const renderOrder = Array.from(
+    { length: selectedDish.length },
+    (_, index) => {
+      return (
+        <FoodComponent
+          onAdd={() => handleAddQuantity(index)}
+          onDes={() => handleDesQuantity(index)}
+          onDel={() => handleDel(index)}
+          item={selectedDish[index]}
+        />
+      );
+    }
+  );
+  const totalPrice = () => {
+    var totalPrice = 0;
+    selectedDish.map((item) => {
+      totalPrice = totalPrice + item.price * item.quantity;
+    });
+    return totalPrice;
+  };
+  useEffect(() => {
+    getData();
+  }, []);
 
   // Header Render Function ----------------------------------------------------------------
 
@@ -332,7 +348,7 @@ const MenuOrderScreen = ({ navigation, route }) => {
                   marginLeft: 0,
                 }}
               >
-                {item.name}
+                {item.displayName}
               </Text>
             </TouchableOpacity>
           ) : (
@@ -462,19 +478,12 @@ const MenuOrderScreen = ({ navigation, route }) => {
   function renderFoodList() {
     const RenderItemFlatList = ({ item }) => {
       const [counter, setCounter] = React.useState(0);
-      function BtnDelPress() {
-        if (item.quantity > 0) {
-          setCounter((counter) => counter - 1);
-          item.quantity = counter - 1;
-          if (selectedDish > 0) {
-            setSelectedDish((counter) => counter - 1);
-          }
-        }
-      }
       function BtnAddPress() {
-        setCounter((counter) => counter + 1);
-        item.quantity = counter + 1;
-        setSelectedDish((counter) => counter + 1);
+        const haveOrdered = selectedDish.findIndex(
+          (food) => food.name === item.name
+        );
+        if (haveOrdered !== -1) return;
+        setSelectedDish([...selectedDish, { ...item, quantity: 1 }]);
       }
 
       return (
@@ -501,7 +510,7 @@ const MenuOrderScreen = ({ navigation, route }) => {
           }}
         >
           <Image
-            source={item.photo}
+            source={{ uri: item.imagePath }}
             style={{
               borderRadius: 20,
 
@@ -521,7 +530,7 @@ const MenuOrderScreen = ({ navigation, route }) => {
               color: "#434343",
             }}
           >
-            {item.nameDish}
+            {item.name}
           </Text>
           <Text
             style={{
@@ -553,90 +562,6 @@ const MenuOrderScreen = ({ navigation, route }) => {
         </LinearGradient>
       );
     };
-
-    // Function Render Food Item FlatList
-    const FlatlistItem = ({ item }) => {
-      function BtnDelPress() {
-        if (item.quantity > 0) {
-          setCounter((counter) => counter - 1);
-          item.quantity = counter - 1;
-        }
-      }
-      function BtnAddPress() {
-        setCounter((counter) => counter + 1);
-        item.quantity = counter + 1;
-      }
-
-      const [counter, setCounter] = React.useState(0);
-      return (
-        <View style={styles.flatlistItemView}>
-          <View
-            style={{
-              marginLeft: "3%",
-            }}
-          >
-            {/* Image item section */}
-            <Image style={styles.containerImageItem} source={item.photo} />
-          </View>
-
-          {/* Item detail section */}
-          {theme.mode === "light" ? (
-            <View
-              style={{
-                flex: 2,
-                marginLeft: "3%",
-              }}
-            >
-              <Text style={styles.txtNameItemFlatlist}>{item.nameDish}</Text>
-              <Text style={styles.txtDetailItemFlatlist}>{item.detail}</Text>
-              <Text style={styles.txtPriceItemFlatlist}>${item.price}</Text>
-            </View>
-          ) : (
-            <View
-              style={{
-                flex: 2,
-                marginLeft: "3%",
-              }}
-            >
-              <Text style={styles.txtNameItemFlatlistDarkTheme}>
-                {item.nameDish}
-              </Text>
-              <Text style={styles.txtDetailItemFlatlistDarkTheme}>
-                {item.detail}
-              </Text>
-              <Text style={styles.txtPriceItemFlatlist}>${item.price}</Text>
-            </View>
-          )}
-
-          {/* Btn adjust section */}
-          <View style={styles.containerBtnAdjust}>
-            <TouchableOpacity onPress={BtnDelPress}>
-              <ImageBackground
-                source={imgBtnOrange}
-                style={styles.imgBtnOrangeStyle}
-              >
-                <Text style={styles.btnDel}>-</Text>
-              </ImageBackground>
-            </TouchableOpacity>
-            {theme.mode === "light" ? (
-              <Text style={styles.txtQuantityItem}> {counter} </Text>
-            ) : (
-              <Text style={styles.txtQuantityItemDarkTheme}> {counter} </Text>
-            )}
-
-            <TouchableOpacity onPress={BtnAddPress}>
-              <ImageBackground
-                source={imgBtnOrange}
-                style={styles.imgBtnOrangeStyle}
-              >
-                <Text style={styles.btnDel}>+</Text>
-              </ImageBackground>
-            </TouchableOpacity>
-          </View>
-        </View>
-      );
-    };
-
     return (
       <View
         style={{
@@ -693,30 +618,6 @@ const MenuOrderScreen = ({ navigation, route }) => {
             left: "75%",
           }}
         >
-          {/* <TouchableWithoutFeedback>
-            <View style={styles.floatingButton}>
-              {selectedDish > 0 ? (
-                <View style={styles.countingCartView}>
-                  <Text
-                    style={{
-                      color: Colors.primary,
-                      alignSelf: 'center',
-                      fontWeight: 'bold',
-                      fontSize: 12,
-                    }}
-                  >
-                    {selectedDish}
-                  </Text>
-                </View>
-              ) : null}
-              <TouchableOpacity>
-                <ImageBackground
-                  source={cart}
-                  style={{ width: 30, height: 30 }}
-                ></ImageBackground>
-              </TouchableOpacity>
-            </View>
-          </TouchableWithoutFeedback> */}
           <View
             style={{
               flexDirection: "row",
@@ -735,7 +636,7 @@ const MenuOrderScreen = ({ navigation, route }) => {
               }
               BadgeElement={
                 <Text style={{ color: Colors.primary, fontWeight: "bold" }}>
-                  {selectedDish}
+                  {selectedDish.length}
                 </Text>
               }
               IconBadgeStyle={{
@@ -745,7 +646,7 @@ const MenuOrderScreen = ({ navigation, route }) => {
                 borderColor: Colors.primary,
                 borderWidth: 2,
               }}
-              Hidden={selectedDish == 0}
+              Hidden={selectedDish.length === 0}
             />
           </View>
         </View>
@@ -768,16 +669,12 @@ const MenuOrderScreen = ({ navigation, route }) => {
           <View style={styles.subHeader}>
             <Content style={{ fontSize: 20 }}>Order List</Content>
             <Content style={{ color: "#787878", fontWeight: "normal" }}>
-              4 items
+              {selectedDish.length} items
             </Content>
           </View>
 
           {/* List order  */}
-          <ScrollView style={styles.listOrder}>
-            <FoodComponent />
-            <FoodComponent />
-            <FoodComponent />
-          </ScrollView>
+          <ScrollView style={styles.listOrder}>{renderOrder}</ScrollView>
 
           {/* Total price and order  */}
           <View style={styles.footer}>
@@ -785,7 +682,7 @@ const MenuOrderScreen = ({ navigation, route }) => {
             <View style={styles.totalPrice}>
               <Text style={{ fontSize: 16, color: "#979797" }}>Price</Text>
               <Content style={{ fontSize: 20, color: Colors.primary }}>
-                $35.40
+                ${totalPrice()}
               </Content>
             </View>
             {/* Order button */}

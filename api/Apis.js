@@ -64,4 +64,9 @@ export const getAPIs = {
     path: "/api/table/getAllTable",
     method: "GET",
   },
+  getAllFood: {
+    name: "getAllFood",
+    path: "/api/food//getAllFoodOfRestaurant",
+    method: "GET",
+  },
 };
