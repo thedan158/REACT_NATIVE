@@ -1,12 +1,12 @@
-import { getAPIs } from "./Apis";
-import customAxios from "./AxiosInterceptors";
+import { getAPIs } from './Apis';
+import customAxios from './AxiosInterceptors';
 
-const host = "https://f67b-116-110-40-131.ap.ngrok.io";
+const host = 'https://7eba-2001-ee0-51fe-5360-3c4c-415c-b86b-4131.ap.ngrok.io';
 export function getAPIActionJSON(
   type,
   data,
-  params = "",
-  addparams = "",
+  params = '',
+  addparams = '',
   onSuccess = () => {},
   onError = () => {}
 ) {
@@ -18,7 +18,7 @@ export function getAPIActionJSON(
   //https://foody-uit.herokuapp.com/api/auth/login
 
   return (dispatch, getState) => {
-    dispatch({ type: "loading.start" });
+    dispatch({ type: 'loading.start' });
     customAxios({
       method: api.method, //POST
       url: host + api.path + addparams,
@@ -26,7 +26,7 @@ export function getAPIActionJSON(
       data: data,
     })
       .then(function (response) {
-        dispatch({ type: "loading.success" });
+        dispatch({ type: 'loading.success' });
         // if (response.headers["aenx-token"]) {
         //   localStorage.setItem("aenx-token", response.headers["aenx-token"]);
         // }
@@ -47,7 +47,7 @@ export function getAPIActionJSON(
         onSuccess(response.data);
       })
       .catch((e) => {
-        dispatch({ type: "loading.success" });
+        dispatch({ type: 'loading.success' });
         onError(e);
         console.log(e);
       });
@@ -58,7 +58,7 @@ export async function getStatelessAPI(
   data,
   headers,
   params = {},
-  addparams = ""
+  addparams = ''
 ) {
   const api = getAPIs[type];
   try {

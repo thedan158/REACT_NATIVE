@@ -14,7 +14,7 @@ import {
 import React, { useState, useEffect } from 'react';
 import { useNavigation, useIsFocused } from '@react-navigation/core';
 import add from '../../../../assets/icons/add.png';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled, { ThemeProvider } from 'styled-components';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import waiter_light from '../../../../assets/icons/waiter_light.png';
@@ -26,46 +26,30 @@ import styles from './style';
 const windowWidth = Dimensions.get('window').width;
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { getAPIActionJSON } from '../../../../api/ApiActions';
 
-const ModalPopup = ({ visible, children }) => {
-  const [showModal, setShowModal] = React.useState(visible);
-  return (
-    <Modal transparent visible={true}>
-      <View style={styles.modalBackground}>
-        <View style={[styles.modalContainer]}>{children}</View>
-      </View>
-    </Modal>
-  );
-};
 var CHEF = [],
   WAITER = [];
 const StaffManagement = () => {
   const isFocus = useIsFocused();
-  const [masterData, setMasterData] = useState([]);
   const [WaiterData, setWaiterData] = useState([]);
   const [ChefData, setChefData] = useState([]);
-  const Tab = createMaterialTopTabNavigator();
   const navigation = useNavigation();
   const theme = useSelector((state) => state.setting.theme);
 
-  useEffect(() => {
-    const getData = async () => {
-      (CHEF = []), (WAITER = []);
-      const userLoginData = await AsyncStorage.getItem('userLoginData');
-      const user = JSON.parse(userLoginData);
-      console.log('username: ' + user.username);
-      const res = await axios.get(
-        `https://foody-uit.herokuapp.com/auth/getAllUser/${user.username}`
-      );
-      const { success, message } = res.data;
-      console.log(message);
-      console.log(success);
-      if (success) {
-        for (let i = 0; i < message.length; i++) {
-          if (message[i].role == 'chef') {
-            CHEF.push(message[i]);
-          } else if (message[i].role == 'waiter') {
-            WAITER.push(message[i]);
+  const username = useSelector((state) => state.user.username);
+  const dispatch = useDispatch();
+
+  const handleResponse = (e) => {
+    const listUser = e.message;
+
+    if (CHEF.length === 0 && WAITER.length === 0) {
+      if (listUser) {
+        for (let i = 0; i < listUser.length; i++) {
+          if (listUser[i].role == 'chef') {
+            CHEF.push(listUser[i]);
+          } else if (listUser[i].role == 'waiter') {
+            WAITER.push(listUser[i]);
           }
         }
         setWaiterData(WAITER);
@@ -78,8 +62,18 @@ const StaffManagement = () => {
 
         console.log('filteredData is all selected');
       }
-    };
-    getData().catch((err) => console.log(err));
+    }
+  };
+
+  useEffect(() => {
+    //   const getData = () => {
+    //     (CHEF = []), (WAITER = []);
+
+    dispatch(
+      getAPIActionJSON('getAllUser', null, null, `/${username}`, (e) => {
+        handleResponse(e);
+      })
+    );
   }, [isFocus]);
   // flat list view
 

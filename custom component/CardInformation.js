@@ -40,10 +40,8 @@ export default CardInformation;
 const Container = styled.View`
   width: 95%;
   border-radius: 20px;
-  shadow-offset: 0px 2px;
-  shadow-opacity: 0.5;
-  shadow-radius: 3px;
-  elevation: 10;
+  border-width: 1px;
+  border-color: #a09a99;
 `;
 const Content = styled.Text`
   font-size: 18px;
@@ -59,13 +57,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
 
     alignSelf: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.18,
-    shadowRadius: 1.0,
+
     flexDirection: 'row',
   },
   avatar: {
