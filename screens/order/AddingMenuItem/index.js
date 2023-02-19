@@ -46,6 +46,7 @@ const AddingMenuItemScreen = () => {
   const [image, setImage] = useState("null");
   const [visible, setVisible] = useState(false);
   const username = useSelector((state) => state.user.username);
+  const restaurantID = useSelector((state) => state.user.restaurantID);
   const [url, setUrl] = useState("");
   const dispatch = useDispatch();
   const foodTypeContainer = ["Starter", "Dessert and Drink", "Main course"];
@@ -111,7 +112,7 @@ const AddingMenuItemScreen = () => {
                 imagePath: url,
               },
               null,
-              `/${username}`,
+              `/${restaurantID}`,
               (e) => handleResponse(e)
             )
           );

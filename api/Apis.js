@@ -74,4 +74,9 @@ export const getAPIs = {
     path: '/api/auth/createUser',
     method: 'POST',
   },
+  getAllFood: {
+    name: "getAllFood",
+    path: "/api/food//getAllFoodOfRestaurant",
+    method: "GET",
+  },
 };

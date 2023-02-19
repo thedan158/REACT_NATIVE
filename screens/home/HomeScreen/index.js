@@ -7,6 +7,7 @@ import {
   ImageBackground,
 } from "react-native";
 import React, { useEffect, LogBox } from "react";
+import IconBadge from "react-native-icon-badge";
 import { LinearGradient } from "expo-linear-gradient";
 import Colors from "../../../assets/Colors";
 import { useNavigation } from "@react-navigation/core";
@@ -15,6 +16,7 @@ import UserLightTheme from "../../../assets/icons/personal_light.png";
 import styles from "./style";
 import styled, { ThemeProvider } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
+import Carousel from "react-native-reanimated-carousel";
 
 const imgDesertDish = require("../../../assets/images/DessertDish.png");
 const windowWidth = Dimensions.get("window").width;
@@ -26,58 +28,79 @@ const imgBackgroundSource3 = {
 };
 
 const HomeScreen2ndFinal = () => {
+  const data = [
+    "https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fcarousel%2FManage%20your%20Prescriptions.png?alt=media&token=5f89fb93-ae05-46e9-a8e4-8391f69ac71f",
+    "https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fcarousel%2FManage%20your%20Prescriptions%20(4).png?alt=media&token=fcc93470-542f-4477-8ad8-0bb1d5ce2c1d",
+    "https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fcarousel%2FManage%20your%20Prescriptions%20(3).png?alt=media&token=99c290b0-a47a-422f-9789-c041a8b38e2d",
+  ];
   const navigation = useNavigation();
-  const [visible, setVisible] = React.useState(false);
+  const userImagePath = useSelector((state) => state.user.imagePath);
   const theme = useSelector((state) => state.setting.theme);
-  const menuMainCoursesList = useSelector(
-    (state) => state.user.menuMainCourses
-  );
-  const menuDesertAndDrinksList = useSelector(
-    (state) => state.user.menuDesertAndDrinks
-  );
-  const dispatch = useDispatch();
-  const getMenu = async () => {
-    dispatch(
-      getAPIActionJSON("postMainCourse", {
-        username: "thedantest9",
-        foodType: "Main course",
-      }),
-      getAPIActionJSON("postDesertAndDrink", {
-        username: "thedantest9",
-        foodType: "Dessert and Drink",
-      })
-    );
-  };
-  useEffect(() => {
-    getMenu();
-    console.log(menuMainCoursesList);
-    console.log(menuDesertAndDrinksList);
-    return () => {};
-  }, []);
+  const fullname = useSelector((state) => state.user.fullname);
 
   return (
     <ThemeProvider theme={theme}>
       <Container>
-        <View style={styles.containerHeaderTop}>
-          {/* <Image source={{ uri: 'https://icons-for-free.com/download-icon-HOME-131994911289288683_512.png' }}
-                        style={styles.icHomeStyle} /> */}
-          <View style={styles.containerTitleInfo}>
-            <Content_Header>Home</Content_Header>
+        <View style={styles.headerSection}>
+          <View style={styles.headerTextSection}>
+            <Text style={styles.headerText}>👋 Hello!</Text>
+            <Text style={styles.headerUsername}>{fullname}</Text>
           </View>
-          <View
-            onPress={()=>navigate('ProfileScreen')}
-            style={{
-              marginRight: "3%",
-              alignSelf: "center",
-            }}
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Profile")}
+            style={styles.headerUserSection}
           >
-            {theme.mode === "light" ? (
-              <Image source={UserLightTheme} style={styles.icUserStyle} />
-            ) : (
-              <Image source={UserDarkTheme} style={styles.icUserStyle} />
-            )}
-          </View>
+            <IconBadge
+              MainElement={
+                <Image
+                  style={styles.headerUserImage}
+                  source={{
+                    uri:
+                      userImagePath !== ""
+                        ? userImagePath
+                        : "https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fgood.png?alt=media&token=de139437-3a20-4eb3-ba56-f6a591779d15",
+                  }}
+                />
+              }
+              IconBadgeStyle={{
+                width: 10,
+                height: 18,
+                backgroundColor: "#009DC7",
+              }}
+            />
+          </TouchableOpacity>
         </View>
+        <View style={styles.containerBtnExcDeals}>
+          <Carousel
+            loop
+            width={windowWidth}
+            height={windowWidth / 1.7}
+            autoPlay={true}
+            data={data}
+            scrollAnimationDuration={1200}
+            onSnapToItem={(index) => {}}
+            renderItem={({ item, index }) => (
+              <View
+                style={{
+                  shadowOpacity: 0.1,
+                  flex: 1,
+                  margin: 10,
+                  borderRadius: 10,
+                  justifyContent: "center",
+                }}
+              >
+                <Image
+                  style={{ height: "100%", width: "100%", borderRadius: 20 }}
+                  source={{
+                    uri: item,
+                  }}
+                />
+              </View>
+            )}
+          />
+        </View>
+        {/* Devide line */}
+        <View style={styles.containerDevideLine}></View>
         <View style={styles.containerBtnMenuInfo}>
           {/* Button Menu Open */}
           <TouchableOpacity
@@ -248,41 +271,6 @@ const HomeScreen2ndFinal = () => {
                 </Text>
               </View>
               <Image source={imgDesertDish} style={styles.imgTryNew} />
-            </LinearGradient>
-          </TouchableOpacity>
-        </View>
-
-        {/* Devide line */}
-        <View style={styles.containerDevideLine}></View>
-        <View style={styles.containerExcDealsHeader}>
-          <Content>Exclusive Deal Of The DaY</Content>
-        </View>
-        <View style={styles.containerBtnExcDeals}>
-          {/* Button 4 */}
-          <TouchableOpacity
-            style={styles.btnBottomOpen}
-            onPress={() => setVisible(true)}
-          >
-            <LinearGradient
-              style={styles.btnBottomOpen}
-              colors={["#FB6A70", "#FCA384"]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-            >
-              <View style={styles.containerExcDealInfo}>
-                <Text
-                  style={{ color: "#fff", fontSize: 20, fontWeight: "bold" }}
-                >
-                  Exclusive Deal
-                </Text>
-                <Text style={{}}>
-                  Saving your money and giving you the best meal is our priority
-                </Text>
-                <Text style={{}}></Text>
-                <Text></Text>
-                <Text style={{}}>Get them now!!!</Text>
-              </View>
-              <Image source={imgBackgroundSource2} style={styles.imgExcDeal} />
             </LinearGradient>
           </TouchableOpacity>
         </View>

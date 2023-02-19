@@ -34,7 +34,7 @@ const MenuScreen = ({ navigation }) => {
   const [masterData, setMasterData] = useState([]);
   const role = useSelector((state) => state.user.role);
   const dispatch = useDispatch();
-  const username = useSelector((state) => state.user.username);
+  const restaurantID = useSelector((state) => state.user.restaurantID);
 
   const handleResponse = (response) => {
     if (!response.success) {
@@ -49,11 +49,10 @@ const MenuScreen = ({ navigation }) => {
       getAPIActionJSON(
         "getAllFoodWithType",
         {
-          username: username,
           foodType: "Main course",
         },
         null,
-        "",
+        `/${restaurantID}`,
         (e) => handleResponse(e)
       )
     );
