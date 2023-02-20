@@ -64,8 +64,8 @@ const EditProfile = () => {
     }
     setFullname(response.data.fullname);
     setAddress(response.data.address);
-    // setEmail(response.data.email);
-    // setImage(response.data.imagePath);
+    setEmail(response.data.email);
+    setImage(response.data.imagePath);
     setPhoneNumber(response.data.phoneNumber);
   }
   const navigation = useNavigation();
@@ -96,12 +96,13 @@ const EditProfile = () => {
     // );
   };
   useEffect(async () => {
+    getData();
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (status !== 'granted') {
       alert('Permission denied!');
     }
-    getData()
+    
   }, []);
 
   const PickImage = async () => {
@@ -156,6 +157,27 @@ const EditProfile = () => {
           console.log('download url: ' + url);
           setUrl(url);
           blob.close();
+          dispatch(
+            getAPIActionJSON(
+              "updateProfile",
+              {
+                fullname: fullname,
+                address: address,
+                phoneNumber: phoneNumber,
+                email: email,
+                imagePath: url,
+              },
+              null,
+              `/${username}`,
+              (res) => handleUpdateResponse(res),
+            )
+          )
+          const handleUpdateResponse = (res) => {
+            if (!res.success) {
+              Alert.alert('Update failed');
+              return;
+            }
+          }
           // const res = await axios.post(
           //   `https://foody-uit.herokuapp.com/api/profile/update/${userData.username}`,
           //   {
@@ -194,9 +216,9 @@ const EditProfile = () => {
                   source={gallery}
                 />
 
-                {image && (
+                {image ? (
                   <Image source={{ uri: image }} style={styles.pick}></Image>
-                )}
+                ) : null}
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={PickImage} style={styles.button1}>

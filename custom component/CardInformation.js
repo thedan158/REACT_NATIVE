@@ -53,17 +53,16 @@ const Content = styled.Text`
 const styles = StyleSheet.create({
   card: {
     height: 170,
-
     marginHorizontal: 15,
     width: '100%',
     borderRadius: 20,
-
     alignSelf: 'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 1,
     },
+    elevation: 6,
     shadowOpacity: 0.18,
     shadowRadius: 1.0,
     flexDirection: 'row',

@@ -69,4 +69,24 @@ export const getAPIs = {
     path: "/api/profile/getUserProfile",
     method: "GET",
   },
+  getRestaurant: {
+    name: "getRestaurant",
+    path: "/api/restaurant/getRestaurant",
+    method: "GET",
+  },
+  updateRestaurant: {
+    name: "updateRestaurant",
+    path: "/api/restaurant/updateRestaurant",
+    method: "POST",
+  },
+  updateProfile: {
+    name: "updateProfile",
+    path: "/api/profile/update",
+    method: "POST",
+  },
+  putNewPassword: {
+    name: "putNewPassword",
+    path: "api/auth/changePassword",
+    method: "PUT",
+  }
 };
