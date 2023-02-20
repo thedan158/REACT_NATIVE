@@ -29,7 +29,7 @@ import axios from 'axios';
 import { getAPIActionJSON } from '../../../../api/ApiActions';
 
 const StaffManagement = () => {
-  var CHEF = [],
+  const CHEF = [],
     WAITER = [];
   const isFocus = useIsFocused();
   const [WaiterData, setWaiterData] = useState([]);

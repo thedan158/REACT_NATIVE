@@ -84,17 +84,6 @@ const StaffInformation = ({ route }) => {
             {item.phoneNumber}
           </Text>
 
-          {/* Birthday  */}
-          <View style={{ flexDirection: 'row' }}>
-            <Image source={cake} style={styles.icon} />
-            <Text style={styles.title}>Day of birth</Text>
-          </View>
-          <Text
-            style={[styles.information, { color: theme.PRIMARY_INFO_COLOR }]}
-          >
-            14/06/2002
-          </Text>
-
           {/* Address  */}
           <View style={{ flexDirection: 'row' }}>
             <Image source={address} style={styles.icon} />
