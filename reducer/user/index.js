@@ -1,17 +1,17 @@
 const initialState = {
-  phoneNumber: "",
-  username: "",
-  fullname: "",
-  restaurantID: "",
-  imagePath: "",
-  address: "",
-  email: "",
-  status: "",
-  role: "",
+  phoneNumber: '',
+  username: '',
+  fullname: '',
+  restaurantID: '',
+  imagePath: '',
+  address: '',
+  email: '',
+  status: '',
+  role: '',
 };
 export default function UserReducer(state = initialState, action) {
   switch (action.type) {
-    case "login.reply":
+    case 'login.reply':
       if (action.data.success === true) {
         return {
           ...state,
@@ -27,7 +27,7 @@ export default function UserReducer(state = initialState, action) {
           isLoggedin: true,
         };
       }
-    case "updateUser.reply":
+    case 'updateUser.reply':
       if (action.data.success === true) {
         return {
           ...state,
@@ -42,7 +42,7 @@ export default function UserReducer(state = initialState, action) {
           role: action.data.data.role,
         };
       }
-    case "register.reply":
+    case 'register.reply':
       if (action.data.success === true) {
         return {
           ...state,
@@ -54,22 +54,23 @@ export default function UserReducer(state = initialState, action) {
           address: action.data.data.address,
           email: action.data.data.email,
           status: action.data.data.status,
-          role: "owner",
+          role: 'owner',
         };
       }
-    case "register.reply":
+
+    case 'register.reply':
       if (action.data.success === true) {
         return {
           ...state,
           restaurantID: action.data.data.restaurantID,
         };
       }
-    case "logout":
+    case 'logout':
       return {
         ...state,
         isLoggedin: false,
       };
-    case "postMainCourse.reply":
+    case 'postMainCourse.reply':
       if (action.data.success === true) {
         return {
           ...state,
@@ -81,7 +82,7 @@ export default function UserReducer(state = initialState, action) {
           errorMessage: "Cann't get menu main courses",
         };
       }
-    case "postDesertAndDrink.reply":
+    case 'postDesertAndDrink.reply':
       if (action.data.success === true) {
         return {
           ...state,
@@ -91,6 +92,24 @@ export default function UserReducer(state = initialState, action) {
         return {
           ...state,
           errorMessage: "Cann't get menu desert and drinks",
+        };
+      }
+    case 'getAllUser.reply':
+      if (action.data.success === true) {
+        return {
+          ...state,
+        };
+      }
+    case 'createUser.reply':
+      if (action.data.success === true) {
+        return {
+          ...state,
+        };
+      }
+    case 'deleteUser.reply':
+      if (action.data.success === true) {
+        return {
+          ...state,
         };
       }
     /* falls through */

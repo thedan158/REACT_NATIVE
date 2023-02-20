@@ -44,7 +44,10 @@ const CreateStaffAccount = () => {
       password: password,
     };
     await AsyncStorage.setItem('staffInfo', JSON.stringify(data));
-    navigation.navigate('PermissionManager');
+    navigation.navigate('PermissionManager', {
+      username: username,
+      password: password,
+    });
   };
   return (
     <ThemeProvider theme={theme}>

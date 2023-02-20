@@ -22,14 +22,16 @@ import pencil from '../../../../assets/icons/pen.png';
 import close_light from '../../../../assets/icons/close.png';
 import close_dark from '../../../../assets/icons/close_dark.png';
 import CircleCheckBox, { LABEL_POSITION } from 'react-native-circle-checkbox';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled, { ThemeProvider } from 'styled-components';
 import styles from './style';
+import { getAPIActionJSON } from '../../../../api/ApiActions';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 const StaffInformation = ({ route }) => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const theme = useSelector((state) => state.setting.theme);
   const [visible, setVisible] = React.useState(false);
@@ -80,17 +82,6 @@ const StaffInformation = ({ route }) => {
             style={[styles.information, { color: theme.PRIMARY_INFO_COLOR }]}
           >
             {item.phoneNumber}
-          </Text>
-
-          {/* Birthday  */}
-          <View style={{ flexDirection: 'row' }}>
-            <Image source={cake} style={styles.icon} />
-            <Text style={styles.title}>Day of birth</Text>
-          </View>
-          <Text
-            style={[styles.information, { color: theme.PRIMARY_INFO_COLOR }]}
-          >
-            14/06/2002
           </Text>
 
           {/* Address  */}
@@ -144,19 +135,16 @@ const StaffInformation = ({ route }) => {
 
         {/* Avatar  */}
         <View style={styles.circle}>
-          {item.imagePath && (
+          {item.imagePath ? (
             <Image
               source={{ uri: item.imagePath }}
               style={styles.avatar}
             ></Image>
-          )}
+          ) : null}
         </View>
 
         {/* Role  */}
-        <TouchableOpacity
-          onPress={() => {
-            setEditRole(true);
-          }}
+        <View
           style={{
             alignSelf: 'center',
             marginTop: '25%',
@@ -166,7 +154,7 @@ const StaffInformation = ({ route }) => {
           <Content>{item.role}</Content>
 
           {/* Edit role  */}
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={{ justifyContent: 'center' }}
             onPress={() => {
               setEditRole(true);
@@ -180,8 +168,8 @@ const StaffInformation = ({ route }) => {
                 left: 10,
               }}
             />
-          </TouchableOpacity>
-        </TouchableOpacity>
+          </TouchableOpacity> */}
+        </View>
 
         {/* Button section  */}
         <View style={styles.buttonContainer}>
@@ -238,6 +226,14 @@ const StaffInformation = ({ route }) => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
+                dispatch(
+                  getAPIActionJSON(
+                    'deleteUser',
+                    null,
+                    null,
+                    `/${item.username}`
+                  )
+                );
                 navigation.navigate('TabForOwner');
                 setVisible(false);
               }}
@@ -249,109 +245,105 @@ const StaffInformation = ({ route }) => {
         </CustomModal>
 
         {/* Edit role modal  */}
-        <CustomModal visible={editRole}>
-          {/* Close button  */}
-          <View style={{ alignItems: 'center' }}>
-            <TouchableOpacity
-              onPress={() => setEditRole(false)}
-              style={{ marginLeft: '90%', marginTop: '-10%' }}
-            >
-              <Image
-                source={theme.mode === 'light' ? close_light : close_dark}
-                style={{ height: 20, width: 20, marginVertical: 20 }}
-              />
-            </TouchableOpacity>
-          </View>
-
-          {/* Header  */}
-          <View style={{ alignItems: 'center' }}>
-            <Content
-              style={{ fontSize: 22, fontWeight: 'bold', marginBottom: '5%' }}
-            >
-              Edit role
-            </Content>
-          </View>
-
-          {/* Role  */}
-          <View
-            style={
-              cook
-                ? [
-                    styles.checkboxContainer,
-                    { backgroundColor: theme.PRIMARY_BACKGROUND_COLOR },
-                  ]
-                : [
-                    styles.checkboxContainer1,
-                    { backgroundColor: theme.PRIMARY_BACKGROUND_COLOR },
-                  ]
-            }
+        {/* <CustomModal visible={editRole}>
+        <View style={{ alignItems: 'center' }}>
+          <TouchableOpacity
+            onPress={() => setEditRole(false)}
+            style={{ marginLeft: '90%', marginTop: '-10%' }}
           >
-            <CircleCheckBox
-              checked={cook}
-              onToggle={() => chooseCook()}
-              labelPosition={LABEL_POSITION.RIGHT}
-              label="Cook"
-              outerColor={Colors.secondary}
-              innerColor={Colors.secondary}
-              filterColor={theme.PRIMARY_BACKGROUND_COLOR}
-              styleLabel={{
-                color: Colors.secondary,
-                fontSize: 18,
-                fontWeight: 'bold',
-                marginLeft: '60%',
-              }}
-              styleCheckboxContainer={{
-                height: 50,
-              }}
+            <Image
+              source={theme.mode === 'light' ? close_light : close_dark}
+              style={{ height: 20, width: 20, marginVertical: 20 }}
             />
-          </View>
-          <View
-            style={
-              waiter
-                ? [
-                    styles.checkboxContainer,
-                    { backgroundColor: theme.PRIMARY_BACKGROUND_COLOR },
-                  ]
-                : [
-                    styles.checkboxContainer1,
-                    { backgroundColor: theme.PRIMARY_BACKGROUND_COLOR },
-                  ]
-            }
-          >
-            <CircleCheckBox
-              checked={waiter}
-              onToggle={() => chooseWaiter()}
-              labelPosition={LABEL_POSITION.RIGHT}
-              label="Waiter"
-              outerColor={Colors.secondary}
-              innerColor={Colors.secondary}
-              filterColor={theme.PRIMARY_BACKGROUND_COLOR}
-              styleLabel={{
-                color: Colors.secondary,
-                fontSize: 18,
-                fontWeight: 'bold',
-                marginLeft: '60%',
-              }}
-              styleCheckboxContainer={{
-                height: 50,
-              }}
-            />
-          </View>
+          </TouchableOpacity>
+        </View>
 
-          {/* Save button  */}
-          <View style={{ alignItems: 'center' }}>
-            <TouchableOpacity
-              onPress={() => {
-                setEditRole(false);
-              }}
-              style={styles.button3}
-            >
-              <Text style={{ color: 'white', fontWeight: '700', fontSize: 16 }}>
-                Save
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </CustomModal>
+        <View style={{ alignItems: 'center' }}>
+          <Content
+            style={{ fontSize: 22, fontWeight: 'bold', marginBottom: '5%' }}
+          >
+            Edit role
+          </Content>
+        </View>
+
+        <View
+          style={
+            cook
+              ? [
+                  styles.checkboxContainer,
+                  { backgroundColor: theme.PRIMARY_BACKGROUND_COLOR },
+                ]
+              : [
+                  styles.checkboxContainer1,
+                  { backgroundColor: theme.PRIMARY_BACKGROUND_COLOR },
+                ]
+          }
+        >
+          <CircleCheckBox
+            checked={cook}
+            onToggle={() => chooseCook()}
+            labelPosition={LABEL_POSITION.RIGHT}
+            label="Cook"
+            outerColor={Colors.secondary}
+            innerColor={Colors.secondary}
+            filterColor={theme.PRIMARY_BACKGROUND_COLOR}
+            styleLabel={{
+              color: Colors.secondary,
+              fontSize: 18,
+              fontWeight: 'bold',
+              marginLeft: '60%',
+            }}
+            styleCheckboxContainer={{
+              height: 50,
+            }}
+          />
+        </View>
+        <View
+          style={
+            waiter
+              ? [
+                  styles.checkboxContainer,
+                  { backgroundColor: theme.PRIMARY_BACKGROUND_COLOR },
+                ]
+              : [
+                  styles.checkboxContainer1,
+                  { backgroundColor: theme.PRIMARY_BACKGROUND_COLOR },
+                ]
+          }
+        >
+          <CircleCheckBox
+            checked={waiter}
+            onToggle={() => chooseWaiter()}
+            labelPosition={LABEL_POSITION.RIGHT}
+            label="Waiter"
+            outerColor={Colors.secondary}
+            innerColor={Colors.secondary}
+            filterColor={theme.PRIMARY_BACKGROUND_COLOR}
+            styleLabel={{
+              color: Colors.secondary,
+              fontSize: 18,
+              fontWeight: 'bold',
+              marginLeft: '60%',
+            }}
+            styleCheckboxContainer={{
+              height: 50,
+            }}
+          />
+        </View>
+
+        <View style={{ alignItems: 'center' }}>
+          <TouchableOpacity
+            onPress={() => {
+              setEditRole(false);
+            }}
+            style={styles.button3}
+          >
+            <Text style={{ color: 'white', fontWeight: '700', fontSize: 16 }}>
+              Save
+            </Text>
+          </TouchableOpacity>
+        </View>
+        </CustomModal> */}
       </View>
     </ThemeProvider>
   );
