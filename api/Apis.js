@@ -99,4 +99,9 @@ export const getAPIs = {
     path: '/api/auth/deleteUser',
     method: 'DELETE',
   },
+  checkoutOrder: {
+    name: "checkoutOrder",
+    path: "/api/order/checkoutOrder",
+    method: "POST",
+  },
 };
