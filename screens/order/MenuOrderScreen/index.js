@@ -28,9 +28,6 @@ import FoodComponent from "../../../custom component/FoodComponent";
 import styles from "./style";
 import { getAPIActionJSON } from "../../../api/ApiActions";
 
-const { width, height } = Dimensions.get("window");
-const imgBtnOrange = require("../../../assets/icons/ButtonOrange.png");
-
 // Dummy Data for Testing UI/UX -------------------------------------------------------------
 const categoryMenuTypeData = [
   {
@@ -68,7 +65,7 @@ const MenuOrderScreen = ({ navigation, route }) => {
   const [dishData, setDishData] = React.useState([]);
   const [masterData, setMasterData] = useState([]);
   const [modalListOrder, setModalListOrder] = React.useState(false);
-  const [selectedDish, setSelectedDish] = React.useState([]);
+  const [selectedDish, setSelectedDish] = React.useState(item.order ?? []);
   const theme = useSelector((state) => state.setting.theme);
 
   function onSelectCategory(category) {
@@ -138,6 +135,10 @@ const MenuOrderScreen = ({ navigation, route }) => {
   };
   const handleOrder = () => {
     try {
+      if (selectedDish.length === 0) {
+        Alert.alert("Can not make empty order");
+        return;
+      }
       setModalListOrder(false);
       dispatch(
         getAPIActionJSON(
@@ -634,47 +635,49 @@ const MenuOrderScreen = ({ navigation, route }) => {
         {renderHeader()}
         {renderMenuCategories()}
         {renderFoodList()}
-        <View
-          style={{
-            position: "absolute",
-            alignItems: "center",
-
-            top: "85%",
-            left: "75%",
-          }}
-        >
+        {selectedDish.length !== 0 && (
           <View
             style={{
-              flexDirection: "row",
+              position: "absolute",
               alignItems: "center",
-              justifyContent: "center",
+
+              top: "85%",
+              left: "75%",
             }}
           >
-            <IconBadge
-              MainElement={
-                <TouchableOpacity
-                  onPress={() => setModalListOrder(true)}
-                  style={styles.floatingButton}
-                >
-                  <Image source={cart} style={{ width: 30, height: 30 }} />
-                </TouchableOpacity>
-              }
-              BadgeElement={
-                <Text style={{ color: Colors.primary, fontWeight: "bold" }}>
-                  {selectedDish.length}
-                </Text>
-              }
-              IconBadgeStyle={{
-                width: 25,
-                height: 25,
-                backgroundColor: "#fff",
-                borderColor: Colors.primary,
-                borderWidth: 2,
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
               }}
-              Hidden={selectedDish.length === 0}
-            />
+            >
+              <IconBadge
+                MainElement={
+                  <TouchableOpacity
+                    onPress={() => setModalListOrder(true)}
+                    style={styles.floatingButton}
+                  >
+                    <Image source={cart} style={{ width: 30, height: 30 }} />
+                  </TouchableOpacity>
+                }
+                BadgeElement={
+                  <Text style={{ color: Colors.primary, fontWeight: "bold" }}>
+                    {selectedDish.length}
+                  </Text>
+                }
+                IconBadgeStyle={{
+                  width: 25,
+                  height: 25,
+                  backgroundColor: "#fff",
+                  borderColor: Colors.primary,
+                  borderWidth: 2,
+                }}
+                Hidden={selectedDish.length === 0}
+              />
+            </View>
           </View>
-        </View>
+        )}
         <ModalOrderList visible={modalListOrder}>
           {/* Header  */}
 

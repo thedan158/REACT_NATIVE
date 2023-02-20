@@ -84,4 +84,9 @@ export const getAPIs = {
     path: "/api/table/updateTable",
     method: "PUT",
   },
+  checkoutOrder: {
+    name: "checkoutOrder",
+    path: "/api/order/checkoutOrder",
+    method: "POST",
+  },
 };
