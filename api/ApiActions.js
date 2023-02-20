@@ -1,9 +1,7 @@
 import { getAPIs } from './Apis';
 import customAxios from './AxiosInterceptors';
 
-
-
-const host = "https://be82-116-110-40-131.ap.ngrok.io";
+const host = 'https://f61a-2001-ee0-51e7-7470-2df4-aff-7692-c70c.ap.ngrok.io';
 
 export function getAPIActionJSON(
   type,
@@ -24,8 +22,7 @@ export function getAPIActionJSON(
       data: data,
     })
       .then(function (response) {
-
-        dispatch({ type: "loading.success" });
+        dispatch({ type: 'loading.success' });
 
         console.log(type, response.data);
         if (response.status === 200) {

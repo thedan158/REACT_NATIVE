@@ -58,15 +58,14 @@ export default function UserReducer(state = initialState, action) {
         };
       }
 
-    case "register.reply":
+    case 'register.reply':
       if (action.data.success === true) {
         return {
           ...state,
           restaurantID: action.data.data.restaurantID,
         };
       }
-    case "logout":
-
+    case 'logout':
       return {
         ...state,
         isLoggedin: false,
@@ -102,6 +101,12 @@ export default function UserReducer(state = initialState, action) {
         };
       }
     case 'createUser.reply':
+      if (action.data.success === true) {
+        return {
+          ...state,
+        };
+      }
+    case 'deleteUser.reply':
       if (action.data.success === true) {
         return {
           ...state,

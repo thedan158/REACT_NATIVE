@@ -28,9 +28,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { getAPIActionJSON } from '../../../../api/ApiActions';
 
-var CHEF = [],
-  WAITER = [];
 const StaffManagement = () => {
+  var CHEF = [],
+    WAITER = [];
   const isFocus = useIsFocused();
   const [WaiterData, setWaiterData] = useState([]);
   const [ChefData, setChefData] = useState([]);
