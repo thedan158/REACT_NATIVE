@@ -1,19 +1,20 @@
-import { getAPIs } from "./Apis";
-import customAxios from "./AxiosInterceptors";
+import { getAPIs } from './Apis';
+import customAxios from './AxiosInterceptors';
 
-const host = "https://be82-116-110-40-131.ap.ngrok.io";
+const host = 'https://f61a-2001-ee0-51e7-7470-2df4-aff-7692-c70c.ap.ngrok.io';
+
 export function getAPIActionJSON(
   type,
   data,
-  params = "",
-  addparams = "",
+  params = '',
+  addparams = '',
   onSuccess = () => {},
   onError = () => {}
 ) {
   const api = getAPIs[type];
 
   return (dispatch, getState) => {
-    dispatch({ type: "loading.start" });
+    dispatch({ type: 'loading.start' });
     customAxios({
       method: api.method, //POST
       url: host + api.path + addparams,
@@ -21,7 +22,8 @@ export function getAPIActionJSON(
       data: data,
     })
       .then(function (response) {
-        dispatch({ type: "loading.success" });
+        dispatch({ type: 'loading.success' });
+
         console.log(type, response.data);
         if (response.status === 200) {
           dispatch({
@@ -33,7 +35,7 @@ export function getAPIActionJSON(
         onSuccess(response.data);
       })
       .catch((e) => {
-        dispatch({ type: "loading.success" });
+        dispatch({ type: 'loading.success' });
         onError(e);
         console.log(e);
       });
@@ -44,7 +46,7 @@ export async function getStatelessAPI(
   data,
   headers,
   params = {},
-  addparams = ""
+  addparams = ''
 ) {
   const api = getAPIs[type];
   try {
