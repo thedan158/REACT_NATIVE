@@ -79,4 +79,19 @@ export const getAPIs = {
     path: "/api/food//getAllFoodOfRestaurant",
     method: "GET",
   },
+  createOrder: {
+    name: "createOrder",
+    path: "/api/order/createOrder",
+    method: "POST",
+  },
+  deleteTable: {
+    name: "deleteTable",
+    path: "/api/table/deleteTable",
+    method: "DELETE",
+  },
+  updateTable: {
+    name: "updateTable",
+    path: "/api/table/updateTable",
+    method: "PUT",
+  },
 };

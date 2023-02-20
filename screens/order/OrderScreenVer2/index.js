@@ -130,7 +130,9 @@ const OrderScreenUpdate1 = ({ navigation }) => {
 
   const handleConfirmAdjustTableInfo = async () => {
     setModalAdjustTableVisibleConfirm(false);
-    navigation.navigate("EditTableInfoScreenRework1", { tableSelectedAdjust });
+    navigation.navigate("EditTableInfoScreenRework1", {
+      table: tableSelectedAdjust,
+    });
   };
   const handleConfirmMoreOrder = async () => {
     setModalOpenMenuOrderScreenTableConfirm(false);

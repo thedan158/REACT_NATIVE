@@ -62,7 +62,6 @@ const categoryMenuTypeData = [
 const MenuOrderScreen = ({ navigation, route }) => {
   // States Declaration -------------------------------------------------------------------
   const { item } = route.params;
-  console.log("item", item);
   const dispatch = useDispatch();
   const [categories, setCategories] = React.useState(categoryMenuTypeData);
   const [selectedCategory, setSelectedCategory] = React.useState(null);
@@ -129,6 +128,32 @@ const MenuOrderScreen = ({ navigation, route }) => {
   const handleDel = (index1) => {
     var updatedList = selectedDish.filter((item, index) => index !== index1);
     setSelectedDish(updatedList);
+  };
+  const handleOrderResponse = (response) => {
+    if (!response.success) {
+      Alert.alert(response.message);
+      return;
+    }
+    navigation.goBack();
+  };
+  const handleOrder = () => {
+    try {
+      setModalListOrder(false);
+      dispatch(
+        getAPIActionJSON(
+          "createOrder",
+          {
+            tableName: item.name,
+            order: selectedDish,
+          },
+          null,
+          `/${item.restaurantID}`,
+          (e) => handleOrderResponse(e)
+        )
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
   const renderOrder = Array.from(
     { length: selectedDish.length },
@@ -686,9 +711,9 @@ const MenuOrderScreen = ({ navigation, route }) => {
               </Content>
             </View>
             {/* Order button */}
-            <View style={styles.orderButton}>
+            <TouchableOpacity onPress={handleOrder} style={styles.orderButton}>
               <Content style={{ color: "white", fontSize: 17 }}>Order</Content>
-            </View>
+            </TouchableOpacity>
           </View>
         </ModalOrderList>
       </ContainerSafeAreaView>
