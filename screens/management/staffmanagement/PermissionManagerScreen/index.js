@@ -72,22 +72,6 @@ const PermissionManager = () => {
         }
       )
     );
-
-    // const res = await axios.post(
-    //   `https://foody-uit.herokuapp.com/auth/createUser/${ownerData.username}`,
-    //   {
-    //     username: staffData.username,
-    //     password: staffData.password,
-    //     role: isWaiter ? 'waiter' : 'chef',
-    //   }
-    // );
-
-    if (!success) {
-      Alert.alert('Error', 'Wrong infomation');
-      return;
-    } else {
-      setVisible(true);
-    }
   };
 
   return (
