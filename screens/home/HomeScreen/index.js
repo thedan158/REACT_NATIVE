@@ -65,24 +65,6 @@ const HomeScreen2ndFinal = () => {
   return (
     <ThemeProvider theme={theme}>
       <Container>
-        {/* <View style={styles.containerHeaderTop}>
-          <View style={styles.containerTitleInfo}>
-            <Content_Header>Home</Content_Header>
-          </View>
-          <View
-            onPress={() => navigate("ProfileScreen")}
-            style={{
-              marginRight: "3%",
-              alignSelf: "center",
-            }}
-          >
-            {theme.mode === "light" ? (
-              <Image source={UserLightTheme} style={styles.icUserStyle} />
-            ) : (
-              <Image source={UserDarkTheme} style={styles.icUserStyle} />
-            )}
-          </View>
-        </View> */}
         <View style={styles.headerSection}>
           <View style={styles.headerTextSection}>
             <Text style={styles.headerText}>👋 Hello!</Text>
@@ -140,33 +122,6 @@ const HomeScreen2ndFinal = () => {
               </View>
             )}
           />
-          {/* Button 4 */}
-          {/* <TouchableOpacity
-            style={styles.btnBottomOpen}
-            onPress={() => setVisible(true)}
-          >
-            <LinearGradient
-              style={styles.btnBottomOpen}
-              colors={["#FB6A70", "#FCA384"]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-            >
-              <View style={styles.containerExcDealInfo}>
-                <Text
-                  style={{ color: "#fff", fontSize: 20, fontWeight: "bold" }}
-                >
-                  Exclusive Deal
-                </Text>
-                <Text style={{}}>
-                  Saving your money and giving you the best meal is our priority
-                </Text>
-                <Text style={{}}></Text>
-                <Text></Text>
-                <Text style={{}}>Get them now!!!</Text>
-              </View>
-              <Image source={imgBackgroundSource2} style={styles.imgExcDeal} />
-            </LinearGradient>
-          </TouchableOpacity> */}
         </View>
         {/* Devide line */}
         <View style={styles.containerDevideLine}></View>

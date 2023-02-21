@@ -76,7 +76,7 @@ const OrderScreenUpdate1 = ({ navigation }) => {
               navigation.navigate("CheckOutTableScreen", { item });
             }}
             onLongPress={() => {
-              setTableSelectedAdjust(item.name);
+              setTableSelectedAdjust(item);
               setModalOpenMenuOrderScreenTableConfirm(true);
             }}
             style={({ pressed }) => [
@@ -128,13 +128,15 @@ const OrderScreenUpdate1 = ({ navigation }) => {
     );
   };
 
-  const handleConfirmAdjustTableInfo = async () => {
+  const handleConfirmAdjustTableInfo = () => {
     setModalAdjustTableVisibleConfirm(false);
-    navigation.navigate("EditTableInfoScreenRework1", { tableSelectedAdjust });
+    navigation.navigate("EditTableInfoScreenRework1", {
+      table: tableSelectedAdjust,
+    });
   };
-  const handleConfirmMoreOrder = async () => {
+  const handleConfirmMoreOrder = () => {
     setModalOpenMenuOrderScreenTableConfirm(false);
-    navigation.navigate("MenuOrderScreen");
+    navigation.navigate("MenuOrderScreen", { item: tableSelectedAdjust });
   };
 
   return (
@@ -269,7 +271,7 @@ const OrderScreenUpdate1 = ({ navigation }) => {
                 }}
               >
                 Do you want to place more orders with table name '
-                {tableSelectedAdjust}' ?
+                {tableSelectedAdjust.name}' ?
               </Text>
             ) : (
               <Text
@@ -282,7 +284,7 @@ const OrderScreenUpdate1 = ({ navigation }) => {
                 }}
               >
                 Do you want to place more orders with table name '
-                {tableSelectedAdjust}' ?
+                {tableSelectedAdjust.name}' ?
               </Text>
             )}
 

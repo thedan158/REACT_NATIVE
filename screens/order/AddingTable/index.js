@@ -43,7 +43,6 @@ const AddingTable = () => {
       return;
     }
     setVisible(true);
-    navigation.goBack();
   };
   const handleSave = () => {
     if (tableName === "") {
@@ -154,6 +153,7 @@ const AddingTable = () => {
           <TouchableOpacity
             onPress={() => {
               setVisible(false);
+              navigation.goBack();
             }}
             style={styles.button}
           >

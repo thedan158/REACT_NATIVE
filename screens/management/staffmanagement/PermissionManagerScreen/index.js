@@ -11,14 +11,15 @@ import {
 import React, { useRef } from 'react';
 import { CustomCollapsible } from '../../../../custom component/CustomCollapsible';
 import Colors from '../../../../assets/Colors';
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation, useRoute } from '@react-navigation/core';
 import CustomModal from '../../../../custom component/CustomModal';
 import back from '../../../../assets/icons/back-green.png';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 import styles from './style';
+import { getAPIActionJSON } from '../../../../api/ApiActions';
 
 const PermissionManager = () => {
   const navigation = useNavigation();
@@ -26,6 +27,9 @@ const PermissionManager = () => {
   const [isWaiter, setIsWaiter] = React.useState(false);
   const [isChef, setIsChef] = React.useState(false);
   const theme = useSelector((state) => state.setting.theme);
+  const route = useRoute();
+  const dispatch = useDispatch();
+  const username = useSelector((state) => state.user.username);
 
   const childtoParent = async (childData) => {
     setIsWaiter(!childData);
@@ -34,12 +38,6 @@ const PermissionManager = () => {
     setIsChef(!childData);
   };
   const handleCreateAccount = async () => {
-    const owner = await AsyncStorage.getItem('userLoginData');
-    const ownerData = JSON.parse(owner);
-    const staff = await AsyncStorage.getItem('staffInfo');
-    const staffData = JSON.parse(staff);
-    console.log(staffData.username);
-    console.log(ownerData.username);
     console.log('isWaiter:' + isWaiter);
     console.log('isChef:' + isChef);
     if (isWaiter && isChef) {
@@ -50,21 +48,30 @@ const PermissionManager = () => {
       Alert.alert('Error', 'You must choose one');
       return;
     }
-    const res = await axios.post(
-      `https://foody-uit.herokuapp.com/auth/createUser/${ownerData.username}`,
-      {
-        username: staffData.username,
-        password: staffData.password,
-        role: isWaiter ? 'waiter' : 'chef',
-      }
+    dispatch(
+      getAPIActionJSON(
+        'createUser',
+        {
+          username: route.params.username,
+          password: route.params.password,
+          role: isWaiter ? 'waiter' : 'chef',
+        },
+        null,
+        `/${username}`,
+        (e) => {
+          if (e.success) {
+            console.log(e);
+            setVisible(true);
+          } else {
+            Alert.alert('Error', e.message);
+          }
+        },
+        () => {
+          Alert.alert('Error', 'Wrong information');
+          return;
+        }
+      )
     );
-    const { success } = res.data;
-    console.log('Success: ' + success);
-    if (!success) {
-      Alert.alert('Error', 'Wrong infomation');
-      return;
-    }
-    setVisible(true);
   };
 
   return (

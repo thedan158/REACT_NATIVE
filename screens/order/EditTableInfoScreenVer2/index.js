@@ -7,39 +7,77 @@ import {
   Image,
   ImageBackground,
   ScrollView,
-} from 'react-native';
-import React, { useEffect, useState } from 'react';
-import Colors from '../../../assets/Colors';
-import { useNavigation } from '@react-navigation/core';
-import back from '../../../assets/icons/back-green.png';
-import CustomTextInput from '../../../custom component/CustomTextInput';
-import * as ImagePicker from 'expo-image-picker';
-import CustomModal from '../../../custom component/CustomModal';
-import del from '../../../assets/icons/delete_light.png';
-import styles from './style';
-import styled, { ThemeProvider } from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
+  Alert,
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import Colors from "../../../assets/Colors";
+import { useNavigation } from "@react-navigation/core";
+import back from "../../../assets/icons/back-green.png";
+import CustomTextInput from "../../../custom component/CustomTextInput";
+import * as ImagePicker from "expo-image-picker";
+import CustomModal from "../../../custom component/CustomModal";
+import del from "../../../assets/icons/delete_light.png";
+import styles from "./style";
+import styled, { ThemeProvider } from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { getAPIActionJSON } from "../../../api/ApiActions";
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
-const EditTableInfoScreenRework1 = ({ navigation }) => {
-  const [image, setImage] = useState('null');
-  const [nameTable, setNameTable] = useState('Table 1');
+const EditTableInfoScreenRework1 = ({ navigation, route }) => {
+  const { table } = route.params;
+  console.log(table);
+  const [image, setImage] = useState("null");
+  const [nameTable, setNameTable] = useState(table);
   const [visible, setVisible] = useState(false);
   const [visibleDeleted, setVisibleDeleted] = useState(false);
-
+  const restaurantID = useSelector((state) => state.user.restaurantID);
+  const dispatch = useDispatch();
   const theme = useSelector((state) => state.setting.theme);
 
-  const handleDeleteTable = async (id) => {
-    const res = await axios.delete(
-      `https://foody-uit.herokuapp.com/table/deleteTable/${id}`
-    );
-    const { success, message } = res.data;
-    console.log(message);
-    console.log(success);
-    if (success) {
-      navigation.goBack();
+  const handleDeleteResponse = (response) => {
+    if (!response.success) {
+      Alert.alert(response.message);
+      return;
+    }
+    setVisibleDeleted(true);
+  };
+  const handleSaveResponse = (response) => {
+    if (!response.success) {
+      Alert.alert(response.message);
+      return;
+    }
+    setVisible(true);
+  };
+  const handleDeleteTable = () => {
+    try {
+      dispatch(
+        getAPIActionJSON(
+          "deleteTable",
+          { tableName: table },
+          null,
+          `/${restaurantID}`,
+          (e) => handleDeleteResponse(e)
+        )
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleSave = () => {
+    try {
+      dispatch(
+        getAPIActionJSON(
+          "updateTable",
+          { oldTableName: table, tableName: nameTable },
+          null,
+          `/${restaurantID}`,
+          (e) => handleSaveResponse(e)
+        )
+      );
+    } catch (error) {
+      console.log(error);
     }
   };
   return (
@@ -49,9 +87,9 @@ const EditTableInfoScreenRework1 = ({ navigation }) => {
           {/* Button GoBack */}
           <TouchableOpacity
             style={{
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              flexDirection: 'row',
+              justifyContent: "flex-start",
+              alignItems: "center",
+              flexDirection: "row",
               marginLeft: 20,
             }}
             onPress={() => {
@@ -72,7 +110,7 @@ const EditTableInfoScreenRework1 = ({ navigation }) => {
         <View style={styles.view2}>
           <ImageBackground
             style={styles.ImageBackground}
-            source={require('../../../assets/images/logo_app.png')}
+            source={require("../../../assets/images/logo_app.png")}
           />
 
           {image && <Image source={{ uri: image }} style={styles.pick}></Image>}
@@ -92,9 +130,7 @@ const EditTableInfoScreenRework1 = ({ navigation }) => {
         <View style={styles.view4}>
           {/* Button Delete */}
           <TouchableOpacity
-            onPress={() => {
-              setVisibleDeleted(true);
-            }}
+            onPress={handleDeleteTable}
             style={styles.buttonDelete}
           >
             <Image
@@ -105,27 +141,22 @@ const EditTableInfoScreenRework1 = ({ navigation }) => {
           </TouchableOpacity>
 
           {/* Button save */}
-          <TouchableOpacity
-            onPress={() => {
-              setVisible(true);
-            }}
-            style={styles.buttonSave}
-          >
+          <TouchableOpacity onPress={handleSave} style={styles.buttonSave}>
             <Text style={styles.buttonTextSave}>Save</Text>
           </TouchableOpacity>
         </View>
 
         {/* Modal delete */}
         <CustomModal visible={visibleDeleted}>
-          <View style={{ alignItems: 'center' }}>
+          <View style={{ alignItems: "center" }}>
             <Image
-              source={require('../../../assets/icons/save-green.png')}
+              source={require("../../../assets/icons/save-green.png")}
               style={{ height: 150, width: 150, marginVertical: 30 }}
             />
           </View>
-          {theme === 'light' ? (
+          {theme === "light" ? (
             <Text
-              style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}
+              style={{ marginVertical: 30, fontSize: 20, textAlign: "center" }}
             >
               Deleted table successfully.
             </Text>
@@ -134,8 +165,8 @@ const EditTableInfoScreenRework1 = ({ navigation }) => {
               style={{
                 marginVertical: 30,
                 fontSize: 20,
-                textAlign: 'center',
-                color: 'white',
+                textAlign: "center",
+                color: "grey",
               }}
             >
               Deleted table successfully.
@@ -145,6 +176,7 @@ const EditTableInfoScreenRework1 = ({ navigation }) => {
           <TouchableOpacity
             onPress={() => {
               setVisibleDeleted(false);
+              navigation.goBack();
             }}
             style={styles.button}
           >
@@ -154,15 +186,15 @@ const EditTableInfoScreenRework1 = ({ navigation }) => {
 
         {/* Modal save */}
         <CustomModal visible={visible}>
-          <View style={{ alignItems: 'center' }}>
+          <View style={{ alignItems: "center" }}>
             <Image
-              source={require('../../../assets/icons/save-green.png')}
+              source={require("../../../assets/icons/save-green.png")}
               style={{ height: 150, width: 150, marginVertical: 30 }}
             />
           </View>
-          {theme === 'light' ? (
+          {theme === "light" ? (
             <Text
-              style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}
+              style={{ marginVertical: 30, fontSize: 20, textAlign: "center" }}
             >
               Edit table successfully.
             </Text>
@@ -171,8 +203,8 @@ const EditTableInfoScreenRework1 = ({ navigation }) => {
               style={{
                 marginVertical: 30,
                 fontSize: 20,
-                textAlign: 'center',
-                color: 'white',
+                textAlign: "center",
+                color: "grey",
               }}
             >
               Edit table successfully.
@@ -182,6 +214,7 @@ const EditTableInfoScreenRework1 = ({ navigation }) => {
           <TouchableOpacity
             onPress={() => {
               setVisible(false);
+              navigation.goBack();
             }}
             style={styles.button}
           >
