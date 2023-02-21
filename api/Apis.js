@@ -85,8 +85,9 @@ export const getAPIs = {
     method: "POST",
   },
   putNewPassword: {
-    name: "putNewPassword",
+    name: "changePassword",
     path: "api/auth/changePassword",
     method: "PUT",
-  }
+  },
+  
 };

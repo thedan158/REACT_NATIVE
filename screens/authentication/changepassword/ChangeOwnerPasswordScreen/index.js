@@ -65,7 +65,7 @@ const ChangePassword = () => {
           confirmPassword: confirmPassword,
         },
         null,
-        null,
+        '',
         (res) => handleResponse(res)
       )
     )
@@ -75,6 +75,7 @@ const ChangePassword = () => {
           'Error',
           'Failed to changed password, please ensure your information is correct'
         );
+        return;
       }
     }
     // const res = await axios.put(

@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 18,
     lineHeight: 27,
+    color: '#FA4A0C',
   },
   details: {
     fontWeight: '400',
