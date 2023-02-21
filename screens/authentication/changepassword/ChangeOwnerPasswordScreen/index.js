@@ -21,11 +21,10 @@ import CustomModal from '../../../../custom component/CustomModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import LoadingOwner from '../../../../custom component/LoadingOwner';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './style';
+import { getAPIActionJSON } from '../../../../api/ApiActions';
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
 const ChangePassword = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -37,7 +36,8 @@ const ChangePassword = () => {
   const [visible, setVisible] = React.useState(false);
   const [visibleLoad, setVisibleLoad] = React.useState(false);
   const theme = useSelector((state) => state.setting.theme);
-
+  const username = useSelector((state) => state.user.username);
+  const dispatch = useDispatch();
   // function close LoadingOwner and open CustomModal when timePassed is true
   const loadingAndPopup = () => {
     setVisibleLoad(true);
@@ -47,32 +47,55 @@ const ChangePassword = () => {
     }, 2000);
   };
   const handleChangePassword = async () => {
-    console.log('Change password');
-    const userLoginData = await AsyncStorage.getItem('userLoginData');
-    const user = JSON.parse(userLoginData);
-    console.log('username: ' + user.username);
+    // console.log('Change password');
+    // const userLoginData = await AsyncStorage.getItem('userLoginData');
+    // const user = JSON.parse(userLoginData);
+    // console.log('username: ' + user.username);
     if (password !== confirmPassword) {
       Alert.alert('Password not match');
       return;
     }
-    const res = await axios.put(
-      `https://foody-uit.herokuapp.com/auth/changePassword`,
-      {
-        username: user.username,
-        oldPassword: oldPassword,
-        newPassword: password,
-        confirmPassword: confirmPassword,
+    dispatch(
+      getAPIActionJSON(
+        "putNewPassword",
+        {
+          username: username,
+          oldPassword: oldPassword,
+          newPassword: password,
+          confirmPassword: confirmPassword,
+        },
+        null,
+        '',
+        (res) => handleResponse(res)
+      )
+    )
+    const handleResponse = (res) => {
+      if (!res.success) {
+        Alert.alert(
+          'Error',
+          'Failed to changed password, please ensure your information is correct'
+        );
+        return;
       }
-    );
-    const { success } = res.data;
-    console.log('Correct account ' + success);
-    if (!success) {
-      Alert.alert(
-        'Error',
-        'Failed to changed password, please ensure your information is correct'
-      );
-      return;
     }
+    // const res = await axios.put(
+    //   `https://foody-uit.herokuapp.com/auth/changePassword`,
+    //   {
+    //     username: user.username,
+    //     oldPassword: oldPassword,
+    //     newPassword: password,
+    //     confirmPassword: confirmPassword,
+    //   }
+    // );
+    // const { success } = res.data;
+    // console.log('Correct account ' + success);
+    // if (!success) {
+    //   Alert.alert(
+    //     'Error',
+    //     'Failed to changed password, please ensure your information is correct'
+    //   );
+    //   return;
+    // }
 
     loadingAndPopup();
   };
@@ -171,7 +194,7 @@ const ChangePassword = () => {
                 onPress={handleChangePassword}
                 style={styles.button}
               >
-                <Text style={styles.buttonText}>Reset password</Text>
+                <Text style={styles.buttonText}>Save</Text>
               </TouchableOpacity>
             </View>
           </View>

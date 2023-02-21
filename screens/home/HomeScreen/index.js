@@ -17,6 +17,7 @@ import styles from "./style";
 import styled, { ThemeProvider } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import Carousel from "react-native-reanimated-carousel";
+import { getAPIActionJSON } from "../../../api/ApiActions";
 
 const imgDesertDish = require("../../../assets/images/DessertDish.png");
 const windowWidth = Dimensions.get("window").width;
@@ -34,9 +35,32 @@ const HomeScreen2ndFinal = () => {
     "https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fcarousel%2FManage%20your%20Prescriptions%20(3).png?alt=media&token=99c290b0-a47a-422f-9789-c041a8b38e2d",
   ];
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const userImagePath = useSelector((state) => state.user.imagePath);
   const theme = useSelector((state) => state.setting.theme);
   const fullname = useSelector((state) => state.user.fullname);
+  const username = useSelector((state) => state.user.username);
+  const userRole = useSelector((state) => state.user.role);
+
+  const getDataRestaurant = () => {
+    if (userRole === 'owner') {
+      dispatch(
+        getAPIActionJSON(
+          "getRestaurant",
+          null,
+          null,
+          `/${username}`,
+          (res) => handleGetDataRestaurantResponse(res),
+        )
+      )
+      const handleGetDataRestaurantResponse = (res) => {
+        if(res.success) {
+          // need a new store in redux storage
+        }
+      }
+    }
+    return;
+  }
 
   return (
     <ThemeProvider theme={theme}>
