@@ -134,4 +134,14 @@ export const getAPIs = {
     path: "/api/order/getAllOrderOfRestaurant",
     method: "GET",
   },
+  deleteFood: {
+    name: "deleteFood",
+    path: "/api/food/deleteFood",
+    method: "DELETE",
+  },
+  updateFood: {
+    name: "updateFood",
+    path: "/api/food/updateFood",
+    method: "PUT",
+  },
 };

@@ -6,7 +6,6 @@ import {
   TransitionSpecs,
   CardStyleInterpolators,
 } from "@react-navigation/stack";
-
 import { Provider, useSelector } from "react-redux";
 
 import { NavigationContainer } from "@react-navigation/native";

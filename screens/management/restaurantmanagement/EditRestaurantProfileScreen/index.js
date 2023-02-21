@@ -47,13 +47,6 @@ const EditResProfile = () => {
   const dispatch = useDispatch();
   const username = useSelector((state) => state.user.username);
   // function close LoadingOwner and open CustomModal when timePassed is true
-  const loadingAndPopup = () => {
-    setVisibleLoad(true);
-    setTimeout(() => {
-      setVisibleLoad(false);
-      setVisible(true);
-    }, 5000);
-  };
 
   const getData = () => {
     dispatch(

@@ -68,35 +68,6 @@ const StarterMenuHome = ({ navigation }) => {
   };
 
   useEffect(() => {
-    // const getData = async () => {
-    //   const userLoginData = await AsyncStorage.getItem('userLoginData');
-    //   const user = JSON.parse(userLoginData);
-    //   const userLoginRole = await AsyncStorage.getItem('userLoginRole');
-    //   console.log('userrole: ' + userLoginRole);
-    //   if (userLoginRole === 'owner' || userLoginRole === 'chef') {
-    //     setIsAuthorized(true);
-    //   }
-    //   console.log('username: ' + user.username);
-    //   const res = await axios.post(
-    //     `https://foody-uit.herokuapp.com/food/getAllFoodWithType`,
-    //     {
-    //       username: user.username,
-    //       foodType: 'Starter',
-    //     }
-    //   );
-
-    //   const { success, message } = res.data;
-    //   if (!success) {
-    //     Alert.alert('Error', message);
-    //     return;
-    //   }
-    //   console.log('filteredData is all selected');
-    //   setNewData(message);
-    //   setMasterData(message);
-    //   setRefreshing(false);
-    // };
-    // getData().catch((err) => console.log(err));
-
     getData();
   }, [isFocus]);
 
@@ -129,16 +100,18 @@ const StarterMenuHome = ({ navigation }) => {
 
         <Text style={styles.txtHeaderViewTab}>{HeaderText}</Text>
 
-        <TouchableOpacity
-          style={styles.btnUserStyle}
-          onPress={() => {
-            navigation.navigate("AddingMenuItemScreen");
-          }}
-        >
-          {role !== "waiter" && (
-            <Image source={imgAddItem} style={styles.imgUserStyle} />
-          )}
-        </TouchableOpacity>
+        {role === "owner" ? (
+          <TouchableOpacity
+            style={styles.btnUserStyle}
+            onPress={() => {
+              navigation.navigate("AddingMenuItemScreen");
+            }}
+          >
+            {role !== "waiter" && (
+              <Image source={imgAddItem} style={styles.imgUserStyle} />
+            )}
+          </TouchableOpacity>
+        ) : null}
       </View>
     );
   }

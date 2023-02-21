@@ -1,22 +1,25 @@
-import React from 'react';
-import { View, Image, TouchableOpacity } from 'react-native';
+import React from "react";
+import { View, Image, TouchableOpacity } from "react-native";
 import {
   createBottomTabNavigator,
   BottomTabBar,
-} from '@react-navigation/bottom-tabs';
-import { Path } from 'react-native-svg';
-import Svg from 'react-native-svg';
-import HomeScreen from '../screens/home/HomeScreen/index';
-import RestaurantManagement from '../screens/management/restaurantmanagement/RestaurantManagementScreen/index';
-import order from '../assets/icons/order.png';
-import home from '../assets/icons/home.png';
-import account from '../assets/icons/user.png';
-import cash from '../assets/icons/cash.png';
-import queen from '../assets/icons/queen.png';
-import AccountForOwner from '../screens/settings/owner/AccountForOwnerScreen/index';
-import OrderScreenUpdate1 from '../screens/order/OrderScreenVer2';
-import BillScreenForOwner from '../screens/order/BillScreenForOwner';
-import { useSelector } from 'react-redux';
+} from "@react-navigation/bottom-tabs";
+import { Path } from "react-native-svg";
+import Svg from "react-native-svg";
+import HomeScreen from "../screens/home/HomeScreen/index";
+import RestaurantManagement from "../screens/management/restaurantmanagement/RestaurantManagementScreen/index";
+import order from "../assets/icons/order.png";
+import home from "../assets/icons/home.png";
+import account from "../assets/icons/user.png";
+import cash from "../assets/icons/cash.png";
+import queen from "../assets/icons/queen.png";
+import AccountForOwner from "../screens/settings/owner/AccountForOwnerScreen/index";
+import OrderScreenUpdate1 from "../screens/order/OrderScreenVer2";
+import BillScreenForOwner from "../screens/order/BillScreenForOwner";
+import { useSelector } from "react-redux";
+import notification from "../assets/icons/notification.png";
+
+import NotificationScreen from "../screens/notifications/NotificationScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -24,24 +27,24 @@ const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
   const theme = useSelector((state) => state.setting.theme);
 
   return (
-    <View style={{ flex: 1, alignItems: 'center' }}>
-      <View style={{ flexDirection: 'row', position: 'absolute', top: 0 }}>
+    <View style={{ flex: 1, alignItems: "center" }}>
+      <View style={{ flexDirection: "row", position: "absolute", top: 0 }}>
         <View
           style={{
             flex: 1,
-            backgroundColor: theme.mode === 'light' ? 'white' : '#3D3C3F',
+            backgroundColor: theme.mode === "light" ? "white" : "#3D3C3F",
           }}
         ></View>
         <Svg width={69} height={57} viewBox="0 0 75 61">
           <Path
             d="M75.2 0v61H0V0c4.1 0 7.4 3.1 7.9 7.1C10 21.7 22.5 33 37.7 33c15.2 0 27.7-11.3 29.7-25.9.5-4 3.9-7.1 7.9-7.1h-.1z"
-            fill={theme.mode === 'light' ? 'white' : '#3D3C3F'}
+            fill={theme.mode === "light" ? "white" : "#3D3C3F"}
           />
         </Svg>
         <View
           style={{
             flex: 1,
-            backgroundColor: theme.mode === 'light' ? 'white' : '#3D3C3F',
+            backgroundColor: theme.mode === "light" ? "white" : "#3D3C3F",
           }}
         ></View>
       </View>
@@ -49,12 +52,12 @@ const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
       <TouchableOpacity
         style={{
           top: -22.5,
-          justifyContent: 'center',
-          alignItems: 'center',
+          justifyContent: "center",
+          alignItems: "center",
           width: 60,
           height: 60,
           borderRadius: 40,
-          backgroundColor: '#4FA987',
+          backgroundColor: "#4FA987",
         }}
         onPress={onPress}
       >
@@ -72,17 +75,17 @@ const Tabs = () => {
         tabBarShowLabel: false,
         headerShown: false,
         tabBarStyle: {
-          position: 'relative',
+          position: "relative",
           left: 0,
           bottom: 0,
           right: 0,
 
-          backgroundColor: theme.mode === 'light' ? 'white' : '#3D3C3F',
+          backgroundColor: theme.mode === "light" ? "white" : "#3D3C3F",
           elevation: 0,
           height: 60,
 
           borderTopWidth: 0.2,
-          borderTopColor: theme.mode === 'light' ? '#F3F3F3' : '#3D3C3F',
+          borderTopColor: theme.mode === "light" ? "#F3F3F3" : "#3D3C3F",
         },
       }}
     >
@@ -99,7 +102,7 @@ const Tabs = () => {
               style={{
                 width: 25,
                 height: 25,
-                tintColor: focused ? '#4FA987' : '#CDCDD2',
+                tintColor: focused ? "#4FA987" : "#CDCDD2",
               }}
             />
           ),
@@ -118,7 +121,7 @@ const Tabs = () => {
               style={{
                 width: 25,
                 height: 25,
-                tintColor: focused ? '#4FA987' : '#CDCDD2',
+                tintColor: focused ? "#4FA987" : "#CDCDD2",
               }}
             />
           ),
@@ -130,7 +133,6 @@ const Tabs = () => {
         component={RestaurantManagement}
         options={{
           headerShown: false,
-
           tabBarIcon: ({ focused }) => (
             <Image
               source={queen}
@@ -138,7 +140,7 @@ const Tabs = () => {
               style={{
                 width: 25,
                 height: 25,
-                tintColor: focused ? 'white' : 'white',
+                tintColor: focused ? "white" : "white",
               }}
             />
           ),
@@ -147,17 +149,17 @@ const Tabs = () => {
       />
 
       <Tab.Screen
-        name="Bill"
-        component={BillScreenForOwner}
+        name="Notification"
+        component={NotificationScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <Image
-              source={cash}
+              source={notification}
               resizeMode="contain"
               style={{
                 width: 25,
                 height: 25,
-                tintColor: focused ? '#4FA987' : '#CDCDD2',
+                tintColor: focused ? "#4FA987" : "#CDCDD2",
               }}
             />
           ),
@@ -175,7 +177,7 @@ const Tabs = () => {
               style={{
                 width: 25,
                 height: 25,
-                tintColor: focused ? '#4FA987' : '#CDCDD2',
+                tintColor: focused ? "#4FA987" : "#CDCDD2",
               }}
             />
           ),

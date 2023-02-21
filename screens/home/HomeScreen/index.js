@@ -30,9 +30,9 @@ const imgBackgroundSource3 = {
 
 const HomeScreen2ndFinal = () => {
   const data = [
-    "https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fcarousel%2FManage%20your%20Prescriptions.png?alt=media&token=5f89fb93-ae05-46e9-a8e4-8391f69ac71f",
-    "https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fcarousel%2FManage%20your%20Prescriptions%20(4).png?alt=media&token=fcc93470-542f-4477-8ad8-0bb1d5ce2c1d",
-    "https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fcarousel%2FManage%20your%20Prescriptions%20(3).png?alt=media&token=99c290b0-a47a-422f-9789-c041a8b38e2d",
+    require("../../../assets/images/banner1.png"),
+    require("../../../assets/images/banner2.png"),
+    require("../../../assets/images/banner3.png"),
   ];
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -43,35 +43,37 @@ const HomeScreen2ndFinal = () => {
   const userRole = useSelector((state) => state.user.role);
 
   const getDataRestaurant = () => {
-    if (userRole === 'owner') {
+    if (userRole === "owner") {
       dispatch(
-        getAPIActionJSON(
-          "getRestaurant",
-          null,
-          null,
-          `/${username}`,
-          (res) => handleGetDataRestaurantResponse(res),
+        getAPIActionJSON("getRestaurant", null, null, `/${username}`, (res) =>
+          handleGetDataRestaurantResponse(res)
         )
-      )
+      );
       const handleGetDataRestaurantResponse = (res) => {
-        if(res.success) {
+        if (res.success) {
           // need a new store in redux storage
         }
-      }
+      };
     }
     return;
-  }
+  };
 
   return (
     <ThemeProvider theme={theme}>
       <Container>
         <View style={styles.headerSection}>
           <View style={styles.headerTextSection}>
-            <Text style={styles.headerText}>👋 Hello!</Text>
+            <Content>👋 Hello!</Content>
             <Text style={styles.headerUsername}>{fullname}</Text>
           </View>
           <TouchableOpacity
-            onPress={() => navigation.navigate("Profile")}
+            onPress={() => {
+              if (userRole === "owner") {
+                navigation.navigate("TabForOwner", { screen: "Account" });
+                return;
+              }
+              navigation.navigate("TabForStaff", { screen: "User" });
+            }}
             style={styles.headerUserSection}
           >
             <IconBadge
@@ -115,9 +117,7 @@ const HomeScreen2ndFinal = () => {
               >
                 <Image
                   style={{ height: "100%", width: "100%", borderRadius: 20 }}
-                  source={{
-                    uri: item,
-                  }}
+                  source={item}
                 />
               </View>
             )}
@@ -323,9 +323,7 @@ const Content_Header = styled.Text`
   color: ${(props) => props.theme.PRIMARY_TEXT_COLOR};
 `;
 const Content = styled.Text`
-  flex: 1;
-  margin-left: 5%;
-  font-size: 20;
-  font-weight: bold;
+  font-size: 18px;
   color: ${(props) => props.theme.PRIMARY_TEXT_COLOR};
+  font-weight: bold;
 `;

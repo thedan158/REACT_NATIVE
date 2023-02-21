@@ -34,12 +34,8 @@ import styles from './style';
 
 import styled, { ThemeProvider } from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-import { switchTheme } from '../../../../redux/themeActions';
-import { lightTheme, darkTheme } from '../../../../assets/Theme';
 import { getAPIActionJSON } from '../../../../api/ApiActions';
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 const AccountForOwner = () => {
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
@@ -113,49 +109,6 @@ const AccountForOwner = () => {
   
 
   useEffect(() => {
-    // const getData = async () => {
-    //   const response = await axios.get(
-    //     `https://foody-uit.herokuapp.com/profile/getUserProfile/${userInfo.username}`
-    //   );
-    //   const { success } = response.data;
-    //   const { data } = response.data;
-    //   console.log(data);
-    //   console.log(success);
-    //   if (!success) {
-    //     Alert.alert('Account not found');
-    //     return;
-    //   }
-    //   setAddress(data.address ? data.address : '');
-    //   setEmail(data.email ? data.email : '');
-    //   setFullname(data.fullname ? data.fullname : userInfo.username);
-    //   setPhoneNumber(data.phoneNumber ? data.phoneNumber : '');
-    //   setImage(
-    //     data.imagePath
-    //       ? data.imagePath
-    //       : 'https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fgood.png?alt=media&token=de139437-3a20-4eb3-ba56-f6a591779d15'
-    //   );
-    //   const restaurantRes = await axios.get(
-    //     `https://foody-uit.herokuapp.com/restaurant/getRestaurant/${userInfo.username}`
-    //   );
-    //   const restaurantSuccess = restaurantRes.data.success;
-    //   const restaurantData = restaurantRes.data.data;
-    //   if (!restaurantSuccess) {
-    //     Alert.alert('Restaurant not found');
-    //     return;
-    //   }
-    //   setRestaurantAddress(
-    //     restaurantData.address ? restaurantData.address : ''
-    //   );
-    //   setRestaurantName(restaurantData.name ? restaurantData.name : '');
-    //   setRestaurantHotline(
-    //     restaurantData.hotline ? restaurantData.hotline : ''
-    //   );
-    //   setRestaurantImage(
-    //     restaurantData.imagePath
-    //       ? restaurantData.imagePath
-    //       : 'https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fgood.png?alt=media&token=de139437-3a20-4eb3-ba56-f6a591779d15'
-    //   );
-    // };
     getData();
   }, [isFocused]);
 

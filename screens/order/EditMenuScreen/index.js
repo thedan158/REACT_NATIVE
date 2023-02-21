@@ -22,17 +22,24 @@ import galleryDarkTheme from "../../../assets/icons/pictureDarkTheme.png";
 import styles from "./style";
 import styled, { ThemeProvider } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-
+import { getAPIActionJSON } from "../../../api/ApiActions";
+import * as firebase from "firebase";
+import { firebaseConfig } from "../../../firebase";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 const EditMenuScreen = ({ route }) => {
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
   const { item } = route.params;
   console.log(item);
+  const dispatch = useDispatch();
   const [priceDish, setPriceDish] = useState(item.price);
   const [nameDish, setNameDish] = useState(item.name);
   const [specialFeatures, setSpecialFeatures] = useState(item.votes);
   const [discount, setDiscount] = useState(item.discount);
   const [image, setImage] = useState(item.imagePath);
+  const [url, setUrl] = React.useState("");
   const [visible, setVisible] = useState(false);
   const [visibleDeleted, setVisibleDeleted] = useState(false);
   const theme = useSelector((state) => state.setting.theme);
@@ -56,6 +63,88 @@ const EditMenuScreen = ({ route }) => {
     if (!result.cancelled) {
       setImage(result.uri);
     }
+  };
+  const handleDeleteResponse = (response) => {
+    if (!response.success) {
+      Alert.alert(response.message);
+      return;
+    }
+    setVisibleDeleted(true);
+  };
+  const handleDelete = () => {
+    try {
+      dispatch(
+        getAPIActionJSON(
+          "deleteFood",
+          { foodName: item.name },
+          null,
+          `/${item.restaurantID}`,
+          (e) => handleDeleteResponse(e)
+        )
+      );
+    } catch (error) {}
+  };
+  const handleSave = async () => {
+    //*Create blob from image
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function (e) {
+        console.log(e);
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", image, true);
+      xhr.send(null);
+    });
+    const ref = firebase
+      .storage()
+      .ref()
+      .child(`images/restaurants/${nameOfRes}.jpg`);
+    const snapshot = ref.put(blob);
+    await snapshot.on(
+      firebase.storage.TaskEvent.STATE_CHANGED,
+      () => {
+        console.log("uploading");
+        dispatch({ type: "loading.start" });
+      },
+      (error) => {
+        console.log(error);
+        blob.close();
+        return;
+      },
+      async () => {
+        await ref.getDownloadURL().then(async (url) => {
+          setUrl(url);
+          blob.close();
+          dispatch({ type: "loading.success" });
+          dispatch(
+            getAPIActionJSON(
+              "updateFood",
+              {
+                oldFoodName: item.name,
+                foodName: nameDish,
+                price: priceDish,
+                discount: discount,
+                imagePath: url,
+              },
+              null,
+              `/${item.restaurantID}`,
+              (res) => handleUpdateResponse(res)
+            )
+          );
+          const handleUpdateResponse = (res) => {
+            if (!res.success) {
+              Alert.alert("Update failed");
+              return;
+            }
+            setVisible(true);
+          };
+        });
+      }
+    );
   };
 
   return (
@@ -165,12 +254,7 @@ const EditMenuScreen = ({ route }) => {
 
         <View style={styles.view4}>
           {/* Button Delete */}
-          <TouchableOpacity
-            onPress={() => {
-              setVisibleDeleted(true);
-            }}
-            style={styles.buttonDelete}
-          >
+          <TouchableOpacity onPress={handleDelete} style={styles.buttonDelete}>
             <Image
               source={del_light}
               style={{ height: 15, width: 15, marginHorizontal: 10 }}
@@ -179,10 +263,7 @@ const EditMenuScreen = ({ route }) => {
           </TouchableOpacity>
 
           {/* Button Save */}
-          <TouchableOpacity
-            onPress={() => setVisible(true)}
-            style={styles.button}
-          >
+          <TouchableOpacity onPress={handleSave} style={styles.button}>
             <Text style={styles.buttonText}>SAVE</Text>
           </TouchableOpacity>
         </View>
@@ -199,11 +280,12 @@ const EditMenuScreen = ({ route }) => {
           <Text
             style={{ marginVertical: 30, fontSize: 20, textAlign: "center" }}
           >
-            Deleted table successfully.
+            Deleted food successfully.
           </Text>
           <TouchableOpacity
             onPress={() => {
               setVisibleDeleted(false);
+              navigation.goBack();
             }}
             style={styles.button}
           >
@@ -223,7 +305,7 @@ const EditMenuScreen = ({ route }) => {
           <Text
             style={{ marginVertical: 30, fontSize: 20, textAlign: "center" }}
           >
-            Adding table successfully.
+            Update successfully.
           </Text>
           <TouchableOpacity
             onPress={() => {

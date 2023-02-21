@@ -89,16 +89,18 @@ const MenuScreen = ({ navigation }) => {
         </TouchableOpacity>
 
         <Text style={styles.txtHeaderViewTab}>{HeaderText}</Text>
-        <TouchableOpacity
-          style={styles.btnUserStyle}
-          onPress={() => {
-            navigation.navigate("AddingMenuItemScreen");
-          }}
-        >
-          {role !== "waiter" && (
-            <Image source={imgAddItem} style={styles.imgUserStyle} />
-          )}
-        </TouchableOpacity>
+        {role === "owner" ? (
+          <TouchableOpacity
+            style={styles.btnUserStyle}
+            onPress={() => {
+              navigation.navigate("AddingMenuItemScreen");
+            }}
+          >
+            {role !== "waiter" && (
+              <Image source={imgAddItem} style={styles.imgUserStyle} />
+            )}
+          </TouchableOpacity>
+        ) : null}
       </View>
     );
   }

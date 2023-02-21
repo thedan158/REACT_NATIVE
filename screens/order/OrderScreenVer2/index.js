@@ -9,15 +9,17 @@ import {
   FlatList,
   SafeAreaView,
   Alert,
+  Dimensions,
 } from "react-native";
 import { useIsFocused } from "@react-navigation/core";
 import React, { useState, useEffect } from "react";
-import styled, { ThemeProvider } from "styled-components";
+import styled, { ThemeProvider, withTheme } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import CustomModal from "../../../custom component/CustomModal";
 import styles from "./style";
 import { getAPIActionJSON } from "../../../api/ApiActions";
-
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 const imgAddItem = require("../../../assets/icons/AddItem.png");
 const SearchIconResouce = require("../../../assets/icons/SearchGray.png");
 
@@ -25,6 +27,7 @@ const OrderScreenUpdate1 = ({ navigation }) => {
   const isFocus = useIsFocused();
   const dispatch = useDispatch();
   const restaurantID = useSelector((state) => state.user.restaurantID);
+  const role = useSelector((state) => state.user.role);
   const [search, setSearch] = useState("");
   const theme = useSelector((state) => state.setting.theme);
   const [dataFromState, setNewData] = useState([]);
@@ -141,7 +144,7 @@ const OrderScreenUpdate1 = ({ navigation }) => {
   return (
     // Root View
     <ThemeProvider theme={theme}>
-      <SafeAreaView style={styles.droidSafeArea}>
+      <Container>
         <View style={styles.containerTop}>
           <Text style={styles.txtHeaderView}>TABLE</Text>
           <View style={styles.containerTemp}>
@@ -161,16 +164,19 @@ const OrderScreenUpdate1 = ({ navigation }) => {
               />
             </ContainerSearch>
 
-            <TouchableOpacity
-              onPress={() => navigation.navigate("AddingTable")}
-              style={styles.btnImgFillter}
-            >
-              <Image source={imgAddItem} style={styles.imgIconFillter} />
-            </TouchableOpacity>
+            {role === "owner" ? (
+              <TouchableOpacity
+                onPress={() => navigation.navigate("AddingTable")}
+                style={styles.btnImgFillter}
+              >
+                <Image source={imgAddItem} style={styles.imgIconFillter} />
+              </TouchableOpacity>
+            ) : null}
           </View>
         </View>
         <ContainerBottom>
           <FlatList
+            style={{ height: "100%" }}
             data={dataFromState}
             renderItem={({ item, index }) => {
               return (
@@ -314,7 +320,7 @@ const OrderScreenUpdate1 = ({ navigation }) => {
             </View>
           </View>
         </CustomModal>
-      </SafeAreaView>
+      </Container>
     </ThemeProvider>
   );
 };
@@ -324,14 +330,16 @@ export default OrderScreenUpdate1;
 const ContainerBottom = styled.View`
   border-top-left-radius: 30;
   border-top-right-radius: 30;
-
   background-color: ${(props) => props.theme.PRIMARY_BACKGROUND_ACCOUNT_COLOR};
   justify-content: center;
   align-items: center;
-
   margin-top: -40;
   padding-top: 20;
   padding-left: 10;
+`;
+const Container = styled.View`
+  flex: 1;
+  background-color: ${(props) => props.theme.PRIMARY_BACKGROUND_ACCOUNT_COLOR};
 `;
 
 const ContainerSearch = styled.View`

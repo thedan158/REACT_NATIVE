@@ -7,6 +7,8 @@ const windowHeight = Dimensions.get("window").height;
 const styles = StyleSheet.create({
   droidSafeArea: {
     flex: 1,
+    width: windowWidth,
+    height: windowHeight,
     padding: 0,
     elevation: 8,
     margin: 0,
@@ -22,6 +24,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     alignContent: "center",
+    paddingTop: 20,
   },
   containerBottom: {
     borderTopLeftRadius: 30,
@@ -179,6 +182,14 @@ const styles = StyleSheet.create({
     shadowRadius: 2.22,
 
     elevation: 3,
+  },
+  flatlistContainer: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: -30,
+    backgroundColor: "white",
   },
   button1: {
     backgroundColor: Colors.secondary,
