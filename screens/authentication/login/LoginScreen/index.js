@@ -19,7 +19,9 @@ import background from "../../../../assets/images/background.png";
 import CustomModal from "../../../../custom component/CustomModal";
 import styles from "./style";
 import { useDispatch } from "react-redux";
-import { getAPIActionJSON, getStatelessAPI } from "../../../../api/ApiActions";
+import { getAPIActionJSON } from "../../../../api/ApiActions";
+import "firebase/messaging";
+import firebase from "firebase/app";
 
 const LoginScreen = () => {
   const [username, setUsername] = useState("");
