@@ -70,13 +70,16 @@ const MenuOrderScreen = ({ navigation, route }) => {
 
   function onSelectCategory(category) {
     //filter Dish Type
+    console.log(category);
+    console.log(masterData);
+    setDishData(masterData);
     if (category.name === "Full Menu") {
       setDishData(masterData);
       setSelectedCategory(category);
       return;
     }
     let DishList = masterData.filter((item) => item.foodType === category.name);
-
+    console.log("Dishlist", DishList);
     setDishData(DishList);
 
     setSelectedCategory(category);
@@ -503,7 +506,7 @@ const MenuOrderScreen = ({ navigation, route }) => {
 
   function renderFoodList() {
     const RenderItemFlatList = ({ item }) => {
-      const [counter, setCounter] = React.useState(0);
+      console.log("dishData", dishData);
       function BtnAddPress() {
         const haveOrdered = selectedDish.findIndex(
           (food) => food.name === item.name
@@ -599,7 +602,7 @@ const MenuOrderScreen = ({ navigation, route }) => {
         <FlatList
           columnWrapperStyle={{ justifyContent: "space-between" }}
           data={dishData}
-          keyExtractor={(item) => `${item.id}`}
+          keyExtractor={(item) => `${item.name}`}
           renderItem={({ item, index }) => {
             return (
               <RenderItemFlatList

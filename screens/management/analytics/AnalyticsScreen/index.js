@@ -1,127 +1,103 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  Dimensions,
-  ScrollView,
-  Animated,
-  FlatList,
-} from 'react-native';
-import React, { useRef } from 'react';
-import Colors from '../../../../assets/Colors';
-import {
-  VictoryBar,
-  VictoryChart,
-  VictoryTheme,
-  VictoryAxis,
-  VictoryLabel,
-  VictoryPie,
-} from 'victory-native';
-import income from '../../../../assets/icons/income.png';
-import { useSelector } from 'react-redux';
-import styled, { ThemeProvider } from 'styled-components';
-import styles from './style';
+import { Text, View, Image, Dimensions, ScrollView } from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import React from "react";
+import Colors from "../../../../assets/Colors";
+import { VictoryBar, VictoryChart, VictoryAxis } from "victory-native";
+import income from "../../../../assets/icons/income.png";
+import { useDispatch, useSelector } from "react-redux";
+import { ThemeProvider } from "styled-components";
+import styles from "./style";
+import { getAPIActionJSON } from "../../../../api/ApiActions";
+import { useEffect } from "react";
+import { useState } from "react";
 
-const windowWidth = Dimensions.get('screen').width;
-
-const data = [
-  // { quarter: 'Jan', earnings: 30 },
-  // { quarter: 'Feb', earnings: 10 },
-  // { quarter: 'Mar', earnings: 15 },
-  // { quarter: 'Apr', earnings: 20 },
-  // { quarter: 'May', earnings: 22 },
-  // { quarter: 'Jun', earnings: 33 },
-  // { quarter: 'Jul', earnings: 24 },
-  // { quarter: 'Aug', earnings: 17 },
-  // { quarter: 'Sep', earnings: 15 },
-  // { quarter: 'Oct', earnings: 13 },
-  // { quarter: 'Nov', earnings: 19 },
-  // { quarter: 'Dec', earnings: 16 },
-  { quarter: 1, earnings: 13000 },
-  { quarter: 2, earnings: 16500 },
-  { quarter: 3, earnings: 14250 },
-  { quarter: 4, earnings: 20000 },
-  { quarter: 5, earnings: 22000 },
-  { quarter: 6, earnings: 33000 },
-  { quarter: 7, earnings: 24000 },
+const windowWidth = Dimensions.get("screen").width;
+const months = [
+  { lable: "January", value: 1 },
+  { lable: "February", value: 2 },
+  { lable: "March", value: 3 },
+  { lable: "April", value: 4 },
+  { lable: "May", value: 5 },
+  { lable: "June", value: 6 },
+  { lable: "July", value: 7 },
+  { lable: "August", value: 8 },
+  { lable: "September", value: 9 },
+  { lable: "October", value: 10 },
+  { lable: "November", value: 11 },
+  { lable: "December", value: 12 },
 ];
-
-const sex = [
-  { id: 1, x: 'Men', y: 55 },
-  { id: 2, x: 'Women', y: 45 },
-];
-
 const Analytics = () => {
-  const categoryListHeightAnimationValue = useRef(
-    new Animated.Value(115)
-  ).current;
-
-  const [showMoreToggle, setShowMoreToggle] = React.useState(false);
-  const [selectedCategory, setSelectedCategory] = React.useState(null);
+  const dispatch = useDispatch();
+  const restaurantID = useSelector((state) => state.user.restaurantID);
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [data, setData] = useState([
+    { quarter: 1, earnings: 0 },
+    { quarter: 2, earnings: 0 },
+    { quarter: 3, earnings: 0 },
+    { quarter: 4, earnings: 0 },
+    { quarter: 5, earnings: 0 },
+    { quarter: 6, earnings: 0 },
+    { quarter: 7, earnings: 0 },
+    { quarter: 8, earnings: 0 },
+    { quarter: 9, earnings: 0 },
+    { quarter: 10, earnings: 0 },
+    { quarter: 11, earnings: 0 },
+    { quarter: 12, earnings: 0 },
+  ]);
+  const onValueChange = (month) => {
+    setSelectedMonth(month);
+    console.log(month);
+  };
+  const calculateMonthlyIncome = (month, index) => {
+    if (!month) return { quarter: index, earnings: 0 };
+    var total = 0;
+    month.map((order) => {
+      total = total + order.totalPrice;
+    });
+    return { quarter: index, earnings: total };
+  };
   const theme = useSelector((state) => state.setting.theme);
-
-  function renderCategoryList() {
-    const renderItem = ({ item }) => (
-      <TouchableOpacity
-        onPress={() => setSelectedCategory(item)}
-        style={{
-          flex: 1,
-          flexDirection: 'row',
-          margin: 5,
-          paddingVertical: 10,
-          paddingHorizontal: 12,
-          borderRadius: 5,
-          backgroundColor: 'white',
-        }}
-      >
-        <Text style={{ marginLeft: 10 }}>{item.x}</Text>
-        <Text style={{ marginLeft: 10 }}>{item.y}</Text>
-      </TouchableOpacity>
+  const handleResponse = (response) => {
+    if (!response.success) {
+      Alert.alert(response.message);
+      return;
+    }
+    var newData = [];
+    newData.push(calculateMonthlyIncome(response.data.jan, 1));
+    newData.push(calculateMonthlyIncome(response.data.feb, 2));
+    newData.push(calculateMonthlyIncome(response.data.mar, 3));
+    newData.push(calculateMonthlyIncome(response.data.apr, 4));
+    newData.push(calculateMonthlyIncome(response.data.may, 5));
+    newData.push(calculateMonthlyIncome(response.data.jun, 6));
+    newData.push(calculateMonthlyIncome(response.data.july, 7));
+    newData.push(calculateMonthlyIncome(response.data.aug, 8));
+    newData.push(calculateMonthlyIncome(response.data.sep, 9));
+    newData.push(calculateMonthlyIncome(response.data.oct, 10));
+    newData.push(calculateMonthlyIncome(response.data.nov, 11));
+    newData.push(calculateMonthlyIncome(response.data.dec, 12));
+    setData(newData);
+  };
+  const getData = () => {
+    dispatch(
+      getAPIActionJSON("getAllOrder", null, null, `/${restaurantID}`, (e) =>
+        handleResponse(e)
+      )
     );
-
-    return (
-      <View>
-        <Animated.View style={{ height: categoryListHeightAnimationValue }}>
-          <FlatList
-            data={sex}
-            renderItem={renderItem}
-            keyExtractor={(item) => `${item.id}`}
-            numColumns={2}
-          />
-        </Animated.View>
-
-        <TouchableOpacity
-          style={{
-            flexDirection: 'row',
-
-            justifyContent: 'center',
-          }}
-          onPress={() => {
-            if (showMoreToggle) {
-              Animated.timing(categoryListHeightAnimationValue, {
-                toValue: 115,
-                duration: 500,
-                useNativeDriver: false,
-              }).start();
-            } else {
-              Animated.timing(categoryListHeightAnimationValue, {
-                toValue: 172.5,
-                duration: 500,
-                useNativeDriver: false,
-              }).start();
-            }
-
-            setShowMoreToggle(!showMoreToggle);
-          }}
-        >
-          <Text>{showMoreToggle ? 'LESS' : 'MORE'}</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-
+  };
+  const getThisMonthIncome = () => {
+    if (!data[selectedMonth - 1]) return "$ 0";
+    return "$ " + data[selectedMonth - 1]?.earnings;
+  };
+  const getAllTimeIncome = () => {
+    var allTimeIncome = 0;
+    data.map((item) => {
+      allTimeIncome = allTimeIncome + item.earnings;
+    });
+    return "$ " + allTimeIncome;
+  };
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <ThemeProvider theme={theme}>
       <ScrollView
@@ -143,15 +119,8 @@ const Analytics = () => {
             { backgroundColor: theme.PRIMARY_BUTTON_COLOR },
           ]}
         >
-          <VictoryChart
-            // domainPadding will add space to each side of VictoryBar to
-            // prevent it from overlapping the axis
-            domainPadding={0}
-            width={windowWidth * 1.04}
-          >
+          <VictoryChart domainPadding={0} width={windowWidth * 1.04}>
             <VictoryAxis
-              // tickValues specifies both the number of ticks and where
-              // they are placed on the axis
               style={{
                 tickLabels: {
                   fill: theme.PRIMARY_TEXT_COLOR,
@@ -159,25 +128,23 @@ const Analytics = () => {
               }}
               tickValues={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
               tickFormat={[
-                'Jan',
-                'Feb',
-                'Mar',
-                'Apr',
-                'May',
-                'Jun',
-                'Jul',
-                'Aug',
-                'Sep',
-                'Oct',
-                'Nov',
-                'Dec',
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec",
               ]}
             />
             <VictoryAxis
               dependentAxis
-              // tickFormat specifies how ticks should be displayed
               tickFormat={(x) => `$${x / 1000}k`}
-              // color of axis values
               style={{
                 tickLabels: {
                   fill: theme.PRIMARY_TEXT_COLOR,
@@ -191,55 +158,50 @@ const Analytics = () => {
               style={{
                 data: {
                   fill: ({ datum }) =>
-                    datum.quarter % 2 === 0 ? Colors.secondary : '#036666',
+                    datum.quarter % 2 === 0 ? Colors.secondary : "#036666",
                 },
               }}
               animate={{ duration: 1000, onLoad: { duration: 500 } }}
               barWidth={16}
-              alignment="start"
+              alignment="middle"
             />
           </VictoryChart>
         </View>
+        <Picker
+          style={{ height: 150, width: windowWidth }}
+          selectedValue={selectedMonth}
+          onValueChange={onValueChange}
+        >
+          <Picker.Item label="Select a month to see income" value="" />
+          {months.map((month) => (
+            <Picker.Item
+              key={month.value}
+              label={month.lable}
+              value={month.value}
+            />
+          ))}
+        </Picker>
 
-        {/* <View style={styles.chartContainer}>
-        <VictoryPie
-          startAngle={120}
-          endAngle={480}
-          radius={110}
-          theme={VictoryTheme.material}
-          colorScale={[Colors.secondary, '#036666']}
-          // labels={({ datum }) => `y: ${datum.y}`}
-          data={sex}
-          events={[
-            {
-              target: 'data',
-              eventHandlers: {
-                onPressIn: () => {
-                  return [
-                    {
-                      target: 'data',
-                      mutation: ({ style }) => {
-                        return style.fill === '#c43a31'
-                          ? null
-                          : { style: { fill: '#c43a31' } };
-                      },
-                    },
-                    {
-                      target: 'labels',
-                      mutation: ({ props }) => {
-                        let name = sex[props.index].x
-                        
-                      },
-                    },
-                  ];
-                },
-              },
-            },
+        <View
+          style={[
+            styles.chartContainer,
+            { backgroundColor: theme.PRIMARY_BUTTON_COLOR },
           ]}
-        />
-      </View>
-
-      <View>{renderCategoryList()}</View> */}
+        >
+          <View style={styles.headerValue}>
+            <Text style={styles.titleValue}>{getThisMonthIncome()}</Text>
+          </View>
+        </View>
+        <View style={styles.headerText}>
+          <Image
+            source={income}
+            style={{ height: 30, width: 30, marginHorizontal: 10 }}
+          />
+          <Text style={styles.title}>All time</Text>
+        </View>
+        <View style={styles.headerValue}>
+          <Text style={styles.titleValue}>{getAllTimeIncome()}</Text>
+        </View>
       </ScrollView>
     </ThemeProvider>
   );
