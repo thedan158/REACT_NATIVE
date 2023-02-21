@@ -124,9 +124,9 @@ export const getAPIs = {
     path: "/api/profile/update",
     method: "POST",
   },
-  putNewPassword: {
+  changePassword: {
     name: "changePassword",
-    path: "api/auth/changePassword",
+    path: "/api/auth/changePassword",
     method: "PUT",
   },
   getAllOrder: {
