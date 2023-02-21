@@ -25,7 +25,7 @@ const ChangePassword = () => {
   const dispatch = useDispatch();
   // function close LoadingOwner and open CustomModal when timePassed is true
 
-  const handleChangePassword = async () => {
+  const handleChangePassword = () => {
     if (password !== confirmPassword) {
       Alert.alert("Password not match");
       return;
@@ -45,15 +45,19 @@ const ChangePassword = () => {
       )
     );
     const handleResponse = (res) => {
-      if (!res.success) {
+      if(!res.success) {
         Alert.alert(
-          "Error",
-          "Failed to changed password, please ensure your information is correct"
+         'Error',
+         'Failed to changed password, please ensure your information is correct'
         );
+        Alert.alert(res.message)
         return;
       }
+      Alert.alert(res.message);
+      navigation.navigate('Login')
     };
-    setVisible(true);
+    setVisible(false);
+    navigation.goBack();
   };
   return (
     <ScrollView>

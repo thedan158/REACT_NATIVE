@@ -61,7 +61,7 @@ const ChangePassword = () => {
     }
     dispatch(
       getAPIActionJSON(
-        "putNewPassword",
+        "changePassword",
         {
           username: username,
           oldPassword: oldPassword,
@@ -79,9 +79,12 @@ const ChangePassword = () => {
          'Error',
          'Failed to changed password, please ensure your information is correct'
         );
+        Alert.alert(res.message)
         return;
       }
-      navigation.navigate("Login")
+      Alert.alert(res.message);
+      setVisible(false);
+      navigation.goBack();
     }
     // const res = await axios.put(
     //   `https://foody-uit.herokuapp.com/auth/changePassword`,
@@ -101,7 +104,7 @@ const ChangePassword = () => {
     //   );
     //   return;
     // }
-    loadingAndPopup();
+    
     // const myTimeout = setTimeout(navigation.navigate("Login"), 5000);
   };
   return (
@@ -222,8 +225,8 @@ const ChangePassword = () => {
             </Text>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('Login');
                 setVisible(false);
+                navigation.goBack();
               }}
               style={styles.button}
             >
