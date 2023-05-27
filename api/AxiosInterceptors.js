@@ -10,11 +10,11 @@ instance.interceptors.request.use(
     if (!config.headers) {
       config.headers = {};
     }
-    // if (token) {
-    //   config.headers["aenx-token"] = token ? token : "";
-    //   config.headers["aenx-renew-token"] = refreshToken ? refreshToken : "";
-    // }
-    // config.headers["request-app-name"] = "aenconnect";
+    if (token) {
+      config.headers["aenx-token"] = token ? token : "";
+      config.headers["aenx-renew-token"] = refreshToken ? refreshToken : "";
+    }
+    config.headers["request-app-name"] = "aenconnect";
     return config;
   },
   (error) => {
