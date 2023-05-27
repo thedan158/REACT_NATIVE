@@ -5,8 +5,8 @@ const instance = axios.create();
 
 instance.interceptors.request.use(
   (config) => {
-    // const token = store.getState().user.token;
-    // const refreshToken = store.getState().user.refreshToken;
+    const token = store.getState().user.token;
+    const refreshToken = store.getState().user.refreshToken;
     if (!config.headers) {
       config.headers = {};
     }
