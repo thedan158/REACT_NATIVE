@@ -10,91 +10,69 @@ import {
   Alert,
   ScrollView,
   Platform,
-} from 'react-native';
-import React, { useState, useEffect } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/core';
-import InputText from '../../../../custom component/InputText';
-import gallery from '../../../../assets/icons/picture.png';
-import * as ImagePicker from 'expo-image-picker';
-import { Constants } from 'expo-constants';
-import Colors from '../../../../assets/Colors';
-import background from '../../../../assets/images/background.png';
-import CustomModal from '../../../../custom component/CustomModal';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { firebaseConfig } from '../../../../firebase';
-import * as firebase from 'firebase';
-import LoadingOwner from '../../../../custom component/LoadingOwner';
-import OwnerScreen from '../../../../custom component/OwnerScreen';
-import { useSelector } from 'react-redux';
-import styles from './style';
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+} from "react-native";
+import React, { useState, useEffect } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/core";
+import InputText from "../../../../custom component/InputText";
+import gallery from "../../../../assets/icons/picture.png";
+import * as ImagePicker from "expo-image-picker";
+import { Constants } from "expo-constants";
+import Colors from "../../../../assets/Colors";
+import background from "../../../../assets/images/background.png";
+import CustomModal from "../../../../custom component/CustomModal";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { firebaseConfig } from "../../../../firebase";
+import * as firebase from "firebase";
+import LoadingOwner from "../../../../custom component/LoadingOwner";
+import OwnerScreen from "../../../../custom component/OwnerScreen";
+import { useDispatch, useSelector } from "react-redux";
+import styles from "./style";
+import { getAPIActionJSON } from "../../../../api/ApiActions";
 
 const EditResProfile = () => {
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
   }
-  const [nameOfRes, setNameOfRes] = useState('');
-  const [address, setAddress] = useState('');
-  const [hotline, setHotline] = useState('');
+  const [nameOfRes, setNameOfRes] = useState("");
+  const [address, setAddress] = useState("");
+  const [hotline, setHotline] = useState("");
   const navigation = useNavigation();
-  const [image, setImage] = useState('null');
+  const [image, setImage] = useState("null");
   const [visible, setVisible] = React.useState(false);
-  const [url, setUrl] = React.useState('');
+  const [url, setUrl] = React.useState("");
   const [visibleLoad, setVisibleLoad] = React.useState(false);
   const theme = useSelector((state) => state.setting.theme);
-
+  const dispatch = useDispatch();
+  const username = useSelector((state) => state.user.username);
   // function close LoadingOwner and open CustomModal when timePassed is true
-  const loadingAndPopup = () => {
-    setVisibleLoad(true);
-    setTimeout(() => {
-      setVisibleLoad(false);
-      setVisible(true);
-    }, 5000);
-  };
 
+  const getData = () => {
+    dispatch(
+      getAPIActionJSON("getRestaurant", null, null, `/${username}`, (res) =>
+        handleResponse(res)
+      )
+    );
+  };
+  const handleResponse = (response) => {
+    if (!response.success) {
+      Alert.alert(response.message);
+      return;
+    }
+    setAddress(response.data.address);
+    setHotline(response.data.hotline);
+    setImage(response.data.imagePath);
+    setNameOfRes(response.data.name);
+  };
   useEffect(async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      alert('Permission denied!');
+    getData();
+    if (status !== "granted") {
+      alert("Permission denied!");
     }
-
-    const getData = async () => {
-      const user = await AsyncStorage.getItem('userLoginData');
-      const userInfo = JSON.parse(user);
-      console.log(userInfo.username);
-      const response = await axios.get(
-        `https://foody-uit.herokuapp.com/restaurant/getRestaurant/${userInfo.username}`
-      );
-      const { success } = response.data;
-      const { data } = response.data;
-      console.log(data);
-      console.log(success);
-      if (!success) {
-        Alert.alert('Account not found');
-        return;
-      }
-      setAddress(data.address ? data.address : '');
-      setHotline(data.hotline ? data.hotline : '');
-      setNameOfRes(data.name ? data.name : '');
-      setImage(
-        data.imagePath
-          ? data.imagePath
-          : 'https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fgood.png?alt=media&token=de139437-3a20-4eb3-ba56-f6a591779d15'
-      );
-    };
-    getData().catch((err) => console.log(err));
   }, []);
   const handleRestaurantUpdate = async () => {
-    loadingAndPopup();
-    //*Get user data from asyncstorage
-    const user = await AsyncStorage.getItem('userLoginData');
-    const userInfo = JSON.parse(user);
-    console.log(userInfo.username);
-
     //*Create blob from image
     const blob = await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
@@ -103,10 +81,10 @@ const EditResProfile = () => {
       };
       xhr.onerror = function (e) {
         console.log(e);
-        reject(new TypeError('Network request failed'));
+        reject(new TypeError("Network request failed"));
       };
-      xhr.responseType = 'blob';
-      xhr.open('GET', image, true);
+      xhr.responseType = "blob";
+      xhr.open("GET", image, true);
       xhr.send(null);
     });
     const ref = firebase
@@ -117,7 +95,8 @@ const EditResProfile = () => {
     await snapshot.on(
       firebase.storage.TaskEvent.STATE_CHANGED,
       () => {
-        console.log('uploading');
+        console.log("uploading");
+        dispatch({ type: "loading.start" });
       },
       (error) => {
         console.log(error);
@@ -126,32 +105,35 @@ const EditResProfile = () => {
       },
       async () => {
         await ref.getDownloadURL().then(async (url) => {
-          console.log('download url: ' + url);
           setUrl(url);
           blob.close();
-          console.log(userInfo);
-          console.log('platform: ' + Platform.OS);
-          console.log('blob:' + blob);
-          console.log('url:' + url);
-          const res = await axios.post(
-            `https://foody-uit.herokuapp.com/restaurant/updateRestaurant/${userInfo.username}`,
-            {
-              name: nameOfRes,
-              address: address,
-              hotline: hotline,
-              imagePath: url,
-            }
+          dispatch({ type: "loading.success" });
+          dispatch(
+            getAPIActionJSON(
+              "updateRestaurant",
+              {
+                name: nameOfRes,
+                address: address,
+                hotline: hotline,
+                imagePath: url,
+              },
+              null,
+              `/${username}`,
+              (res) => handleUpdateResponse(res)
+            )
           );
-          const { success } = res.data;
-          console.log(success);
-          if (!success) {
-            Alert.alert('Update failed');
-            return;
-          }
+          const handleUpdateResponse = (res) => {
+            if (!res.success) {
+              Alert.alert("Update failed");
+              return;
+            }
+            setVisible(true);
+          };
         });
       }
     );
   };
+
   const PickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -182,9 +164,9 @@ const EditResProfile = () => {
                   source={gallery}
                 />
 
-                {image && (
+                {image ? (
                   <Image source={{ uri: image }} style={styles.pick}></Image>
-                )}
+                ) : null}
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={PickImage} style={styles.button1}>
@@ -240,9 +222,9 @@ const EditResProfile = () => {
           <LoadingOwner visible={visibleLoad}></LoadingOwner>
           {/* Modal  */}
           <CustomModal visible={visible}>
-            <View style={{ alignItems: 'center' }}>
+            <View style={{ alignItems: "center" }}>
               <Image
-                source={require('../../../../assets/icons/save-green.png')}
+                source={require("../../../../assets/icons/save-green.png")}
                 style={{ height: 150, width: 150, marginVertical: 30 }}
               />
             </View>
@@ -251,16 +233,16 @@ const EditResProfile = () => {
               style={{
                 marginVertical: 30,
                 fontSize: 20,
-                textAlign: 'center',
+                textAlign: "center",
                 color: theme.PRIMARY_TEXT_COLOR,
               }}
             >
-              Update profile successfully{' '}
+              Update profile successfully{" "}
             </Text>
             <TouchableOpacity
               onPress={() => {
-                navigation.goBack();
                 setVisible(false);
+                navigation.goBack();
               }}
               style={styles.button}
             >

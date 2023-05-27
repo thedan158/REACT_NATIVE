@@ -8,234 +8,73 @@ import {
   Image,
   ScrollView,
   FlatList,
-} from 'react-native';
-import React, { useEffect, useState } from 'react';
-import Colors from '../../../assets/Colors';
-import CustomModal from '../../../custom component/CustomModal';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
-import styles from './style';
+  Alert,
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import styles from "./style";
+import CustomModal from "../../../custom component/CustomModal";
+import { TextInput } from "react-native-gesture-handler";
+import { useDispatch } from "react-redux";
+import { getAPIActionJSON } from "../../../api/ApiActions";
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-const imgTagSource = require('../../../assets/icons/Tag2.png');
-const imgCloseSource = require('../../../assets/icons/close.png');
-const imgBackgroundSource = require('../../../assets/images/background.png');
-const maxWidthConst = windowWidth - 20;
+const imgTagSource = require("../../../assets/icons/Tag2.png");
+const imgCloseSource = require("../../../assets/icons/close.png");
+const imgBackgroundSource = require("../../../assets/images/background.png");
 
-const DATA = [
-  {
-    id: 1,
-    nameDish: 'Pizza',
-    NumberDish: 2,
-    _NumberDish: '2',
-    PriceDish: 3.0,
-    _PriceDish: '3.0',
-  },
-  {
-    id: 2,
-    nameDish: 'Pizzaaaaa',
-    NumberDish: 4,
-    _NumberDish: '4',
-    PriceDish: 3.5,
-    _PriceDish: '3.55',
-  },
-  {
-    id: 3,
-    nameDish: 'Pizza',
-    NumberDish: 1,
-    _NumberDish: '1',
-    PriceDish: 3.2,
-    _PriceDish: '3.2',
-  },
-  {
-    id: 3,
-    nameDish: 'Pizza',
-    NumberDish: 1,
-    _NumberDish: '1',
-    PriceDish: 3.2,
-    _PriceDish: '3.2',
-  },
-  {
-    id: 3,
-    nameDish: 'Pizza',
-    NumberDish: 1,
-    _NumberDish: '1',
-    PriceDish: 3.2,
-    _PriceDish: '3.2',
-  },
-  {
-    id: 3,
-    nameDish: 'Pizza',
-    NumberDish: 1,
-    _NumberDish: '1',
-    PriceDish: 3.2,
-    _PriceDish: '3.2',
-  },
-  {
-    id: 3,
-    nameDish: 'Pizza',
-    NumberDish: 1,
-    _NumberDish: '1',
-    PriceDish: 3.2,
-    _PriceDish: '3.2',
-  },
-  {
-    id: 3,
-    nameDish: 'Pizza',
-    NumberDish: 1,
-    _NumberDish: '1',
-    PriceDish: 3.2,
-    _PriceDish: '3.2',
-  },
-  {
-    id: 3,
-    nameDish: 'Pizza',
-    NumberDish: 1,
-    _NumberDish: '1',
-    PriceDish: 3.2,
-    _PriceDish: '3.2',
-  },
-];
-
-const FlatlistItem = ({ item }) => {
-  return (
-    <View style={styles.containerItemMapList}>
-      <View style={styles.containerNumberDish}>
-        <Text style={styles.txtNumberDishItemMap}>{item.quantity}</Text>
-      </View>
-      <Text style={styles.txtNameDishItemMap}>{item.name}</Text>
-      <Text style={styles.txtPriceDishItemMap}>${item.price}</Text>
-    </View>
-  );
-};
-
-const CheckOutTableScreen = ({ route, discount, navigation }) => {
-  const handleCheckOut = async (totalBill) => {
-    const id = await AsyncStorage.getItem('tableIDBill');
-    console.log('oke');
-    console.log(id);
-
-    const res = await axios.post(
-      `https://foody-uit.herokuapp.com/order/getCurrentOrderID`,
-      {
-        tableID: id,
-      }
-    );
-    const orderID = res.data.message;
-    if (orderID) {
-      const res = await axios.post(
-        `https://foody-uit.herokuapp.com/bill/createBill`,
-        {
-          orderID: orderID,
-          total: totalBill,
-          status: 'pay',
-        }
-      );
-      const res1 = await axios.put(
-        `https://foody-uit.herokuapp.com/order/updateOrder`,
-        {
-          id: orderID,
-        }
-      );
-      const res2 = await axios.put(
-        `https://foody-uit.herokuapp.com/table/updateBusyTable`,
-        {
-          id: id,
-          isBusy: false,
-        }
-      );
-      const success = res.data.success;
-      const success1 = res1.data.success;
-      const success2 = res2.data.success;
-
-      if (success && success1 && success2) {
-        setVisible(true);
-      }
-    }
-  };
-  const [dataFromState, setNewData] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
-
-  useEffect(() => {
-    const getData = async () => {
-      const id = await AsyncStorage.getItem('tableIDBill');
-      console.log('oke');
-      console.log(id);
-      if (id) {
-        const resOrderID = await axios.post(
-          `https://foody-uit.herokuapp.com/order/getCurrentOrderID`,
-          {
-            tableID: id,
-          }
-        );
-        const orderID = resOrderID.data.message;
-        const res = await axios.post(
-          `https://foody-uit.herokuapp.com/orderInfo/getOrderInfo`,
-          {
-            orderID: orderID,
-          }
-        );
-        const { success, message } = res.data;
-        console.log(message);
-        console.log('success ' + success);
-        if (success) {
-          setNewData(message);
-          setRefreshing(false);
-          console.log('filteredData is all selected');
-        } else {
-          console.log('None');
-          setNewData([]);
-          setRefreshing(false);
-          console.log('filteredData is all selected');
-        }
-      }
-    };
-    getData().catch((err) => console.log(err));
-  }, [refreshing]);
+const CheckOutTableScreen = ({ route, navigation }) => {
   const { item } = route.params;
-  let title = item.name;
+  const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
-  function getTotalBill(DATAList) {
-    var _totalBill = 0;
 
-    for (let _item of DATAList) {
-      let _subTotal = _item.price * _item.quantity;
-      _totalBill += _subTotal;
-    }
-    return _totalBill;
-  }
-  var tempTotal;
-  discount = 0;
-  if (discount > 0) {
-    tempTotal = getTotalBill(dataFromState) * (discount / 100);
-  } else {
-    tempTotal = getTotalBill(dataFromState);
-  }
-  let finalDiscount = discount.toString() + '%';
-
-  function displayListItemBill(ListData) {
-    ListData = DATA;
-    return ListData.map((_itemListData) => {
-      return (
-        <View style={styles.containerItemMapList}>
-          <View style={styles.containerNumberDish}>
-            <Text style={styles.txtNumberDishItemMap}>
-              {_itemListData.NumberDish}
-            </Text>
-          </View>
-          <Text style={styles.txtNameDishItemMap}>
-            {_itemListData.nameDish}
-          </Text>
-          <Text style={styles.txtPriceDishItemMap}>
-            ${_itemListData.PriceDish}
-          </Text>
-        </View>
-      );
+  const totalPrice = () => {
+    var totalPrice = 0;
+    item.order.map((item) => {
+      totalPrice = totalPrice + item.price * item.quantity;
     });
+    return totalPrice;
+  };
+  function getTodayDateTime() {
+    const today = new Date();
+    const day = today.getDate().toString().padStart(2, "0");
+    const month = (today.getMonth() + 1).toString().padStart(2, "0");
+    const year = today.getFullYear().toString();
+    const hours = today.getHours().toString().padStart(2, "0");
+    const minutes = today.getMinutes().toString().padStart(2, "0");
+    const seconds = today.getSeconds().toString().padStart(2, "0");
+
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
   }
-  const handleSave = () => {
-    navigation.goBack();
+  const handleResponse = (response) => {
+    if (!response.success) {
+      Alert.alert(response.message);
+      return;
+    }
+    setVisible(true);
+  };
+  const handleCheckout = () => {
+    dispatch(
+      getAPIActionJSON(
+        "checkoutOrder",
+        {
+          tableName: item.name,
+          date: getTodayDateTime(),
+        },
+        null,
+        `/${item.restaurantID}`,
+        (e) => handleResponse(e)
+      )
+    );
+  };
+  const FlatlistItem = ({ item }) => {
+    return (
+      <View style={styles.containerItemMapList}>
+        <View style={styles.containerNumberDish}>
+          <Text style={styles.txtNumberDishItemMap}>{item.quantity}</Text>
+        </View>
+        <Text style={styles.txtNameDishItemMap}>{item.name}</Text>
+        <Text style={styles.txtPriceDishItemMap}>${item.price}</Text>
+      </View>
+    );
   };
   return (
     <View style={styles.container}>
@@ -248,7 +87,7 @@ const CheckOutTableScreen = ({ route, discount, navigation }) => {
             source={imgTagSource}
             style={styles.imgTagSourceStyle}
           >
-            <Text style={styles.txtTitle}>{title}</Text>
+            <Text style={styles.txtTitle}>{item.name}</Text>
           </ImageBackground>
           <TouchableOpacity
             onPress={() => navigation.goBack()}
@@ -262,10 +101,8 @@ const CheckOutTableScreen = ({ route, discount, navigation }) => {
         </View>
         <View style={styles.containerFlatListStyle}>
           <FlatList
-            refreshing={refreshing}
-            onRefresh={() => setRefreshing(true)}
             style={styles}
-            data={dataFromState}
+            data={item.order}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => <FlatlistItem item={item} />}
@@ -274,17 +111,17 @@ const CheckOutTableScreen = ({ route, discount, navigation }) => {
         <View style={styles.DevideLineStyle}></View>
         <View style={styles.containerBottom}>
           <View style={styles.containerDiscount}>
-            <Text style={styles.txtDiscount}>Discount</Text>
-            <Text style={styles.txtDiscountInfo}>{finalDiscount}</Text>
+            <Text style={styles.txtDiscount}>Date</Text>
+            <TextInput style={styles.txtDiscountInfo}>
+              {getTodayDateTime()}
+            </TextInput>
           </View>
           <View style={styles.containerTotals}>
             <Text style={styles.txtTotal}>Total</Text>
-            <Text style={styles.txtTotalInfo}>${tempTotal}</Text>
+            <Text style={styles.txtTotalInfo}>${totalPrice()}</Text>
           </View>
           <TouchableOpacity
-            onPress={() => {
-              handleCheckOut(tempTotal);
-            }}
+            onPress={handleCheckout}
             style={styles.btnCheckOutStyle}
           >
             <Text style={styles.txtCheckOutStyle}>Checkout</Text>
@@ -292,22 +129,22 @@ const CheckOutTableScreen = ({ route, discount, navigation }) => {
         </View>
         {/* Modal view */}
         <CustomModal visible={visible}>
-          <View style={{ alignItems: 'center' }}>
+          <View style={{ alignItems: "center" }}>
             <Image
-              source={require('../../../assets/icons/save-green.png')}
+              source={require("../../../assets/icons/save-green.png")}
               style={{ height: 150, width: 150, marginVertical: 30 }}
             />
           </View>
 
           <Text
-            style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}
+            style={{ marginVertical: 30, fontSize: 20, textAlign: "center" }}
           >
             Checkout successfully.!!!
           </Text>
           <TouchableOpacity
             onPress={() => {
-              handleSave();
               setVisible(false);
+              navigation.goBack();
             }}
             style={styles.button}
           >

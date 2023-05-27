@@ -10,85 +10,72 @@ import {
   Alert,
   ScrollView,
   Platform,
-} from 'react-native';
-import React, { useState, useEffect } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/core';
-import InputText from '../../../../custom component/InputText';
-import gallery from '../../../../assets/icons/picture.png';
-import * as ImagePicker from 'expo-image-picker';
-import Colors from '../../../../assets/Colors';
-import background from '../../../../assets/images/background.png';
-import OwnerScreen from '../../../../custom component/OwnerScreen';
-import CustomModal from '../../../../custom component/CustomModal';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import LoadingOwner from '../../../../custom component/LoadingOwner';
-import { useSelector } from 'react-redux';
-import styles from './style';
+} from "react-native";
+import React, { useState, useEffect } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/core";
+import InputText from "../../../../custom component/InputText";
+import gallery from "../../../../assets/icons/picture.png";
+import * as ImagePicker from "expo-image-picker";
+import Colors from "../../../../assets/Colors";
+import background from "../../../../assets/images/background.png";
+import OwnerScreen from "../../../../custom component/OwnerScreen";
+import CustomModal from "../../../../custom component/CustomModal";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import LoadingOwner from "../../../../custom component/LoadingOwner";
+import { useDispatch, useSelector } from "react-redux";
+import styles from "./style";
 
-import { firebaseConfig } from '../../../../firebase';
-import * as firebase from 'firebase';
+import { firebaseConfig } from "../../../../firebase";
+import * as firebase from "firebase";
+import { getAPIActionJSON } from "../../../../api/ApiActions";
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 const EditProfile = () => {
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
   }
-  const [fullname, setFullname] = useState('');
-  const [address, setAddress] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [email, setEmail] = useState('');
-  const [image, setImage] = useState('null');
+  const [fullname, setFullname] = useState("");
+  const [address, setAddress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [image, setImage] = useState("");
   const [visible, setVisible] = React.useState(false);
-  const [url, setUrl] = React.useState('');
+  const [url, setUrl] = React.useState("");
   const [visibleLoad, setVisibleLoad] = React.useState(false);
   const theme = useSelector((state) => state.setting.theme);
+  const dispatch = useDispatch();
+  const username = useSelector((state) => state.user.username);
 
   // function close LoadingOwner and open CustomModal when timePassed is true
-  const loadingAndPopup = () => {
-    setVisibleLoad(true);
-    setTimeout(() => {
-      setVisibleLoad(false);
-      setVisible(true);
-    }, 5000);
+  const handleResponse = (response) => {
+    if (!response.success) {
+      Alert.alert(response.message);
+      return;
+    }
+    setFullname(response.data.fullname);
+    setAddress(response.data.address);
+    setEmail(response.data.email);
+    setImage(response.data.imagePath);
+    setPhoneNumber(response.data.phoneNumber);
   };
   const navigation = useNavigation();
-
+  const getData = () => {
+    dispatch(
+      getAPIActionJSON("getUserProfile", null, null, `/${username}`, (e) =>
+        handleResponse(e)
+      )
+    );
+  };
   useEffect(async () => {
+    getData();
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-    if (status !== 'granted') {
-      alert('Permission denied!');
+    if (status !== "granted") {
+      alert("Permission denied!");
     }
-
-    const getData = async () => {
-      const user = await AsyncStorage.getItem('userLoginData');
-      const userInfo = JSON.parse(user);
-      console.log(userInfo.username);
-      const response = await axios.get(
-        `https://foody-uit.herokuapp.com/profile/getUserProfile/${userInfo.username}`
-      );
-      const { success } = response.data;
-      const { data } = response.data;
-      console.log(data);
-      console.log(success);
-      if (!success) {
-        Alert.alert('Account not found');
-        return;
-      }
-      setAddress(data.address ? data.address : '');
-      setEmail(data.email ? data.email : '');
-      setFullname(data.fullname ? data.fullname : '');
-      setPhoneNumber(data.phoneNumber ? data.phoneNumber : '');
-      setImage(
-        data.imagePath
-          ? data.imagePath
-          : 'https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fgood.png?alt=media&token=de139437-3a20-4eb3-ba56-f6a591779d15'
-      );
-    };
-    getData().catch((err) => console.log(err));
   }, []);
 
   const PickImage = async () => {
@@ -104,10 +91,7 @@ const EditProfile = () => {
     }
   };
   const handleUpdateProfile = async () => {
-    loadingAndPopup();
     //*Get user data from AsyncStorage
-    const user = await AsyncStorage.getItem('userLoginData');
-    const userData = JSON.parse(user);
 
     //*Create blob from image
     const blob = await new Promise((resolve, reject) => {
@@ -117,10 +101,10 @@ const EditProfile = () => {
       };
       xhr.onerror = function (e) {
         console.log(e);
-        reject(new TypeError('Network request failed'));
+        reject(new TypeError("Network request failed"));
       };
-      xhr.responseType = 'blob';
-      xhr.open('GET', image, true);
+      xhr.responseType = "blob";
+      xhr.open("GET", image, true);
       xhr.send(null);
     });
 
@@ -128,12 +112,13 @@ const EditProfile = () => {
     const ref = firebase
       .storage()
       .ref()
-      .child(`images/profile/${userData.username}.jpg`);
+      .child(`images/profile/${username}.jpg`);
     const snapshot = ref.put(blob);
     await snapshot.on(
       firebase.storage.TaskEvent.STATE_CHANGED,
       () => {
-        console.log('uploading');
+        console.log("uploading");
+        dispatch({ type: "loading.start" });
       },
       (error) => {
         console.log(error);
@@ -142,38 +127,38 @@ const EditProfile = () => {
       },
       async () => {
         await ref.getDownloadURL().then(async (url) => {
-          console.log('download url: ' + url);
+          console.log("download url: " + url);
           setUrl(url);
           blob.close();
-          console.log(userData);
-          console.log('platform: ' + Platform.OS);
-          console.log('blob:' + blob);
-          console.log('url:' + url);
-          const res = await axios.post(
-            `https://foody-uit.herokuapp.com/profile/update/${userData.username}`,
-            {
-              fullname: fullname,
-              address: address,
-              phoneNumber: phoneNumber,
-              email: email,
-              imagePath: url,
-            }
+          dispatch({ type: "loading.success" });
+          dispatch(
+            getAPIActionJSON(
+              "updateProfile",
+              {
+                fullname: fullname,
+                address: address,
+                phoneNumber: phoneNumber,
+                email: email,
+                imagePath: url,
+              },
+              null,
+              `/${username}`,
+              (res) => handleUpdateResponse(res)
+            )
           );
-          const { success } = res.data;
-          console.log(success);
-          if (!success) {
-            Alert.alert('Update failed');
-            return;
-          }
+          const handleUpdateResponse = (res) => {
+            if (!res.success) {
+              Alert.alert("Update failed");
+              return;
+            }
+            setVisible(true);
+          };
         });
       }
     );
     //*Update user data
   };
   // *Region for OnPress Signup
-  const handleSignup = () => {
-    navigation.goBack();
-  };
   return (
     <OwnerScreen>
       <ScrollView>
@@ -187,9 +172,9 @@ const EditProfile = () => {
                   source={gallery}
                 />
 
-                {image && (
+                {image ? (
                   <Image source={{ uri: image }} style={styles.pick}></Image>
-                )}
+                ) : null}
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={PickImage} style={styles.button1}>
@@ -249,9 +234,9 @@ const EditProfile = () => {
 
           {/* Modal  popup*/}
           <CustomModal visible={visible}>
-            <View style={{ alignItems: 'center' }}>
+            <View style={{ alignItems: "center" }}>
               <Image
-                source={require('../../../../assets/icons/save-green.png')}
+                source={require("../../../../assets/icons/save-green.png")}
                 style={{ height: 150, width: 150, marginVertical: 30 }}
               />
             </View>
@@ -260,16 +245,16 @@ const EditProfile = () => {
               style={{
                 marginVertical: 30,
                 fontSize: 20,
-                textAlign: 'center',
+                textAlign: "center",
                 color: theme.PRIMARY_TEXT_COLOR,
               }}
             >
-              Update profile successfully{' '}
+              Update profile successfully{" "}
             </Text>
             <TouchableOpacity
               onPress={() => {
-                handleSignup();
                 setVisible(false);
+                navigation.goBack();
               }}
               style={styles.button}
             >

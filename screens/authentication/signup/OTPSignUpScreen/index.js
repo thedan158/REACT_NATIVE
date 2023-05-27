@@ -9,25 +9,26 @@ import {
   ImageBackground,
   Dimensions,
   Alert,
-} from 'react-native';
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigation } from '@react-navigation/core';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import logo from '../../../../assets/images/logo_app.png';
-import background from '../../../../assets/images/background.png';
-import Colors from '../../../../assets/Colors';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import styles from './style';
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+} from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigation } from "@react-navigation/core";
+import { SafeAreaView } from "react-native-safe-area-context";
+import logo from "../../../../assets/images/logo_app.png";
+import background from "../../../../assets/images/background.png";
+import Colors from "../../../../assets/Colors";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import styles from "./style";
+import { useDispatch, useSelector } from "react-redux";
+import { getAPIActionJSON } from "../../../../api/ApiActions";
 
 const OTP = () => {
   let textInput = useRef(null);
-  const [internalVal, setInternalVal] = useState('');
+  const phoneNumber = useSelector((state) => state.user.phoneNumber);
+  const [internalVal, setInternalVal] = useState("");
   const [timer, setTimer] = useState(60);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const onChangeText = (val) => {
     setInternalVal(val);
   };
@@ -52,43 +53,29 @@ const OTP = () => {
   const isEnable = () => {
     return internalVal.length === 4;
   };
-
+  const handleResponse = (response) => {
+    if (!response.success) {
+      Alert.alert(response.message);
+      return;
+    }
+    navigation.navigate("RestaurantInformation");
+  };
   const handleOTP = async () => {
-    const userInfo = await AsyncStorage.getItem('userInfo');
-    const user = JSON.parse(userInfo);
-    console.log('+84' + user.phoneNumber.substring(1));
-    const res = await axios.post(
-      `https://foody-uit.herokuapp.com/otp/verifyOtp`,
-      {
-        phoneNumber: '+84' + user.phoneNumber.substring(1),
-        otp: internalVal,
-      }
-    );
-    const { success } = res.data;
-    console.log(success);
-
-    if (success) {
-      try {
-        console.log(user.fullname);
-        const resSignup = await axios.post(
-          `https://foody-uit.herokuapp.com/auth/register`,
+    try {
+      dispatch(
+        getAPIActionJSON(
+          "verifyOtp",
           {
-            fullname: user.fullname,
-            phoneNumber: user.phoneNumber,
-            password: user.password,
-            username: user.username,
-          }
-        );
-        const { success } = resSignup.data;
-        console.log(success);
-        await AsyncStorage.setItem('userLoginData', JSON.stringify(user));
-        navigation.navigate('RestaurantInformation');
-      } catch (error) {
-        console.log(error);
-        Alert.alert('Error', 'Something went wrong');
-      }
-    } else {
-      Alert.alert('Wrong OTP');
+            phoneNumber: phoneNumber,
+            otp: parseInt(internalVal),
+          },
+          null,
+          "",
+          (e) => handleResponse(e)
+        )
+      );
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -123,7 +110,7 @@ const OTP = () => {
                   onChangeText={onChangeText}
                   value={internalVal}
                   style={{
-                    position: 'absolute',
+                    position: "absolute",
                     width: 1,
                     height: 1,
                     opacity: 0,
@@ -143,8 +130,8 @@ const OTP = () => {
                           {
                             borderColor:
                               index === internalVal.length
-                                ? '#FA4A0C'
-                                : 'black',
+                                ? "#FA4A0C"
+                                : "black",
                           },
                         ]}
                       >
@@ -154,7 +141,7 @@ const OTP = () => {
                         >
                           {internalVal && internalVal.length > 0
                             ? internalVal[index]
-                            : ''}
+                            : ""}
                         </Text>
                       </View>
                     ))}
@@ -167,8 +154,8 @@ const OTP = () => {
                 <Text style={styles.subtitle2}>Didn't receive code?</Text>
                 <TouchableOpacity onPress={() => setTimer(60)}>
                   <Text style={styles.buttonOutlineText}>
-                    {' '}
-                    Resend ({timer}s){' '}
+                    {" "}
+                    Resend ({timer}s){" "}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -182,7 +169,7 @@ const OTP = () => {
                 style={[
                   styles.button,
                   {
-                    backgroundColor: isEnable() ? Colors.primary : '#FFB196',
+                    backgroundColor: isEnable() ? Colors.primary : "#FFB196",
                   },
                 ]}
               >

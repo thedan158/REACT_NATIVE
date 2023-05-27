@@ -1,32 +1,25 @@
 import {
   TouchableOpacity,
-  Dimensions,
-  StyleSheet,
   Text,
   View,
   Image,
   ImageBackground,
-  Alert,
   ScrollView,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/core";
 import logo from "../../../../assets/images/logo_app.png";
-import { TextInput } from "react-native-gesture-handler";
 import CustomTextInput from "../../../../custom component/CustomTextInput";
 import eye from "../../../../assets/icons/eye.png";
 import hidden from "../../../../assets/icons/close-eye.png";
 import Colors from "../../../../assets/Colors";
 import background from "../../../../assets/images/background.png";
 import validate from "../../../../assets/validate";
-import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./style";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { getAPIActionJSON } from "../../../../api/ApiActions";
 
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
 const SignupScreen = () => {
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -34,6 +27,7 @@ const SignupScreen = () => {
   const [password, setPassword] = useState("");
   const [isSecureEntry, setIsSecureEntry] = useState(true);
   const [phoneError, setPhoneError] = React.useState("");
+  const dispatch = useDispatch();
   const navigation = useNavigation();
 
   function isEnableSignup() {
@@ -47,50 +41,25 @@ const SignupScreen = () => {
   }
 
   // *Region for OnPress Signup
-  const handleSignup = async () => {
-    console.log("Signup");
-    const usernameCheckRes = await axios
-      .get(`https://foody-uit.herokuapp.com/auth/checkUsername/${username}`)
-      .catch((err) => {
-        Alert.alert("Error", "Username is already exist");
-      });
-    const successName = usernameCheckRes.data.success;
-    console.log("valid username:" + successName);
-    if (!successName) {
-      Alert.alert("Username is already used");
+  const handleResponse = (response) => {
+    if (!response.success) {
+      Alert.alert(response.message);
       return;
     }
-    const phoneCheckRes = await axios
-      .get(
-        `https://foody-uit.herokuapp.com/auth/checkPhoneNumber/${phoneNumber}`
-      )
-      .catch((err) => {
-        Alert.alert("Error", "Phone number is already exist");
-      });
-    const successPhone = phoneCheckRes.data.success;
-    console.log("valid phone:" + successPhone);
-    if (!successPhone) {
-      Alert.alert("Phone number is already used");
-      return;
-    }
-    const data = {
-      fullname: fullName,
-      phoneNumber: phoneNumber,
-      password: password,
-      username: username,
-    };
-    console.log(data);
-    console.log("+84" + phoneNumber.substring(1));
+    const phoneCode = `+84${phoneNumber.slice(1, phoneNumber.length)}`;
+    dispatch(getAPIActionJSON("sendOtp", { phoneNumber: phoneCode }, null, ""));
     navigation.navigate("OTPsignup");
-    const res = await axios.post(
-      `https://foody-uit.herokuapp.com/otp/sendOtp`,
-      {
-        phoneNumber: "+84" + phoneNumber.substring(1),
-      }
+  };
+  const handleSignup = () => {
+    const data = {
+      username: username,
+      password: password,
+      phoneNumber: phoneNumber,
+      fullname: fullName,
+    };
+    dispatch(
+      getAPIActionJSON("register", data, null, "", (e) => handleResponse(e))
     );
-    const { success } = res.data;
-    console.log(success);
-    await AsyncStorage.setItem("userInfo", JSON.stringify(data));
   };
   return (
     <ScrollView>

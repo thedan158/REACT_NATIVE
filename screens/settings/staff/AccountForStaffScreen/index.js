@@ -10,7 +10,7 @@ import {
 import React, { useState, useEffect } from "react";
 import CardInformation from "../../../../custom component/CardInformation";
 import { useFocusEffect } from "@react-navigation/native";
-import { useNavigation } from "@react-navigation/core";
+import { useNavigation, useIsFocused } from "@react-navigation/core";
 import power from "../../../../assets/icons/power.png";
 import personal_light from "../../../../assets/icons/personal_light.png";
 import personal_dark from "../../../../assets/icons/personal_dark.png";
@@ -31,6 +31,7 @@ import styled, { ThemeProvider } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { switchTheme } from "../../../../redux/themeActions";
 import { lightTheme, darkTheme } from "../../../../assets/Theme";
+import { getAPIActionJSON } from "../../../../api/ApiActions";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -46,39 +47,65 @@ const AccountForStaff = () => {
   const [image, setImage] = useState("null");
   const [visible, setVisible] = React.useState(false);
   const [url, setUrl] = useState("");
+  const isFocused = useIsFocused();
   const [isEnabled, setIsEnabled] = useState(false);
 
   const theme = useSelector((state) => state.setting.theme);
+  const username = useSelector((state) => state.user.username);
   const dispatch = useDispatch();
 
-  useFocusEffect(() => {
-    const getData = async () => {
-      const user = await AsyncStorage.getItem("userLoginData");
-      const userInfo = JSON.parse(user);
-      console.log(userInfo.username);
-      const response = await axios.get(
-        `https://foody-uit.herokuapp.com/profile/getUserProfile/${userInfo.username}`
-      );
-      const { success } = response.data;
-      const { data } = response.data;
-      console.log(data);
-      console.log(success);
-      if (!success) {
-        Alert.alert("Account not found");
+  const getData = () => {
+    dispatch(
+      getAPIActionJSON(
+        "getUserProfile",
+        null,
+        null,
+        `/${username}`,
+        (res) => handleResponse(res),
+      )
+    )
+    const handleResponse = (res) => {
+      if(!res.success) {
+        Alert.alert('Account not found');
         return;
       }
-      setAddress(data.address ? data.address : "");
-      setEmail(data.email ? data.email : "");
-      setFullname(data.fullname ? data.fullname : userInfo.username);
-      setPhoneNumber(data.phoneNumber ? data.phoneNumber : "");
-      setImage(
-        data.imagePath
-          ? data.imagePath
-          : "https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fgood.png?alt=media&token=de139437-3a20-4eb3-ba56-f6a591779d15"
-      );
-    };
-    getData().catch((err) => console.log(err));
-  }, []);
+      setAddress(res.data.address)
+      setEmail(res.data.email)
+      setFullname(res.data.fullname)
+      setPhoneNumber(res.data.phoneNumber)
+      setImage(res.data.imagePath)
+    }
+  }
+
+  useEffect(() => {
+    // const getData = async () => {
+    //   const user = await AsyncStorage.getItem("userLoginData");
+    //   const userInfo = JSON.parse(user);
+    //   console.log(userInfo.username);
+    //   const response = await axios.get(
+    //     `https://foody-uit.herokuapp.com/profile/getUserProfile/${userInfo.username}`
+    //   );
+    //   const { success } = response.data;
+    //   const { data } = response.data;
+    //   console.log(data);
+    //   console.log(success);
+    //   if (!success) {
+    //     Alert.alert("Account not found");
+    //     return;
+    //   }
+    //   setAddress(data.address ? data.address : "");
+    //   setEmail(data.email ? data.email : "");
+    //   setFullname(data.fullname ? data.fullname : userInfo.username);
+    //   setPhoneNumber(data.phoneNumber ? data.phoneNumber : "");
+    //   setImage(
+    //     data.imagePath
+    //       ? data.imagePath
+    //       : "https://firebasestorage.googleapis.com/v0/b/le-repas.appspot.com/o/images%2Fgood.png?alt=media&token=de139437-3a20-4eb3-ba56-f6a591779d15"
+    //   );
+    // };
+    // getData().catch((err) => console.log(err));
+    getData()
+  }, [isFocused]);
   return (
     <ThemeProvider theme={theme}>
       <Container>

@@ -9,7 +9,7 @@ import {
   Alert,
 } from "react-native";
 import React, { useState } from "react";
-import { getStateFromPath, useNavigation } from "@react-navigation/core";
+import { useNavigation } from "@react-navigation/core";
 import logo from "../../../../assets/images/logo_app.png";
 import CustomTextInput from "../../../../custom component/CustomTextInput";
 import eye from "../../../../assets/icons/eye.png";
@@ -17,11 +17,11 @@ import hidden from "../../../../assets/icons/close-eye.png";
 import Colors from "../../../../assets/Colors";
 import background from "../../../../assets/images/background.png";
 import CustomModal from "../../../../custom component/CustomModal";
-import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./style";
 import { useDispatch } from "react-redux";
-import { getAPIActionJSON, getStatelessAPI } from "../../../../api/ApiActions";
+import { getAPIActionJSON } from "../../../../api/ApiActions";
+import "firebase/messaging";
+import firebase from "firebase/app";
 
 const LoginScreen = () => {
   const [username, setUsername] = useState("");
@@ -32,50 +32,37 @@ const LoginScreen = () => {
 
   const navigation = useNavigation();
 
+  const handleResponse = (response) => {
+    if (!response.success) {
+      Alert.alert(response.message);
+      return;
+    }
+    if (response.data.status === "Unverified") {
+      navigation.navigate("OTPsignup");
+      return;
+    }
+    if (!response.data.restaurantID) {
+      navigation.navigate("RestaurantInformation");
+      return;
+    }
+    if (response.data.role === "owner") {
+      navigation.navigate("AppLoaderOwner");
+    } else navigation.navigate("AppLoader");
+  };
   const handleLogin = async () => {
     // Passing configuration object to axios
     dispatch(
-      getAPIActionJSON("login", {
-        username: username,
-        password: password,
-      })
+      getAPIActionJSON(
+        "login",
+        {
+          username: username,
+          password: password,
+        },
+        null,
+        "",
+        (e) => handleResponse(e)
+      )
     );
-    const res = await axios.post(
-      `https://foody-uit.herokuapp.com/api/auth/login`,
-      {
-        username: username,
-        password: password,
-      }
-    );
-    navigation.navigate('AppLoader');
-    // await AsyncStorage.setItem('userLoginData', JSON.stringify(data));
-    // if (success) {
-    //   try {
-    //     console.log('Check');
-    //     const resRestaurant = await axios.post(
-    //       `https://foody-uit.herokuapp.com/api/auth/hasNoRestaurant`,
-    //       {
-    //         username: username,
-    //       }
-    //     );
-    //     const successRes = resRestaurant.data.success;
-    //     console.log('Has no res ' + successRes);
-    //     if (!successRes) {
-    //       if (role === 'owner') {
-    //         navigation.navigate('AppLoaderOwner');
-    //       } else {
-    //         navigation.navigate('AppLoader');
-    //       }
-    //     } else {
-    //       navigation.navigate('RestaurantInformation');
-    //     }
-    //   } catch (err) {
-    //     console.log(err);
-    //     Alert.alert('Error', 'Something went wrong');
-    //   }
-    // } else {
-    //   Alert.alert('Wrong username or password');
-    // }
   };
 
   return (

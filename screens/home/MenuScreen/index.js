@@ -10,64 +10,61 @@ import {
   Keyboard,
   FlatList,
   Alert,
-} from 'react-native';
-import React, { useState, useEffect } from 'react';
-import Colors from '../../../assets/Colors';
-import { LinearGradient } from 'expo-linear-gradient';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
-import { useIsFocused } from '@react-navigation/core';
-import styles from './style';
-
-const maxWidthConst = windowWidth - 10;
-const imgAddItem = require('../../../assets/icons/AddItem.png');
-const imgUserSource = require('../../../assets/icons/user.png');
-const imgGoBackSource = require('../../../assets/icons/back.png');
-const icStar = require('../../../assets/icons/Star.png');
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-const maxWidth40 = windowWidth - 30;
-const imgSearchSource = require('../../../assets/icons/search.png');
+} from "react-native";
+import React, { useState, useEffect } from "react";
+import Colors from "../../../assets/Colors";
+import { LinearGradient } from "expo-linear-gradient";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import { useIsFocused } from "@react-navigation/core";
+import styles from "./style";
+import { useDispatch } from "react-redux";
+import { getAPIActionJSON, getStatelessAPI } from "../../../api/ApiActions";
+import { useSelector } from "react-redux";
+import { log } from "react-native-reanimated";
+const imgAddItem = require("../../../assets/icons/AddItem.png");
+const imgGoBackSource = require("../../../assets/icons/back.png");
+const icStar = require("../../../assets/icons/Star.png");
+const imgSearchSource = require("../../../assets/icons/search.png");
 
 const MenuScreen = ({ navigation }) => {
   const isFocus = useIsFocused();
   const [dataFromState, setNewData] = useState([]);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [masterData, setMasterData] = useState([]);
-  const [isAuthorized, setIsAuthorized] = useState(false);
-  useEffect(() => {
-    const getData = async () => {
-      const userLoginData = await AsyncStorage.getItem('userLoginData');
-      const user = JSON.parse(userLoginData);
-      const userLoginRole = await AsyncStorage.getItem('userLoginRole');
-      console.log('userrole: ' + userLoginRole);
-      if (userLoginRole === 'owner' || userLoginRole === 'chef') {
-        setIsAuthorized(true);
-      }
-      console.log('username: ' + user.username);
-      const res = await axios.post(
-        `https://foody-uit.herokuapp.com/food/getAllFoodWithType`,
-        {
-          username: user.username,
-          foodType: 'Main course',
-        }
-      );
+  const role = useSelector((state) => state.user.role);
+  const dispatch = useDispatch();
+  const restaurantID = useSelector((state) => state.user.restaurantID);
 
-      const { success, message } = res.data;
-      if (!success) {
-        Alert.alert('Error', message);
-        return;
-      }
-      console.log('filteredData is all selected');
-      setNewData(message);
-      setMasterData(message);
-    };
-    getData().catch((err) => console.log(err));
+  const handleResponse = (response) => {
+    if (!response.success) {
+      Alert.alert(response.message);
+      return;
+    }
+    setNewData(response.message);
+    setMasterData(response.message);
+  };
+  const getData = () => {
+    dispatch(
+      getAPIActionJSON(
+        "getAllFoodWithType",
+        {
+          foodType: "Main course",
+        },
+        null,
+        `/${restaurantID}`,
+        (e) => handleResponse(e)
+      )
+    );
+  };
+
+  useEffect(() => {
+    getData();
   }, [isFocus]);
   const searchFilterFunction = (text) => {
     if (text) {
       const newData = masterData.filter(function (item) {
-        const itemData = item.name ? item.name.toLowerCase() : ''.toUpperCase();
+        const itemData = item.name ? item.name.toLowerCase() : "".toUpperCase();
         const textData = text.toLowerCase();
         return itemData.indexOf(textData) > -1;
       });
@@ -92,16 +89,18 @@ const MenuScreen = ({ navigation }) => {
         </TouchableOpacity>
 
         <Text style={styles.txtHeaderViewTab}>{HeaderText}</Text>
-        <TouchableOpacity
-          style={styles.btnUserStyle}
-          onPress={() => {
-            navigation.navigate('AddingMenuItemScreen');
-          }}
-        >
-          {isAuthorized && (
-            <Image source={imgAddItem} style={styles.imgUserStyle} />
-          )}
-        </TouchableOpacity>
+        {role === "owner" ? (
+          <TouchableOpacity
+            style={styles.btnUserStyle}
+            onPress={() => {
+              navigation.navigate("AddingMenuItemScreen");
+            }}
+          >
+            {role !== "waiter" && (
+              <Image source={imgAddItem} style={styles.imgUserStyle} />
+            )}
+          </TouchableOpacity>
+        ) : null}
       </View>
     );
   }
@@ -111,9 +110,9 @@ const MenuScreen = ({ navigation }) => {
       <View style={styles.containerInfoViewTab}>
         <Text
           style={{
-            color: '#fff',
+            color: "#fff",
             fontSize: 18,
-            alignSelf: 'center',
+            alignSelf: "center",
           }}
         >
           {TextInFo1}
@@ -128,17 +127,17 @@ const MenuScreen = ({ navigation }) => {
       <View style={styles.containerSearchViewComponent}>
         <View
           style={{
-            alignSelf: 'center',
-            flexDirection: 'row',
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-            direction: 'inherit',
-            flexWrap: 'wrap-reverse',
+            alignSelf: "center",
+            flexDirection: "row",
+            justifyContent: "flex-end",
+            alignItems: "center",
+            direction: "inherit",
+            flexWrap: "wrap-reverse",
             flex: 1,
-            alignSelf: 'center',
-            maxWidth: '95%',
-            marginBottom: '2%',
-            paddingHorizontal: '5%',
+            alignSelf: "center",
+            maxWidth: "95%",
+            marginBottom: "2%",
+            paddingHorizontal: "5%",
           }}
         >
           <TouchableOpacity style={styles.btnSearchStyle}>
@@ -161,7 +160,7 @@ const MenuScreen = ({ navigation }) => {
   const FlatListItem = ({ item }) => {
     return (
       <TouchableOpacity
-        onPress={() => navigation.navigate('EditMenuScreen', { item })}
+        onPress={() => navigation.navigate("EditMenuScreen", { item })}
       >
         <View style={styles.containerItemFlatList}>
           <View style={styles.containerImageItem}>
@@ -192,8 +191,8 @@ const MenuScreen = ({ navigation }) => {
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
     >
-      {HeaderViewTab({ HeaderText: 'Menu Of the day' })}
-      {InformationViewTab({ TextInFo1: 'Have a good day!' })}
+      {HeaderViewTab({ HeaderText: "Menu Of the day" })}
+      {InformationViewTab({ TextInFo1: "Have a good day!" })}
       {SearchBarViewComponent()}
       <View style={styles.containerDevideLine}></View>
       <View style={styles.containerInfoItem1}>

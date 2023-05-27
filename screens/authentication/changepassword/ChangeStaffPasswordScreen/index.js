@@ -9,74 +9,66 @@ import {
   ImageBackground,
   Dimensions,
   Alert,
-} from 'react-native';
-import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/core';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import logo from '../../../../assets/images/logo_app.png';
-import InputText from '../../../../custom component/InputText';
-import eye from '../../../../assets/icons/eye.png';
-import hidden from '../../../../assets/icons/close-eye.png';
-import Colors from '../../../../assets/Colors';
-import StaffScreen from '../../../../custom component/StaffScreen';
-import CustomModal from '../../../../custom component/CustomModal';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import LoadingStaff from '../../../../custom component/LoadingStaff';
-import { useSelector } from 'react-redux';
-import styles from './style';
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+} from "react-native";
+import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/core";
+import { SafeAreaView } from "react-native-safe-area-context";
+import logo from "../../../../assets/images/logo_app.png";
+import InputText from "../../../../custom component/InputText";
+import eye from "../../../../assets/icons/eye.png";
+import hidden from "../../../../assets/icons/close-eye.png";
+import Colors from "../../../../assets/Colors";
+import StaffScreen from "../../../../custom component/StaffScreen";
+import CustomModal from "../../../../custom component/CustomModal";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import LoadingStaff from "../../../../custom component/LoadingStaff";
+import { useDispatch, useSelector } from "react-redux";
+import styles from "./style";
+import { getAPIActionJSON } from "../../../../api/ApiActions";
 
 const ChangePassword = () => {
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [password, setPassword] = useState('');
-  const [oldPassword, setOldPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [password, setPassword] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
   const navigation = useNavigation();
   const [isSecureEntry, setIsSecureEntry] = useState(true);
   const [isSecureEntryConfirm, setIsSecureEntryConfirm] = useState(true);
   const [visible, setVisible] = React.useState(false);
   const [visibleLoad, setVisibleLoad] = React.useState(false);
   const theme = useSelector((state) => state.setting.theme);
-
+  const username = useSelector((state) => state.user.username);
+  const dispatch = useDispatch();
   // function close LoadingStaff and open CustomModal when timePassed is true
-  const loadingAndPopup = () => {
-    setVisibleLoad(true);
-    setTimeout(() => {
-      setVisibleLoad(false);
-      setVisible(true);
-    }, 2000);
-  };
-  const handleChangePassword = async () => {
-    console.log('Change password');
-    const userLoginData = await AsyncStorage.getItem('userLoginData');
-    const user = JSON.parse(userLoginData);
-    console.log('username: ' + user.username);
+  const handleChangePassword = () => {
     if (password !== confirmPassword) {
-      Alert.alert('Password not match');
+      Alert.alert("Password not match");
       return;
     }
-    const res = await axios.put(
-      `https://foody-uit.herokuapp.com/auth/changePassword`,
-      {
-        username: user.username,
-        oldPassword: oldPassword,
-        newPassword: password,
-        confirmPassword: confirmPassword,
-      }
+    dispatch(
+      getAPIActionJSON(
+        "changePassword",
+        {
+          username: username,
+          oldPassword: oldPassword,
+          newPassword: password,
+          confirmPassword: confirmPassword,
+        },
+        null,
+        "",
+        (res) => handleChangePasswordResponse(res)
+      )
     );
-    const { success } = res.data;
-    console.log('Correct account ' + success);
-    if (!success) {
-      Alert.alert(
-        'Error',
-        'Failed to changed password, please ensure your information is correct'
-      );
-      return;
-    }
-    loadingAndPopup();
-    // const myTimeout = setTimeout(navigation.navigate("Login"), 5000);
+    const handleChangePasswordResponse = (res) => {
+      if (!res.success) {
+        Alert.alert(
+          "Error",
+          "Failed to changed password, please ensure your information is correct"
+        );
+        return;
+      }
+      setVisible(true);
+    };
   };
   return (
     <ScrollView>
@@ -178,26 +170,23 @@ const ChangePassword = () => {
             </View>
           </View>
 
-          {/* Modal loading */}
-          <LoadingStaff visible={visibleLoad}></LoadingStaff>
-
           <CustomModal visible={visible}>
-            <View style={{ alignItems: 'center' }}>
+            <View style={{ alignItems: "center" }}>
               <Image
-                source={require('../../../../assets/icons/password-orange.png')}
+                source={require("../../../../assets/icons/password-orange.png")}
                 style={{ height: 150, width: 150, marginVertical: 30 }}
               />
             </View>
 
             <Text
-              style={{ marginVertical: 30, fontSize: 20, textAlign: 'center' }}
+              style={{ marginVertical: 30, fontSize: 20, textAlign: "center" }}
             >
               Your password has been reset successfully
             </Text>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('Login');
                 setVisible(false);
+                navigation.goBack();
               }}
               style={styles.button}
             >
